@@ -110,7 +110,7 @@ export const ContactsListPage: React.FC<Props> = ({ children }) => {
   return (
     <div className="page-container">
       <List
-        breadcrumb={false}
+        breadcrumb={true}
         headerButtons={() => {
           return (
             <Space

@@ -24,7 +24,7 @@ export const Participants: FC<Props> = ({ userOne, userTwo }) => {
     >
       <Tooltip title={userOne.name}>
         <CustomAvatar
-          size="small"
+          size="large"
           src={userOne.avatarUrl}
           name={userOne.name}
         />
