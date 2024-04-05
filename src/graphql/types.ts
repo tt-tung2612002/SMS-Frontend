@@ -18,23 +18,23 @@ export type AccountSettingsGetUserQueryVariables = Types.Exact<{
   id: Types.Scalars["ID"]["input"];
 }>;
 
-export type AccountSettingsGetUserQuery = {
-  user: Pick<
-    Types.User,
-    "id" | "name" | "email" | "avatarUrl" | "jobTitle" | "phone" | "timezone"
-  >;
-};
+// export type AccountSettingsGetUserQuery = {
+//   user: Pick<
+//     Types.User,
+//     "id" | "name" | "email" | "avatarUrl" | "phone" | "timezone"
+//   >;
+// };
 
 export type AccountSettingsUpdateUserMutationVariables = Types.Exact<{
   input: Types.UpdateOneUserInput;
 }>;
 
-export type AccountSettingsUpdateUserMutation = {
-  updateOneUser: Pick<
-    Types.User,
-    "id" | "name" | "email" | "avatarUrl" | "jobTitle" | "phone" | "timezone"
-  >;
-};
+// export type AccountSettingsUpdateUserMutation = {
+//   updateOneUser: Pick<
+//     Types.User,
+//     "id" | "name" | "email" | "avatarUrl" | "phone" | "timezone"
+//   >;
+// };
 
 export type NotificationsQueryVariables = Types.Exact<{
   paging: Types.OffsetPaging;
@@ -141,13 +141,13 @@ export type AdministrationUsersQueryVariables = Types.Exact<{
   paging: Types.OffsetPaging;
 }>;
 
-export type AdministrationUsersQuery = {
-  users: Pick<Types.UserConnection, "totalCount"> & {
-    nodes: Array<
-      Pick<Types.User, "id" | "name" | "jobTitle" | "role" | "avatarUrl">
-    >;
-  };
-};
+// export type AdministrationUsersQuery = {
+//   users: Pick<Types.UserConnection, "totalCount"> & {
+//     nodes: Array<
+//       Pick<Types.User, "id" | "name" | "role" | "avatarUrl">
+//     >;
+//   };
+// };
 
 export type AdministrationAuditLogsQueryVariables = Types.Exact<{
   filter: Types.AuditFilter;
@@ -350,15 +350,15 @@ export type CompanyCompanyNotesQueryVariables = Types.Exact<{
   paging: Types.OffsetPaging;
 }>;
 
-export type CompanyCompanyNotesQuery = {
-  companyNotes: Pick<Types.CompanyNoteConnection, "totalCount"> & {
-    nodes: Array<
-      Pick<Types.CompanyNote, "id" | "note" | "createdAt"> & {
-        createdBy: Pick<Types.User, "id" | "name" | "updatedAt" | "avatarUrl">;
-      }
-    >;
-  };
-};
+// export type CompanyCompanyNotesQuery = {
+//   companyNotes: Pick<Types.CompanyNoteConnection, "totalCount"> & {
+//     nodes: Array<
+//       Pick<Types.CompanyNote, "id" | "note" | "createdAt"> & {
+//         createdBy: Pick<Types.User, "id" | "name" | "updatedAt" | "avatarUrl">;
+//       }
+//     >;
+//   };
+// };
 
 export type CompanyUpdateCompanyNoteMutationVariables = Types.Exact<{
   input: Types.UpdateOneCompanyNoteInput;
@@ -422,13 +422,23 @@ export type CompaniesTableQueryVariables = Types.Exact<{
   paging: Types.OffsetPaging;
 }>;
 
+export type ClassesTableQuery = {
+  classes: Pick<Types.ClassConnection, "totalCount"> & {
+    nodes: Array<
+      Pick<Types.Class, "id" | "name" | "logoUrl"> & {
+        teacher: Pick<Types.User, "id" | "name" | "avatarUrl">;
+        students: {
+          nodes: Array<Pick<Types.User, "id" | "name" | "avatarUrl">>;
+        }
+      }
+    >;
+  };
+}
+
 export type CompaniesTableQuery = {
   companies: Pick<Types.CompanyConnection, "totalCount"> & {
     nodes: Array<
       Pick<Types.Company, "id" | "name" | "avatarUrl"> & {
-        dealsAggregate: Array<{
-          sum?: Types.Maybe<Pick<Types.CompanyDealsSumAggregate, "value">>;
-        }>;
         salesOwner: Pick<Types.User, "id" | "name" | "avatarUrl">;
         contacts: {
           nodes: Array<Pick<Types.Contact, "id" | "name" | "avatarUrl">>;

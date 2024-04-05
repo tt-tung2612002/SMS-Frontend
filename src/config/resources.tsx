@@ -82,25 +82,24 @@ export const resources: IResourceItem[] = [
   //     hide: true,
   //   },
   // },
-    {
-    name: "companies",
-    list: "/companies",
-    show: "/companies/:id",
-    create: "/companies/create",
-    edit: "/companies/edit/:id",
+  {
+    name: "classes",
+    list: "/classes",
+    // show: "/companies/:id",
+    // create: "/companies/create",
+    // edit: "/companies/edit/:id",
     meta: {
+      dataProviderName: "local",
       label: "Class Management",
       icon: <ShopOutlined />,
     },
   },
-  {
-    name: "companies",
-    identifier: "sales-companies",
-    create: "/scrumboard/sales/create/company/create",
-    meta: {
-      hide: true,
-    },
-  },
+  // {
+  //   name: "companies",
+  //   identifier: "sales-companies",
+  //   create: "/scrumboard/sales/create/company/create",
+  //   meta: {},
+  // },
   {
     name: "contacts",
     list: "/contacts",

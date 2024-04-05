@@ -5,7 +5,7 @@ import { GetFieldsFromList } from "@refinedev/nestjs-query";
 import { List, ListProps, TableProps } from "antd";
 
 import { PaginationTotal } from "@/components";
-import { Company } from "@/graphql/schema.types";
+// import { aa } from "@/graphql/schema.types";
 import { CompaniesTableQuery } from "@/graphql/types";
 
 import { CompanyCard, CompanyCardSkeleton } from "./card";
@@ -43,7 +43,7 @@ export const CompaniesCardView: FC<Props> = ({
         </List.Item>
       )}
       pagination={{
-        ...(pagination as ListProps<Company>["pagination"]),
+        ...(pagination as ListProps<aa>["pagination"]),
         hideOnSinglePage: true,
         itemRender: undefined,
         position: "bottom",

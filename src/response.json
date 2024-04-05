@@ -1,0 +1,119 @@
+{
+    "data": {
+        "classes": {
+            "nodes": [
+                {
+                    "id": "1",
+                    "name": "Modern Art 101",
+                    "logoUrl": "https://example.com/logo1.png",
+                    "teacher": {
+                        "id": "1",
+                        "name": "William 2",
+                        "avatarUrl": null
+                    },
+                    "students": []
+                },
+                {
+                    "id": "2",
+                    "name": "Intro to Programming",
+                    "logoUrl": "https://example.com/logo2.png",
+                    "teacher": {
+                        "id": "2",
+                        "name": "FirstName2",
+                        "avatarUrl": "https://api.lorem.space/image/face?w=150&h=150&hash=c81e728d"
+                    },
+                    "students": []
+                },
+                {
+                    "id": "5",
+                    "name": "Creative Writing Workshop",
+                    "logoUrl": "https://example.com/logo5.png",
+                    "teacher": {
+                        "id": "3",
+                        "name": "FirstName3",
+                        "avatarUrl": "https://api.lorem.space/image/face?w=150&h=150&hash=eccbc87e"
+                    },
+                    "students": []
+                },
+                {
+                    "id": "9",
+                    "name": "Advanced Cooking",
+                    "logoUrl": "https://example.com/logo9.png",
+                    "teacher": {
+                        "id": "3",
+                        "name": "FirstName3",
+                        "avatarUrl": "https://api.lorem.space/image/face?w=150&h=150&hash=eccbc87e"
+                    },
+                    "students": []
+                },
+                {
+                    "id": "8",
+                    "name": "Machine Learning Advanced",
+                    "logoUrl": "https://example.com/logo8.png",
+                    "teacher": {
+                        "id": "3",
+                        "name": "FirstName3",
+                        "avatarUrl": "https://api.lorem.space/image/face?w=150&h=150&hash=eccbc87e"
+                    },
+                    "students": []
+                },
+                {
+                    "id": "3",
+                    "name": "Web Development Basics",
+                    "logoUrl": "https://example.com/logo3.png",
+                    "teacher": {
+                        "id": "3",
+                        "name": "FirstName3",
+                        "avatarUrl": "https://api.lorem.space/image/face?w=150&h=150&hash=eccbc87e"
+                    },
+                    "students": []
+                },
+                {
+                    "id": "10",
+                    "name": "Photography Essentials",
+                    "logoUrl": "https://example.com/logo10.png",
+                    "teacher": {
+                        "id": "3",
+                        "name": "FirstName3",
+                        "avatarUrl": "https://api.lorem.space/image/face?w=150&h=150&hash=eccbc87e"
+                    },
+                    "students": []
+                },
+                {
+                    "id": "4",
+                    "name": "Cloud Computing 101",
+                    "logoUrl": "https://example.com/logo4.png",
+                    "teacher": {
+                        "id": "3",
+                        "name": "FirstName3",
+                        "avatarUrl": "https://api.lorem.space/image/face?w=150&h=150&hash=eccbc87e"
+                    },
+                    "students": []
+                },
+                {
+                    "id": "6",
+                    "name": "Graphic Design for Beginners",
+                    "logoUrl": "https://example.com/logo6.png",
+                    "teacher": {
+                        "id": "3",
+                        "name": "FirstName3",
+                        "avatarUrl": "https://api.lorem.space/image/face?w=150&h=150&hash=eccbc87e"
+                    },
+                    "students": []
+                },
+                {
+                    "id": "7",
+                    "name": "Sculpture Advanced Course",
+                    "logoUrl": "https://example.com/logo7.png",
+                    "teacher": {
+                        "id": "3",
+                        "name": "FirstName3",
+                        "avatarUrl": "https://api.lorem.space/image/face?w=150&h=150&hash=eccbc87e"
+                    },
+                    "students": []
+                }
+            ],
+            "totalCount": 10
+        }
+    }
+}

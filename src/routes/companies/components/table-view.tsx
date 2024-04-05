@@ -1,23 +1,21 @@
 import { FC } from "react";
 
-import { DeleteButton, EditButton, FilterDropdown } from "@refinedev/antd";
+import { FilterDropdown } from "@refinedev/antd";
 import { CrudFilters, CrudSorting, getDefaultFilter } from "@refinedev/core";
 import { GetFieldsFromList } from "@refinedev/nestjs-query";
 
-import { EyeOutlined, SearchOutlined } from "@ant-design/icons";
+import { SearchOutlined } from "@ant-design/icons";
 import { Input, Select, Space, Table, TableProps } from "antd";
 
 import { CustomAvatar, PaginationTotal, Text } from "@/components";
-import { Company } from "@/graphql/schema.types";
-import { CompaniesTableQuery } from "@/graphql/types";
-import { useContactsSelect } from "@/hooks/useContactsSelect";
+import { Class } from "@/graphql/schema.types";
+import { ClassesTableQuery } from "@/graphql/types";
 import { useUsersSelect } from "@/hooks/useUsersSelect";
-import { currencyNumber } from "@/utilities";
 
 import { AvatarGroup } from "./avatar-group";
 
 type Props = {
-  tableProps: TableProps<GetFieldsFromList<CompaniesTableQuery>>;
+  tableProps: TableProps<GetFieldsFromList<ClassesTableQuery>>;
   filters: CrudFilters;
   sorters: CrudSorting;
 };
@@ -25,7 +23,7 @@ type Props = {
 export const CompaniesTableView: FC<Props> = ({ tableProps, filters }) => {
   const { selectProps: selectPropsUsers } = useUsersSelect();
 
-  const { selectProps: selectPropsContacts } = useContactsSelect();
+  // const { selectProps: selectPropsContacts } = useContactsSelect();
 
   return (
     <Table
@@ -34,19 +32,19 @@ export const CompaniesTableView: FC<Props> = ({ tableProps, filters }) => {
         ...tableProps.pagination,
         pageSizeOptions: ["12", "24", "48", "96"],
         showTotal: (total) => (
-          <PaginationTotal total={total} entityName="companies" />
+          <PaginationTotal total={total} entityName="classes" />
         ),
       }}
       rowKey="id"
     >
-      <Table.Column<Company>
+      <Table.Column<Class>
         dataIndex="name"
-        title="Company title"
+        title="Class title"
         defaultFilteredValue={getDefaultFilter("id", filters)}
         filterIcon={<SearchOutlined />}
         filterDropdown={(props) => (
           <FilterDropdown {...props}>
-            <Input placeholder="Search Company" />
+            <Input placeholder="Search Class" />
           </FilterDropdown>
         )}
         render={(_, record) => {
@@ -55,7 +53,7 @@ export const CompaniesTableView: FC<Props> = ({ tableProps, filters }) => {
               <CustomAvatar
                 shape="square"
                 name={record.name}
-                src={record.avatarUrl}
+                src={record.logoUrl}
               />
               <Text
                 style={{
@@ -68,73 +66,62 @@ export const CompaniesTableView: FC<Props> = ({ tableProps, filters }) => {
           );
         }}
       />
-      <Table.Column<Company>
-        dataIndex={["salesOwner", "id"]}
-        title="Sales Owner"
-        defaultFilteredValue={getDefaultFilter("salesOwner.id", filters)}
+      <Table.Column<Class>
+        dataIndex={["teacher", "id"]}
+        title="Teacher"
+        defaultFilteredValue={getDefaultFilter("teacher.id", filters)}
         filterDropdown={(props) => (
           <FilterDropdown {...props}>
             <Select
-              placeholder="Search Sales owner"
+              placeholder="Search Teacher"
               style={{ width: 220 }}
               {...selectPropsUsers}
             />
           </FilterDropdown>
         )}
         render={(_, record) => {
-          const salesOwner = record.salesOwner;
+          const teacher = record.teacher;
           return (
             <Space>
-              <CustomAvatar name={salesOwner.name} src={salesOwner.avatarUrl} />
+              <CustomAvatar name={teacher.name} src={teacher.avatarUrl} />
               <Text
                 style={{
                   whiteSpace: "nowrap",
                 }}
               >
-                {salesOwner.name}
+                {teacher.name}
               </Text>
             </Space>
           );
         }}
       />
-      <Table.Column<Company>
-        dataIndex={"totalRevenue"}
-        title="Open deals amount"
-        render={(_, company) => {
-          return (
-            <Text>
-              {currencyNumber(company?.dealsAggregate?.[0].sum?.value || 0)}
-            </Text>
-          );
-        }}
-      />
-      <Table.Column<Company>
-        dataIndex={["contacts", "id"]}
+      <Table.Column<Class>
+        dataIndex={["students", "id"]}
         title="Related Contacts"
-        defaultFilteredValue={getDefaultFilter("contacts.id", filters, "in")}
+        defaultFilteredValue={getDefaultFilter("students.id", filters, "in")}
         filterDropdown={(props) => (
           <FilterDropdown {...props}>
             <Select
               mode="multiple"
               placeholder="Search related contacts"
               style={{ width: 220 }}
-              {...selectPropsContacts}
+              // {...selectPropsContacts}
             />
           </FilterDropdown>
         )}
-        render={(_, record: Company) => {
-          const value = record.contacts;
-          const avatars = value?.nodes?.map((contact) => {
+        render={(_, record: Class) => {
+          const value = record.students;
+          const avatars = value?.nodes?.map((student) => {
             return {
-              name: contact.name,
-              src: contact.avatarUrl as string | undefined,
+              name: student.name,
+              src: student.avatarUrl as string | undefined,
             };
           });
 
           return <AvatarGroup avatars={avatars} size={"small"} />;
         }}
       />
-      <Table.Column<Company>
+      {/* <Table.Column<Class>
         fixed="right"
         dataIndex="id"
         title="Actions"
@@ -149,8 +136,8 @@ export const CompaniesTableView: FC<Props> = ({ tableProps, filters }) => {
 
             <DeleteButton hideText size="small" recordItemId={value} />
           </Space>
-        )}
-      />
+        )} 
+      />*/}
     </Table>
   );
 };

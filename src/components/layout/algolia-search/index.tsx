@@ -9,13 +9,13 @@ import { Input, List, Popover, Tag, Typography } from "antd";
 import cn from "classnames";
 
 import {
-  Company,
-  Contact,
-  Deal,
-  Event,
-  Quote,
-  Task,
-  User,
+    aa,
+    Contact,
+    Deal,
+    Event,
+    Quote,
+    Task,
+    User,
 } from "@/graphql/schema.types";
 
 import { CustomAvatar } from "../../custom-avatar";
@@ -75,7 +75,7 @@ export const AlgoliaSearch: React.FC = () => {
   );
 };
 
-type Hit = (User | Deal | Task | Company | Contact | Quote | Event) & {
+type Hit = (User | Deal | Task | aa | Contact | Quote | Event) & {
   resource: string;
 };
 

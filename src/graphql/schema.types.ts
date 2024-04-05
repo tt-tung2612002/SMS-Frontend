@@ -16,8 +16,8 @@ export type MakeEmpty<
 export type Incremental<T> =
   | T
   | {
-      [P in keyof T]?: P extends " $fragmentName" | "__typename" ? T[P] : never;
-    };
+    [P in keyof T]?: P extends " $fragmentName" | "__typename" ? T[P] : never;
+  };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: { input: string; output: string };
@@ -126,28 +126,24 @@ export type BooleanFieldComparison = {
   isNot?: InputMaybe<Scalars["Boolean"]["input"]>;
 };
 
-/** Business type */
-export type BusinessType = "B2B" | "B2C" | "B2G";
+;
 
-export type CheckListItem = {
-  checked: Scalars["Boolean"]["output"];
-  title: Scalars["String"]["output"];
-};
-
-export type ChecklistItemInput = {
-  checked: Scalars["Boolean"]["input"];
-  title: Scalars["String"]["input"];
+export type Class = {
+  id: Scalars["ID"]["output"];
+  logoUrl?: Maybe<Scalars["String"]["output"]>;
+  teacher: User;
+  students: ClassStudentsInfo
+  name: Scalars["String"]["output"];
 };
 
 export type Company = {
   avatarUrl?: Maybe<Scalars["String"]["output"]>;
   businessType?: Maybe<BusinessType>;
+  createdAt: Scalars["DateTime"]["output"];
   companySize?: Maybe<CompanySize>;
   contacts: CompanyContactsConnection;
   contactsAggregate: Array<CompanyContactsAggregateResponse>;
   country?: Maybe<Scalars["String"]["output"]>;
-  createdAt: Scalars["DateTime"]["output"];
-  createdBy: User;
   deals: CompanyDealsConnection;
   dealsAggregate: Array<CompanyDealsAggregateResponse>;
   id: Scalars["ID"]["output"];
@@ -161,6 +157,98 @@ export type Company = {
   updatedBy?: Maybe<User>;
   website?: Maybe<Scalars["String"]["output"]>;
 };
+
+export type ClassConnection = {
+  nodes: Array<Class>
+  totalCount: Scalars["Int"]["output"]
+
+}
+
+export type User = {
+  id: Scalars["ID"]["output"];
+  avatarUrl?: Maybe<Scalars["String"]["output"]>;
+  name: Scalars["String"]["output"];
+};
+
+export type UpdateOneTaskInput = {
+  id: Scalars["ID"]["input"];
+  update: TaskUpdateInput;
+};
+
+;
+
+export type UpdateOneUserInput = {
+  /** The id of the record to update */
+  id: Scalars["ID"]["input"];
+  /** The update to apply. */
+  update: UserUpdateInput;
+};
+
+export type UpdateOneUserSubscriptionFilterInput = {
+  /** Specify to filter the records returned. */
+  filter: UserSubscriptionFilter;
+};
+
+
+
+export type UserContactsArgs = {
+  filter?: ContactFilter;
+  paging?: OffsetPaging;
+  sorting?: Array<ContactSort>;
+};
+
+export type UserEventsArgs = {
+  filter?: EventFilter;
+  paging?: OffsetPaging;
+  sorting?: Array<EventSort>;
+};
+
+export type UserTasksArgs = {
+  filter?: TaskFilter;
+  paging?: OffsetPaging;
+  sorting?: Array<TaskSort>;
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 export type CompanyContactsArgs = {
   filter?: ContactFilter;
@@ -256,6 +344,8 @@ export type CompanyCompanySizeFilterComparison = {
   notIn?: InputMaybe<Array<CompanySize>>;
 };
 
+
+
 export type CompanyConnection = {
   /** Array of nodes. */
   nodes: Array<Company>;
@@ -292,6 +382,12 @@ export type CompanyContactsAvgAggregate = {
   id?: Maybe<Scalars["Float"]["output"]>;
   score?: Maybe<Scalars["Float"]["output"]>;
 };
+
+export type ClassStudentsInfo = {
+  nodes: Array<User>;
+  pageInfo: OffsetPageInfo;
+  totalCount: Scalars["Int"]["output"];
+}
 
 export type CompanyContactsConnection = {
   /** Array of nodes. */
@@ -4607,72 +4703,12 @@ export type UpdateOneTaskCommentSubscriptionFilterInput = {
   filter: TaskCommentSubscriptionFilter;
 };
 
-export type UpdateOneTaskInput = {
-  /** The id of the record to update */
-  id: Scalars["ID"]["input"];
-  /** The update to apply. */
-  update: TaskUpdateInput;
-};
 
-export type UpdateOneTaskStageInput = {
-  /** The id of the record to update */
-  id: Scalars["ID"]["input"];
-  /** The update to apply. */
-  update: TaskStageUpdateInput;
-};
-
-export type UpdateOneTaskStageSubscriptionFilterInput = {
-  /** Specify to filter the records returned. */
-  filter: TaskStageSubscriptionFilter;
-};
-
-export type UpdateOneTaskSubscriptionFilterInput = {
-  /** Specify to filter the records returned. */
-  filter: TaskSubscriptionFilter;
-};
-
-export type UpdateOneUserInput = {
-  /** The id of the record to update */
-  id: Scalars["ID"]["input"];
-  /** The update to apply. */
-  update: UserUpdateInput;
-};
-
-export type UpdateOneUserSubscriptionFilterInput = {
-  /** Specify to filter the records returned. */
-  filter: UserSubscriptionFilter;
-};
-
-export type User = {
-  avatarUrl?: Maybe<Scalars["String"]["output"]>;
-  companies: UserCompaniesConnection;
-  contacts: UserContactsConnection;
-  createdAt: Scalars["DateTime"]["output"];
-  createdBy?: Maybe<User>;
-  deals: UserDealsConnection;
-  email: Scalars["String"]["output"];
-  events: UserEventsConnection;
-  id: Scalars["ID"]["output"];
-  jobTitle?: Maybe<Scalars["String"]["output"]>;
-  name: Scalars["String"]["output"];
-  phone?: Maybe<Scalars["String"]["output"]>;
-  role: Role;
-  tasks: UserTasksConnection;
-  timezone?: Maybe<Scalars["String"]["output"]>;
-  updatedAt: Scalars["DateTime"]["output"];
-  updatedBy?: Maybe<User>;
-};
 
 export type UserCompaniesArgs = {
   filter?: CompanyFilter;
   paging?: OffsetPaging;
   sorting?: Array<CompanySort>;
-};
-
-export type UserContactsArgs = {
-  filter?: ContactFilter;
-  paging?: OffsetPaging;
-  sorting?: Array<ContactSort>;
 };
 
 export type UserDealsArgs = {
@@ -4681,17 +4717,6 @@ export type UserDealsArgs = {
   sorting?: Array<DealSort>;
 };
 
-export type UserEventsArgs = {
-  filter?: EventFilter;
-  paging?: OffsetPaging;
-  sorting?: Array<EventSort>;
-};
-
-export type UserTasksArgs = {
-  filter?: TaskFilter;
-  paging?: OffsetPaging;
-  sorting?: Array<TaskSort>;
-};
 
 export type UserAggregateFilter = {
   and?: InputMaybe<Array<UserAggregateFilter>>;
@@ -4964,3 +4989,32 @@ export type UserUpdateInput = {
   role?: InputMaybe<Role>;
   timezone?: InputMaybe<Scalars["String"]["input"]>;
 };
+export type UpdateOneTaskStageInput = {
+  /** The id of the record to update */
+  id: Scalars["ID"]["input"];
+  /** The update to apply. */
+  update: TaskStageUpdateInput;
+};
+
+export type UpdateOneTaskStageSubscriptionFilterInput = {
+  /** Specify to filter the records returned. */
+  filter: TaskStageSubscriptionFilter;
+};
+
+export type UpdateOneTaskSubscriptionFilterInput = {
+  /** Specify to filter the records returned. */
+  filter: TaskSubscriptionFilter;
+}
+
+/** Business type */
+export type BusinessType = "B2B" | "B2C" | "B2G";
+
+export type CheckListItem = {
+  checked: Scalars["Boolean"]["output"];
+  title: Scalars["String"]["output"];
+};
+
+export type ChecklistItemInput = {
+  checked: Scalars["Boolean"]["input"];
+  title: Scalars["String"]["input"];
+}

@@ -5,14 +5,18 @@ import { Authenticated, Refine } from "@refinedev/core";
 import routerProvider, {
   CatchAllNavigate,
   DocumentTitleHandler,
-  NavigateToResource,
   UnsavedChangesNotifier,
 } from "@refinedev/react-router-v6";
 
 import { App as AntdApp, ConfigProvider } from "antd";
 
 import { resources, themeConfig } from "@/config";
-import { authProvider, dataProvider, liveProvider } from "@/providers";
+import {
+  authProvider,
+  dataProvider,
+  liveProvider,
+  localDataProvider,
+} from "@/providers";
 
 import { AlgoliaSearchWrapper, FullScreenLoading, Layout } from "./components";
 import { useAutoLoginForDemo } from "./hooks";
@@ -23,16 +27,7 @@ import {
   CalendarPageWrapper,
   CalendarShowPage,
 } from "./routes/calendar";
-import {
-  CompanyCreatePage,
-  CompanyEditPage,
-  CompanyListPage,
-} from "./routes/companies";
-import {
-  ContactCreatePage,
-  ContactShowPage,
-  ContactsListPage,
-} from "./routes/contacts";
+import { CompanyListPage } from "./routes/companies";
 import { DashboardPage } from "./routes/dashboard";
 import { ForgotPasswordPage } from "./routes/forgot-password";
 import { LoginPage } from "./routes/login";
@@ -84,7 +79,10 @@ const App: React.FC = () => {
             {/* <DevtoolsProvider> */}
             <Refine
               authProvider={authProvider}
-              dataProvider={dataProvider}
+              dataProvider={{
+                default: dataProvider,
+                local: localDataProvider,
+              }}
               liveProvider={liveProvider}
               routerProvider={routerProvider}
               resources={resources}
@@ -159,10 +157,10 @@ const App: React.FC = () => {
                           </SalesCreatePage>
                         }
                       >
-                        <Route
+                        {/* <Route
                           path="company/create"
                           element={<CompanyCreatePage isOverModal />}
-                        />
+                        /> */}
                       </Route>
                       <Route path="edit/:id" element={<SalesEditPage />} />
                       <Route
@@ -180,20 +178,20 @@ const App: React.FC = () => {
                     </Route>
                   </Route>
                   <Route
-                    path="/companies"
+                    path="/classes"
                     element={
                       <CompanyListPage>
                         <Outlet />
                       </CompanyListPage>
                     }
                   >
-                    <Route path="create" element={<CompanyCreatePage />} />
+                    {/* <Route path="create" element={<CompanyCreatePage />} /> */}
                   </Route>
-                  <Route
+                  {/* <Route
                     path="/companies/edit/:id"
                     element={<CompanyEditPage />}
-                  />
-                  <Route
+                  /> */}
+                  {/* <Route
                     path="/contacts"
                     element={
                       <ContactsListPage>
@@ -216,7 +214,7 @@ const App: React.FC = () => {
                         element={<CompanyCreatePage isOverModal />}
                       />
                     </Route>
-                  </Route>
+                  </Route> */}
                   <Route
                     path="/quotes"
                     element={
@@ -233,10 +231,10 @@ const App: React.FC = () => {
                         </QuotesCreatePage>
                       }
                     >
-                      <Route
+                      {/* <Route
                         path="company-create"
                         element={<CompanyCreatePage isOverModal />}
-                      />
+                      /> */}
                     </Route>
                     <Route
                       path="edit/:id"
@@ -246,10 +244,10 @@ const App: React.FC = () => {
                         </QuotesEditPage>
                       }
                     >
-                      <Route
+                      {/* <Route
                         path="company-create"
                         element={<CompanyCreatePage isOverModal />}
-                      />
+                      /> */}
                     </Route>
                   </Route>
                   <Route path="/quotes/show/:id" element={<QuotesShowPage />} />
@@ -260,14 +258,14 @@ const App: React.FC = () => {
                   <Route path="*" element={<ErrorComponent />} />
                 </Route>
                 <Route
-                  element={
-                    <Authenticated
-                      key="authenticated-auth"
-                      fallback={<Outlet />}
-                    >
-                      <NavigateToResource resource="dashboard" />
-                    </Authenticated>
-                  }
+                // element={
+                //   <Authenticated
+                //     key="authenticated-auth"
+                //     fallback={<Outlet />}
+                //   >
+                //     <NavigateToResource resource="dashboard" />
+                //   </Authenticated>
+                // }
                 >
                   <Route path="/login" element={<LoginPage />} />
                   <Route path="/register" element={<RegisterPage />} />

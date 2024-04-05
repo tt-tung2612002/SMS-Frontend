@@ -89,7 +89,7 @@ export const QuotesListPage: FC<PropsWithChildren> = ({ children }) => {
         meta: {
           gqlQuery: QUOTES_TABLE_QUERY,
         },
-      },
+      }
     );
 
   const { selectProps: selectPropsCompanies } = useCompaniesSelect();

@@ -13,15 +13,15 @@ import { Form, Grid, Input, Radio, Space, Spin } from "antd";
 import debounce from "lodash/debounce";
 
 import { ListTitleButton } from "@/components";
-import { CompaniesTableQuery } from "@/graphql/types";
+import { ClassesTableQuery } from "@/graphql/types";
 
-import { CompaniesCardView, CompaniesTableView } from "./components";
-import { COMPANIES_TABLE_QUERY } from "./queries";
+import { CompaniesTableView } from "./components";
+import { CLASSES_TABLE_QUERY } from "./queries";
 
 type View = "card" | "table";
 
 export const CompanyListPage: FC<PropsWithChildren> = ({ children }) => {
-  const [view, setView] = useState<View>("card");
+  const [view, setView] = useState<View>("table");
   const screens = Grid.useBreakpoint();
 
   const {
@@ -30,15 +30,15 @@ export const CompanyListPage: FC<PropsWithChildren> = ({ children }) => {
     searchFormProps,
     filters,
     sorters,
-    setCurrent,
-    setPageSize,
+    // setCurrent,
+    // setPageSize,
     setFilters,
   } = useTable<
-    GetFieldsFromList<CompaniesTableQuery>,
+    GetFieldsFromList<ClassesTableQuery>,
     HttpError,
     { name: string }
   >({
-    resource: "companies",
+    resource: "classes",
     onSearch: (values) => {
       return [
         {
@@ -74,7 +74,7 @@ export const CompanyListPage: FC<PropsWithChildren> = ({ children }) => {
       pageSize: 12,
     },
     meta: {
-      gqlQuery: COMPANIES_TABLE_QUERY,
+      gqlQuery: CLASSES_TABLE_QUERY,
     },
   });
 
@@ -90,6 +90,7 @@ export const CompanyListPage: FC<PropsWithChildren> = ({ children }) => {
       name: e.target.value ?? "",
     });
   };
+
   const debouncedOnChange = debounce(onSearch, 500);
 
   return (
@@ -142,7 +143,7 @@ export const CompanyListPage: FC<PropsWithChildren> = ({ children }) => {
           },
         }}
         title={
-          <ListTitleButton toPath="companies" buttonText="Add new company" />
+          <ListTitleButton toPath="companies" buttonText="Add new class" />
         }
       >
         {view === "table" ? (
@@ -152,10 +153,10 @@ export const CompanyListPage: FC<PropsWithChildren> = ({ children }) => {
             sorters={sorters}
           />
         ) : (
-          <CompaniesCardView
+          <CompaniesTableView
             tableProps={tableProps}
-            setPageSize={setPageSize}
-            setCurrent={setCurrent}
+            filters={filters}
+            sorters={sorters}
           />
         )}
       </List>
