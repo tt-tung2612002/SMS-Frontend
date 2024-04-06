@@ -142,9 +142,7 @@ export const CompanyListPage: FC<PropsWithChildren> = ({ children }) => {
             marginTop: "28px",
           },
         }}
-        title={
-          <ListTitleButton toPath="companies" buttonText="Add new class" />
-        }
+        title={<ListTitleButton toPath="classes" buttonText="Add new class" />}
       >
         {view === "table" ? (
           <CompaniesTableView
