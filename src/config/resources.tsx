@@ -89,7 +89,6 @@ export const resources: IResourceItem[] = [
     // create: "/companies/create",
     // edit: "/companies/edit/:id",
     meta: {
-      dataProviderName: "local",
       label: "Class Management",
       icon: <ShopOutlined />,
     },

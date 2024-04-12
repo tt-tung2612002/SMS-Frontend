@@ -28,6 +28,7 @@ import {
   CalendarShowPage,
 } from "./routes/calendar";
 import { CompanyListPage } from "./routes/companies";
+import { ContactShowPage, ContactsListPage } from "./routes/contacts";
 import { DashboardPage } from "./routes/dashboard";
 import { ForgotPasswordPage } from "./routes/forgot-password";
 import { LoginPage } from "./routes/login";
@@ -191,7 +192,7 @@ const App: React.FC = () => {
                     path="/companies/edit/:id"
                     element={<CompanyEditPage />}
                   /> */}
-                  {/* <Route
+                  <Route
                     path="/contacts"
                     element={
                       <ContactsListPage>
@@ -199,8 +200,8 @@ const App: React.FC = () => {
                       </ContactsListPage>
                     }
                   >
-                    <Route index element={null} />
                     <Route path="show/:id" element={<ContactShowPage />} />
+                    {/* <Route index element={null} />
                     <Route
                       path="create"
                       element={
@@ -213,8 +214,8 @@ const App: React.FC = () => {
                         path="company-create"
                         element={<CompanyCreatePage isOverModal />}
                       />
-                    </Route>
-                  </Route> */}
+                    </Route> */}
+                  </Route>
                   <Route
                     path="/quotes"
                     element={

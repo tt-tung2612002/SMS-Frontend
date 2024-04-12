@@ -73,6 +73,7 @@ export const CompanyListPage: FC<PropsWithChildren> = ({ children }) => {
     pagination: {
       pageSize: 12,
     },
+    dataProviderName: "local",
     meta: {
       gqlQuery: CLASSES_TABLE_QUERY,
     },
