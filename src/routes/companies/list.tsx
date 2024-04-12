@@ -15,8 +15,8 @@ import debounce from "lodash/debounce";
 import { ListTitleButton } from "@/components";
 import { ClassesTableQuery } from "@/graphql/types";
 
+import { CLASSES_TABLE_QUERY } from "./classqueries";
 import { CompaniesTableView } from "./components";
-import { CLASSES_TABLE_QUERY } from "./queries";
 
 type View = "card" | "table";
 

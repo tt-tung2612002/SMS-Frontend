@@ -2,23 +2,24 @@ import type { IGraphQLConfig } from "graphql-config";
 
 const config: IGraphQLConfig = {
   // schema: "https://api.crm.refine.dev/graphql",
-  schema: "http://localhost:8082/graphql",
+  schema: "http://localhost:5000/graphql",
   extensions: {
     codegen: {
       hooks: {
         afterOneFileWrite: ["eslint --fix", "prettier --write"],
       },
       generates: {
-        "src/graphql/schema.types.ts": {
+        "src/graphql/new/schema.types.ts": {
           plugins: ["typescript"],
           config: {
             skipTypename: true,
             enumsAsTypes: true,
           },
         },
-        "src/graphql/types.ts": {
+        "src/graphql/new/types.ts": {
           preset: "import-types",
-          documents: ["src/**/*.{ts,tsx}"],
+          documents: ["src/**/classqueries.{ts,tsx}"],
+          // documents: ["src/**/*.graphql"],
           plugins: ["typescript-operations"],
           config: {
             skipTypename: true,

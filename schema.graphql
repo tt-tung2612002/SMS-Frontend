@@ -1,0 +1,3415 @@
+"""The root query type which gives access points into the data universe."""
+type Query implements Node {
+  """
+  Exposes the root query type nested one level down. This is helpful for Relay 1
+  which can only query top level fields if they are in a particular form.
+  """
+  query: Query!
+
+  """
+  The root query type must be a `Node` to work well with Relay 1 mutations. This just resolves to `query`.
+  """
+  nodeId: ID!
+
+  """Fetches an object given its globally unique `ID`."""
+  node(
+    """The globally unique `ID`."""
+    nodeId: ID!
+  ): Node
+
+  """Reads and enables pagination through a set of `Class`."""
+  allClasses(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Class`."""
+    orderBy: [ClassesOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ClassCondition
+  ): ClassesConnection
+
+  """Reads and enables pagination through a set of `ClassManagement`."""
+  allClassManagements(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ClassManagement`."""
+    orderBy: [ClassManagementsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ClassManagementCondition
+  ): ClassManagementsConnection
+
+  """Reads and enables pagination through a set of `ClassType`."""
+  allClassTypes(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ClassType`."""
+    orderBy: [ClassTypesOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ClassTypeCondition
+  ): ClassTypesConnection
+
+  """Reads and enables pagination through a set of `Role`."""
+  allRoles(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Role`."""
+    orderBy: [RolesOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: RoleCondition
+  ): RolesConnection
+
+  """Reads and enables pagination through a set of `User`."""
+  allUsers(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `User`."""
+    orderBy: [UsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: UserCondition
+  ): UsersConnection
+
+  """Reads and enables pagination through a set of `UserAttribute`."""
+  allUserAttributes(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `UserAttribute`."""
+    orderBy: [UserAttributesOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: UserAttributeCondition
+  ): UserAttributesConnection
+
+  """Reads and enables pagination through a set of `UserInfo`."""
+  allUserInfos(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `UserInfo`."""
+    orderBy: [UserInfosOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: UserInfoCondition
+  ): UserInfosConnection
+
+  """Reads and enables pagination through a set of `UserRole`."""
+  allUserRoles(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `UserRole`."""
+    orderBy: [UserRolesOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: UserRoleCondition
+  ): UserRolesConnection
+  classById(id: Int!): Class
+  classManagementByClassIdAndUserId(classId: Int!, userId: Int!): ClassManagement
+  classTypeById(id: Int!): ClassType
+  roleById(id: Int!): Role
+  roleByName(name: String!): Role
+  userById(id: Int!): User
+  userByUsername(username: String!): User
+  userAttributeById(id: Int!): UserAttribute
+  userAttributeByName(name: String!): UserAttribute
+  userInfoById(id: Int!): UserInfo
+  userInfoByEmail(email: String!): UserInfo
+  userInfoByPhoneNumber(phoneNumber: String!): UserInfo
+  userRoleByUserIdAndRoleId(userId: Int!, roleId: Int!): UserRole
+
+  """Reads a single `Class` using its globally unique `ID`."""
+  class(
+    """The globally unique `ID` to be used in selecting a single `Class`."""
+    nodeId: ID!
+  ): Class
+
+  """Reads a single `ClassManagement` using its globally unique `ID`."""
+  classManagement(
+    """
+    The globally unique `ID` to be used in selecting a single `ClassManagement`.
+    """
+    nodeId: ID!
+  ): ClassManagement
+
+  """Reads a single `ClassType` using its globally unique `ID`."""
+  classType(
+    """The globally unique `ID` to be used in selecting a single `ClassType`."""
+    nodeId: ID!
+  ): ClassType
+
+  """Reads a single `Role` using its globally unique `ID`."""
+  role(
+    """The globally unique `ID` to be used in selecting a single `Role`."""
+    nodeId: ID!
+  ): Role
+
+  """Reads a single `User` using its globally unique `ID`."""
+  user(
+    """The globally unique `ID` to be used in selecting a single `User`."""
+    nodeId: ID!
+  ): User
+
+  """Reads a single `UserAttribute` using its globally unique `ID`."""
+  userAttribute(
+    """
+    The globally unique `ID` to be used in selecting a single `UserAttribute`.
+    """
+    nodeId: ID!
+  ): UserAttribute
+
+  """Reads a single `UserInfo` using its globally unique `ID`."""
+  userInfo(
+    """The globally unique `ID` to be used in selecting a single `UserInfo`."""
+    nodeId: ID!
+  ): UserInfo
+
+  """Reads a single `UserRole` using its globally unique `ID`."""
+  userRole(
+    """The globally unique `ID` to be used in selecting a single `UserRole`."""
+    nodeId: ID!
+  ): UserRole
+}
+
+"""An object with a globally unique `ID`."""
+interface Node {
+  """
+  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  """
+  nodeId: ID!
+}
+
+"""A connection to a list of `Class` values."""
+type ClassesConnection {
+  """A list of `Class` objects."""
+  nodes: [Class!]!
+
+  """
+  A list of edges which contains the `Class` and cursor to aid in pagination.
+  """
+  edges: [ClassesEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `Class` you could get from the connection."""
+  totalCount: Int!
+}
+
+type Class implements Node {
+  """
+  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  """
+  nodeId: ID!
+  id: Int!
+  classLevel: Int
+  description: String
+  endDate: Datetime
+  name: String!
+  startDate: Datetime
+  classTypeId: Int
+  teacherId: Int
+  logoUrl: String
+
+  """Reads a single `ClassType` that is related to this `Class`."""
+  classTypeByClassTypeId: ClassType
+
+  """Reads a single `User` that is related to this `Class`."""
+  userByTeacherId: User
+
+  """Reads and enables pagination through a set of `ClassManagement`."""
+  classManagementsByClassId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ClassManagement`."""
+    orderBy: [ClassManagementsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ClassManagementCondition
+  ): ClassManagementsConnection!
+
+  """Reads and enables pagination through a set of `User`."""
+  usersByClassManagementClassIdAndUserId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `User`."""
+    orderBy: [UsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: UserCondition
+  ): ClassUsersByClassManagementClassIdAndUserIdManyToManyConnection!
+}
+
+"""
+A point in time as described by the [ISO
+8601](https://en.wikipedia.org/wiki/ISO_8601) standard. May or may not include a timezone.
+"""
+scalar Datetime
+
+type ClassType implements Node {
+  """
+  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  """
+  nodeId: ID!
+  id: Int!
+  description: String
+  name: String
+
+  """Reads and enables pagination through a set of `Class`."""
+  classesByClassTypeId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Class`."""
+    orderBy: [ClassesOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ClassCondition
+  ): ClassesConnection!
+
+  """Reads and enables pagination through a set of `User`."""
+  usersByClassClassTypeIdAndTeacherId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `User`."""
+    orderBy: [UsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: UserCondition
+  ): ClassTypeUsersByClassClassTypeIdAndTeacherIdManyToManyConnection!
+}
+
+"""A location in a connection that can be used for resuming pagination."""
+scalar Cursor
+
+"""Methods to use when ordering `Class`."""
+enum ClassesOrderBy {
+  NATURAL
+  ID_ASC
+  ID_DESC
+  CLASS_LEVEL_ASC
+  CLASS_LEVEL_DESC
+  DESCRIPTION_ASC
+  DESCRIPTION_DESC
+  END_DATE_ASC
+  END_DATE_DESC
+  NAME_ASC
+  NAME_DESC
+  START_DATE_ASC
+  START_DATE_DESC
+  CLASS_TYPE_ID_ASC
+  CLASS_TYPE_ID_DESC
+  TEACHER_ID_ASC
+  TEACHER_ID_DESC
+  LOGO_URL_ASC
+  LOGO_URL_DESC
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+}
+
+"""
+A condition to be used against `Class` object types. All fields are tested for equality and combined with a logical ‘and.’
+"""
+input ClassCondition {
+  """Checks for equality with the object’s `id` field."""
+  id: Int
+
+  """Checks for equality with the object’s `classLevel` field."""
+  classLevel: Int
+
+  """Checks for equality with the object’s `description` field."""
+  description: String
+
+  """Checks for equality with the object’s `endDate` field."""
+  endDate: Datetime
+
+  """Checks for equality with the object’s `name` field."""
+  name: String
+
+  """Checks for equality with the object’s `startDate` field."""
+  startDate: Datetime
+
+  """Checks for equality with the object’s `classTypeId` field."""
+  classTypeId: Int
+
+  """Checks for equality with the object’s `teacherId` field."""
+  teacherId: Int
+
+  """Checks for equality with the object’s `logoUrl` field."""
+  logoUrl: String
+}
+
+"""A connection to a list of `User` values, with data from `Class`."""
+type ClassTypeUsersByClassClassTypeIdAndTeacherIdManyToManyConnection {
+  """A list of `User` objects."""
+  nodes: [User!]!
+
+  """
+  A list of edges which contains the `User`, info from the `Class`, and the cursor to aid in pagination.
+  """
+  edges: [ClassTypeUsersByClassClassTypeIdAndTeacherIdManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `User` you could get from the connection."""
+  totalCount: Int!
+}
+
+type User implements Node {
+  """
+  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  """
+  nodeId: ID!
+  id: Int!
+  createdDate: Datetime
+  updatedDate: Datetime
+  username: String!
+
+  """Reads and enables pagination through a set of `Class`."""
+  classesByTeacherId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Class`."""
+    orderBy: [ClassesOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ClassCondition
+  ): ClassesConnection!
+
+  """Reads and enables pagination through a set of `UserAttribute`."""
+  userAttributesByUserId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `UserAttribute`."""
+    orderBy: [UserAttributesOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: UserAttributeCondition
+  ): UserAttributesConnection!
+
+  """Reads a single `UserInfo` that is related to this `User`."""
+  userInfoById: UserInfo
+
+  """Reads and enables pagination through a set of `UserRole`."""
+  userRolesByUserId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `UserRole`."""
+    orderBy: [UserRolesOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: UserRoleCondition
+  ): UserRolesConnection!
+
+  """Reads and enables pagination through a set of `ClassManagement`."""
+  classManagementsByUserId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ClassManagement`."""
+    orderBy: [ClassManagementsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ClassManagementCondition
+  ): ClassManagementsConnection!
+
+  """Reads and enables pagination through a set of `ClassType`."""
+  classTypesByClassTeacherIdAndClassTypeId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ClassType`."""
+    orderBy: [ClassTypesOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ClassTypeCondition
+  ): UserClassTypesByClassTeacherIdAndClassTypeIdManyToManyConnection!
+
+  """Reads and enables pagination through a set of `Role`."""
+  rolesByUserRoleUserIdAndRoleId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Role`."""
+    orderBy: [RolesOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: RoleCondition
+  ): UserRolesByUserRoleUserIdAndRoleIdManyToManyConnection!
+
+  """Reads and enables pagination through a set of `Class`."""
+  classesByClassManagementUserIdAndClassId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Class`."""
+    orderBy: [ClassesOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ClassCondition
+  ): UserClassesByClassManagementUserIdAndClassIdManyToManyConnection!
+}
+
+"""A connection to a list of `UserAttribute` values."""
+type UserAttributesConnection {
+  """A list of `UserAttribute` objects."""
+  nodes: [UserAttribute!]!
+
+  """
+  A list of edges which contains the `UserAttribute` and cursor to aid in pagination.
+  """
+  edges: [UserAttributesEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `UserAttribute` you could get from the connection."""
+  totalCount: Int!
+}
+
+type UserAttribute implements Node {
+  """
+  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  """
+  nodeId: ID!
+  id: Int!
+  name: String!
+  value: String!
+  userId: Int!
+
+  """Reads a single `User` that is related to this `UserAttribute`."""
+  userByUserId: User
+}
+
+"""A `UserAttribute` edge in the connection."""
+type UserAttributesEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `UserAttribute` at the end of the edge."""
+  node: UserAttribute!
+}
+
+"""Information about pagination in a connection."""
+type PageInfo {
+  """When paginating forwards, are there more items?"""
+  hasNextPage: Boolean!
+
+  """When paginating backwards, are there more items?"""
+  hasPreviousPage: Boolean!
+
+  """When paginating backwards, the cursor to continue."""
+  startCursor: Cursor
+
+  """When paginating forwards, the cursor to continue."""
+  endCursor: Cursor
+}
+
+"""Methods to use when ordering `UserAttribute`."""
+enum UserAttributesOrderBy {
+  NATURAL
+  ID_ASC
+  ID_DESC
+  NAME_ASC
+  NAME_DESC
+  VALUE_ASC
+  VALUE_DESC
+  USER_ID_ASC
+  USER_ID_DESC
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+}
+
+"""
+A condition to be used against `UserAttribute` object types. All fields are
+tested for equality and combined with a logical ‘and.’
+"""
+input UserAttributeCondition {
+  """Checks for equality with the object’s `id` field."""
+  id: Int
+
+  """Checks for equality with the object’s `name` field."""
+  name: String
+
+  """Checks for equality with the object’s `value` field."""
+  value: String
+
+  """Checks for equality with the object’s `userId` field."""
+  userId: Int
+}
+
+type UserInfo implements Node {
+  """
+  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  """
+  nodeId: ID!
+  id: Int!
+  dateOfBirth: Datetime
+  email: String
+  firstName: String
+  lastName: String
+  phoneNumber: String
+  avatarUrl: String
+
+  """Reads a single `User` that is related to this `UserInfo`."""
+  userById: User
+}
+
+"""A connection to a list of `UserRole` values."""
+type UserRolesConnection {
+  """A list of `UserRole` objects."""
+  nodes: [UserRole!]!
+
+  """
+  A list of edges which contains the `UserRole` and cursor to aid in pagination.
+  """
+  edges: [UserRolesEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `UserRole` you could get from the connection."""
+  totalCount: Int!
+}
+
+type UserRole implements Node {
+  """
+  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  """
+  nodeId: ID!
+  userId: Int!
+  roleId: Int!
+
+  """Reads a single `User` that is related to this `UserRole`."""
+  userByUserId: User
+
+  """Reads a single `Role` that is related to this `UserRole`."""
+  roleByRoleId: Role
+}
+
+type Role implements Node {
+  """
+  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  """
+  nodeId: ID!
+  id: Int!
+  description: String
+  name: String
+
+  """Reads and enables pagination through a set of `UserRole`."""
+  userRolesByRoleId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `UserRole`."""
+    orderBy: [UserRolesOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: UserRoleCondition
+  ): UserRolesConnection!
+
+  """Reads and enables pagination through a set of `User`."""
+  usersByUserRoleRoleIdAndUserId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `User`."""
+    orderBy: [UsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: UserCondition
+  ): RoleUsersByUserRoleRoleIdAndUserIdManyToManyConnection!
+}
+
+"""Methods to use when ordering `UserRole`."""
+enum UserRolesOrderBy {
+  NATURAL
+  USER_ID_ASC
+  USER_ID_DESC
+  ROLE_ID_ASC
+  ROLE_ID_DESC
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+}
+
+"""
+A condition to be used against `UserRole` object types. All fields are tested
+for equality and combined with a logical ‘and.’
+"""
+input UserRoleCondition {
+  """Checks for equality with the object’s `userId` field."""
+  userId: Int
+
+  """Checks for equality with the object’s `roleId` field."""
+  roleId: Int
+}
+
+"""A connection to a list of `User` values, with data from `UserRole`."""
+type RoleUsersByUserRoleRoleIdAndUserIdManyToManyConnection {
+  """A list of `User` objects."""
+  nodes: [User!]!
+
+  """
+  A list of edges which contains the `User`, info from the `UserRole`, and the cursor to aid in pagination.
+  """
+  edges: [RoleUsersByUserRoleRoleIdAndUserIdManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `User` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""A `User` edge in the connection, with data from `UserRole`."""
+type RoleUsersByUserRoleRoleIdAndUserIdManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `User` at the end of the edge."""
+  node: User!
+}
+
+"""Methods to use when ordering `User`."""
+enum UsersOrderBy {
+  NATURAL
+  ID_ASC
+  ID_DESC
+  CREATED_DATE_ASC
+  CREATED_DATE_DESC
+  UPDATED_DATE_ASC
+  UPDATED_DATE_DESC
+  USERNAME_ASC
+  USERNAME_DESC
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+}
+
+"""
+A condition to be used against `User` object types. All fields are tested for equality and combined with a logical ‘and.’
+"""
+input UserCondition {
+  """Checks for equality with the object’s `id` field."""
+  id: Int
+
+  """Checks for equality with the object’s `createdDate` field."""
+  createdDate: Datetime
+
+  """Checks for equality with the object’s `updatedDate` field."""
+  updatedDate: Datetime
+
+  """Checks for equality with the object’s `username` field."""
+  username: String
+}
+
+"""A `UserRole` edge in the connection."""
+type UserRolesEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `UserRole` at the end of the edge."""
+  node: UserRole!
+}
+
+"""A connection to a list of `ClassManagement` values."""
+type ClassManagementsConnection {
+  """A list of `ClassManagement` objects."""
+  nodes: [ClassManagement!]!
+
+  """
+  A list of edges which contains the `ClassManagement` and cursor to aid in pagination.
+  """
+  edges: [ClassManagementsEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """
+  The count of *all* `ClassManagement` you could get from the connection.
+  """
+  totalCount: Int!
+}
+
+type ClassManagement implements Node {
+  """
+  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  """
+  nodeId: ID!
+  classId: Int!
+  userId: Int!
+
+  """Reads a single `Class` that is related to this `ClassManagement`."""
+  classByClassId: Class
+
+  """Reads a single `User` that is related to this `ClassManagement`."""
+  userByUserId: User
+}
+
+"""A `ClassManagement` edge in the connection."""
+type ClassManagementsEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `ClassManagement` at the end of the edge."""
+  node: ClassManagement!
+}
+
+"""Methods to use when ordering `ClassManagement`."""
+enum ClassManagementsOrderBy {
+  NATURAL
+  CLASS_ID_ASC
+  CLASS_ID_DESC
+  USER_ID_ASC
+  USER_ID_DESC
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+}
+
+"""
+A condition to be used against `ClassManagement` object types. All fields are
+tested for equality and combined with a logical ‘and.’
+"""
+input ClassManagementCondition {
+  """Checks for equality with the object’s `classId` field."""
+  classId: Int
+
+  """Checks for equality with the object’s `userId` field."""
+  userId: Int
+}
+
+"""A connection to a list of `ClassType` values, with data from `Class`."""
+type UserClassTypesByClassTeacherIdAndClassTypeIdManyToManyConnection {
+  """A list of `ClassType` objects."""
+  nodes: [ClassType!]!
+
+  """
+  A list of edges which contains the `ClassType`, info from the `Class`, and the cursor to aid in pagination.
+  """
+  edges: [UserClassTypesByClassTeacherIdAndClassTypeIdManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `ClassType` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""A `ClassType` edge in the connection, with data from `Class`."""
+type UserClassTypesByClassTeacherIdAndClassTypeIdManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `ClassType` at the end of the edge."""
+  node: ClassType!
+
+  """Reads and enables pagination through a set of `Class`."""
+  classesByClassTypeId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Class`."""
+    orderBy: [ClassesOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ClassCondition
+  ): ClassesConnection!
+}
+
+"""Methods to use when ordering `ClassType`."""
+enum ClassTypesOrderBy {
+  NATURAL
+  ID_ASC
+  ID_DESC
+  DESCRIPTION_ASC
+  DESCRIPTION_DESC
+  NAME_ASC
+  NAME_DESC
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+}
+
+"""
+A condition to be used against `ClassType` object types. All fields are tested
+for equality and combined with a logical ‘and.’
+"""
+input ClassTypeCondition {
+  """Checks for equality with the object’s `id` field."""
+  id: Int
+
+  """Checks for equality with the object’s `description` field."""
+  description: String
+
+  """Checks for equality with the object’s `name` field."""
+  name: String
+}
+
+"""A connection to a list of `Role` values, with data from `UserRole`."""
+type UserRolesByUserRoleUserIdAndRoleIdManyToManyConnection {
+  """A list of `Role` objects."""
+  nodes: [Role!]!
+
+  """
+  A list of edges which contains the `Role`, info from the `UserRole`, and the cursor to aid in pagination.
+  """
+  edges: [UserRolesByUserRoleUserIdAndRoleIdManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `Role` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""A `Role` edge in the connection, with data from `UserRole`."""
+type UserRolesByUserRoleUserIdAndRoleIdManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `Role` at the end of the edge."""
+  node: Role!
+}
+
+"""Methods to use when ordering `Role`."""
+enum RolesOrderBy {
+  NATURAL
+  ID_ASC
+  ID_DESC
+  DESCRIPTION_ASC
+  DESCRIPTION_DESC
+  NAME_ASC
+  NAME_DESC
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+}
+
+"""
+A condition to be used against `Role` object types. All fields are tested for equality and combined with a logical ‘and.’
+"""
+input RoleCondition {
+  """Checks for equality with the object’s `id` field."""
+  id: Int
+
+  """Checks for equality with the object’s `description` field."""
+  description: String
+
+  """Checks for equality with the object’s `name` field."""
+  name: String
+}
+
+"""
+A connection to a list of `Class` values, with data from `ClassManagement`.
+"""
+type UserClassesByClassManagementUserIdAndClassIdManyToManyConnection {
+  """A list of `Class` objects."""
+  nodes: [Class!]!
+
+  """
+  A list of edges which contains the `Class`, info from the `ClassManagement`, and the cursor to aid in pagination.
+  """
+  edges: [UserClassesByClassManagementUserIdAndClassIdManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `Class` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""A `Class` edge in the connection, with data from `ClassManagement`."""
+type UserClassesByClassManagementUserIdAndClassIdManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `Class` at the end of the edge."""
+  node: Class!
+}
+
+"""A `User` edge in the connection, with data from `Class`."""
+type ClassTypeUsersByClassClassTypeIdAndTeacherIdManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `User` at the end of the edge."""
+  node: User!
+
+  """Reads and enables pagination through a set of `Class`."""
+  classesByTeacherId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Class`."""
+    orderBy: [ClassesOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ClassCondition
+  ): ClassesConnection!
+}
+
+"""
+A connection to a list of `User` values, with data from `ClassManagement`.
+"""
+type ClassUsersByClassManagementClassIdAndUserIdManyToManyConnection {
+  """A list of `User` objects."""
+  nodes: [User!]!
+
+  """
+  A list of edges which contains the `User`, info from the `ClassManagement`, and the cursor to aid in pagination.
+  """
+  edges: [ClassUsersByClassManagementClassIdAndUserIdManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `User` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""A `User` edge in the connection, with data from `ClassManagement`."""
+type ClassUsersByClassManagementClassIdAndUserIdManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `User` at the end of the edge."""
+  node: User!
+}
+
+"""A `Class` edge in the connection."""
+type ClassesEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `Class` at the end of the edge."""
+  node: Class!
+}
+
+"""A connection to a list of `ClassType` values."""
+type ClassTypesConnection {
+  """A list of `ClassType` objects."""
+  nodes: [ClassType!]!
+
+  """
+  A list of edges which contains the `ClassType` and cursor to aid in pagination.
+  """
+  edges: [ClassTypesEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `ClassType` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""A `ClassType` edge in the connection."""
+type ClassTypesEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `ClassType` at the end of the edge."""
+  node: ClassType!
+}
+
+"""A connection to a list of `Role` values."""
+type RolesConnection {
+  """A list of `Role` objects."""
+  nodes: [Role!]!
+
+  """
+  A list of edges which contains the `Role` and cursor to aid in pagination.
+  """
+  edges: [RolesEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `Role` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""A `Role` edge in the connection."""
+type RolesEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `Role` at the end of the edge."""
+  node: Role!
+}
+
+"""A connection to a list of `User` values."""
+type UsersConnection {
+  """A list of `User` objects."""
+  nodes: [User!]!
+
+  """
+  A list of edges which contains the `User` and cursor to aid in pagination.
+  """
+  edges: [UsersEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `User` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""A `User` edge in the connection."""
+type UsersEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `User` at the end of the edge."""
+  node: User!
+}
+
+"""A connection to a list of `UserInfo` values."""
+type UserInfosConnection {
+  """A list of `UserInfo` objects."""
+  nodes: [UserInfo!]!
+
+  """
+  A list of edges which contains the `UserInfo` and cursor to aid in pagination.
+  """
+  edges: [UserInfosEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `UserInfo` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""A `UserInfo` edge in the connection."""
+type UserInfosEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `UserInfo` at the end of the edge."""
+  node: UserInfo!
+}
+
+"""Methods to use when ordering `UserInfo`."""
+enum UserInfosOrderBy {
+  NATURAL
+  ID_ASC
+  ID_DESC
+  DATE_OF_BIRTH_ASC
+  DATE_OF_BIRTH_DESC
+  EMAIL_ASC
+  EMAIL_DESC
+  FIRST_NAME_ASC
+  FIRST_NAME_DESC
+  LAST_NAME_ASC
+  LAST_NAME_DESC
+  PHONE_NUMBER_ASC
+  PHONE_NUMBER_DESC
+  AVATAR_URL_ASC
+  AVATAR_URL_DESC
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+}
+
+"""
+A condition to be used against `UserInfo` object types. All fields are tested
+for equality and combined with a logical ‘and.’
+"""
+input UserInfoCondition {
+  """Checks for equality with the object’s `id` field."""
+  id: Int
+
+  """Checks for equality with the object’s `dateOfBirth` field."""
+  dateOfBirth: Datetime
+
+  """Checks for equality with the object’s `email` field."""
+  email: String
+
+  """Checks for equality with the object’s `firstName` field."""
+  firstName: String
+
+  """Checks for equality with the object’s `lastName` field."""
+  lastName: String
+
+  """Checks for equality with the object’s `phoneNumber` field."""
+  phoneNumber: String
+
+  """Checks for equality with the object’s `avatarUrl` field."""
+  avatarUrl: String
+}
+
+"""
+The root mutation type which contains root level fields which mutate data.
+"""
+type Mutation {
+  """Creates a single `Class`."""
+  createClass(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: CreateClassInput!
+  ): CreateClassPayload
+
+  """Creates a single `ClassManagement`."""
+  createClassManagement(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: CreateClassManagementInput!
+  ): CreateClassManagementPayload
+
+  """Creates a single `ClassType`."""
+  createClassType(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: CreateClassTypeInput!
+  ): CreateClassTypePayload
+
+  """Creates a single `Role`."""
+  createRole(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: CreateRoleInput!
+  ): CreateRolePayload
+
+  """Creates a single `User`."""
+  createUser(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: CreateUserInput!
+  ): CreateUserPayload
+
+  """Creates a single `UserAttribute`."""
+  createUserAttribute(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: CreateUserAttributeInput!
+  ): CreateUserAttributePayload
+
+  """Creates a single `UserInfo`."""
+  createUserInfo(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: CreateUserInfoInput!
+  ): CreateUserInfoPayload
+
+  """Creates a single `UserRole`."""
+  createUserRole(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: CreateUserRoleInput!
+  ): CreateUserRolePayload
+
+  """Updates a single `Class` using its globally unique id and a patch."""
+  updateClass(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateClassInput!
+  ): UpdateClassPayload
+
+  """Updates a single `Class` using a unique key and a patch."""
+  updateClassById(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateClassByIdInput!
+  ): UpdateClassPayload
+
+  """
+  Updates a single `ClassManagement` using its globally unique id and a patch.
+  """
+  updateClassManagement(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateClassManagementInput!
+  ): UpdateClassManagementPayload
+
+  """Updates a single `ClassManagement` using a unique key and a patch."""
+  updateClassManagementByClassIdAndUserId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateClassManagementByClassIdAndUserIdInput!
+  ): UpdateClassManagementPayload
+
+  """Updates a single `ClassType` using its globally unique id and a patch."""
+  updateClassType(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateClassTypeInput!
+  ): UpdateClassTypePayload
+
+  """Updates a single `ClassType` using a unique key and a patch."""
+  updateClassTypeById(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateClassTypeByIdInput!
+  ): UpdateClassTypePayload
+
+  """Updates a single `Role` using its globally unique id and a patch."""
+  updateRole(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateRoleInput!
+  ): UpdateRolePayload
+
+  """Updates a single `Role` using a unique key and a patch."""
+  updateRoleById(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateRoleByIdInput!
+  ): UpdateRolePayload
+
+  """Updates a single `Role` using a unique key and a patch."""
+  updateRoleByName(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateRoleByNameInput!
+  ): UpdateRolePayload
+
+  """Updates a single `User` using its globally unique id and a patch."""
+  updateUser(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateUserInput!
+  ): UpdateUserPayload
+
+  """Updates a single `User` using a unique key and a patch."""
+  updateUserById(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateUserByIdInput!
+  ): UpdateUserPayload
+
+  """Updates a single `User` using a unique key and a patch."""
+  updateUserByUsername(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateUserByUsernameInput!
+  ): UpdateUserPayload
+
+  """
+  Updates a single `UserAttribute` using its globally unique id and a patch.
+  """
+  updateUserAttribute(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateUserAttributeInput!
+  ): UpdateUserAttributePayload
+
+  """Updates a single `UserAttribute` using a unique key and a patch."""
+  updateUserAttributeById(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateUserAttributeByIdInput!
+  ): UpdateUserAttributePayload
+
+  """Updates a single `UserAttribute` using a unique key and a patch."""
+  updateUserAttributeByName(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateUserAttributeByNameInput!
+  ): UpdateUserAttributePayload
+
+  """Updates a single `UserInfo` using its globally unique id and a patch."""
+  updateUserInfo(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateUserInfoInput!
+  ): UpdateUserInfoPayload
+
+  """Updates a single `UserInfo` using a unique key and a patch."""
+  updateUserInfoById(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateUserInfoByIdInput!
+  ): UpdateUserInfoPayload
+
+  """Updates a single `UserInfo` using a unique key and a patch."""
+  updateUserInfoByEmail(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateUserInfoByEmailInput!
+  ): UpdateUserInfoPayload
+
+  """Updates a single `UserInfo` using a unique key and a patch."""
+  updateUserInfoByPhoneNumber(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateUserInfoByPhoneNumberInput!
+  ): UpdateUserInfoPayload
+
+  """Updates a single `UserRole` using its globally unique id and a patch."""
+  updateUserRole(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateUserRoleInput!
+  ): UpdateUserRolePayload
+
+  """Updates a single `UserRole` using a unique key and a patch."""
+  updateUserRoleByUserIdAndRoleId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateUserRoleByUserIdAndRoleIdInput!
+  ): UpdateUserRolePayload
+
+  """Deletes a single `Class` using its globally unique id."""
+  deleteClass(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteClassInput!
+  ): DeleteClassPayload
+
+  """Deletes a single `Class` using a unique key."""
+  deleteClassById(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteClassByIdInput!
+  ): DeleteClassPayload
+
+  """Deletes a single `ClassManagement` using its globally unique id."""
+  deleteClassManagement(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteClassManagementInput!
+  ): DeleteClassManagementPayload
+
+  """Deletes a single `ClassManagement` using a unique key."""
+  deleteClassManagementByClassIdAndUserId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteClassManagementByClassIdAndUserIdInput!
+  ): DeleteClassManagementPayload
+
+  """Deletes a single `ClassType` using its globally unique id."""
+  deleteClassType(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteClassTypeInput!
+  ): DeleteClassTypePayload
+
+  """Deletes a single `ClassType` using a unique key."""
+  deleteClassTypeById(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteClassTypeByIdInput!
+  ): DeleteClassTypePayload
+
+  """Deletes a single `Role` using its globally unique id."""
+  deleteRole(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteRoleInput!
+  ): DeleteRolePayload
+
+  """Deletes a single `Role` using a unique key."""
+  deleteRoleById(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteRoleByIdInput!
+  ): DeleteRolePayload
+
+  """Deletes a single `Role` using a unique key."""
+  deleteRoleByName(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteRoleByNameInput!
+  ): DeleteRolePayload
+
+  """Deletes a single `User` using its globally unique id."""
+  deleteUser(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteUserInput!
+  ): DeleteUserPayload
+
+  """Deletes a single `User` using a unique key."""
+  deleteUserById(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteUserByIdInput!
+  ): DeleteUserPayload
+
+  """Deletes a single `User` using a unique key."""
+  deleteUserByUsername(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteUserByUsernameInput!
+  ): DeleteUserPayload
+
+  """Deletes a single `UserAttribute` using its globally unique id."""
+  deleteUserAttribute(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteUserAttributeInput!
+  ): DeleteUserAttributePayload
+
+  """Deletes a single `UserAttribute` using a unique key."""
+  deleteUserAttributeById(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteUserAttributeByIdInput!
+  ): DeleteUserAttributePayload
+
+  """Deletes a single `UserAttribute` using a unique key."""
+  deleteUserAttributeByName(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteUserAttributeByNameInput!
+  ): DeleteUserAttributePayload
+
+  """Deletes a single `UserInfo` using its globally unique id."""
+  deleteUserInfo(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteUserInfoInput!
+  ): DeleteUserInfoPayload
+
+  """Deletes a single `UserInfo` using a unique key."""
+  deleteUserInfoById(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteUserInfoByIdInput!
+  ): DeleteUserInfoPayload
+
+  """Deletes a single `UserInfo` using a unique key."""
+  deleteUserInfoByEmail(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteUserInfoByEmailInput!
+  ): DeleteUserInfoPayload
+
+  """Deletes a single `UserInfo` using a unique key."""
+  deleteUserInfoByPhoneNumber(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteUserInfoByPhoneNumberInput!
+  ): DeleteUserInfoPayload
+
+  """Deletes a single `UserRole` using its globally unique id."""
+  deleteUserRole(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteUserRoleInput!
+  ): DeleteUserRolePayload
+
+  """Deletes a single `UserRole` using a unique key."""
+  deleteUserRoleByUserIdAndRoleId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteUserRoleByUserIdAndRoleIdInput!
+  ): DeleteUserRolePayload
+}
+
+"""The output of our create `Class` mutation."""
+type CreateClassPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Class` that was created by this mutation."""
+  class: Class
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `ClassType` that is related to this `Class`."""
+  classTypeByClassTypeId: ClassType
+
+  """Reads a single `User` that is related to this `Class`."""
+  userByTeacherId: User
+
+  """An edge for our `Class`. May be used by Relay 1."""
+  classEdge(
+    """The method to use when ordering `Class`."""
+    orderBy: [ClassesOrderBy!] = [PRIMARY_KEY_ASC]
+  ): ClassesEdge
+}
+
+"""All input for the create `Class` mutation."""
+input CreateClassInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """The `Class` to be created by this mutation."""
+  class: ClassInput!
+}
+
+"""An input for mutations affecting `Class`"""
+input ClassInput {
+  id: Int!
+  classLevel: Int
+  description: String
+  endDate: Datetime
+  name: String!
+  startDate: Datetime
+  classTypeId: Int
+  teacherId: Int
+  logoUrl: String
+}
+
+"""The output of our create `ClassManagement` mutation."""
+type CreateClassManagementPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `ClassManagement` that was created by this mutation."""
+  classManagement: ClassManagement
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `Class` that is related to this `ClassManagement`."""
+  classByClassId: Class
+
+  """Reads a single `User` that is related to this `ClassManagement`."""
+  userByUserId: User
+
+  """An edge for our `ClassManagement`. May be used by Relay 1."""
+  classManagementEdge(
+    """The method to use when ordering `ClassManagement`."""
+    orderBy: [ClassManagementsOrderBy!] = [PRIMARY_KEY_ASC]
+  ): ClassManagementsEdge
+}
+
+"""All input for the create `ClassManagement` mutation."""
+input CreateClassManagementInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """The `ClassManagement` to be created by this mutation."""
+  classManagement: ClassManagementInput!
+}
+
+"""An input for mutations affecting `ClassManagement`"""
+input ClassManagementInput {
+  classId: Int!
+  userId: Int!
+}
+
+"""The output of our create `ClassType` mutation."""
+type CreateClassTypePayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `ClassType` that was created by this mutation."""
+  classType: ClassType
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `ClassType`. May be used by Relay 1."""
+  classTypeEdge(
+    """The method to use when ordering `ClassType`."""
+    orderBy: [ClassTypesOrderBy!] = [PRIMARY_KEY_ASC]
+  ): ClassTypesEdge
+}
+
+"""All input for the create `ClassType` mutation."""
+input CreateClassTypeInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """The `ClassType` to be created by this mutation."""
+  classType: ClassTypeInput!
+}
+
+"""An input for mutations affecting `ClassType`"""
+input ClassTypeInput {
+  id: Int!
+  description: String
+  name: String
+}
+
+"""The output of our create `Role` mutation."""
+type CreateRolePayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Role` that was created by this mutation."""
+  role: Role
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `Role`. May be used by Relay 1."""
+  roleEdge(
+    """The method to use when ordering `Role`."""
+    orderBy: [RolesOrderBy!] = [PRIMARY_KEY_ASC]
+  ): RolesEdge
+}
+
+"""All input for the create `Role` mutation."""
+input CreateRoleInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """The `Role` to be created by this mutation."""
+  role: RoleInput!
+}
+
+"""An input for mutations affecting `Role`"""
+input RoleInput {
+  id: Int!
+  description: String
+  name: String
+}
+
+"""The output of our create `User` mutation."""
+type CreateUserPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `User` that was created by this mutation."""
+  user: User
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `User`. May be used by Relay 1."""
+  userEdge(
+    """The method to use when ordering `User`."""
+    orderBy: [UsersOrderBy!] = [PRIMARY_KEY_ASC]
+  ): UsersEdge
+}
+
+"""All input for the create `User` mutation."""
+input CreateUserInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """The `User` to be created by this mutation."""
+  user: UserInput!
+}
+
+"""An input for mutations affecting `User`"""
+input UserInput {
+  id: Int!
+  createdDate: Datetime
+  updatedDate: Datetime
+  username: String!
+}
+
+"""The output of our create `UserAttribute` mutation."""
+type CreateUserAttributePayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `UserAttribute` that was created by this mutation."""
+  userAttribute: UserAttribute
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `User` that is related to this `UserAttribute`."""
+  userByUserId: User
+
+  """An edge for our `UserAttribute`. May be used by Relay 1."""
+  userAttributeEdge(
+    """The method to use when ordering `UserAttribute`."""
+    orderBy: [UserAttributesOrderBy!] = [PRIMARY_KEY_ASC]
+  ): UserAttributesEdge
+}
+
+"""All input for the create `UserAttribute` mutation."""
+input CreateUserAttributeInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """The `UserAttribute` to be created by this mutation."""
+  userAttribute: UserAttributeInput!
+}
+
+"""An input for mutations affecting `UserAttribute`"""
+input UserAttributeInput {
+  id: Int!
+  name: String!
+  value: String!
+  userId: Int!
+}
+
+"""The output of our create `UserInfo` mutation."""
+type CreateUserInfoPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `UserInfo` that was created by this mutation."""
+  userInfo: UserInfo
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `User` that is related to this `UserInfo`."""
+  userById: User
+
+  """An edge for our `UserInfo`. May be used by Relay 1."""
+  userInfoEdge(
+    """The method to use when ordering `UserInfo`."""
+    orderBy: [UserInfosOrderBy!] = [PRIMARY_KEY_ASC]
+  ): UserInfosEdge
+}
+
+"""All input for the create `UserInfo` mutation."""
+input CreateUserInfoInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """The `UserInfo` to be created by this mutation."""
+  userInfo: UserInfoInput!
+}
+
+"""An input for mutations affecting `UserInfo`"""
+input UserInfoInput {
+  id: Int!
+  dateOfBirth: Datetime
+  email: String
+  firstName: String
+  lastName: String
+  phoneNumber: String
+  avatarUrl: String
+}
+
+"""The output of our create `UserRole` mutation."""
+type CreateUserRolePayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `UserRole` that was created by this mutation."""
+  userRole: UserRole
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `User` that is related to this `UserRole`."""
+  userByUserId: User
+
+  """Reads a single `Role` that is related to this `UserRole`."""
+  roleByRoleId: Role
+
+  """An edge for our `UserRole`. May be used by Relay 1."""
+  userRoleEdge(
+    """The method to use when ordering `UserRole`."""
+    orderBy: [UserRolesOrderBy!] = [PRIMARY_KEY_ASC]
+  ): UserRolesEdge
+}
+
+"""All input for the create `UserRole` mutation."""
+input CreateUserRoleInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """The `UserRole` to be created by this mutation."""
+  userRole: UserRoleInput!
+}
+
+"""An input for mutations affecting `UserRole`"""
+input UserRoleInput {
+  userId: Int!
+  roleId: Int!
+}
+
+"""The output of our update `Class` mutation."""
+type UpdateClassPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Class` that was updated by this mutation."""
+  class: Class
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `ClassType` that is related to this `Class`."""
+  classTypeByClassTypeId: ClassType
+
+  """Reads a single `User` that is related to this `Class`."""
+  userByTeacherId: User
+
+  """An edge for our `Class`. May be used by Relay 1."""
+  classEdge(
+    """The method to use when ordering `Class`."""
+    orderBy: [ClassesOrderBy!] = [PRIMARY_KEY_ASC]
+  ): ClassesEdge
+}
+
+"""All input for the `updateClass` mutation."""
+input UpdateClassInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `Class` to be updated.
+  """
+  nodeId: ID!
+
+  """
+  An object where the defined keys will be set on the `Class` being updated.
+  """
+  classPatch: ClassPatch!
+}
+
+"""
+Represents an update to a `Class`. Fields that are set will be updated.
+"""
+input ClassPatch {
+  id: Int
+  classLevel: Int
+  description: String
+  endDate: Datetime
+  name: String
+  startDate: Datetime
+  classTypeId: Int
+  teacherId: Int
+  logoUrl: String
+}
+
+"""All input for the `updateClassById` mutation."""
+input UpdateClassByIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  An object where the defined keys will be set on the `Class` being updated.
+  """
+  classPatch: ClassPatch!
+  id: Int!
+}
+
+"""The output of our update `ClassManagement` mutation."""
+type UpdateClassManagementPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `ClassManagement` that was updated by this mutation."""
+  classManagement: ClassManagement
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `Class` that is related to this `ClassManagement`."""
+  classByClassId: Class
+
+  """Reads a single `User` that is related to this `ClassManagement`."""
+  userByUserId: User
+
+  """An edge for our `ClassManagement`. May be used by Relay 1."""
+  classManagementEdge(
+    """The method to use when ordering `ClassManagement`."""
+    orderBy: [ClassManagementsOrderBy!] = [PRIMARY_KEY_ASC]
+  ): ClassManagementsEdge
+}
+
+"""All input for the `updateClassManagement` mutation."""
+input UpdateClassManagementInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `ClassManagement` to be updated.
+  """
+  nodeId: ID!
+
+  """
+  An object where the defined keys will be set on the `ClassManagement` being updated.
+  """
+  classManagementPatch: ClassManagementPatch!
+}
+
+"""
+Represents an update to a `ClassManagement`. Fields that are set will be updated.
+"""
+input ClassManagementPatch {
+  classId: Int
+  userId: Int
+}
+
+"""All input for the `updateClassManagementByClassIdAndUserId` mutation."""
+input UpdateClassManagementByClassIdAndUserIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  An object where the defined keys will be set on the `ClassManagement` being updated.
+  """
+  classManagementPatch: ClassManagementPatch!
+  classId: Int!
+  userId: Int!
+}
+
+"""The output of our update `ClassType` mutation."""
+type UpdateClassTypePayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `ClassType` that was updated by this mutation."""
+  classType: ClassType
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `ClassType`. May be used by Relay 1."""
+  classTypeEdge(
+    """The method to use when ordering `ClassType`."""
+    orderBy: [ClassTypesOrderBy!] = [PRIMARY_KEY_ASC]
+  ): ClassTypesEdge
+}
+
+"""All input for the `updateClassType` mutation."""
+input UpdateClassTypeInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `ClassType` to be updated.
+  """
+  nodeId: ID!
+
+  """
+  An object where the defined keys will be set on the `ClassType` being updated.
+  """
+  classTypePatch: ClassTypePatch!
+}
+
+"""
+Represents an update to a `ClassType`. Fields that are set will be updated.
+"""
+input ClassTypePatch {
+  id: Int
+  description: String
+  name: String
+}
+
+"""All input for the `updateClassTypeById` mutation."""
+input UpdateClassTypeByIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  An object where the defined keys will be set on the `ClassType` being updated.
+  """
+  classTypePatch: ClassTypePatch!
+  id: Int!
+}
+
+"""The output of our update `Role` mutation."""
+type UpdateRolePayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Role` that was updated by this mutation."""
+  role: Role
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `Role`. May be used by Relay 1."""
+  roleEdge(
+    """The method to use when ordering `Role`."""
+    orderBy: [RolesOrderBy!] = [PRIMARY_KEY_ASC]
+  ): RolesEdge
+}
+
+"""All input for the `updateRole` mutation."""
+input UpdateRoleInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `Role` to be updated.
+  """
+  nodeId: ID!
+
+  """
+  An object where the defined keys will be set on the `Role` being updated.
+  """
+  rolePatch: RolePatch!
+}
+
+"""Represents an update to a `Role`. Fields that are set will be updated."""
+input RolePatch {
+  id: Int
+  description: String
+  name: String
+}
+
+"""All input for the `updateRoleById` mutation."""
+input UpdateRoleByIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  An object where the defined keys will be set on the `Role` being updated.
+  """
+  rolePatch: RolePatch!
+  id: Int!
+}
+
+"""All input for the `updateRoleByName` mutation."""
+input UpdateRoleByNameInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  An object where the defined keys will be set on the `Role` being updated.
+  """
+  rolePatch: RolePatch!
+  name: String!
+}
+
+"""The output of our update `User` mutation."""
+type UpdateUserPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `User` that was updated by this mutation."""
+  user: User
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `User`. May be used by Relay 1."""
+  userEdge(
+    """The method to use when ordering `User`."""
+    orderBy: [UsersOrderBy!] = [PRIMARY_KEY_ASC]
+  ): UsersEdge
+}
+
+"""All input for the `updateUser` mutation."""
+input UpdateUserInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `User` to be updated.
+  """
+  nodeId: ID!
+
+  """
+  An object where the defined keys will be set on the `User` being updated.
+  """
+  userPatch: UserPatch!
+}
+
+"""Represents an update to a `User`. Fields that are set will be updated."""
+input UserPatch {
+  id: Int
+  createdDate: Datetime
+  updatedDate: Datetime
+  username: String
+}
+
+"""All input for the `updateUserById` mutation."""
+input UpdateUserByIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  An object where the defined keys will be set on the `User` being updated.
+  """
+  userPatch: UserPatch!
+  id: Int!
+}
+
+"""All input for the `updateUserByUsername` mutation."""
+input UpdateUserByUsernameInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  An object where the defined keys will be set on the `User` being updated.
+  """
+  userPatch: UserPatch!
+  username: String!
+}
+
+"""The output of our update `UserAttribute` mutation."""
+type UpdateUserAttributePayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `UserAttribute` that was updated by this mutation."""
+  userAttribute: UserAttribute
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `User` that is related to this `UserAttribute`."""
+  userByUserId: User
+
+  """An edge for our `UserAttribute`. May be used by Relay 1."""
+  userAttributeEdge(
+    """The method to use when ordering `UserAttribute`."""
+    orderBy: [UserAttributesOrderBy!] = [PRIMARY_KEY_ASC]
+  ): UserAttributesEdge
+}
+
+"""All input for the `updateUserAttribute` mutation."""
+input UpdateUserAttributeInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `UserAttribute` to be updated.
+  """
+  nodeId: ID!
+
+  """
+  An object where the defined keys will be set on the `UserAttribute` being updated.
+  """
+  userAttributePatch: UserAttributePatch!
+}
+
+"""
+Represents an update to a `UserAttribute`. Fields that are set will be updated.
+"""
+input UserAttributePatch {
+  id: Int
+  name: String
+  value: String
+  userId: Int
+}
+
+"""All input for the `updateUserAttributeById` mutation."""
+input UpdateUserAttributeByIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  An object where the defined keys will be set on the `UserAttribute` being updated.
+  """
+  userAttributePatch: UserAttributePatch!
+  id: Int!
+}
+
+"""All input for the `updateUserAttributeByName` mutation."""
+input UpdateUserAttributeByNameInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  An object where the defined keys will be set on the `UserAttribute` being updated.
+  """
+  userAttributePatch: UserAttributePatch!
+  name: String!
+}
+
+"""The output of our update `UserInfo` mutation."""
+type UpdateUserInfoPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `UserInfo` that was updated by this mutation."""
+  userInfo: UserInfo
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `User` that is related to this `UserInfo`."""
+  userById: User
+
+  """An edge for our `UserInfo`. May be used by Relay 1."""
+  userInfoEdge(
+    """The method to use when ordering `UserInfo`."""
+    orderBy: [UserInfosOrderBy!] = [PRIMARY_KEY_ASC]
+  ): UserInfosEdge
+}
+
+"""All input for the `updateUserInfo` mutation."""
+input UpdateUserInfoInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `UserInfo` to be updated.
+  """
+  nodeId: ID!
+
+  """
+  An object where the defined keys will be set on the `UserInfo` being updated.
+  """
+  userInfoPatch: UserInfoPatch!
+}
+
+"""
+Represents an update to a `UserInfo`. Fields that are set will be updated.
+"""
+input UserInfoPatch {
+  id: Int
+  dateOfBirth: Datetime
+  email: String
+  firstName: String
+  lastName: String
+  phoneNumber: String
+  avatarUrl: String
+}
+
+"""All input for the `updateUserInfoById` mutation."""
+input UpdateUserInfoByIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  An object where the defined keys will be set on the `UserInfo` being updated.
+  """
+  userInfoPatch: UserInfoPatch!
+  id: Int!
+}
+
+"""All input for the `updateUserInfoByEmail` mutation."""
+input UpdateUserInfoByEmailInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  An object where the defined keys will be set on the `UserInfo` being updated.
+  """
+  userInfoPatch: UserInfoPatch!
+  email: String!
+}
+
+"""All input for the `updateUserInfoByPhoneNumber` mutation."""
+input UpdateUserInfoByPhoneNumberInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  An object where the defined keys will be set on the `UserInfo` being updated.
+  """
+  userInfoPatch: UserInfoPatch!
+  phoneNumber: String!
+}
+
+"""The output of our update `UserRole` mutation."""
+type UpdateUserRolePayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `UserRole` that was updated by this mutation."""
+  userRole: UserRole
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `User` that is related to this `UserRole`."""
+  userByUserId: User
+
+  """Reads a single `Role` that is related to this `UserRole`."""
+  roleByRoleId: Role
+
+  """An edge for our `UserRole`. May be used by Relay 1."""
+  userRoleEdge(
+    """The method to use when ordering `UserRole`."""
+    orderBy: [UserRolesOrderBy!] = [PRIMARY_KEY_ASC]
+  ): UserRolesEdge
+}
+
+"""All input for the `updateUserRole` mutation."""
+input UpdateUserRoleInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `UserRole` to be updated.
+  """
+  nodeId: ID!
+
+  """
+  An object where the defined keys will be set on the `UserRole` being updated.
+  """
+  userRolePatch: UserRolePatch!
+}
+
+"""
+Represents an update to a `UserRole`. Fields that are set will be updated.
+"""
+input UserRolePatch {
+  userId: Int
+  roleId: Int
+}
+
+"""All input for the `updateUserRoleByUserIdAndRoleId` mutation."""
+input UpdateUserRoleByUserIdAndRoleIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  An object where the defined keys will be set on the `UserRole` being updated.
+  """
+  userRolePatch: UserRolePatch!
+  userId: Int!
+  roleId: Int!
+}
+
+"""The output of our delete `Class` mutation."""
+type DeleteClassPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Class` that was deleted by this mutation."""
+  class: Class
+  deletedClassId: ID
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `ClassType` that is related to this `Class`."""
+  classTypeByClassTypeId: ClassType
+
+  """Reads a single `User` that is related to this `Class`."""
+  userByTeacherId: User
+
+  """An edge for our `Class`. May be used by Relay 1."""
+  classEdge(
+    """The method to use when ordering `Class`."""
+    orderBy: [ClassesOrderBy!] = [PRIMARY_KEY_ASC]
+  ): ClassesEdge
+}
+
+"""All input for the `deleteClass` mutation."""
+input DeleteClassInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `Class` to be deleted.
+  """
+  nodeId: ID!
+}
+
+"""All input for the `deleteClassById` mutation."""
+input DeleteClassByIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  id: Int!
+}
+
+"""The output of our delete `ClassManagement` mutation."""
+type DeleteClassManagementPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `ClassManagement` that was deleted by this mutation."""
+  classManagement: ClassManagement
+  deletedClassManagementId: ID
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `Class` that is related to this `ClassManagement`."""
+  classByClassId: Class
+
+  """Reads a single `User` that is related to this `ClassManagement`."""
+  userByUserId: User
+
+  """An edge for our `ClassManagement`. May be used by Relay 1."""
+  classManagementEdge(
+    """The method to use when ordering `ClassManagement`."""
+    orderBy: [ClassManagementsOrderBy!] = [PRIMARY_KEY_ASC]
+  ): ClassManagementsEdge
+}
+
+"""All input for the `deleteClassManagement` mutation."""
+input DeleteClassManagementInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `ClassManagement` to be deleted.
+  """
+  nodeId: ID!
+}
+
+"""All input for the `deleteClassManagementByClassIdAndUserId` mutation."""
+input DeleteClassManagementByClassIdAndUserIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  classId: Int!
+  userId: Int!
+}
+
+"""The output of our delete `ClassType` mutation."""
+type DeleteClassTypePayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `ClassType` that was deleted by this mutation."""
+  classType: ClassType
+  deletedClassTypeId: ID
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `ClassType`. May be used by Relay 1."""
+  classTypeEdge(
+    """The method to use when ordering `ClassType`."""
+    orderBy: [ClassTypesOrderBy!] = [PRIMARY_KEY_ASC]
+  ): ClassTypesEdge
+}
+
+"""All input for the `deleteClassType` mutation."""
+input DeleteClassTypeInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `ClassType` to be deleted.
+  """
+  nodeId: ID!
+}
+
+"""All input for the `deleteClassTypeById` mutation."""
+input DeleteClassTypeByIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  id: Int!
+}
+
+"""The output of our delete `Role` mutation."""
+type DeleteRolePayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Role` that was deleted by this mutation."""
+  role: Role
+  deletedRoleId: ID
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `Role`. May be used by Relay 1."""
+  roleEdge(
+    """The method to use when ordering `Role`."""
+    orderBy: [RolesOrderBy!] = [PRIMARY_KEY_ASC]
+  ): RolesEdge
+}
+
+"""All input for the `deleteRole` mutation."""
+input DeleteRoleInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `Role` to be deleted.
+  """
+  nodeId: ID!
+}
+
+"""All input for the `deleteRoleById` mutation."""
+input DeleteRoleByIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  id: Int!
+}
+
+"""All input for the `deleteRoleByName` mutation."""
+input DeleteRoleByNameInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  name: String!
+}
+
+"""The output of our delete `User` mutation."""
+type DeleteUserPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `User` that was deleted by this mutation."""
+  user: User
+  deletedUserId: ID
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `User`. May be used by Relay 1."""
+  userEdge(
+    """The method to use when ordering `User`."""
+    orderBy: [UsersOrderBy!] = [PRIMARY_KEY_ASC]
+  ): UsersEdge
+}
+
+"""All input for the `deleteUser` mutation."""
+input DeleteUserInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `User` to be deleted.
+  """
+  nodeId: ID!
+}
+
+"""All input for the `deleteUserById` mutation."""
+input DeleteUserByIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  id: Int!
+}
+
+"""All input for the `deleteUserByUsername` mutation."""
+input DeleteUserByUsernameInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  username: String!
+}
+
+"""The output of our delete `UserAttribute` mutation."""
+type DeleteUserAttributePayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `UserAttribute` that was deleted by this mutation."""
+  userAttribute: UserAttribute
+  deletedUserAttributeId: ID
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `User` that is related to this `UserAttribute`."""
+  userByUserId: User
+
+  """An edge for our `UserAttribute`. May be used by Relay 1."""
+  userAttributeEdge(
+    """The method to use when ordering `UserAttribute`."""
+    orderBy: [UserAttributesOrderBy!] = [PRIMARY_KEY_ASC]
+  ): UserAttributesEdge
+}
+
+"""All input for the `deleteUserAttribute` mutation."""
+input DeleteUserAttributeInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `UserAttribute` to be deleted.
+  """
+  nodeId: ID!
+}
+
+"""All input for the `deleteUserAttributeById` mutation."""
+input DeleteUserAttributeByIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  id: Int!
+}
+
+"""All input for the `deleteUserAttributeByName` mutation."""
+input DeleteUserAttributeByNameInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  name: String!
+}
+
+"""The output of our delete `UserInfo` mutation."""
+type DeleteUserInfoPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `UserInfo` that was deleted by this mutation."""
+  userInfo: UserInfo
+  deletedUserInfoId: ID
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `User` that is related to this `UserInfo`."""
+  userById: User
+
+  """An edge for our `UserInfo`. May be used by Relay 1."""
+  userInfoEdge(
+    """The method to use when ordering `UserInfo`."""
+    orderBy: [UserInfosOrderBy!] = [PRIMARY_KEY_ASC]
+  ): UserInfosEdge
+}
+
+"""All input for the `deleteUserInfo` mutation."""
+input DeleteUserInfoInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `UserInfo` to be deleted.
+  """
+  nodeId: ID!
+}
+
+"""All input for the `deleteUserInfoById` mutation."""
+input DeleteUserInfoByIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  id: Int!
+}
+
+"""All input for the `deleteUserInfoByEmail` mutation."""
+input DeleteUserInfoByEmailInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  email: String!
+}
+
+"""All input for the `deleteUserInfoByPhoneNumber` mutation."""
+input DeleteUserInfoByPhoneNumberInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  phoneNumber: String!
+}
+
+"""The output of our delete `UserRole` mutation."""
+type DeleteUserRolePayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `UserRole` that was deleted by this mutation."""
+  userRole: UserRole
+  deletedUserRoleId: ID
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `User` that is related to this `UserRole`."""
+  userByUserId: User
+
+  """Reads a single `Role` that is related to this `UserRole`."""
+  roleByRoleId: Role
+
+  """An edge for our `UserRole`. May be used by Relay 1."""
+  userRoleEdge(
+    """The method to use when ordering `UserRole`."""
+    orderBy: [UserRolesOrderBy!] = [PRIMARY_KEY_ASC]
+  ): UserRolesEdge
+}
+
+"""All input for the `deleteUserRole` mutation."""
+input DeleteUserRoleInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `UserRole` to be deleted.
+  """
+  nodeId: ID!
+}
+
+"""All input for the `deleteUserRoleByUserIdAndRoleId` mutation."""
+input DeleteUserRoleByUserIdAndRoleIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  userId: Int!
+  roleId: Int!
+}

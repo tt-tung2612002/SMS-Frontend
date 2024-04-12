@@ -14,33 +14,34 @@ import gql from "graphql-tag";
 //     }
 // `;
 
-
 export const CLASSES_TABLE_QUERY = gql`
-    query Classes(
-        $offsetPaging: OffsetPaging
-    ) {
-        classes(offsetPaging: $offsetPaging) {
-            nodes {
-                id
-                name
-                logoUrl
-                teacher {
-                    id
-                    name
-                    avatarUrl
-                }
-                students {
-                    totalCount
-                    nodes {
-                        id
-                        name
-                        avatarUrl
-                    }
-                }
-            }
-            totalCount
+  query Classes {
+    allClasses {
+      nodes {
+        id
+        name
+        logoUrl
+        teacher: userByTeacherId {
+          id
+          username
+          info: userInfoById {
+            name: firstName
+            avatarUrl
+          }
         }
+        students: usersByClassManagementClassIdAndUserId {
+          nodes {
+            username
+            id
+            info: userInfoById {
+              name: firstName
+            }
+          }
+        }
+      }
+      totalCount
     }
+  }
 `;
 
 // export const COMPANIES_TABLE_QUERY = gql`

@@ -37,7 +37,7 @@ import {
 } from "@/graphql/types";
 import { useUsersSelect } from "@/hooks/useUsersSelect";
 
-import { COMPANY_CREATE_MUTATION } from "./queries";
+import { COMPANY_CREATE_MUTATION } from "./classqueries";
 
 type Props = {
   isOverModal?: boolean;

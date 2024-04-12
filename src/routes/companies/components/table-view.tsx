@@ -8,7 +8,7 @@ import { SearchOutlined } from "@ant-design/icons";
 import { Input, Select, Space, Table, TableProps } from "antd";
 
 import { CustomAvatar, PaginationTotal, Text } from "@/components";
-import { Class } from "@/graphql/schema.types";
+import { Class } from "@/graphql/new/schema.types";
 import { ClassesTableQuery } from "@/graphql/types";
 import { useUsersSelect } from "@/hooks/useUsersSelect";
 
@@ -83,13 +83,13 @@ export const CompaniesTableView: FC<Props> = ({ tableProps, filters }) => {
           const teacher = record.teacher;
           return (
             <Space>
-              <CustomAvatar name={teacher.name} src={teacher.avatarUrl} />
+              <CustomAvatar name={teacher?.info?.name} src={teacher?.info?.avatarUrl} />
               <Text
                 style={{
                   whiteSpace: "nowrap",
                 }}
               >
-                {teacher.name}
+                {teacher?.info?.name}
               </Text>
             </Space>
           );
@@ -113,8 +113,8 @@ export const CompaniesTableView: FC<Props> = ({ tableProps, filters }) => {
           const value = record.students;
           const avatars = value?.nodes?.map((student) => {
             return {
-              name: student.name,
-              src: student.avatarUrl as string | undefined,
+              name: student?.info?.name,
+              src: student?.info?.avatarUrl as string | undefined,
             };
           });
 
