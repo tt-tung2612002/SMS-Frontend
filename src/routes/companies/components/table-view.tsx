@@ -1,52 +1,47 @@
 import { FC } from "react";
 
-import { FilterDropdown } from "@refinedev/antd";
-import { CrudFilters, CrudSorting, getDefaultFilter } from "@refinedev/core";
 import { GetFieldsFromList } from "@refinedev/nestjs-query";
 
-import { SearchOutlined } from "@ant-design/icons";
-import { Input, Select, Space, Table, TableProps } from "antd";
+import { Space, Table, TableProps } from "antd";
 
-import { CustomAvatar, PaginationTotal, Text } from "@/components";
+import { CustomAvatar, Text } from "@/components";
 import { Class } from "@/graphql/new/schema.types";
-import { ClassesTableQuery } from "@/graphql/types";
-import { useUsersSelect } from "@/hooks/useUsersSelect";
-
-import { AvatarGroup } from "./avatar-group";
+import { ClassesQuery } from "@/graphql/new/types";
 
 type Props = {
-  tableProps: TableProps<GetFieldsFromList<ClassesTableQuery>>;
-  filters: CrudFilters;
-  sorters: CrudSorting;
+  tableProps: TableProps<GetFieldsFromList<ClassesQuery>>;
+  // filters: CrudFilters;
+  // sorters: CrudSorting;
 };
 
-export const CompaniesTableView: FC<Props> = ({ tableProps, filters }) => {
-  const { selectProps: selectPropsUsers } = useUsersSelect();
+export const CompaniesTableView: FC<Props> = ({ tableProps }) => {
+  // const { selectProps: selectPropsUsers } = useUsersSelect();
 
   // const { selectProps: selectPropsContacts } = useContactsSelect();
 
   return (
     <Table
       {...tableProps}
-      pagination={{
-        ...tableProps.pagination,
-        pageSizeOptions: ["12", "24", "48", "96"],
-        showTotal: (total) => (
-          <PaginationTotal total={total} entityName="classes" />
-        ),
-      }}
+      pagination={false}
+      // ={{
+      //   ...tableProps.pagination,
+      //   pageSizeOptions: ["12", "24", "48", "96"],
+      //   showTotal: (total) => (
+      //     <PaginationTotal total={total} entityName="classes" />
+      //   ),
+      // }}
       rowKey="id"
     >
       <Table.Column<Class>
         dataIndex="name"
         title="Class title"
-        defaultFilteredValue={getDefaultFilter("id", filters)}
-        filterIcon={<SearchOutlined />}
-        filterDropdown={(props) => (
-          <FilterDropdown {...props}>
-            <Input placeholder="Search Class" />
-          </FilterDropdown>
-        )}
+        // defaultFilteredValue={getDefaultFilter("id")}
+        // filterIcon={<SearchOutlined />}
+        // filterDropdown={(props) => (
+        //   <FilterDropdown {...props}>
+        //     <Input placeholder="Search Class" />
+        //   </FilterDropdown>
+        // )}
         render={(_, record) => {
           return (
             <Space>
@@ -66,7 +61,7 @@ export const CompaniesTableView: FC<Props> = ({ tableProps, filters }) => {
           );
         }}
       />
-      <Table.Column<Class>
+      {/* <Table.Column<Class>
         dataIndex={["teacher", "id"]}
         title="Teacher"
         defaultFilteredValue={getDefaultFilter("teacher.id", filters)}
@@ -75,7 +70,7 @@ export const CompaniesTableView: FC<Props> = ({ tableProps, filters }) => {
             <Select
               placeholder="Search Teacher"
               style={{ width: 220 }}
-              {...selectPropsUsers}
+              // {...selectPropsUsers}
             />
           </FilterDropdown>
         )}
@@ -83,7 +78,10 @@ export const CompaniesTableView: FC<Props> = ({ tableProps, filters }) => {
           const teacher = record.teacher;
           return (
             <Space>
-              <CustomAvatar name={teacher?.info?.name} src={teacher?.info?.avatarUrl} />
+              <CustomAvatar
+                name={teacher?.info?.name}
+                src={teacher?.info?.avatarUrl}
+              />
               <Text
                 style={{
                   whiteSpace: "nowrap",
@@ -94,8 +92,8 @@ export const CompaniesTableView: FC<Props> = ({ tableProps, filters }) => {
             </Space>
           );
         }}
-      />
-      <Table.Column<Class>
+      /> */}
+      {/* <Table.Column<Class>
         dataIndex={["students", "id"]}
         title="Related Contacts"
         defaultFilteredValue={getDefaultFilter("students.id", filters, "in")}
@@ -120,7 +118,7 @@ export const CompaniesTableView: FC<Props> = ({ tableProps, filters }) => {
 
           return <AvatarGroup avatars={avatars} size={"small"} />;
         }}
-      />
+      /> */}
       {/* <Table.Column<Class>
         fixed="right"
         dataIndex="id"

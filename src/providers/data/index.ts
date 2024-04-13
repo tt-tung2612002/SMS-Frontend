@@ -46,23 +46,19 @@ export const client = new GraphQLClient(API_URL, {
 export const localClient = new GraphQLClient(LOCAL_URL, {
   fetch: async (url: string, options: any) => {
     try {
-      axiosInstance.defaults.headers.post["Content-Type"] =
-        "application/x-www-form-urlencoded";
       const axiosOptions: AxiosRequestConfig = {
         ...options, // existing options from GraphQLClient
         url, // ensure URL is set from the function arguments
         data: options.body, // map `body` from GraphQLClient options to `data` for Axios
-        proxy: {
-          host: "localhost:5000",
-        },
-        headers: {
-          // allow cors
-          "Access-Control-Allow-Origin": "*",
-          "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
-        },
         withCredentials: false, // set `withCredentials` to false or any other Axios specific configurations
       };
       const response = await axiosInstance.request(axiosOptions);
+      // const response = await axiosInstance.request({
+      //   // withCredentials: false
+      //   data: options.body,
+      //   url,
+      //   ...options,
+      // });
 
       return { ...response, data: response.data };
     } catch (error: any) {

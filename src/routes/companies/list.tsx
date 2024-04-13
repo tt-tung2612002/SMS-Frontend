@@ -10,10 +10,9 @@ import {
   UnorderedListOutlined,
 } from "@ant-design/icons";
 import { Form, Grid, Input, Radio, Space, Spin } from "antd";
-import debounce from "lodash/debounce";
 
 import { ListTitleButton } from "@/components";
-import { ClassesTableQuery } from "@/graphql/types";
+import { ClassesQuery } from "@/graphql/new/types";
 
 import { CLASSES_TABLE_QUERY } from "./classqueries";
 import { CompaniesTableView } from "./components";
@@ -28,71 +27,67 @@ export const CompanyListPage: FC<PropsWithChildren> = ({ children }) => {
     tableProps,
     tableQueryResult,
     searchFormProps,
-    filters,
-    sorters,
+    // filters,
+    // sorters,
     // setCurrent,
     // setPageSize,
-    setFilters,
-  } = useTable<
-    GetFieldsFromList<ClassesTableQuery>,
-    HttpError,
-    { name: string }
-  >({
+    // setFilters,
+  } = useTable<GetFieldsFromList<ClassesQuery>, HttpError, { name: string }>({
     resource: "classes",
-    onSearch: (values) => {
-      return [
-        {
-          field: "name",
-          operator: "contains",
-          value: values.name,
-        },
-      ];
-    },
-    sorters: {
-      initial: [
-        {
-          field: "createdAt",
-          order: "desc",
-        },
-      ],
-    },
-    filters: {
-      initial: [
-        {
-          field: "name",
-          operator: "contains",
-          value: undefined,
-        },
-        {
-          field: "contacts.id",
-          operator: "in",
-          value: undefined,
-        },
-      ],
-    },
-    pagination: {
-      pageSize: 12,
-    },
+    // onSearch: (values) => {
+    //   return [
+    //     {
+    //       field: "name",
+    //       operator: "contains",
+    //       value: values.name,
+    //     },
+    //   ];
+    // },
+    // sorters: {
+    //   initial: [
+    //     {
+    //       field: "createdAt",
+    //       order: "desc",
+    //     },
+    //   ],
+    // },
+    // filters: {
+    //   initial: [
+    //     {
+    //       field: "name",
+    //       operator: "contains",
+    //       value: undefined,
+    //     },
+    //     {
+    //       field: "contacts.id",
+    //       operator: "in",
+    //       value: undefined,
+    //     },
+    //   ],
+    // },
+    // pagination: {
+    //   pageSize: 12,
+    // },
     dataProviderName: "local",
     meta: {
       gqlQuery: CLASSES_TABLE_QUERY,
     },
   });
 
-  const onViewChange = (value: View) => {
-    setView(value);
-    setFilters([], "replace");
-    // TODO: useForm should handle this automatically. remove this when its fixed from antd useForm.
-    searchFormProps.form?.resetFields();
-  };
+  // const onViewChange = (value: View) => {
+  //   setView(value);
+  //   setFilters([], "replace");
+  //   // TODO: useForm should handle this automatically. remove this when its fixed from antd useForm.
+  //   searchFormProps.form?.resetFields();
+  // };
 
-  const onSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    searchFormProps?.onFinish?.({
-      name: e.target.value ?? "",
-    });
-  };
+  // const onSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   searchFormProps?.onFinish?.({
+  //     name: e.target.value ?? "",
+  //   });
+  // };
 
-  const debouncedOnChange = debounce(onSearch, 500);
+  // const debouncedOnChange = debounce(onSearch, 500);
 
   return (
     <div className="page-container">
@@ -117,7 +112,7 @@ export const CompanyListPage: FC<PropsWithChildren> = ({ children }) => {
                       />
                     }
                     placeholder="Search by name"
-                    onChange={debouncedOnChange}
+                    // onChange={debouncedOnChange}
                   />
                 </Form.Item>
               </Form>
@@ -125,7 +120,7 @@ export const CompanyListPage: FC<PropsWithChildren> = ({ children }) => {
                 <Radio.Group
                   size="large"
                   value={view}
-                  onChange={(e) => onViewChange(e.target.value)}
+                  // onChange={(e) => onViewChange(e.target.value)}
                 >
                   <Radio.Button value="table">
                     <UnorderedListOutlined />
@@ -148,14 +143,14 @@ export const CompanyListPage: FC<PropsWithChildren> = ({ children }) => {
         {view === "table" ? (
           <CompaniesTableView
             tableProps={tableProps}
-            filters={filters}
-            sorters={sorters}
+            // filters={filters}
+            // sorters={sorters}
           />
         ) : (
           <CompaniesTableView
             tableProps={tableProps}
-            filters={filters}
-            sorters={sorters}
+            // filters={filters}
+            // sorters={sorters}
           />
         )}
       </List>

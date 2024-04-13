@@ -11,12 +11,7 @@ import routerProvider, {
 import { App as AntdApp, ConfigProvider } from "antd";
 
 import { resources, themeConfig } from "@/config";
-import {
-  authProvider,
-  dataProvider,
-  liveProvider,
-  localDataProvider,
-} from "@/providers";
+import { authProvider, dataProvider, localDataProvider } from "@/providers";
 
 import { AlgoliaSearchWrapper, FullScreenLoading, Layout } from "./components";
 import { useAutoLoginForDemo } from "./hooks";
@@ -84,7 +79,7 @@ const App: React.FC = () => {
                 default: dataProvider,
                 local: localDataProvider,
               }}
-              liveProvider={liveProvider}
+              // liveProvider={liveProvider}
               routerProvider={routerProvider}
               resources={resources}
               notificationProvider={useNotificationProvider}

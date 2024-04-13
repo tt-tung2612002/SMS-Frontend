@@ -21,23 +21,6 @@ export const CLASSES_TABLE_QUERY = gql`
         id
         name
         logoUrl
-        teacher: userByTeacherId {
-          id
-          username
-          info: userInfoById {
-            name: firstName
-            avatarUrl
-          }
-        }
-        students: usersByClassManagementClassIdAndUserId {
-          nodes {
-            username
-            id
-            info: userInfoById {
-              name: firstName
-            }
-          }
-        }
       }
       totalCount
     }

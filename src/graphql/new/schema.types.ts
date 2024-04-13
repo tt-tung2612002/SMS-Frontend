@@ -16,8 +16,8 @@ export type MakeEmpty<
 export type Incremental<T> =
   | T
   | {
-      [P in keyof T]?: P extends " $fragmentName" | "__typename" ? T[P] : never;
-    };
+    [P in keyof T]?: P extends " $fragmentName" | "__typename" ? T[P] : never;
+  };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: { input: string; output: string };
@@ -29,28 +29,18 @@ export type Scalars = {
   Datetime: { input: any; output: any };
 };
 
-export type Class = Node & {
-  classLevel?: Maybe<Scalars["Int"]["output"]>;
-  /** Reads and enables pagination through a set of `ClassManagement`. */
-  classManagementsByClassId: ClassManagementsConnection;
-  /** Reads a single `ClassType` that is related to this `Class`. */
-  classTypeByClassTypeId?: Maybe<ClassType>;
-  classTypeId?: Maybe<Scalars["Int"]["output"]>;
-  description?: Maybe<Scalars["String"]["output"]>;
-  endDate?: Maybe<Scalars["Datetime"]["output"]>;
+export type Class = {
+  // classLevel?: Maybe<Scalars["Int"]["output"]>;
+  // /** Reads and enables pagination through a set of `ClassManagement`. */
+  // classManagementsByClassId: ClassManagementsConnection;
+  // /** Reads a single `ClassType` that is related to this `Class`. */
+  // classTypeByClassTypeId?: Maybe<ClassType>;
+  // classTypeId?: Maybe<Scalars["Int"]["output"]>;
+  // description?: Maybe<Scalars["String"]["output"]>;
+  // endDate?: Maybe<Scalars["Datetime"]["output"]>;
   id: Scalars["Int"]["output"];
   logoUrl?: Maybe<Scalars["String"]["output"]>;
   name: Scalars["String"]["output"];
-  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  nodeId: Scalars["ID"]["output"];
-  startDate?: Maybe<Scalars["Datetime"]["output"]>;
-  teacherId?: Maybe<Scalars["Int"]["output"]>;
-  teacher?: Maybe<User>;
-  /** Reads a single `User` that is related to this `Class`. */
-  userByTeacherId?: Maybe<User>;
-  /** Reads and enables pagination through a set of `User`. */
-  usersByClassManagementClassIdAndUserId: ClassUsersByClassManagementClassIdAndUserIdManyToManyConnection;
-  students: ClassUsersByClassManagementClassIdAndUserIdManyToManyConnection;
 };
 
 export type ClassClassManagementsByClassIdArgs = {
@@ -333,11 +323,10 @@ export type ClassUsersByClassManagementClassIdAndUserIdManyToManyEdge = {
 /** A connection to a list of `Class` values. */
 export type ClassesConnection = {
   /** A list of edges which contains the `Class` and cursor to aid in pagination. */
-  edges: Array<ClassesEdge>;
   /** A list of `Class` objects. */
   nodes: Array<Class>;
   /** Information to aid in pagination. */
-  pageInfo: PageInfo;
+  // pageInfo: PageInfo;
   /** The count of *all* `Class` you could get from the connection. */
   totalCount: Scalars["Int"]["output"];
 };
@@ -2218,7 +2207,7 @@ export type UpdateUserRolePayloadUserRoleEdgeArgs = {
   orderBy?: InputMaybe<Array<UserRolesOrderBy>>;
 };
 
-export type User = Node & {
+export type User = {
   /** Reads and enables pagination through a set of `ClassManagement`. */
   classManagementsByUserId: ClassManagementsConnection;
   /** Reads and enables pagination through a set of `ClassType`. */
@@ -2238,7 +2227,7 @@ export type User = Node & {
   userAttributesByUserId: UserAttributesConnection;
   /** Reads a single `UserInfo` that is related to this `User`. */
   userInfoById?: Maybe<UserInfo>;
-  info?: Maybe<UserInfo>;
+  // info?: Maybe<UserInfo>;
   /** Reads and enables pagination through a set of `UserRole`. */
   userRolesByUserId: UserRolesConnection;
   username: Scalars["String"]["output"];
@@ -2456,7 +2445,7 @@ export type UserCondition = {
   username?: InputMaybe<Scalars["String"]["input"]>;
 };
 
-export type UserInfo = Node & {
+export type UserInfo = {
   avatarUrl?: Maybe<Scalars["String"]["output"]>;
   dateOfBirth?: Maybe<Scalars["Datetime"]["output"]>;
   email?: Maybe<Scalars["String"]["output"]>;
