@@ -33,16 +33,19 @@ export const CompanyListPage: FC<PropsWithChildren> = ({ children }) => {
     // setPageSize,
     // setFilters,
   } = useTable<GetFieldsFromList<ClassesQuery>, HttpError, { name: string }>({
-    resource: "classes",
-    // onSearch: (values) => {
-    //   return [
-    //     {
-    //       field: "name",
-    //       operator: "contains",
-    //       value: values.name,
-    //     },
-    //   ];
-    // },
+
+    // fuck you
+    resource: "allClasses",
+
+    onSearch: (values) => {
+      return [
+        {
+          field: "name",
+          operator: "contains",
+          value: values.name,
+        },
+      ];
+    },
     // sorters: {
     //   initial: [
     //     {
@@ -74,18 +77,18 @@ export const CompanyListPage: FC<PropsWithChildren> = ({ children }) => {
     },
   });
 
-  // const onViewChange = (value: View) => {
-  //   setView(value);
-  //   setFilters([], "replace");
-  //   // TODO: useForm should handle this automatically. remove this when its fixed from antd useForm.
-  //   searchFormProps.form?.resetFields();
-  // };
+  const onViewChange = (value: View) => {
+    setView(value);
+    // setFilters([], "replace");
+    // TODO: useForm should handle this automatically. remove this when its fixed from antd useForm.
+    searchFormProps.form?.resetFields();
+  };
 
-  // const onSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   searchFormProps?.onFinish?.({
-  //     name: e.target.value ?? "",
-  //   });
-  // };
+  const onSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    searchFormProps?.onFinish?.({
+      name: e.target.value ?? "",
+    });
+  };
 
   // const debouncedOnChange = debounce(onSearch, 500);
 

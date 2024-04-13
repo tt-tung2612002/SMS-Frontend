@@ -22,12 +22,11 @@ export const CompaniesTableView: FC<Props> = ({ tableProps }) => {
   return (
     <Table
       {...tableProps}
-      pagination={false}
-      // ={{
+      // pagination={{
       //   ...tableProps.pagination,
       //   pageSizeOptions: ["12", "24", "48", "96"],
       //   showTotal: (total) => (
-      //     <PaginationTotal total={total} entityName="classes" />
+      //     <PaginationTotal total={total} entityName="allClasses" />
       //   ),
       // }}
       rowKey="id"

@@ -11,13 +11,13 @@ export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
 };
 export type MakeEmpty<
   T extends { [key: string]: unknown },
-  K extends keyof T,
+  K extends keyof T
 > = { [_ in K]?: never };
 export type Incremental<T> =
   | T
   | {
-    [P in keyof T]?: P extends " $fragmentName" | "__typename" ? T[P] : never;
-  };
+      [P in keyof T]?: P extends " $fragmentName" | "__typename" ? T[P] : never;
+    };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: { input: string; output: string };
@@ -126,13 +126,11 @@ export type BooleanFieldComparison = {
   isNot?: InputMaybe<Scalars["Boolean"]["input"]>;
 };
 
-;
-
 export type Class = {
   id: Scalars["ID"]["output"];
   logoUrl?: Maybe<Scalars["String"]["output"]>;
   teacher: User;
-  students: ClassStudentsInfo
+  students: ClassStudentsInfo;
   name: Scalars["String"]["output"];
 };
 
@@ -159,10 +157,9 @@ export type Company = {
 };
 
 export type ClassConnection = {
-  nodes: Array<Class>
-  totalCount: Scalars["Int"]["output"]
-
-}
+  nodes: Array<Class>;
+  totalCount: Scalars["Int"]["output"];
+};
 
 export type User = {
   id: Scalars["ID"]["output"];
@@ -174,8 +171,6 @@ export type UpdateOneTaskInput = {
   id: Scalars["ID"]["input"];
   update: TaskUpdateInput;
 };
-
-;
 
 export type UpdateOneUserInput = {
   /** The id of the record to update */
@@ -206,47 +201,6 @@ export type UserTasksArgs = {
   paging?: OffsetPaging;
   sorting?: Array<TaskSort>;
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 export type CompanyContactsArgs = {
   filter?: ContactFilter;
@@ -342,8 +296,6 @@ export type CompanyCompanySizeFilterComparison = {
   notIn?: InputMaybe<Array<CompanySize>>;
 };
 
-
-
 export type CompanyConnection = {
   /** Array of nodes. */
   nodes: Array<Company>;
@@ -385,7 +337,7 @@ export type ClassStudentsInfo = {
   nodes: Array<User>;
   pageInfo: OffsetPageInfo;
   totalCount: Scalars["Int"]["output"];
-}
+};
 
 export type CompanyContactsConnection = {
   /** Array of nodes. */
@@ -4701,8 +4653,6 @@ export type UpdateOneTaskCommentSubscriptionFilterInput = {
   filter: TaskCommentSubscriptionFilter;
 };
 
-
-
 export type UserCompaniesArgs = {
   filter?: CompanyFilter;
   paging?: OffsetPaging;
@@ -4714,7 +4664,6 @@ export type UserDealsArgs = {
   paging?: OffsetPaging;
   sorting?: Array<DealSort>;
 };
-
 
 export type UserAggregateFilter = {
   and?: InputMaybe<Array<UserAggregateFilter>>;
@@ -5002,7 +4951,7 @@ export type UpdateOneTaskStageSubscriptionFilterInput = {
 export type UpdateOneTaskSubscriptionFilterInput = {
   /** Specify to filter the records returned. */
   filter: TaskSubscriptionFilter;
-}
+};
 
 /** Business type */
 export type BusinessType = "B2B" | "B2C" | "B2G";
@@ -5015,4 +4964,4 @@ export type CheckListItem = {
 export type ChecklistItemInput = {
   checked: Scalars["Boolean"]["input"];
   title: Scalars["String"]["input"];
-}
+};
