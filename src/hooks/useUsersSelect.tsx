@@ -3,28 +3,33 @@ import { GetFieldsFromList } from "@refinedev/nestjs-query";
 
 import gql from "graphql-tag";
 
-import { UsersSelectQuery } from "@/graphql/types";
+import { GetUsersQuery } from "@/graphql/new/types";
 
 const USERS_SELECT_QUERY = gql`
-    query UsersSelect(
-        $filter: UserFilter!
-        $sorting: [UserSort!]
-        $paging: OffsetPaging!
-    ) {
-        users(filter: $filter, sorting: $sorting, paging: $paging) {
-            nodes {
-                id
-                name
-                avatarUrl
-            }
+  query GetUsers($filter: UserFilter!) {
+    users(filter: $filter) {
+      nodes {
+        id
+        username
+        info: userInfoById {
+          id
+          name: firstName
+          lastName
+          avatarUrl
         }
+      }
     }
+  }
 `;
 
 export const useUsersSelect = () => {
-  return useSelect<GetFieldsFromList<UsersSelectQuery>>({
+  return useSelect<GetFieldsFromList<GetUsersQuery>>({
     resource: "users",
-    optionLabel: "name",
+    // optionLabel: (info) => `${info.firstName} ${info.lastName}`,
+    optionValue: "id",
+    optionLabel: "info.name",
+    dataProviderName: "local",
+    
     meta: {
       gqlQuery: USERS_SELECT_QUERY,
     },

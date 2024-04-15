@@ -32,11 +32,9 @@ export type Scalars = {
 export type Class = Node & {
   classLevel?: Maybe<Scalars["Int"]["output"]>;
   /** Reads and enables pagination through a set of `ClassManagement`. */
-  classManagementsByClassId: ClassManagementsConnection;
-  /** Reads and enables pagination through a set of `ClassManagement`. */
-  classManagementsByClassIdList: Array<ClassManagement>;
+  classManagements: ClassManagementsConnection;
   /** Reads a single `ClassType` that is related to this `Class`. */
-  classTypeByClassTypeId?: Maybe<ClassType>;
+  classType?: Maybe<ClassType>;
   classTypeId?: Maybe<Scalars["Int"]["output"]>;
   description?: Maybe<Scalars["String"]["output"]>;
   endDate?: Maybe<Scalars["Datetime"]["output"]>;
@@ -46,12 +44,15 @@ export type Class = Node & {
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
   nodeId: Scalars["ID"]["output"];
   startDate?: Maybe<Scalars["Datetime"]["output"]>;
-  teacherId?: Maybe<Scalars["Int"]["output"]>;
   /** Reads a single `User` that is related to this `Class`. */
-  userByTeacherId?: Maybe<User>;
+  teacher: Maybe<User>;
+  teacherId?: Maybe<Scalars["Int"]["output"]>;
+  /** Reads and enables pagination through a set of `User`. */
+  usersByClassManagementClassIdAndUserId: ClassUsersByClassManagementClassIdAndUserIdManyToManyConnection;
+  students: ClassUsersByClassManagementClassIdAndUserIdManyToManyConnection;
 };
 
-export type ClassClassManagementsByClassIdArgs = {
+export type ClassClassManagementsArgs = {
   after?: InputMaybe<Scalars["Cursor"]["input"]>;
   before?: InputMaybe<Scalars["Cursor"]["input"]>;
   condition?: InputMaybe<ClassManagementCondition>;
@@ -62,12 +63,15 @@ export type ClassClassManagementsByClassIdArgs = {
   orderBy?: InputMaybe<Array<ClassManagementsOrderBy>>;
 };
 
-export type ClassClassManagementsByClassIdListArgs = {
-  condition?: InputMaybe<ClassManagementCondition>;
-  filter?: InputMaybe<ClassManagementFilter>;
+export type ClassUsersByClassManagementClassIdAndUserIdArgs = {
+  after?: InputMaybe<Scalars["Cursor"]["input"]>;
+  before?: InputMaybe<Scalars["Cursor"]["input"]>;
+  condition?: InputMaybe<UserCondition>;
+  filter?: InputMaybe<UserFilter>;
   first?: InputMaybe<Scalars["Int"]["input"]>;
+  last?: InputMaybe<Scalars["Int"]["input"]>;
   offset?: InputMaybe<Scalars["Int"]["input"]>;
-  orderBy?: InputMaybe<Array<ClassManagementsOrderBy>>;
+  orderBy?: InputMaybe<Array<UsersOrderBy>>;
 };
 
 /** A condition to be used against `Class` object types. All fields are tested for equality and combined with a logical ‘and.’ */
@@ -135,12 +139,12 @@ export type ClassInput = {
 
 export type ClassManagement = Node & {
   /** Reads a single `Class` that is related to this `ClassManagement`. */
-  classByClassId?: Maybe<Class>;
+  class?: Maybe<Class>;
   classId: Scalars["Int"]["output"];
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
   nodeId: Scalars["ID"]["output"];
   /** Reads a single `User` that is related to this `ClassManagement`. */
-  userByUserId?: Maybe<User>;
+  user?: Maybe<User>;
   userId: Scalars["Int"]["output"];
 };
 
@@ -186,7 +190,7 @@ export type ClassManagementsConnection = {
   /** A list of edges which contains the `ClassManagement` and cursor to aid in pagination. */
   edges: Array<ClassManagementsEdge>;
   /** A list of `ClassManagement` objects. */
-  nodes: Array<Maybe<ClassManagement>>;
+  nodes: Array<ClassManagement>;
   /** Information to aid in pagination. */
   pageInfo: PageInfo;
   /** The count of *all* `ClassManagement` you could get from the connection. */
@@ -198,7 +202,7 @@ export type ClassManagementsEdge = {
   /** A cursor for use in pagination. */
   cursor?: Maybe<Scalars["Cursor"]["output"]>;
   /** The `ClassManagement` at the end of the edge. */
-  node?: Maybe<ClassManagement>;
+  node: ClassManagement;
 };
 
 /** Methods to use when ordering `ClassManagement`. */
@@ -226,17 +230,17 @@ export type ClassPatch = {
 
 export type ClassType = Node & {
   /** Reads and enables pagination through a set of `Class`. */
-  classesByClassTypeId: ClassesConnection;
-  /** Reads and enables pagination through a set of `Class`. */
-  classesByClassTypeIdList: Array<Class>;
+  classes: ClassesConnection;
   description?: Maybe<Scalars["String"]["output"]>;
   id: Scalars["Int"]["output"];
   name?: Maybe<Scalars["String"]["output"]>;
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
   nodeId: Scalars["ID"]["output"];
+  /** Reads and enables pagination through a set of `User`. */
+  usersByClassClassTypeIdAndTeacherId: ClassTypeUsersByClassClassTypeIdAndTeacherIdManyToManyConnection;
 };
 
-export type ClassTypeClassesByClassTypeIdArgs = {
+export type ClassTypeClassesArgs = {
   after?: InputMaybe<Scalars["Cursor"]["input"]>;
   before?: InputMaybe<Scalars["Cursor"]["input"]>;
   condition?: InputMaybe<ClassCondition>;
@@ -247,12 +251,15 @@ export type ClassTypeClassesByClassTypeIdArgs = {
   orderBy?: InputMaybe<Array<ClassesOrderBy>>;
 };
 
-export type ClassTypeClassesByClassTypeIdListArgs = {
-  condition?: InputMaybe<ClassCondition>;
-  filter?: InputMaybe<ClassFilter>;
+export type ClassTypeUsersByClassClassTypeIdAndTeacherIdArgs = {
+  after?: InputMaybe<Scalars["Cursor"]["input"]>;
+  before?: InputMaybe<Scalars["Cursor"]["input"]>;
+  condition?: InputMaybe<UserCondition>;
+  filter?: InputMaybe<UserFilter>;
   first?: InputMaybe<Scalars["Int"]["input"]>;
+  last?: InputMaybe<Scalars["Int"]["input"]>;
   offset?: InputMaybe<Scalars["Int"]["input"]>;
-  orderBy?: InputMaybe<Array<ClassesOrderBy>>;
+  orderBy?: InputMaybe<Array<UsersOrderBy>>;
 };
 
 /**
@@ -298,12 +305,47 @@ export type ClassTypePatch = {
   name?: InputMaybe<Scalars["String"]["input"]>;
 };
 
+/** A connection to a list of `User` values, with data from `Class`. */
+export type ClassTypeUsersByClassClassTypeIdAndTeacherIdManyToManyConnection = {
+  /** A list of edges which contains the `User`, info from the `Class`, and the cursor to aid in pagination. */
+  edges: Array<ClassTypeUsersByClassClassTypeIdAndTeacherIdManyToManyEdge>;
+  /** A list of `User` objects. */
+  nodes: Array<User>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `User` you could get from the connection. */
+  totalCount: Scalars["Int"]["output"];
+};
+
+/** A `User` edge in the connection, with data from `Class`. */
+export type ClassTypeUsersByClassClassTypeIdAndTeacherIdManyToManyEdge = {
+  /** Reads and enables pagination through a set of `Class`. */
+  classesByTeacherId: ClassesConnection;
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars["Cursor"]["output"]>;
+  /** The `User` at the end of the edge. */
+  node: User;
+};
+
+/** A `User` edge in the connection, with data from `Class`. */
+export type ClassTypeUsersByClassClassTypeIdAndTeacherIdManyToManyEdgeClassesByTeacherIdArgs =
+  {
+    after?: InputMaybe<Scalars["Cursor"]["input"]>;
+    before?: InputMaybe<Scalars["Cursor"]["input"]>;
+    condition?: InputMaybe<ClassCondition>;
+    filter?: InputMaybe<ClassFilter>;
+    first?: InputMaybe<Scalars["Int"]["input"]>;
+    last?: InputMaybe<Scalars["Int"]["input"]>;
+    offset?: InputMaybe<Scalars["Int"]["input"]>;
+    orderBy?: InputMaybe<Array<ClassesOrderBy>>;
+  };
+
 /** A connection to a list of `ClassType` values. */
 export type ClassTypesConnection = {
   /** A list of edges which contains the `ClassType` and cursor to aid in pagination. */
   edges: Array<ClassTypesEdge>;
   /** A list of `ClassType` objects. */
-  nodes: Array<Maybe<ClassType>>;
+  nodes: Array<ClassType>;
   /** Information to aid in pagination. */
   pageInfo: PageInfo;
   /** The count of *all* `ClassType` you could get from the connection. */
@@ -315,7 +357,7 @@ export type ClassTypesEdge = {
   /** A cursor for use in pagination. */
   cursor?: Maybe<Scalars["Cursor"]["output"]>;
   /** The `ClassType` at the end of the edge. */
-  node?: Maybe<ClassType>;
+  node: ClassType;
 };
 
 /** Methods to use when ordering `ClassType`. */
@@ -330,8 +372,30 @@ export type ClassTypesOrderBy =
   | "PRIMARY_KEY_ASC"
   | "PRIMARY_KEY_DESC";
 
+/** A connection to a list of `User` values, with data from `ClassManagement`. */
+export type ClassUsersByClassManagementClassIdAndUserIdManyToManyConnection = {
+  /** A list of edges which contains the `User`, info from the `ClassManagement`, and the cursor to aid in pagination. */
+  edges: Array<ClassUsersByClassManagementClassIdAndUserIdManyToManyEdge>;
+  /** A list of `User` objects. */
+  nodes: Array<User>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `User` you could get from the connection. */
+  totalCount: Scalars["Int"]["output"];
+};
+
+/** A `User` edge in the connection, with data from `ClassManagement`. */
+export type ClassUsersByClassManagementClassIdAndUserIdManyToManyEdge = {
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars["Cursor"]["output"]>;
+  /** The `User` at the end of the edge. */
+  node: User;
+};
+
 /** A connection to a list of `Class` values. */
 export type ClassesConnection = {
+  /** A list of edges which contains the `Class` and cursor to aid in pagination. */
+  edges: Array<ClassesEdge>;
   /** A list of `Class` objects. */
   nodes: Array<Class>;
   /** Information to aid in pagination. */
@@ -345,7 +409,7 @@ export type ClassesEdge = {
   /** A cursor for use in pagination. */
   cursor?: Maybe<Scalars["Cursor"]["output"]>;
   /** The `Class` at the end of the edge. */
-  node?: Maybe<Class>;
+  node: Class;
 };
 
 /** Methods to use when ordering `Class`. */
@@ -397,7 +461,7 @@ export type CreateClassManagementInput = {
 /** The output of our create `ClassManagement` mutation. */
 export type CreateClassManagementPayload = {
   /** Reads a single `Class` that is related to this `ClassManagement`. */
-  classByClassId?: Maybe<Class>;
+  class?: Maybe<Class>;
   /** The `ClassManagement` that was created by this mutation. */
   classManagement?: Maybe<ClassManagement>;
   /** An edge for our `ClassManagement`. May be used by Relay 1. */
@@ -410,7 +474,7 @@ export type CreateClassManagementPayload = {
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
   /** Reads a single `User` that is related to this `ClassManagement`. */
-  userByUserId?: Maybe<User>;
+  user?: Maybe<User>;
 };
 
 /** The output of our create `ClassManagement` mutation. */
@@ -425,7 +489,7 @@ export type CreateClassPayload = {
   /** An edge for our `Class`. May be used by Relay 1. */
   classEdge?: Maybe<ClassesEdge>;
   /** Reads a single `ClassType` that is related to this `Class`. */
-  classTypeByClassTypeId?: Maybe<ClassType>;
+  classType?: Maybe<ClassType>;
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
@@ -434,7 +498,7 @@ export type CreateClassPayload = {
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
   /** Reads a single `User` that is related to this `Class`. */
-  userByTeacherId?: Maybe<User>;
+  teacher?: Maybe<User>;
 };
 
 /** The output of our create `Class` mutation. */
@@ -524,12 +588,12 @@ export type CreateUserAttributePayload = {
   clientMutationId?: Maybe<Scalars["String"]["output"]>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
+  /** Reads a single `User` that is related to this `UserAttribute`. */
+  user?: Maybe<User>;
   /** The `UserAttribute` that was created by this mutation. */
   userAttribute?: Maybe<UserAttribute>;
   /** An edge for our `UserAttribute`. May be used by Relay 1. */
   userAttributeEdge?: Maybe<UserAttributesEdge>;
-  /** Reads a single `User` that is related to this `UserAttribute`. */
-  userByUserId?: Maybe<User>;
 };
 
 /** The output of our create `UserAttribute` mutation. */
@@ -622,9 +686,9 @@ export type CreateUserRolePayload = {
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
   /** Reads a single `Role` that is related to this `UserRole`. */
-  roleByRoleId?: Maybe<Role>;
+  role?: Maybe<Role>;
   /** Reads a single `User` that is related to this `UserRole`. */
-  userByUserId?: Maybe<User>;
+  user?: Maybe<User>;
   /** The `UserRole` that was created by this mutation. */
   userRole?: Maybe<UserRole>;
   /** An edge for our `UserRole`. May be used by Relay 1. */
@@ -654,26 +718,16 @@ export type DatetimeFilter = {
   lessThan?: InputMaybe<Scalars["Datetime"]["input"]>;
   /** Less than or equal to the specified value. */
   lessThanOrEqualTo?: InputMaybe<Scalars["Datetime"]["input"]>;
+  /** Not equal to the specified value. */
+  ne?: InputMaybe<Scalars["Datetime"]["input"]>;
   /** Equal to the specified value, treating null like an ordinary value. */
   notDistinctFrom?: InputMaybe<Scalars["Datetime"]["input"]>;
-  /** Not equal to the specified value. */
-  notEqualTo?: InputMaybe<Scalars["Datetime"]["input"]>;
   /** Not included in the specified list. */
   notIn?: InputMaybe<Array<Scalars["Datetime"]["input"]>>;
 };
 
-/** All input for the `deleteClassById` mutation. */
-export type DeleteClassByIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
-  id: Scalars["Int"]["input"];
-};
-
-/** All input for the `deleteClass` mutation. */
-export type DeleteClassInput = {
+/** All input for the `deleteClassByNodeId` mutation. */
+export type DeleteClassByNodeIdInput = {
   /**
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
@@ -683,19 +737,18 @@ export type DeleteClassInput = {
   nodeId: Scalars["ID"]["input"];
 };
 
-/** All input for the `deleteClassManagementByClassIdAndUserId` mutation. */
-export type DeleteClassManagementByClassIdAndUserIdInput = {
-  classId: Scalars["Int"]["input"];
+/** All input for the `deleteClass` mutation. */
+export type DeleteClassInput = {
   /**
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
   clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
-  userId: Scalars["Int"]["input"];
+  id: Scalars["Int"]["input"];
 };
 
-/** All input for the `deleteClassManagement` mutation. */
-export type DeleteClassManagementInput = {
+/** All input for the `deleteClassManagementByNodeId` mutation. */
+export type DeleteClassManagementByNodeIdInput = {
   /**
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
@@ -705,10 +758,21 @@ export type DeleteClassManagementInput = {
   nodeId: Scalars["ID"]["input"];
 };
 
+/** All input for the `deleteClassManagement` mutation. */
+export type DeleteClassManagementInput = {
+  classId: Scalars["Int"]["input"];
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
+  userId: Scalars["Int"]["input"];
+};
+
 /** The output of our delete `ClassManagement` mutation. */
 export type DeleteClassManagementPayload = {
   /** Reads a single `Class` that is related to this `ClassManagement`. */
-  classByClassId?: Maybe<Class>;
+  class?: Maybe<Class>;
   /** The `ClassManagement` that was deleted by this mutation. */
   classManagement?: Maybe<ClassManagement>;
   /** An edge for our `ClassManagement`. May be used by Relay 1. */
@@ -718,11 +782,11 @@ export type DeleteClassManagementPayload = {
    * unchanged and unused. May be used by a client to track mutations.
    */
   clientMutationId?: Maybe<Scalars["String"]["output"]>;
-  deletedClassManagementId?: Maybe<Scalars["ID"]["output"]>;
+  deletedClassManagementNodeId?: Maybe<Scalars["ID"]["output"]>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
   /** Reads a single `User` that is related to this `ClassManagement`. */
-  userByUserId?: Maybe<User>;
+  user?: Maybe<User>;
 };
 
 /** The output of our delete `ClassManagement` mutation. */
@@ -737,17 +801,17 @@ export type DeleteClassPayload = {
   /** An edge for our `Class`. May be used by Relay 1. */
   classEdge?: Maybe<ClassesEdge>;
   /** Reads a single `ClassType` that is related to this `Class`. */
-  classTypeByClassTypeId?: Maybe<ClassType>;
+  classType?: Maybe<ClassType>;
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
    */
   clientMutationId?: Maybe<Scalars["String"]["output"]>;
-  deletedClassId?: Maybe<Scalars["ID"]["output"]>;
+  deletedClassNodeId?: Maybe<Scalars["ID"]["output"]>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
   /** Reads a single `User` that is related to this `Class`. */
-  userByTeacherId?: Maybe<User>;
+  teacher?: Maybe<User>;
 };
 
 /** The output of our delete `Class` mutation. */
@@ -755,14 +819,15 @@ export type DeleteClassPayloadClassEdgeArgs = {
   orderBy?: InputMaybe<Array<ClassesOrderBy>>;
 };
 
-/** All input for the `deleteClassTypeById` mutation. */
-export type DeleteClassTypeByIdInput = {
+/** All input for the `deleteClassTypeByNodeId` mutation. */
+export type DeleteClassTypeByNodeIdInput = {
   /**
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
   clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
-  id: Scalars["Int"]["input"];
+  /** The globally unique `ID` which will identify a single `ClassType` to be deleted. */
+  nodeId: Scalars["ID"]["input"];
 };
 
 /** All input for the `deleteClassType` mutation. */
@@ -772,8 +837,7 @@ export type DeleteClassTypeInput = {
    * payload verbatim. May be used to track mutations by the client.
    */
   clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
-  /** The globally unique `ID` which will identify a single `ClassType` to be deleted. */
-  nodeId: Scalars["ID"]["input"];
+  id: Scalars["Int"]["input"];
 };
 
 /** The output of our delete `ClassType` mutation. */
@@ -787,7 +851,7 @@ export type DeleteClassTypePayload = {
    * unchanged and unused. May be used by a client to track mutations.
    */
   clientMutationId?: Maybe<Scalars["String"]["output"]>;
-  deletedClassTypeId?: Maybe<Scalars["ID"]["output"]>;
+  deletedClassTypeNodeId?: Maybe<Scalars["ID"]["output"]>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
 };
@@ -795,16 +859,6 @@ export type DeleteClassTypePayload = {
 /** The output of our delete `ClassType` mutation. */
 export type DeleteClassTypePayloadClassTypeEdgeArgs = {
   orderBy?: InputMaybe<Array<ClassTypesOrderBy>>;
-};
-
-/** All input for the `deleteRoleById` mutation. */
-export type DeleteRoleByIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
-  id: Scalars["Int"]["input"];
 };
 
 /** All input for the `deleteRoleByName` mutation. */
@@ -817,8 +871,8 @@ export type DeleteRoleByNameInput = {
   name: Scalars["String"]["input"];
 };
 
-/** All input for the `deleteRole` mutation. */
-export type DeleteRoleInput = {
+/** All input for the `deleteRoleByNodeId` mutation. */
+export type DeleteRoleByNodeIdInput = {
   /**
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
@@ -828,6 +882,16 @@ export type DeleteRoleInput = {
   nodeId: Scalars["ID"]["input"];
 };
 
+/** All input for the `deleteRole` mutation. */
+export type DeleteRoleInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
+  id: Scalars["Int"]["input"];
+};
+
 /** The output of our delete `Role` mutation. */
 export type DeleteRolePayload = {
   /**
@@ -835,7 +899,7 @@ export type DeleteRolePayload = {
    * unchanged and unused. May be used by a client to track mutations.
    */
   clientMutationId?: Maybe<Scalars["String"]["output"]>;
-  deletedRoleId?: Maybe<Scalars["ID"]["output"]>;
+  deletedRoleNodeId?: Maybe<Scalars["ID"]["output"]>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
   /** The `Role` that was deleted by this mutation. */
@@ -849,16 +913,6 @@ export type DeleteRolePayloadRoleEdgeArgs = {
   orderBy?: InputMaybe<Array<RolesOrderBy>>;
 };
 
-/** All input for the `deleteUserAttributeById` mutation. */
-export type DeleteUserAttributeByIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
-  id: Scalars["Int"]["input"];
-};
-
 /** All input for the `deleteUserAttributeByName` mutation. */
 export type DeleteUserAttributeByNameInput = {
   /**
@@ -869,8 +923,8 @@ export type DeleteUserAttributeByNameInput = {
   name: Scalars["String"]["input"];
 };
 
-/** All input for the `deleteUserAttribute` mutation. */
-export type DeleteUserAttributeInput = {
+/** All input for the `deleteUserAttributeByNodeId` mutation. */
+export type DeleteUserAttributeByNodeIdInput = {
   /**
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
@@ -880,6 +934,16 @@ export type DeleteUserAttributeInput = {
   nodeId: Scalars["ID"]["input"];
 };
 
+/** All input for the `deleteUserAttribute` mutation. */
+export type DeleteUserAttributeInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
+  id: Scalars["Int"]["input"];
+};
+
 /** The output of our delete `UserAttribute` mutation. */
 export type DeleteUserAttributePayload = {
   /**
@@ -887,15 +951,15 @@ export type DeleteUserAttributePayload = {
    * unchanged and unused. May be used by a client to track mutations.
    */
   clientMutationId?: Maybe<Scalars["String"]["output"]>;
-  deletedUserAttributeId?: Maybe<Scalars["ID"]["output"]>;
+  deletedUserAttributeNodeId?: Maybe<Scalars["ID"]["output"]>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
+  /** Reads a single `User` that is related to this `UserAttribute`. */
+  user?: Maybe<User>;
   /** The `UserAttribute` that was deleted by this mutation. */
   userAttribute?: Maybe<UserAttribute>;
   /** An edge for our `UserAttribute`. May be used by Relay 1. */
   userAttributeEdge?: Maybe<UserAttributesEdge>;
-  /** Reads a single `User` that is related to this `UserAttribute`. */
-  userByUserId?: Maybe<User>;
 };
 
 /** The output of our delete `UserAttribute` mutation. */
@@ -903,14 +967,15 @@ export type DeleteUserAttributePayloadUserAttributeEdgeArgs = {
   orderBy?: InputMaybe<Array<UserAttributesOrderBy>>;
 };
 
-/** All input for the `deleteUserById` mutation. */
-export type DeleteUserByIdInput = {
+/** All input for the `deleteUserByNodeId` mutation. */
+export type DeleteUserByNodeIdInput = {
   /**
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
   clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
-  id: Scalars["Int"]["input"];
+  /** The globally unique `ID` which will identify a single `User` to be deleted. */
+  nodeId: Scalars["ID"]["input"];
 };
 
 /** All input for the `deleteUserByUsername` mutation. */
@@ -933,14 +998,15 @@ export type DeleteUserInfoByEmailInput = {
   email: Scalars["String"]["input"];
 };
 
-/** All input for the `deleteUserInfoById` mutation. */
-export type DeleteUserInfoByIdInput = {
+/** All input for the `deleteUserInfoByNodeId` mutation. */
+export type DeleteUserInfoByNodeIdInput = {
   /**
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
   clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
-  id: Scalars["Int"]["input"];
+  /** The globally unique `ID` which will identify a single `UserInfo` to be deleted. */
+  nodeId: Scalars["ID"]["input"];
 };
 
 /** All input for the `deleteUserInfoByPhoneNumber` mutation. */
@@ -960,8 +1026,7 @@ export type DeleteUserInfoInput = {
    * payload verbatim. May be used to track mutations by the client.
    */
   clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
-  /** The globally unique `ID` which will identify a single `UserInfo` to be deleted. */
-  nodeId: Scalars["ID"]["input"];
+  id: Scalars["Int"]["input"];
 };
 
 /** The output of our delete `UserInfo` mutation. */
@@ -971,7 +1036,7 @@ export type DeleteUserInfoPayload = {
    * unchanged and unused. May be used by a client to track mutations.
    */
   clientMutationId?: Maybe<Scalars["String"]["output"]>;
-  deletedUserInfoId?: Maybe<Scalars["ID"]["output"]>;
+  deletedUserInfoNodeId?: Maybe<Scalars["ID"]["output"]>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
   /** Reads a single `User` that is related to this `UserInfo`. */
@@ -994,8 +1059,7 @@ export type DeleteUserInput = {
    * payload verbatim. May be used to track mutations by the client.
    */
   clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
-  /** The globally unique `ID` which will identify a single `User` to be deleted. */
-  nodeId: Scalars["ID"]["input"];
+  id: Scalars["Int"]["input"];
 };
 
 /** The output of our delete `User` mutation. */
@@ -1005,7 +1069,7 @@ export type DeleteUserPayload = {
    * unchanged and unused. May be used by a client to track mutations.
    */
   clientMutationId?: Maybe<Scalars["String"]["output"]>;
-  deletedUserId?: Maybe<Scalars["ID"]["output"]>;
+  deletedUserNodeId?: Maybe<Scalars["ID"]["output"]>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
   /** The `User` that was deleted by this mutation. */
@@ -1019,19 +1083,8 @@ export type DeleteUserPayloadUserEdgeArgs = {
   orderBy?: InputMaybe<Array<UsersOrderBy>>;
 };
 
-/** All input for the `deleteUserRoleByUserIdAndRoleId` mutation. */
-export type DeleteUserRoleByUserIdAndRoleIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
-  roleId: Scalars["Int"]["input"];
-  userId: Scalars["Int"]["input"];
-};
-
-/** All input for the `deleteUserRole` mutation. */
-export type DeleteUserRoleInput = {
+/** All input for the `deleteUserRoleByNodeId` mutation. */
+export type DeleteUserRoleByNodeIdInput = {
   /**
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
@@ -1041,6 +1094,17 @@ export type DeleteUserRoleInput = {
   nodeId: Scalars["ID"]["input"];
 };
 
+/** All input for the `deleteUserRole` mutation. */
+export type DeleteUserRoleInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
+  roleId: Scalars["Int"]["input"];
+  userId: Scalars["Int"]["input"];
+};
+
 /** The output of our delete `UserRole` mutation. */
 export type DeleteUserRolePayload = {
   /**
@@ -1048,13 +1112,13 @@ export type DeleteUserRolePayload = {
    * unchanged and unused. May be used by a client to track mutations.
    */
   clientMutationId?: Maybe<Scalars["String"]["output"]>;
-  deletedUserRoleId?: Maybe<Scalars["ID"]["output"]>;
+  deletedUserRoleNodeId?: Maybe<Scalars["ID"]["output"]>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
   /** Reads a single `Role` that is related to this `UserRole`. */
-  roleByRoleId?: Maybe<Role>;
+  role?: Maybe<Role>;
   /** Reads a single `User` that is related to this `UserRole`. */
-  userByUserId?: Maybe<User>;
+  user?: Maybe<User>;
   /** The `UserRole` that was deleted by this mutation. */
   userRole?: Maybe<UserRole>;
   /** An edge for our `UserRole`. May be used by Relay 1. */
@@ -1084,10 +1148,10 @@ export type IntFilter = {
   lessThan?: InputMaybe<Scalars["Int"]["input"]>;
   /** Less than or equal to the specified value. */
   lessThanOrEqualTo?: InputMaybe<Scalars["Int"]["input"]>;
+  /** Not equal to the specified value. */
+  ne?: InputMaybe<Scalars["Int"]["input"]>;
   /** Equal to the specified value, treating null like an ordinary value. */
   notDistinctFrom?: InputMaybe<Scalars["Int"]["input"]>;
-  /** Not equal to the specified value. */
-  notEqualTo?: InputMaybe<Scalars["Int"]["input"]>;
   /** Not included in the specified list. */
   notIn?: InputMaybe<Array<Scalars["Int"]["input"]>>;
 };
@@ -1110,90 +1174,90 @@ export type Mutation = {
   createUserInfo?: Maybe<CreateUserInfoPayload>;
   /** Creates a single `UserRole`. */
   createUserRole?: Maybe<CreateUserRolePayload>;
-  /** Deletes a single `Class` using its globally unique id. */
-  deleteClass?: Maybe<DeleteClassPayload>;
   /** Deletes a single `Class` using a unique key. */
-  deleteClassById?: Maybe<DeleteClassPayload>;
-  /** Deletes a single `ClassManagement` using its globally unique id. */
-  deleteClassManagement?: Maybe<DeleteClassManagementPayload>;
+  deleteClass?: Maybe<DeleteClassPayload>;
+  /** Deletes a single `Class` using its globally unique id. */
+  deleteClassByNodeId?: Maybe<DeleteClassPayload>;
   /** Deletes a single `ClassManagement` using a unique key. */
-  deleteClassManagementByClassIdAndUserId?: Maybe<DeleteClassManagementPayload>;
-  /** Deletes a single `ClassType` using its globally unique id. */
-  deleteClassType?: Maybe<DeleteClassTypePayload>;
+  deleteClassManagement?: Maybe<DeleteClassManagementPayload>;
+  /** Deletes a single `ClassManagement` using its globally unique id. */
+  deleteClassManagementByNodeId?: Maybe<DeleteClassManagementPayload>;
   /** Deletes a single `ClassType` using a unique key. */
-  deleteClassTypeById?: Maybe<DeleteClassTypePayload>;
-  /** Deletes a single `Role` using its globally unique id. */
+  deleteClassType?: Maybe<DeleteClassTypePayload>;
+  /** Deletes a single `ClassType` using its globally unique id. */
+  deleteClassTypeByNodeId?: Maybe<DeleteClassTypePayload>;
+  /** Deletes a single `Role` using a unique key. */
   deleteRole?: Maybe<DeleteRolePayload>;
   /** Deletes a single `Role` using a unique key. */
-  deleteRoleById?: Maybe<DeleteRolePayload>;
-  /** Deletes a single `Role` using a unique key. */
   deleteRoleByName?: Maybe<DeleteRolePayload>;
-  /** Deletes a single `User` using its globally unique id. */
+  /** Deletes a single `Role` using its globally unique id. */
+  deleteRoleByNodeId?: Maybe<DeleteRolePayload>;
+  /** Deletes a single `User` using a unique key. */
   deleteUser?: Maybe<DeleteUserPayload>;
-  /** Deletes a single `UserAttribute` using its globally unique id. */
+  /** Deletes a single `UserAttribute` using a unique key. */
   deleteUserAttribute?: Maybe<DeleteUserAttributePayload>;
   /** Deletes a single `UserAttribute` using a unique key. */
-  deleteUserAttributeById?: Maybe<DeleteUserAttributePayload>;
-  /** Deletes a single `UserAttribute` using a unique key. */
   deleteUserAttributeByName?: Maybe<DeleteUserAttributePayload>;
-  /** Deletes a single `User` using a unique key. */
-  deleteUserById?: Maybe<DeleteUserPayload>;
+  /** Deletes a single `UserAttribute` using its globally unique id. */
+  deleteUserAttributeByNodeId?: Maybe<DeleteUserAttributePayload>;
+  /** Deletes a single `User` using its globally unique id. */
+  deleteUserByNodeId?: Maybe<DeleteUserPayload>;
   /** Deletes a single `User` using a unique key. */
   deleteUserByUsername?: Maybe<DeleteUserPayload>;
-  /** Deletes a single `UserInfo` using its globally unique id. */
+  /** Deletes a single `UserInfo` using a unique key. */
   deleteUserInfo?: Maybe<DeleteUserInfoPayload>;
   /** Deletes a single `UserInfo` using a unique key. */
   deleteUserInfoByEmail?: Maybe<DeleteUserInfoPayload>;
-  /** Deletes a single `UserInfo` using a unique key. */
-  deleteUserInfoById?: Maybe<DeleteUserInfoPayload>;
+  /** Deletes a single `UserInfo` using its globally unique id. */
+  deleteUserInfoByNodeId?: Maybe<DeleteUserInfoPayload>;
   /** Deletes a single `UserInfo` using a unique key. */
   deleteUserInfoByPhoneNumber?: Maybe<DeleteUserInfoPayload>;
-  /** Deletes a single `UserRole` using its globally unique id. */
-  deleteUserRole?: Maybe<DeleteUserRolePayload>;
   /** Deletes a single `UserRole` using a unique key. */
-  deleteUserRoleByUserIdAndRoleId?: Maybe<DeleteUserRolePayload>;
-  /** Updates a single `Class` using its globally unique id and a patch. */
-  updateClass?: Maybe<UpdateClassPayload>;
+  deleteUserRole?: Maybe<DeleteUserRolePayload>;
+  /** Deletes a single `UserRole` using its globally unique id. */
+  deleteUserRoleByNodeId?: Maybe<DeleteUserRolePayload>;
   /** Updates a single `Class` using a unique key and a patch. */
-  updateClassById?: Maybe<UpdateClassPayload>;
-  /** Updates a single `ClassManagement` using its globally unique id and a patch. */
-  updateClassManagement?: Maybe<UpdateClassManagementPayload>;
+  updateClass?: Maybe<UpdateClassPayload>;
+  /** Updates a single `Class` using its globally unique id and a patch. */
+  updateClassByNodeId?: Maybe<UpdateClassPayload>;
   /** Updates a single `ClassManagement` using a unique key and a patch. */
-  updateClassManagementByClassIdAndUserId?: Maybe<UpdateClassManagementPayload>;
-  /** Updates a single `ClassType` using its globally unique id and a patch. */
-  updateClassType?: Maybe<UpdateClassTypePayload>;
+  updateClassManagement?: Maybe<UpdateClassManagementPayload>;
+  /** Updates a single `ClassManagement` using its globally unique id and a patch. */
+  updateClassManagementByNodeId?: Maybe<UpdateClassManagementPayload>;
   /** Updates a single `ClassType` using a unique key and a patch. */
-  updateClassTypeById?: Maybe<UpdateClassTypePayload>;
-  /** Updates a single `Role` using its globally unique id and a patch. */
+  updateClassType?: Maybe<UpdateClassTypePayload>;
+  /** Updates a single `ClassType` using its globally unique id and a patch. */
+  updateClassTypeByNodeId?: Maybe<UpdateClassTypePayload>;
+  /** Updates a single `Role` using a unique key and a patch. */
   updateRole?: Maybe<UpdateRolePayload>;
   /** Updates a single `Role` using a unique key and a patch. */
-  updateRoleById?: Maybe<UpdateRolePayload>;
-  /** Updates a single `Role` using a unique key and a patch. */
   updateRoleByName?: Maybe<UpdateRolePayload>;
-  /** Updates a single `User` using its globally unique id and a patch. */
+  /** Updates a single `Role` using its globally unique id and a patch. */
+  updateRoleByNodeId?: Maybe<UpdateRolePayload>;
+  /** Updates a single `User` using a unique key and a patch. */
   updateUser?: Maybe<UpdateUserPayload>;
-  /** Updates a single `UserAttribute` using its globally unique id and a patch. */
+  /** Updates a single `UserAttribute` using a unique key and a patch. */
   updateUserAttribute?: Maybe<UpdateUserAttributePayload>;
   /** Updates a single `UserAttribute` using a unique key and a patch. */
-  updateUserAttributeById?: Maybe<UpdateUserAttributePayload>;
-  /** Updates a single `UserAttribute` using a unique key and a patch. */
   updateUserAttributeByName?: Maybe<UpdateUserAttributePayload>;
-  /** Updates a single `User` using a unique key and a patch. */
-  updateUserById?: Maybe<UpdateUserPayload>;
+  /** Updates a single `UserAttribute` using its globally unique id and a patch. */
+  updateUserAttributeByNodeId?: Maybe<UpdateUserAttributePayload>;
+  /** Updates a single `User` using its globally unique id and a patch. */
+  updateUserByNodeId?: Maybe<UpdateUserPayload>;
   /** Updates a single `User` using a unique key and a patch. */
   updateUserByUsername?: Maybe<UpdateUserPayload>;
-  /** Updates a single `UserInfo` using its globally unique id and a patch. */
+  /** Updates a single `UserInfo` using a unique key and a patch. */
   updateUserInfo?: Maybe<UpdateUserInfoPayload>;
   /** Updates a single `UserInfo` using a unique key and a patch. */
   updateUserInfoByEmail?: Maybe<UpdateUserInfoPayload>;
-  /** Updates a single `UserInfo` using a unique key and a patch. */
-  updateUserInfoById?: Maybe<UpdateUserInfoPayload>;
+  /** Updates a single `UserInfo` using its globally unique id and a patch. */
+  updateUserInfoByNodeId?: Maybe<UpdateUserInfoPayload>;
   /** Updates a single `UserInfo` using a unique key and a patch. */
   updateUserInfoByPhoneNumber?: Maybe<UpdateUserInfoPayload>;
-  /** Updates a single `UserRole` using its globally unique id and a patch. */
-  updateUserRole?: Maybe<UpdateUserRolePayload>;
   /** Updates a single `UserRole` using a unique key and a patch. */
-  updateUserRoleByUserIdAndRoleId?: Maybe<UpdateUserRolePayload>;
+  updateUserRole?: Maybe<UpdateUserRolePayload>;
+  /** Updates a single `UserRole` using its globally unique id and a patch. */
+  updateUserRoleByNodeId?: Maybe<UpdateUserRolePayload>;
 };
 
 /** The root mutation type which contains root level fields which mutate data. */
@@ -1242,8 +1306,8 @@ export type MutationDeleteClassArgs = {
 };
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeleteClassByIdArgs = {
-  input: DeleteClassByIdInput;
+export type MutationDeleteClassByNodeIdArgs = {
+  input: DeleteClassByNodeIdInput;
 };
 
 /** The root mutation type which contains root level fields which mutate data. */
@@ -1252,8 +1316,8 @@ export type MutationDeleteClassManagementArgs = {
 };
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeleteClassManagementByClassIdAndUserIdArgs = {
-  input: DeleteClassManagementByClassIdAndUserIdInput;
+export type MutationDeleteClassManagementByNodeIdArgs = {
+  input: DeleteClassManagementByNodeIdInput;
 };
 
 /** The root mutation type which contains root level fields which mutate data. */
@@ -1262,8 +1326,8 @@ export type MutationDeleteClassTypeArgs = {
 };
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeleteClassTypeByIdArgs = {
-  input: DeleteClassTypeByIdInput;
+export type MutationDeleteClassTypeByNodeIdArgs = {
+  input: DeleteClassTypeByNodeIdInput;
 };
 
 /** The root mutation type which contains root level fields which mutate data. */
@@ -1272,13 +1336,13 @@ export type MutationDeleteRoleArgs = {
 };
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeleteRoleByIdArgs = {
-  input: DeleteRoleByIdInput;
+export type MutationDeleteRoleByNameArgs = {
+  input: DeleteRoleByNameInput;
 };
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeleteRoleByNameArgs = {
-  input: DeleteRoleByNameInput;
+export type MutationDeleteRoleByNodeIdArgs = {
+  input: DeleteRoleByNodeIdInput;
 };
 
 /** The root mutation type which contains root level fields which mutate data. */
@@ -1292,18 +1356,18 @@ export type MutationDeleteUserAttributeArgs = {
 };
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeleteUserAttributeByIdArgs = {
-  input: DeleteUserAttributeByIdInput;
-};
-
-/** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeleteUserAttributeByNameArgs = {
   input: DeleteUserAttributeByNameInput;
 };
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeleteUserByIdArgs = {
-  input: DeleteUserByIdInput;
+export type MutationDeleteUserAttributeByNodeIdArgs = {
+  input: DeleteUserAttributeByNodeIdInput;
+};
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteUserByNodeIdArgs = {
+  input: DeleteUserByNodeIdInput;
 };
 
 /** The root mutation type which contains root level fields which mutate data. */
@@ -1322,8 +1386,8 @@ export type MutationDeleteUserInfoByEmailArgs = {
 };
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeleteUserInfoByIdArgs = {
-  input: DeleteUserInfoByIdInput;
+export type MutationDeleteUserInfoByNodeIdArgs = {
+  input: DeleteUserInfoByNodeIdInput;
 };
 
 /** The root mutation type which contains root level fields which mutate data. */
@@ -1337,8 +1401,8 @@ export type MutationDeleteUserRoleArgs = {
 };
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeleteUserRoleByUserIdAndRoleIdArgs = {
-  input: DeleteUserRoleByUserIdAndRoleIdInput;
+export type MutationDeleteUserRoleByNodeIdArgs = {
+  input: DeleteUserRoleByNodeIdInput;
 };
 
 /** The root mutation type which contains root level fields which mutate data. */
@@ -1347,8 +1411,8 @@ export type MutationUpdateClassArgs = {
 };
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateClassByIdArgs = {
-  input: UpdateClassByIdInput;
+export type MutationUpdateClassByNodeIdArgs = {
+  input: UpdateClassByNodeIdInput;
 };
 
 /** The root mutation type which contains root level fields which mutate data. */
@@ -1357,8 +1421,8 @@ export type MutationUpdateClassManagementArgs = {
 };
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateClassManagementByClassIdAndUserIdArgs = {
-  input: UpdateClassManagementByClassIdAndUserIdInput;
+export type MutationUpdateClassManagementByNodeIdArgs = {
+  input: UpdateClassManagementByNodeIdInput;
 };
 
 /** The root mutation type which contains root level fields which mutate data. */
@@ -1367,8 +1431,8 @@ export type MutationUpdateClassTypeArgs = {
 };
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateClassTypeByIdArgs = {
-  input: UpdateClassTypeByIdInput;
+export type MutationUpdateClassTypeByNodeIdArgs = {
+  input: UpdateClassTypeByNodeIdInput;
 };
 
 /** The root mutation type which contains root level fields which mutate data. */
@@ -1377,13 +1441,13 @@ export type MutationUpdateRoleArgs = {
 };
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateRoleByIdArgs = {
-  input: UpdateRoleByIdInput;
+export type MutationUpdateRoleByNameArgs = {
+  input: UpdateRoleByNameInput;
 };
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateRoleByNameArgs = {
-  input: UpdateRoleByNameInput;
+export type MutationUpdateRoleByNodeIdArgs = {
+  input: UpdateRoleByNodeIdInput;
 };
 
 /** The root mutation type which contains root level fields which mutate data. */
@@ -1397,18 +1461,18 @@ export type MutationUpdateUserAttributeArgs = {
 };
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateUserAttributeByIdArgs = {
-  input: UpdateUserAttributeByIdInput;
-};
-
-/** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpdateUserAttributeByNameArgs = {
   input: UpdateUserAttributeByNameInput;
 };
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateUserByIdArgs = {
-  input: UpdateUserByIdInput;
+export type MutationUpdateUserAttributeByNodeIdArgs = {
+  input: UpdateUserAttributeByNodeIdInput;
+};
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateUserByNodeIdArgs = {
+  input: UpdateUserByNodeIdInput;
 };
 
 /** The root mutation type which contains root level fields which mutate data. */
@@ -1427,8 +1491,8 @@ export type MutationUpdateUserInfoByEmailArgs = {
 };
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateUserInfoByIdArgs = {
-  input: UpdateUserInfoByIdInput;
+export type MutationUpdateUserInfoByNodeIdArgs = {
+  input: UpdateUserInfoByNodeIdInput;
 };
 
 /** The root mutation type which contains root level fields which mutate data. */
@@ -1442,8 +1506,8 @@ export type MutationUpdateUserRoleArgs = {
 };
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateUserRoleByUserIdAndRoleIdArgs = {
-  input: UpdateUserRoleByUserIdAndRoleIdInput;
+export type MutationUpdateUserRoleByNodeIdArgs = {
+  input: UpdateUserRoleByNodeIdInput;
 };
 
 /** An object with a globally unique `ID`. */
@@ -1466,47 +1530,21 @@ export type PageInfo = {
 
 /** The root query type which gives access points into the data universe. */
 export type Query = Node & {
-  /** Reads and enables pagination through a set of `ClassManagement`. */
-  allClassManagements?: Maybe<ClassManagementsConnection>;
-  /** Reads a set of `ClassManagement`. */
-  allClassManagementsList?: Maybe<Array<ClassManagement>>;
-  /** Reads and enables pagination through a set of `ClassType`. */
-  allClassTypes?: Maybe<ClassTypesConnection>;
-  /** Reads a set of `ClassType`. */
-  allClassTypesList?: Maybe<Array<ClassType>>;
-  /** Reads and enables pagination through a set of `Class`. */
-  allClasses?: Maybe<ClassesConnection>;
-  /** Reads a set of `Class`. */
-  allClassesList?: Maybe<Array<Class>>;
-  /** Reads and enables pagination through a set of `Role`. */
-  allRoles?: Maybe<RolesConnection>;
-  /** Reads a set of `Role`. */
-  allRolesList?: Maybe<Array<Role>>;
-  /** Reads and enables pagination through a set of `UserAttribute`. */
-  allUserAttributes?: Maybe<UserAttributesConnection>;
-  /** Reads a set of `UserAttribute`. */
-  allUserAttributesList?: Maybe<Array<UserAttribute>>;
-  /** Reads and enables pagination through a set of `UserInfo`. */
-  allUserInfos?: Maybe<UserInfosConnection>;
-  /** Reads a set of `UserInfo`. */
-  allUserInfosList?: Maybe<Array<UserInfo>>;
-  /** Reads and enables pagination through a set of `UserRole`. */
-  allUserRoles?: Maybe<UserRolesConnection>;
-  /** Reads a set of `UserRole`. */
-  allUserRolesList?: Maybe<Array<UserRole>>;
-  /** Reads and enables pagination through a set of `User`. */
-  allUsers?: Maybe<UsersConnection>;
-  /** Reads a set of `User`. */
-  allUsersList?: Maybe<Array<User>>;
-  /** Reads a single `Class` using its globally unique `ID`. */
   class?: Maybe<Class>;
-  classById?: Maybe<Class>;
-  /** Reads a single `ClassManagement` using its globally unique `ID`. */
+  /** Reads a single `Class` using its globally unique `ID`. */
+  classByNodeId?: Maybe<Class>;
   classManagement?: Maybe<ClassManagement>;
-  classManagementByClassIdAndUserId?: Maybe<ClassManagement>;
-  /** Reads a single `ClassType` using its globally unique `ID`. */
+  /** Reads a single `ClassManagement` using its globally unique `ID`. */
+  classManagementByNodeId?: Maybe<ClassManagement>;
+  /** Reads and enables pagination through a set of `ClassManagement`. */
+  classManagements?: Maybe<ClassManagementsConnection>;
   classType?: Maybe<ClassType>;
-  classTypeById?: Maybe<ClassType>;
+  /** Reads a single `ClassType` using its globally unique `ID`. */
+  classTypeByNodeId?: Maybe<ClassType>;
+  /** Reads and enables pagination through a set of `ClassType`. */
+  classTypes?: Maybe<ClassTypesConnection>;
+  /** Reads and enables pagination through a set of `Class`. */
+  classes?: Maybe<ClassesConnection>;
   /** Fetches an object given its globally unique `ID`. */
   node?: Maybe<Node>;
   /** The root query type must be a `Node` to work well with Relay 1 mutations. This just resolves to `query`. */
@@ -1516,225 +1554,103 @@ export type Query = Node & {
    * which can only query top level fields if they are in a particular form.
    */
   query: Query;
-  /** Reads a single `Role` using its globally unique `ID`. */
   role?: Maybe<Role>;
-  roleById?: Maybe<Role>;
   roleByName?: Maybe<Role>;
-  /** Reads a single `User` using its globally unique `ID`. */
+  /** Reads a single `Role` using its globally unique `ID`. */
+  roleByNodeId?: Maybe<Role>;
+  /** Reads and enables pagination through a set of `Role`. */
+  roles?: Maybe<RolesConnection>;
   user?: Maybe<User>;
-  /** Reads a single `UserAttribute` using its globally unique `ID`. */
   userAttribute?: Maybe<UserAttribute>;
-  userAttributeById?: Maybe<UserAttribute>;
   userAttributeByName?: Maybe<UserAttribute>;
-  userById?: Maybe<User>;
+  /** Reads a single `UserAttribute` using its globally unique `ID`. */
+  userAttributeByNodeId?: Maybe<UserAttribute>;
+  /** Reads and enables pagination through a set of `UserAttribute`. */
+  userAttributes?: Maybe<UserAttributesConnection>;
+  /** Reads a single `User` using its globally unique `ID`. */
+  userByNodeId?: Maybe<User>;
   userByUsername?: Maybe<User>;
-  /** Reads a single `UserInfo` using its globally unique `ID`. */
   userInfo?: Maybe<UserInfo>;
   userInfoByEmail?: Maybe<UserInfo>;
-  userInfoById?: Maybe<UserInfo>;
+  /** Reads a single `UserInfo` using its globally unique `ID`. */
+  userInfoByNodeId?: Maybe<UserInfo>;
   userInfoByPhoneNumber?: Maybe<UserInfo>;
-  /** Reads a single `UserRole` using its globally unique `ID`. */
+  /** Reads and enables pagination through a set of `UserInfo`. */
+  userInfos?: Maybe<UserInfosConnection>;
   userRole?: Maybe<UserRole>;
-  userRoleByUserIdAndRoleId?: Maybe<UserRole>;
-};
-
-/** The root query type which gives access points into the data universe. */
-export type QueryAllClassManagementsArgs = {
-  after?: InputMaybe<Scalars["Cursor"]["input"]>;
-  before?: InputMaybe<Scalars["Cursor"]["input"]>;
-  condition?: InputMaybe<ClassManagementCondition>;
-  filter?: InputMaybe<ClassManagementFilter>;
-  first?: InputMaybe<Scalars["Int"]["input"]>;
-  last?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  orderBy?: InputMaybe<Array<ClassManagementsOrderBy>>;
-};
-
-/** The root query type which gives access points into the data universe. */
-export type QueryAllClassManagementsListArgs = {
-  condition?: InputMaybe<ClassManagementCondition>;
-  filter?: InputMaybe<ClassManagementFilter>;
-  first?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  orderBy?: InputMaybe<Array<ClassManagementsOrderBy>>;
-};
-
-/** The root query type which gives access points into the data universe. */
-export type QueryAllClassTypesArgs = {
-  after?: InputMaybe<Scalars["Cursor"]["input"]>;
-  before?: InputMaybe<Scalars["Cursor"]["input"]>;
-  condition?: InputMaybe<ClassTypeCondition>;
-  filter?: InputMaybe<ClassTypeFilter>;
-  first?: InputMaybe<Scalars["Int"]["input"]>;
-  last?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  orderBy?: InputMaybe<Array<ClassTypesOrderBy>>;
-};
-
-/** The root query type which gives access points into the data universe. */
-export type QueryAllClassTypesListArgs = {
-  condition?: InputMaybe<ClassTypeCondition>;
-  filter?: InputMaybe<ClassTypeFilter>;
-  first?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  orderBy?: InputMaybe<Array<ClassTypesOrderBy>>;
-};
-
-/** The root query type which gives access points into the data universe. */
-export type QueryAllClassesArgs = {
-  after?: InputMaybe<Scalars["Cursor"]["input"]>;
-  before?: InputMaybe<Scalars["Cursor"]["input"]>;
-  condition?: InputMaybe<ClassCondition>;
-  filter?: InputMaybe<ClassFilter>;
-  first?: InputMaybe<Scalars["Int"]["input"]>;
-  last?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  orderBy?: InputMaybe<Array<ClassesOrderBy>>;
-};
-
-/** The root query type which gives access points into the data universe. */
-export type QueryAllClassesListArgs = {
-  condition?: InputMaybe<ClassCondition>;
-  filter?: InputMaybe<ClassFilter>;
-  first?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  orderBy?: InputMaybe<Array<ClassesOrderBy>>;
-};
-
-/** The root query type which gives access points into the data universe. */
-export type QueryAllRolesArgs = {
-  after?: InputMaybe<Scalars["Cursor"]["input"]>;
-  before?: InputMaybe<Scalars["Cursor"]["input"]>;
-  condition?: InputMaybe<RoleCondition>;
-  filter?: InputMaybe<RoleFilter>;
-  first?: InputMaybe<Scalars["Int"]["input"]>;
-  last?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  orderBy?: InputMaybe<Array<RolesOrderBy>>;
-};
-
-/** The root query type which gives access points into the data universe. */
-export type QueryAllRolesListArgs = {
-  condition?: InputMaybe<RoleCondition>;
-  filter?: InputMaybe<RoleFilter>;
-  first?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  orderBy?: InputMaybe<Array<RolesOrderBy>>;
-};
-
-/** The root query type which gives access points into the data universe. */
-export type QueryAllUserAttributesArgs = {
-  after?: InputMaybe<Scalars["Cursor"]["input"]>;
-  before?: InputMaybe<Scalars["Cursor"]["input"]>;
-  condition?: InputMaybe<UserAttributeCondition>;
-  filter?: InputMaybe<UserAttributeFilter>;
-  first?: InputMaybe<Scalars["Int"]["input"]>;
-  last?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  orderBy?: InputMaybe<Array<UserAttributesOrderBy>>;
-};
-
-/** The root query type which gives access points into the data universe. */
-export type QueryAllUserAttributesListArgs = {
-  condition?: InputMaybe<UserAttributeCondition>;
-  filter?: InputMaybe<UserAttributeFilter>;
-  first?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  orderBy?: InputMaybe<Array<UserAttributesOrderBy>>;
-};
-
-/** The root query type which gives access points into the data universe. */
-export type QueryAllUserInfosArgs = {
-  after?: InputMaybe<Scalars["Cursor"]["input"]>;
-  before?: InputMaybe<Scalars["Cursor"]["input"]>;
-  condition?: InputMaybe<UserInfoCondition>;
-  filter?: InputMaybe<UserInfoFilter>;
-  first?: InputMaybe<Scalars["Int"]["input"]>;
-  last?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  orderBy?: InputMaybe<Array<UserInfosOrderBy>>;
-};
-
-/** The root query type which gives access points into the data universe. */
-export type QueryAllUserInfosListArgs = {
-  condition?: InputMaybe<UserInfoCondition>;
-  filter?: InputMaybe<UserInfoFilter>;
-  first?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  orderBy?: InputMaybe<Array<UserInfosOrderBy>>;
-};
-
-/** The root query type which gives access points into the data universe. */
-export type QueryAllUserRolesArgs = {
-  after?: InputMaybe<Scalars["Cursor"]["input"]>;
-  before?: InputMaybe<Scalars["Cursor"]["input"]>;
-  condition?: InputMaybe<UserRoleCondition>;
-  filter?: InputMaybe<UserRoleFilter>;
-  first?: InputMaybe<Scalars["Int"]["input"]>;
-  last?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  orderBy?: InputMaybe<Array<UserRolesOrderBy>>;
-};
-
-/** The root query type which gives access points into the data universe. */
-export type QueryAllUserRolesListArgs = {
-  condition?: InputMaybe<UserRoleCondition>;
-  filter?: InputMaybe<UserRoleFilter>;
-  first?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  orderBy?: InputMaybe<Array<UserRolesOrderBy>>;
-};
-
-/** The root query type which gives access points into the data universe. */
-export type QueryAllUsersArgs = {
-  after?: InputMaybe<Scalars["Cursor"]["input"]>;
-  before?: InputMaybe<Scalars["Cursor"]["input"]>;
-  condition?: InputMaybe<UserCondition>;
-  filter?: InputMaybe<UserFilter>;
-  first?: InputMaybe<Scalars["Int"]["input"]>;
-  last?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  orderBy?: InputMaybe<Array<UsersOrderBy>>;
-};
-
-/** The root query type which gives access points into the data universe. */
-export type QueryAllUsersListArgs = {
-  condition?: InputMaybe<UserCondition>;
-  filter?: InputMaybe<UserFilter>;
-  first?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  orderBy?: InputMaybe<Array<UsersOrderBy>>;
+  /** Reads a single `UserRole` using its globally unique `ID`. */
+  userRoleByNodeId?: Maybe<UserRole>;
+  /** Reads and enables pagination through a set of `UserRole`. */
+  userRoles?: Maybe<UserRolesConnection>;
+  /** Reads and enables pagination through a set of `User`. */
+  users?: Maybe<UsersConnection>;
 };
 
 /** The root query type which gives access points into the data universe. */
 export type QueryClassArgs = {
-  nodeId: Scalars["ID"]["input"];
-};
-
-/** The root query type which gives access points into the data universe. */
-export type QueryClassByIdArgs = {
   id: Scalars["Int"]["input"];
 };
 
 /** The root query type which gives access points into the data universe. */
-export type QueryClassManagementArgs = {
+export type QueryClassByNodeIdArgs = {
   nodeId: Scalars["ID"]["input"];
 };
 
 /** The root query type which gives access points into the data universe. */
-export type QueryClassManagementByClassIdAndUserIdArgs = {
+export type QueryClassManagementArgs = {
   classId: Scalars["Int"]["input"];
   userId: Scalars["Int"]["input"];
 };
 
 /** The root query type which gives access points into the data universe. */
-export type QueryClassTypeArgs = {
+export type QueryClassManagementByNodeIdArgs = {
   nodeId: Scalars["ID"]["input"];
 };
 
 /** The root query type which gives access points into the data universe. */
-export type QueryClassTypeByIdArgs = {
+export type QueryClassManagementsArgs = {
+  after?: InputMaybe<Scalars["Cursor"]["input"]>;
+  before?: InputMaybe<Scalars["Cursor"]["input"]>;
+  condition?: InputMaybe<ClassManagementCondition>;
+  filter?: InputMaybe<ClassManagementFilter>;
+  first?: InputMaybe<Scalars["Int"]["input"]>;
+  last?: InputMaybe<Scalars["Int"]["input"]>;
+  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  orderBy?: InputMaybe<Array<ClassManagementsOrderBy>>;
+};
+
+/** The root query type which gives access points into the data universe. */
+export type QueryClassTypeArgs = {
   id: Scalars["Int"]["input"];
+};
+
+/** The root query type which gives access points into the data universe. */
+export type QueryClassTypeByNodeIdArgs = {
+  nodeId: Scalars["ID"]["input"];
+};
+
+/** The root query type which gives access points into the data universe. */
+export type QueryClassTypesArgs = {
+  after?: InputMaybe<Scalars["Cursor"]["input"]>;
+  before?: InputMaybe<Scalars["Cursor"]["input"]>;
+  condition?: InputMaybe<ClassTypeCondition>;
+  filter?: InputMaybe<ClassTypeFilter>;
+  first?: InputMaybe<Scalars["Int"]["input"]>;
+  last?: InputMaybe<Scalars["Int"]["input"]>;
+  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  orderBy?: InputMaybe<Array<ClassTypesOrderBy>>;
+};
+
+/** The root query type which gives access points into the data universe. */
+export type QueryClassesArgs = {
+  after?: InputMaybe<Scalars["Cursor"]["input"]>;
+  before?: InputMaybe<Scalars["Cursor"]["input"]>;
+  condition?: InputMaybe<ClassCondition>;
+  filter?: InputMaybe<ClassFilter>;
+  first?: InputMaybe<Scalars["Int"]["input"]>;
+  last?: InputMaybe<Scalars["Int"]["input"]>;
+  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  orderBy?: InputMaybe<Array<ClassesOrderBy>>;
 };
 
 /** The root query type which gives access points into the data universe. */
@@ -1744,11 +1660,6 @@ export type QueryNodeArgs = {
 
 /** The root query type which gives access points into the data universe. */
 export type QueryRoleArgs = {
-  nodeId: Scalars["ID"]["input"];
-};
-
-/** The root query type which gives access points into the data universe. */
-export type QueryRoleByIdArgs = {
   id: Scalars["Int"]["input"];
 };
 
@@ -1758,17 +1669,29 @@ export type QueryRoleByNameArgs = {
 };
 
 /** The root query type which gives access points into the data universe. */
-export type QueryUserArgs = {
+export type QueryRoleByNodeIdArgs = {
   nodeId: Scalars["ID"]["input"];
+};
+
+/** The root query type which gives access points into the data universe. */
+export type QueryRolesArgs = {
+  after?: InputMaybe<Scalars["Cursor"]["input"]>;
+  before?: InputMaybe<Scalars["Cursor"]["input"]>;
+  condition?: InputMaybe<RoleCondition>;
+  filter?: InputMaybe<RoleFilter>;
+  first?: InputMaybe<Scalars["Int"]["input"]>;
+  last?: InputMaybe<Scalars["Int"]["input"]>;
+  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  orderBy?: InputMaybe<Array<RolesOrderBy>>;
+};
+
+/** The root query type which gives access points into the data universe. */
+export type QueryUserArgs = {
+  id: Scalars["Int"]["input"];
 };
 
 /** The root query type which gives access points into the data universe. */
 export type QueryUserAttributeArgs = {
-  nodeId: Scalars["ID"]["input"];
-};
-
-/** The root query type which gives access points into the data universe. */
-export type QueryUserAttributeByIdArgs = {
   id: Scalars["Int"]["input"];
 };
 
@@ -1778,8 +1701,25 @@ export type QueryUserAttributeByNameArgs = {
 };
 
 /** The root query type which gives access points into the data universe. */
-export type QueryUserByIdArgs = {
-  id: Scalars["Int"]["input"];
+export type QueryUserAttributeByNodeIdArgs = {
+  nodeId: Scalars["ID"]["input"];
+};
+
+/** The root query type which gives access points into the data universe. */
+export type QueryUserAttributesArgs = {
+  after?: InputMaybe<Scalars["Cursor"]["input"]>;
+  before?: InputMaybe<Scalars["Cursor"]["input"]>;
+  condition?: InputMaybe<UserAttributeCondition>;
+  filter?: InputMaybe<UserAttributeFilter>;
+  first?: InputMaybe<Scalars["Int"]["input"]>;
+  last?: InputMaybe<Scalars["Int"]["input"]>;
+  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  orderBy?: InputMaybe<Array<UserAttributesOrderBy>>;
+};
+
+/** The root query type which gives access points into the data universe. */
+export type QueryUserByNodeIdArgs = {
+  nodeId: Scalars["ID"]["input"];
 };
 
 /** The root query type which gives access points into the data universe. */
@@ -1789,7 +1729,7 @@ export type QueryUserByUsernameArgs = {
 
 /** The root query type which gives access points into the data universe. */
 export type QueryUserInfoArgs = {
-  nodeId: Scalars["ID"]["input"];
+  id: Scalars["Int"]["input"];
 };
 
 /** The root query type which gives access points into the data universe. */
@@ -1798,8 +1738,8 @@ export type QueryUserInfoByEmailArgs = {
 };
 
 /** The root query type which gives access points into the data universe. */
-export type QueryUserInfoByIdArgs = {
-  id: Scalars["Int"]["input"];
+export type QueryUserInfoByNodeIdArgs = {
+  nodeId: Scalars["ID"]["input"];
 };
 
 /** The root query type which gives access points into the data universe. */
@@ -1808,29 +1748,30 @@ export type QueryUserInfoByPhoneNumberArgs = {
 };
 
 /** The root query type which gives access points into the data universe. */
-export type QueryUserRoleArgs = {
-  nodeId: Scalars["ID"]["input"];
+export type QueryUserInfosArgs = {
+  after?: InputMaybe<Scalars["Cursor"]["input"]>;
+  before?: InputMaybe<Scalars["Cursor"]["input"]>;
+  condition?: InputMaybe<UserInfoCondition>;
+  filter?: InputMaybe<UserInfoFilter>;
+  first?: InputMaybe<Scalars["Int"]["input"]>;
+  last?: InputMaybe<Scalars["Int"]["input"]>;
+  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  orderBy?: InputMaybe<Array<UserInfosOrderBy>>;
 };
 
 /** The root query type which gives access points into the data universe. */
-export type QueryUserRoleByUserIdAndRoleIdArgs = {
+export type QueryUserRoleArgs = {
   roleId: Scalars["Int"]["input"];
   userId: Scalars["Int"]["input"];
 };
 
-export type Role = Node & {
-  description?: Maybe<Scalars["String"]["output"]>;
-  id: Scalars["Int"]["output"];
-  name?: Maybe<Scalars["String"]["output"]>;
-  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  nodeId: Scalars["ID"]["output"];
-  /** Reads and enables pagination through a set of `UserRole`. */
-  userRolesByRoleId: UserRolesConnection;
-  /** Reads and enables pagination through a set of `UserRole`. */
-  userRolesByRoleIdList: Array<UserRole>;
+/** The root query type which gives access points into the data universe. */
+export type QueryUserRoleByNodeIdArgs = {
+  nodeId: Scalars["ID"]["input"];
 };
 
-export type RoleUserRolesByRoleIdArgs = {
+/** The root query type which gives access points into the data universe. */
+export type QueryUserRolesArgs = {
   after?: InputMaybe<Scalars["Cursor"]["input"]>;
   before?: InputMaybe<Scalars["Cursor"]["input"]>;
   condition?: InputMaybe<UserRoleCondition>;
@@ -1841,12 +1782,50 @@ export type RoleUserRolesByRoleIdArgs = {
   orderBy?: InputMaybe<Array<UserRolesOrderBy>>;
 };
 
-export type RoleUserRolesByRoleIdListArgs = {
+/** The root query type which gives access points into the data universe. */
+export type QueryUsersArgs = {
+  after?: InputMaybe<Scalars["Cursor"]["input"]>;
+  before?: InputMaybe<Scalars["Cursor"]["input"]>;
+  condition?: InputMaybe<UserCondition>;
+  filter?: InputMaybe<UserFilter>;
+  first?: InputMaybe<Scalars["Int"]["input"]>;
+  last?: InputMaybe<Scalars["Int"]["input"]>;
+  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  orderBy?: InputMaybe<Array<UsersOrderBy>>;
+};
+
+export type Role = Node & {
+  description?: Maybe<Scalars["String"]["output"]>;
+  id: Scalars["Int"]["output"];
+  name?: Maybe<Scalars["String"]["output"]>;
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars["ID"]["output"];
+  /** Reads and enables pagination through a set of `UserRole`. */
+  userRoles: UserRolesConnection;
+  /** Reads and enables pagination through a set of `User`. */
+  usersByUserRoleRoleIdAndUserId: RoleUsersByUserRoleRoleIdAndUserIdManyToManyConnection;
+};
+
+export type RoleUserRolesArgs = {
+  after?: InputMaybe<Scalars["Cursor"]["input"]>;
+  before?: InputMaybe<Scalars["Cursor"]["input"]>;
   condition?: InputMaybe<UserRoleCondition>;
   filter?: InputMaybe<UserRoleFilter>;
   first?: InputMaybe<Scalars["Int"]["input"]>;
+  last?: InputMaybe<Scalars["Int"]["input"]>;
   offset?: InputMaybe<Scalars["Int"]["input"]>;
   orderBy?: InputMaybe<Array<UserRolesOrderBy>>;
+};
+
+export type RoleUsersByUserRoleRoleIdAndUserIdArgs = {
+  after?: InputMaybe<Scalars["Cursor"]["input"]>;
+  before?: InputMaybe<Scalars["Cursor"]["input"]>;
+  condition?: InputMaybe<UserCondition>;
+  filter?: InputMaybe<UserFilter>;
+  first?: InputMaybe<Scalars["Int"]["input"]>;
+  last?: InputMaybe<Scalars["Int"]["input"]>;
+  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  orderBy?: InputMaybe<Array<UsersOrderBy>>;
 };
 
 /** A condition to be used against `Role` object types. All fields are tested for equality and combined with a logical ‘and.’ */
@@ -1889,12 +1868,32 @@ export type RolePatch = {
   name?: InputMaybe<Scalars["String"]["input"]>;
 };
 
+/** A connection to a list of `User` values, with data from `UserRole`. */
+export type RoleUsersByUserRoleRoleIdAndUserIdManyToManyConnection = {
+  /** A list of edges which contains the `User`, info from the `UserRole`, and the cursor to aid in pagination. */
+  edges: Array<RoleUsersByUserRoleRoleIdAndUserIdManyToManyEdge>;
+  /** A list of `User` objects. */
+  nodes: Array<User>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `User` you could get from the connection. */
+  totalCount: Scalars["Int"]["output"];
+};
+
+/** A `User` edge in the connection, with data from `UserRole`. */
+export type RoleUsersByUserRoleRoleIdAndUserIdManyToManyEdge = {
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars["Cursor"]["output"]>;
+  /** The `User` at the end of the edge. */
+  node: User;
+};
+
 /** A connection to a list of `Role` values. */
 export type RolesConnection = {
   /** A list of edges which contains the `Role` and cursor to aid in pagination. */
   edges: Array<RolesEdge>;
   /** A list of `Role` objects. */
-  nodes: Array<Maybe<Role>>;
+  nodes: Array<Role>;
   /** Information to aid in pagination. */
   pageInfo: PageInfo;
   /** The count of *all* `Role` you could get from the connection. */
@@ -1906,7 +1905,7 @@ export type RolesEdge = {
   /** A cursor for use in pagination. */
   cursor?: Maybe<Scalars["Cursor"]["output"]>;
   /** The `Role` at the end of the edge. */
-  node?: Maybe<Role>;
+  node: Role;
 };
 
 /** Methods to use when ordering `Role`. */
@@ -1943,12 +1942,12 @@ export type StringFilter = {
   greaterThanOrEqualTo?: InputMaybe<Scalars["String"]["input"]>;
   /** Greater than or equal to the specified value (case-insensitive). */
   greaterThanOrEqualToInsensitive?: InputMaybe<Scalars["String"]["input"]>;
+  /** Contains the specified string (case-sensitive). */
+  iLike?: InputMaybe<Scalars["String"]["input"]>;
   /** Included in the specified list. */
   in?: InputMaybe<Array<Scalars["String"]["input"]>>;
   /** Included in the specified list (case-insensitive). */
   inInsensitive?: InputMaybe<Array<Scalars["String"]["input"]>>;
-  /** Contains the specified string (case-sensitive). */
-  includes?: InputMaybe<Scalars["String"]["input"]>;
   /** Contains the specified string (case-insensitive). */
   includesInsensitive?: InputMaybe<Scalars["String"]["input"]>;
   /** Is null (if `true` is specified) or is not null (if `false` is specified). */
@@ -1965,6 +1964,8 @@ export type StringFilter = {
   like?: InputMaybe<Scalars["String"]["input"]>;
   /** Matches the specified pattern (case-insensitive). An underscore (_) matches any single character; a percent sign (%) matches any sequence of zero or more characters. */
   likeInsensitive?: InputMaybe<Scalars["String"]["input"]>;
+  /** Not equal to the specified value. */
+  ne?: InputMaybe<Scalars["String"]["input"]>;
   /** Equal to the specified value, treating null like an ordinary value. */
   notDistinctFrom?: InputMaybe<Scalars["String"]["input"]>;
   /** Equal to the specified value, treating null like an ordinary value (case-insensitive). */
@@ -1973,8 +1974,6 @@ export type StringFilter = {
   notEndsWith?: InputMaybe<Scalars["String"]["input"]>;
   /** Does not end with the specified string (case-insensitive). */
   notEndsWithInsensitive?: InputMaybe<Scalars["String"]["input"]>;
-  /** Not equal to the specified value. */
-  notEqualTo?: InputMaybe<Scalars["String"]["input"]>;
   /** Not equal to the specified value (case-insensitive). */
   notEqualToInsensitive?: InputMaybe<Scalars["String"]["input"]>;
   /** Not included in the specified list. */
@@ -1999,22 +1998,8 @@ export type StringFilter = {
   startsWithInsensitive?: InputMaybe<Scalars["String"]["input"]>;
 };
 
-/** All input for the `updateClassById` mutation. */
-export type UpdateClassByIdInput = {
-  /** An object where the defined keys will be set on the `Class` being updated. */
-  classPatch: ClassPatch;
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
-  id: Scalars["Int"]["input"];
-};
-
-/** All input for the `updateClass` mutation. */
-export type UpdateClassInput = {
-  /** An object where the defined keys will be set on the `Class` being updated. */
-  classPatch: ClassPatch;
+/** All input for the `updateClassByNodeId` mutation. */
+export type UpdateClassByNodeIdInput = {
   /**
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
@@ -2022,25 +2007,24 @@ export type UpdateClassInput = {
   clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
   /** The globally unique `ID` which will identify a single `Class` to be updated. */
   nodeId: Scalars["ID"]["input"];
+  /** An object where the defined keys will be set on the `Class` being updated. */
+  patch: ClassPatch;
 };
 
-/** All input for the `updateClassManagementByClassIdAndUserId` mutation. */
-export type UpdateClassManagementByClassIdAndUserIdInput = {
-  classId: Scalars["Int"]["input"];
-  /** An object where the defined keys will be set on the `ClassManagement` being updated. */
-  classManagementPatch: ClassManagementPatch;
+/** All input for the `updateClass` mutation. */
+export type UpdateClassInput = {
   /**
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
   clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
-  userId: Scalars["Int"]["input"];
+  id: Scalars["Int"]["input"];
+  /** An object where the defined keys will be set on the `Class` being updated. */
+  patch: ClassPatch;
 };
 
-/** All input for the `updateClassManagement` mutation. */
-export type UpdateClassManagementInput = {
-  /** An object where the defined keys will be set on the `ClassManagement` being updated. */
-  classManagementPatch: ClassManagementPatch;
+/** All input for the `updateClassManagementByNodeId` mutation. */
+export type UpdateClassManagementByNodeIdInput = {
   /**
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
@@ -2048,12 +2032,27 @@ export type UpdateClassManagementInput = {
   clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
   /** The globally unique `ID` which will identify a single `ClassManagement` to be updated. */
   nodeId: Scalars["ID"]["input"];
+  /** An object where the defined keys will be set on the `ClassManagement` being updated. */
+  patch: ClassManagementPatch;
+};
+
+/** All input for the `updateClassManagement` mutation. */
+export type UpdateClassManagementInput = {
+  classId: Scalars["Int"]["input"];
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
+  /** An object where the defined keys will be set on the `ClassManagement` being updated. */
+  patch: ClassManagementPatch;
+  userId: Scalars["Int"]["input"];
 };
 
 /** The output of our update `ClassManagement` mutation. */
 export type UpdateClassManagementPayload = {
   /** Reads a single `Class` that is related to this `ClassManagement`. */
-  classByClassId?: Maybe<Class>;
+  class?: Maybe<Class>;
   /** The `ClassManagement` that was updated by this mutation. */
   classManagement?: Maybe<ClassManagement>;
   /** An edge for our `ClassManagement`. May be used by Relay 1. */
@@ -2066,7 +2065,7 @@ export type UpdateClassManagementPayload = {
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
   /** Reads a single `User` that is related to this `ClassManagement`. */
-  userByUserId?: Maybe<User>;
+  user?: Maybe<User>;
 };
 
 /** The output of our update `ClassManagement` mutation. */
@@ -2081,7 +2080,7 @@ export type UpdateClassPayload = {
   /** An edge for our `Class`. May be used by Relay 1. */
   classEdge?: Maybe<ClassesEdge>;
   /** Reads a single `ClassType` that is related to this `Class`. */
-  classTypeByClassTypeId?: Maybe<ClassType>;
+  classType?: Maybe<ClassType>;
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
@@ -2090,7 +2089,7 @@ export type UpdateClassPayload = {
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
   /** Reads a single `User` that is related to this `Class`. */
-  userByTeacherId?: Maybe<User>;
+  teacher?: Maybe<User>;
 };
 
 /** The output of our update `Class` mutation. */
@@ -2098,22 +2097,8 @@ export type UpdateClassPayloadClassEdgeArgs = {
   orderBy?: InputMaybe<Array<ClassesOrderBy>>;
 };
 
-/** All input for the `updateClassTypeById` mutation. */
-export type UpdateClassTypeByIdInput = {
-  /** An object where the defined keys will be set on the `ClassType` being updated. */
-  classTypePatch: ClassTypePatch;
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
-  id: Scalars["Int"]["input"];
-};
-
-/** All input for the `updateClassType` mutation. */
-export type UpdateClassTypeInput = {
-  /** An object where the defined keys will be set on the `ClassType` being updated. */
-  classTypePatch: ClassTypePatch;
+/** All input for the `updateClassTypeByNodeId` mutation. */
+export type UpdateClassTypeByNodeIdInput = {
   /**
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
@@ -2121,6 +2106,20 @@ export type UpdateClassTypeInput = {
   clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
   /** The globally unique `ID` which will identify a single `ClassType` to be updated. */
   nodeId: Scalars["ID"]["input"];
+  /** An object where the defined keys will be set on the `ClassType` being updated. */
+  patch: ClassTypePatch;
+};
+
+/** All input for the `updateClassType` mutation. */
+export type UpdateClassTypeInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
+  id: Scalars["Int"]["input"];
+  /** An object where the defined keys will be set on the `ClassType` being updated. */
+  patch: ClassTypePatch;
 };
 
 /** The output of our update `ClassType` mutation. */
@@ -2143,18 +2142,6 @@ export type UpdateClassTypePayloadClassTypeEdgeArgs = {
   orderBy?: InputMaybe<Array<ClassTypesOrderBy>>;
 };
 
-/** All input for the `updateRoleById` mutation. */
-export type UpdateRoleByIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
-  id: Scalars["Int"]["input"];
-  /** An object where the defined keys will be set on the `Role` being updated. */
-  rolePatch: RolePatch;
-};
-
 /** All input for the `updateRoleByName` mutation. */
 export type UpdateRoleByNameInput = {
   /**
@@ -2164,7 +2151,20 @@ export type UpdateRoleByNameInput = {
   clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
   name: Scalars["String"]["input"];
   /** An object where the defined keys will be set on the `Role` being updated. */
-  rolePatch: RolePatch;
+  patch: RolePatch;
+};
+
+/** All input for the `updateRoleByNodeId` mutation. */
+export type UpdateRoleByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
+  /** The globally unique `ID` which will identify a single `Role` to be updated. */
+  nodeId: Scalars["ID"]["input"];
+  /** An object where the defined keys will be set on the `Role` being updated. */
+  patch: RolePatch;
 };
 
 /** All input for the `updateRole` mutation. */
@@ -2174,10 +2174,9 @@ export type UpdateRoleInput = {
    * payload verbatim. May be used to track mutations by the client.
    */
   clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
-  /** The globally unique `ID` which will identify a single `Role` to be updated. */
-  nodeId: Scalars["ID"]["input"];
+  id: Scalars["Int"]["input"];
   /** An object where the defined keys will be set on the `Role` being updated. */
-  rolePatch: RolePatch;
+  patch: RolePatch;
 };
 
 /** The output of our update `Role` mutation. */
@@ -2200,18 +2199,6 @@ export type UpdateRolePayloadRoleEdgeArgs = {
   orderBy?: InputMaybe<Array<RolesOrderBy>>;
 };
 
-/** All input for the `updateUserAttributeById` mutation. */
-export type UpdateUserAttributeByIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
-  id: Scalars["Int"]["input"];
-  /** An object where the defined keys will be set on the `UserAttribute` being updated. */
-  userAttributePatch: UserAttributePatch;
-};
-
 /** All input for the `updateUserAttributeByName` mutation. */
 export type UpdateUserAttributeByNameInput = {
   /**
@@ -2221,7 +2208,20 @@ export type UpdateUserAttributeByNameInput = {
   clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
   name: Scalars["String"]["input"];
   /** An object where the defined keys will be set on the `UserAttribute` being updated. */
-  userAttributePatch: UserAttributePatch;
+  patch: UserAttributePatch;
+};
+
+/** All input for the `updateUserAttributeByNodeId` mutation. */
+export type UpdateUserAttributeByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
+  /** The globally unique `ID` which will identify a single `UserAttribute` to be updated. */
+  nodeId: Scalars["ID"]["input"];
+  /** An object where the defined keys will be set on the `UserAttribute` being updated. */
+  patch: UserAttributePatch;
 };
 
 /** All input for the `updateUserAttribute` mutation. */
@@ -2231,10 +2231,9 @@ export type UpdateUserAttributeInput = {
    * payload verbatim. May be used to track mutations by the client.
    */
   clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
-  /** The globally unique `ID` which will identify a single `UserAttribute` to be updated. */
-  nodeId: Scalars["ID"]["input"];
+  id: Scalars["Int"]["input"];
   /** An object where the defined keys will be set on the `UserAttribute` being updated. */
-  userAttributePatch: UserAttributePatch;
+  patch: UserAttributePatch;
 };
 
 /** The output of our update `UserAttribute` mutation. */
@@ -2246,12 +2245,12 @@ export type UpdateUserAttributePayload = {
   clientMutationId?: Maybe<Scalars["String"]["output"]>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
+  /** Reads a single `User` that is related to this `UserAttribute`. */
+  user?: Maybe<User>;
   /** The `UserAttribute` that was updated by this mutation. */
   userAttribute?: Maybe<UserAttribute>;
   /** An edge for our `UserAttribute`. May be used by Relay 1. */
   userAttributeEdge?: Maybe<UserAttributesEdge>;
-  /** Reads a single `User` that is related to this `UserAttribute`. */
-  userByUserId?: Maybe<User>;
 };
 
 /** The output of our update `UserAttribute` mutation. */
@@ -2259,16 +2258,17 @@ export type UpdateUserAttributePayloadUserAttributeEdgeArgs = {
   orderBy?: InputMaybe<Array<UserAttributesOrderBy>>;
 };
 
-/** All input for the `updateUserById` mutation. */
-export type UpdateUserByIdInput = {
+/** All input for the `updateUserByNodeId` mutation. */
+export type UpdateUserByNodeIdInput = {
   /**
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
   clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
-  id: Scalars["Int"]["input"];
+  /** The globally unique `ID` which will identify a single `User` to be updated. */
+  nodeId: Scalars["ID"]["input"];
   /** An object where the defined keys will be set on the `User` being updated. */
-  userPatch: UserPatch;
+  patch: UserPatch;
 };
 
 /** All input for the `updateUserByUsername` mutation. */
@@ -2279,7 +2279,7 @@ export type UpdateUserByUsernameInput = {
    */
   clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
   /** An object where the defined keys will be set on the `User` being updated. */
-  userPatch: UserPatch;
+  patch: UserPatch;
   username: Scalars["String"]["input"];
 };
 
@@ -2292,19 +2292,20 @@ export type UpdateUserInfoByEmailInput = {
   clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
   email: Scalars["String"]["input"];
   /** An object where the defined keys will be set on the `UserInfo` being updated. */
-  userInfoPatch: UserInfoPatch;
+  patch: UserInfoPatch;
 };
 
-/** All input for the `updateUserInfoById` mutation. */
-export type UpdateUserInfoByIdInput = {
+/** All input for the `updateUserInfoByNodeId` mutation. */
+export type UpdateUserInfoByNodeIdInput = {
   /**
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
   clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
-  id: Scalars["Int"]["input"];
+  /** The globally unique `ID` which will identify a single `UserInfo` to be updated. */
+  nodeId: Scalars["ID"]["input"];
   /** An object where the defined keys will be set on the `UserInfo` being updated. */
-  userInfoPatch: UserInfoPatch;
+  patch: UserInfoPatch;
 };
 
 /** All input for the `updateUserInfoByPhoneNumber` mutation. */
@@ -2314,9 +2315,9 @@ export type UpdateUserInfoByPhoneNumberInput = {
    * payload verbatim. May be used to track mutations by the client.
    */
   clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
-  phoneNumber: Scalars["String"]["input"];
   /** An object where the defined keys will be set on the `UserInfo` being updated. */
-  userInfoPatch: UserInfoPatch;
+  patch: UserInfoPatch;
+  phoneNumber: Scalars["String"]["input"];
 };
 
 /** All input for the `updateUserInfo` mutation. */
@@ -2326,10 +2327,9 @@ export type UpdateUserInfoInput = {
    * payload verbatim. May be used to track mutations by the client.
    */
   clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
-  /** The globally unique `ID` which will identify a single `UserInfo` to be updated. */
-  nodeId: Scalars["ID"]["input"];
+  id: Scalars["Int"]["input"];
   /** An object where the defined keys will be set on the `UserInfo` being updated. */
-  userInfoPatch: UserInfoPatch;
+  patch: UserInfoPatch;
 };
 
 /** The output of our update `UserInfo` mutation. */
@@ -2361,10 +2361,9 @@ export type UpdateUserInput = {
    * payload verbatim. May be used to track mutations by the client.
    */
   clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
-  /** The globally unique `ID` which will identify a single `User` to be updated. */
-  nodeId: Scalars["ID"]["input"];
+  id: Scalars["Int"]["input"];
   /** An object where the defined keys will be set on the `User` being updated. */
-  userPatch: UserPatch;
+  patch: UserPatch;
 };
 
 /** The output of our update `User` mutation. */
@@ -2387,17 +2386,17 @@ export type UpdateUserPayloadUserEdgeArgs = {
   orderBy?: InputMaybe<Array<UsersOrderBy>>;
 };
 
-/** All input for the `updateUserRoleByUserIdAndRoleId` mutation. */
-export type UpdateUserRoleByUserIdAndRoleIdInput = {
+/** All input for the `updateUserRoleByNodeId` mutation. */
+export type UpdateUserRoleByNodeIdInput = {
   /**
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
   clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
-  roleId: Scalars["Int"]["input"];
-  userId: Scalars["Int"]["input"];
+  /** The globally unique `ID` which will identify a single `UserRole` to be updated. */
+  nodeId: Scalars["ID"]["input"];
   /** An object where the defined keys will be set on the `UserRole` being updated. */
-  userRolePatch: UserRolePatch;
+  patch: UserRolePatch;
 };
 
 /** All input for the `updateUserRole` mutation. */
@@ -2407,10 +2406,10 @@ export type UpdateUserRoleInput = {
    * payload verbatim. May be used to track mutations by the client.
    */
   clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
-  /** The globally unique `ID` which will identify a single `UserRole` to be updated. */
-  nodeId: Scalars["ID"]["input"];
   /** An object where the defined keys will be set on the `UserRole` being updated. */
-  userRolePatch: UserRolePatch;
+  patch: UserRolePatch;
+  roleId: Scalars["Int"]["input"];
+  userId: Scalars["Int"]["input"];
 };
 
 /** The output of our update `UserRole` mutation. */
@@ -2423,9 +2422,9 @@ export type UpdateUserRolePayload = {
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
   /** Reads a single `Role` that is related to this `UserRole`. */
-  roleByRoleId?: Maybe<Role>;
+  role?: Maybe<Role>;
   /** Reads a single `User` that is related to this `UserRole`. */
-  userByUserId?: Maybe<User>;
+  user?: Maybe<User>;
   /** The `UserRole` that was updated by this mutation. */
   userRole?: Maybe<UserRole>;
   /** An edge for our `UserRole`. May be used by Relay 1. */
@@ -2439,22 +2438,22 @@ export type UpdateUserRolePayloadUserRoleEdgeArgs = {
 
 export type User = Node & {
   /** Reads and enables pagination through a set of `ClassManagement`. */
-  classManagementsByUserId: ClassManagementsConnection;
-  /** Reads and enables pagination through a set of `ClassManagement`. */
-  classManagementsByUserIdList: Array<ClassManagement>;
+  classManagements: ClassManagementsConnection;
+  /** Reads and enables pagination through a set of `ClassType`. */
+  classTypesByClassTeacherIdAndClassTypeId: UserClassTypesByClassTeacherIdAndClassTypeIdManyToManyConnection;
+  /** Reads and enables pagination through a set of `Class`. */
+  classesByClassManagementUserIdAndClassId: UserClassesByClassManagementUserIdAndClassIdManyToManyConnection;
   /** Reads and enables pagination through a set of `Class`. */
   classesByTeacherId: ClassesConnection;
-  /** Reads and enables pagination through a set of `Class`. */
-  classesByTeacherIdList: Array<Class>;
-  createdDate?: Maybe<Scalars["Datetime"]["output"]>;
+  createdDate: Scalars["Datetime"]["output"];
   id: Scalars["Int"]["output"];
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
   nodeId: Scalars["ID"]["output"];
-  updatedDate?: Maybe<Scalars["Datetime"]["output"]>;
+  /** Reads and enables pagination through a set of `Role`. */
+  rolesByUserRoleUserIdAndRoleId: UserRolesByUserRoleUserIdAndRoleIdManyToManyConnection;
+  updatedDate: Scalars["Datetime"]["output"];
   /** Reads and enables pagination through a set of `UserAttribute`. */
-  userAttributesByUserId: UserAttributesConnection;
-  /** Reads and enables pagination through a set of `UserAttribute`. */
-  userAttributesByUserIdList: Array<UserAttribute>;
+  userAttributes: UserAttributesConnection;
   /** Reads a single `UserInfo` that is related to this `User`. */
   userInfoById?: Maybe<UserInfo>;
   /**
@@ -2463,13 +2462,11 @@ export type User = Node & {
    */
   userInfosById: UserInfosConnection;
   /** Reads and enables pagination through a set of `UserRole`. */
-  userRolesByUserId: UserRolesConnection;
-  /** Reads and enables pagination through a set of `UserRole`. */
-  userRolesByUserIdList: Array<UserRole>;
+  userRoles: UserRolesConnection;
   username: Scalars["String"]["output"];
 };
 
-export type UserClassManagementsByUserIdArgs = {
+export type UserClassManagementsArgs = {
   after?: InputMaybe<Scalars["Cursor"]["input"]>;
   before?: InputMaybe<Scalars["Cursor"]["input"]>;
   condition?: InputMaybe<ClassManagementCondition>;
@@ -2480,12 +2477,26 @@ export type UserClassManagementsByUserIdArgs = {
   orderBy?: InputMaybe<Array<ClassManagementsOrderBy>>;
 };
 
-export type UserClassManagementsByUserIdListArgs = {
-  condition?: InputMaybe<ClassManagementCondition>;
-  filter?: InputMaybe<ClassManagementFilter>;
+export type UserClassTypesByClassTeacherIdAndClassTypeIdArgs = {
+  after?: InputMaybe<Scalars["Cursor"]["input"]>;
+  before?: InputMaybe<Scalars["Cursor"]["input"]>;
+  condition?: InputMaybe<ClassTypeCondition>;
+  filter?: InputMaybe<ClassTypeFilter>;
   first?: InputMaybe<Scalars["Int"]["input"]>;
+  last?: InputMaybe<Scalars["Int"]["input"]>;
   offset?: InputMaybe<Scalars["Int"]["input"]>;
-  orderBy?: InputMaybe<Array<ClassManagementsOrderBy>>;
+  orderBy?: InputMaybe<Array<ClassTypesOrderBy>>;
+};
+
+export type UserClassesByClassManagementUserIdAndClassIdArgs = {
+  after?: InputMaybe<Scalars["Cursor"]["input"]>;
+  before?: InputMaybe<Scalars["Cursor"]["input"]>;
+  condition?: InputMaybe<ClassCondition>;
+  filter?: InputMaybe<ClassFilter>;
+  first?: InputMaybe<Scalars["Int"]["input"]>;
+  last?: InputMaybe<Scalars["Int"]["input"]>;
+  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  orderBy?: InputMaybe<Array<ClassesOrderBy>>;
 };
 
 export type UserClassesByTeacherIdArgs = {
@@ -2499,29 +2510,24 @@ export type UserClassesByTeacherIdArgs = {
   orderBy?: InputMaybe<Array<ClassesOrderBy>>;
 };
 
-export type UserClassesByTeacherIdListArgs = {
-  condition?: InputMaybe<ClassCondition>;
-  filter?: InputMaybe<ClassFilter>;
+export type UserRolesByUserRoleUserIdAndRoleIdArgs = {
+  after?: InputMaybe<Scalars["Cursor"]["input"]>;
+  before?: InputMaybe<Scalars["Cursor"]["input"]>;
+  condition?: InputMaybe<RoleCondition>;
+  filter?: InputMaybe<RoleFilter>;
   first?: InputMaybe<Scalars["Int"]["input"]>;
+  last?: InputMaybe<Scalars["Int"]["input"]>;
   offset?: InputMaybe<Scalars["Int"]["input"]>;
-  orderBy?: InputMaybe<Array<ClassesOrderBy>>;
+  orderBy?: InputMaybe<Array<RolesOrderBy>>;
 };
 
-export type UserUserAttributesByUserIdArgs = {
+export type UserUserAttributesArgs = {
   after?: InputMaybe<Scalars["Cursor"]["input"]>;
   before?: InputMaybe<Scalars["Cursor"]["input"]>;
   condition?: InputMaybe<UserAttributeCondition>;
   filter?: InputMaybe<UserAttributeFilter>;
   first?: InputMaybe<Scalars["Int"]["input"]>;
   last?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  orderBy?: InputMaybe<Array<UserAttributesOrderBy>>;
-};
-
-export type UserUserAttributesByUserIdListArgs = {
-  condition?: InputMaybe<UserAttributeCondition>;
-  filter?: InputMaybe<UserAttributeFilter>;
-  first?: InputMaybe<Scalars["Int"]["input"]>;
   offset?: InputMaybe<Scalars["Int"]["input"]>;
   orderBy?: InputMaybe<Array<UserAttributesOrderBy>>;
 };
@@ -2537,7 +2543,7 @@ export type UserUserInfosByIdArgs = {
   orderBy?: InputMaybe<Array<UserInfosOrderBy>>;
 };
 
-export type UserUserRolesByUserIdArgs = {
+export type UserUserRolesArgs = {
   after?: InputMaybe<Scalars["Cursor"]["input"]>;
   before?: InputMaybe<Scalars["Cursor"]["input"]>;
   condition?: InputMaybe<UserRoleCondition>;
@@ -2548,21 +2554,13 @@ export type UserUserRolesByUserIdArgs = {
   orderBy?: InputMaybe<Array<UserRolesOrderBy>>;
 };
 
-export type UserUserRolesByUserIdListArgs = {
-  condition?: InputMaybe<UserRoleCondition>;
-  filter?: InputMaybe<UserRoleFilter>;
-  first?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  orderBy?: InputMaybe<Array<UserRolesOrderBy>>;
-};
-
 export type UserAttribute = Node & {
   id: Scalars["Int"]["output"];
   name: Scalars["String"]["output"];
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
   nodeId: Scalars["ID"]["output"];
   /** Reads a single `User` that is related to this `UserAttribute`. */
-  userByUserId?: Maybe<User>;
+  user?: Maybe<User>;
   userId: Scalars["Int"]["output"];
   value: Scalars["String"]["output"];
 };
@@ -2621,7 +2619,7 @@ export type UserAttributesConnection = {
   /** A list of edges which contains the `UserAttribute` and cursor to aid in pagination. */
   edges: Array<UserAttributesEdge>;
   /** A list of `UserAttribute` objects. */
-  nodes: Array<Maybe<UserAttribute>>;
+  nodes: Array<UserAttribute>;
   /** Information to aid in pagination. */
   pageInfo: PageInfo;
   /** The count of *all* `UserAttribute` you could get from the connection. */
@@ -2633,7 +2631,7 @@ export type UserAttributesEdge = {
   /** A cursor for use in pagination. */
   cursor?: Maybe<Scalars["Cursor"]["output"]>;
   /** The `UserAttribute` at the end of the edge. */
-  node?: Maybe<UserAttribute>;
+  node: UserAttribute;
 };
 
 /** Methods to use when ordering `UserAttribute`. */
@@ -2649,6 +2647,61 @@ export type UserAttributesOrderBy =
   | "USER_ID_DESC"
   | "VALUE_ASC"
   | "VALUE_DESC";
+
+/** A connection to a list of `ClassType` values, with data from `Class`. */
+export type UserClassTypesByClassTeacherIdAndClassTypeIdManyToManyConnection = {
+  /** A list of edges which contains the `ClassType`, info from the `Class`, and the cursor to aid in pagination. */
+  edges: Array<UserClassTypesByClassTeacherIdAndClassTypeIdManyToManyEdge>;
+  /** A list of `ClassType` objects. */
+  nodes: Array<ClassType>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `ClassType` you could get from the connection. */
+  totalCount: Scalars["Int"]["output"];
+};
+
+/** A `ClassType` edge in the connection, with data from `Class`. */
+export type UserClassTypesByClassTeacherIdAndClassTypeIdManyToManyEdge = {
+  /** Reads and enables pagination through a set of `Class`. */
+  classes: ClassesConnection;
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars["Cursor"]["output"]>;
+  /** The `ClassType` at the end of the edge. */
+  node: ClassType;
+};
+
+/** A `ClassType` edge in the connection, with data from `Class`. */
+export type UserClassTypesByClassTeacherIdAndClassTypeIdManyToManyEdgeClassesArgs =
+  {
+    after?: InputMaybe<Scalars["Cursor"]["input"]>;
+    before?: InputMaybe<Scalars["Cursor"]["input"]>;
+    condition?: InputMaybe<ClassCondition>;
+    filter?: InputMaybe<ClassFilter>;
+    first?: InputMaybe<Scalars["Int"]["input"]>;
+    last?: InputMaybe<Scalars["Int"]["input"]>;
+    offset?: InputMaybe<Scalars["Int"]["input"]>;
+    orderBy?: InputMaybe<Array<ClassesOrderBy>>;
+  };
+
+/** A connection to a list of `Class` values, with data from `ClassManagement`. */
+export type UserClassesByClassManagementUserIdAndClassIdManyToManyConnection = {
+  /** A list of edges which contains the `Class`, info from the `ClassManagement`, and the cursor to aid in pagination. */
+  edges: Array<UserClassesByClassManagementUserIdAndClassIdManyToManyEdge>;
+  /** A list of `Class` objects. */
+  nodes: Array<Class>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `Class` you could get from the connection. */
+  totalCount: Scalars["Int"]["output"];
+};
+
+/** A `Class` edge in the connection, with data from `ClassManagement`. */
+export type UserClassesByClassManagementUserIdAndClassIdManyToManyEdge = {
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars["Cursor"]["output"]>;
+  /** The `Class` at the end of the edge. */
+  node: Class;
+};
 
 /** A condition to be used against `User` object types. All fields are tested for equality and combined with a logical ‘and.’ */
 export type UserCondition = {
@@ -2683,13 +2736,14 @@ export type UserFilter = {
 export type UserInfo = Node & {
   avatarUrl?: Maybe<Scalars["String"]["output"]>;
   dateOfBirth?: Maybe<Scalars["Datetime"]["output"]>;
-  email?: Maybe<Scalars["String"]["output"]>;
-  firstName?: Maybe<Scalars["String"]["output"]>;
+  email: Scalars["String"]["output"];
+  firstName: Scalars["String"]["output"];
+  name: Scalars["String"]["output"];
   id: Scalars["Int"]["output"];
   lastName?: Maybe<Scalars["String"]["output"]>;
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
   nodeId: Scalars["ID"]["output"];
-  phoneNumber?: Maybe<Scalars["String"]["output"]>;
+  phoneNumber: Scalars["String"]["output"];
   /** Reads a single `User` that is related to this `UserInfo`. */
   userById?: Maybe<User>;
 };
@@ -2743,11 +2797,11 @@ export type UserInfoFilter = {
 export type UserInfoInput = {
   avatarUrl?: InputMaybe<Scalars["String"]["input"]>;
   dateOfBirth?: InputMaybe<Scalars["Datetime"]["input"]>;
-  email?: InputMaybe<Scalars["String"]["input"]>;
+  email: Scalars["String"]["input"];
   firstName?: InputMaybe<Scalars["String"]["input"]>;
   id: Scalars["Int"]["input"];
   lastName?: InputMaybe<Scalars["String"]["input"]>;
-  phoneNumber?: InputMaybe<Scalars["String"]["input"]>;
+  phoneNumber: Scalars["String"]["input"];
 };
 
 /** Represents an update to a `UserInfo`. Fields that are set will be updated. */
@@ -2766,7 +2820,7 @@ export type UserInfosConnection = {
   /** A list of edges which contains the `UserInfo` and cursor to aid in pagination. */
   edges: Array<UserInfosEdge>;
   /** A list of `UserInfo` objects. */
-  nodes: Array<Maybe<UserInfo>>;
+  nodes: Array<UserInfo>;
   /** Information to aid in pagination. */
   pageInfo: PageInfo;
   /** The count of *all* `UserInfo` you could get from the connection. */
@@ -2778,7 +2832,7 @@ export type UserInfosEdge = {
   /** A cursor for use in pagination. */
   cursor?: Maybe<Scalars["Cursor"]["output"]>;
   /** The `UserInfo` at the end of the edge. */
-  node?: Maybe<UserInfo>;
+  node: UserInfo;
 };
 
 /** Methods to use when ordering `UserInfo`. */
@@ -2804,7 +2858,7 @@ export type UserInfosOrderBy =
 /** An input for mutations affecting `User` */
 export type UserInput = {
   createdDate?: InputMaybe<Scalars["Datetime"]["input"]>;
-  id: Scalars["Int"]["input"];
+  id?: InputMaybe<Scalars["Int"]["input"]>;
   updatedDate?: InputMaybe<Scalars["Datetime"]["input"]>;
   username: Scalars["String"]["input"];
 };
@@ -2821,10 +2875,10 @@ export type UserRole = Node & {
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
   nodeId: Scalars["ID"]["output"];
   /** Reads a single `Role` that is related to this `UserRole`. */
-  roleByRoleId?: Maybe<Role>;
+  role?: Maybe<Role>;
   roleId: Scalars["Int"]["output"];
   /** Reads a single `User` that is related to this `UserRole`. */
-  userByUserId?: Maybe<User>;
+  user?: Maybe<User>;
   userId: Scalars["Int"]["output"];
 };
 
@@ -2865,12 +2919,32 @@ export type UserRolePatch = {
   userId?: InputMaybe<Scalars["Int"]["input"]>;
 };
 
+/** A connection to a list of `Role` values, with data from `UserRole`. */
+export type UserRolesByUserRoleUserIdAndRoleIdManyToManyConnection = {
+  /** A list of edges which contains the `Role`, info from the `UserRole`, and the cursor to aid in pagination. */
+  edges: Array<UserRolesByUserRoleUserIdAndRoleIdManyToManyEdge>;
+  /** A list of `Role` objects. */
+  nodes: Array<Role>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `Role` you could get from the connection. */
+  totalCount: Scalars["Int"]["output"];
+};
+
+/** A `Role` edge in the connection, with data from `UserRole`. */
+export type UserRolesByUserRoleUserIdAndRoleIdManyToManyEdge = {
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars["Cursor"]["output"]>;
+  /** The `Role` at the end of the edge. */
+  node: Role;
+};
+
 /** A connection to a list of `UserRole` values. */
 export type UserRolesConnection = {
   /** A list of edges which contains the `UserRole` and cursor to aid in pagination. */
   edges: Array<UserRolesEdge>;
   /** A list of `UserRole` objects. */
-  nodes: Array<Maybe<UserRole>>;
+  nodes: Array<UserRole>;
   /** Information to aid in pagination. */
   pageInfo: PageInfo;
   /** The count of *all* `UserRole` you could get from the connection. */
@@ -2882,7 +2956,7 @@ export type UserRolesEdge = {
   /** A cursor for use in pagination. */
   cursor?: Maybe<Scalars["Cursor"]["output"]>;
   /** The `UserRole` at the end of the edge. */
-  node?: Maybe<UserRole>;
+  node: UserRole;
 };
 
 /** Methods to use when ordering `UserRole`. */
@@ -2900,7 +2974,7 @@ export type UsersConnection = {
   /** A list of edges which contains the `User` and cursor to aid in pagination. */
   edges: Array<UsersEdge>;
   /** A list of `User` objects. */
-  nodes: Array<Maybe<User>>;
+  nodes: Array<User>;
   /** Information to aid in pagination. */
   pageInfo: PageInfo;
   /** The count of *all* `User` you could get from the connection. */
@@ -2912,7 +2986,7 @@ export type UsersEdge = {
   /** A cursor for use in pagination. */
   cursor?: Maybe<Scalars["Cursor"]["output"]>;
   /** The `User` at the end of the edge. */
-  node?: Maybe<User>;
+  node: User;
 };
 
 /** Methods to use when ordering `User`. */

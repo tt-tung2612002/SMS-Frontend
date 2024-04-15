@@ -18,7 +18,10 @@ const config: IGraphQLConfig = {
         },
         "src/graphql/new/types.ts": {
           preset: "import-types",
-          documents: ["src/**/classqueries.{ts,tsx}"],
+          documents: [
+            "src/**/classqueries.{ts,tsx}",
+            "src/**/useUsersSelect.{ts,tsx}",
+          ],
           // documents: "src/graphql/schema.graphql",
           plugins: ["typescript-operations"],
           config: {
@@ -26,7 +29,10 @@ const config: IGraphQLConfig = {
             enumsAsTypes: true,
             preResolveTypes: false,
             useTypeImports: true,
+            avoidOptionals: true,
+            maybeValue: "T | undefined",
           },
+
           presetConfig: {
             typesPath: "./schema.types",
           },

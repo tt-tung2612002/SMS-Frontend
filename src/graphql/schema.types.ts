@@ -1213,7 +1213,7 @@ export type ContactStageFilterComparison = {
   eq?: InputMaybe<ContactStage>;
   gt?: InputMaybe<ContactStage>;
   gte?: InputMaybe<ContactStage>;
-  iLike?: InputMaybe<ContactStage>;
+  contains?: InputMaybe<ContactStage>;
   in?: InputMaybe<Array<ContactStage>>;
   is?: InputMaybe<Scalars["Boolean"]["input"]>;
   isNot?: InputMaybe<Scalars["Boolean"]["input"]>;
@@ -1242,7 +1242,7 @@ export type ContactStatusFilterComparison = {
   eq?: InputMaybe<ContactStatus>;
   gt?: InputMaybe<ContactStatus>;
   gte?: InputMaybe<ContactStatus>;
-  iLike?: InputMaybe<ContactStatus>;
+  contains?: InputMaybe<ContactStatus>;
   in?: InputMaybe<Array<ContactStatus>>;
   is?: InputMaybe<Scalars["Boolean"]["input"]>;
   isNot?: InputMaybe<Scalars["Boolean"]["input"]>;
@@ -2534,7 +2534,7 @@ export type IdFilterComparison = {
   eq?: InputMaybe<Scalars["ID"]["input"]>;
   gt?: InputMaybe<Scalars["ID"]["input"]>;
   gte?: InputMaybe<Scalars["ID"]["input"]>;
-  iLike?: InputMaybe<Scalars["ID"]["input"]>;
+  contains?: InputMaybe<Scalars["ID"]["input"]>;
   in?: InputMaybe<Array<Scalars["ID"]["input"]>>;
   is?: InputMaybe<Scalars["Boolean"]["input"]>;
   isNot?: InputMaybe<Scalars["Boolean"]["input"]>;
@@ -3392,7 +3392,7 @@ export type QuoteStatusFilterComparison = {
   eq?: InputMaybe<QuoteStatus>;
   gt?: InputMaybe<QuoteStatus>;
   gte?: InputMaybe<QuoteStatus>;
-  iLike?: InputMaybe<QuoteStatus>;
+  contains?: InputMaybe<QuoteStatus>;
   in?: InputMaybe<Array<QuoteStatus>>;
   is?: InputMaybe<Scalars["Boolean"]["input"]>;
   isNot?: InputMaybe<Scalars["Boolean"]["input"]>;
@@ -3456,7 +3456,7 @@ export type StringFieldComparison = {
   eq?: InputMaybe<Scalars["String"]["input"]>;
   gt?: InputMaybe<Scalars["String"]["input"]>;
   gte?: InputMaybe<Scalars["String"]["input"]>;
-  iLike?: InputMaybe<Scalars["String"]["input"]>;
+  includes?: InputMaybe<Scalars["String"]["input"]>;
   in?: InputMaybe<Array<Scalars["String"]["input"]>>;
   is?: InputMaybe<Scalars["Boolean"]["input"]>;
   isNot?: InputMaybe<Scalars["Boolean"]["input"]>;
