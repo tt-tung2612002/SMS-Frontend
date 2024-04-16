@@ -13,7 +13,7 @@ import {
   CompanyTitleFormMutation,
   CompanyTitleFormMutationVariables,
 } from "@/graphql/types";
-import { useUsersSelect } from "@/hooks/useUsersSelect";
+import { oldUsersSelect } from "@/hooks/useUsersSelect";
 import { getNameInitials } from "@/utilities";
 
 import { COMPANY_TITLE_FORM_MUTATION, COMPANY_TITLE_QUERY } from "./queries";
@@ -26,6 +26,7 @@ export const CompanyTitleForm = () => {
     GetVariables<CompanyTitleFormMutationVariables>
   >({
     redirect: false,
+    resource: "companies",
     meta: {
       gqlMutation: COMPANY_TITLE_FORM_MUTATION,
       gqlQuery: COMPANY_TITLE_QUERY,
@@ -120,7 +121,7 @@ const SalesOwnerInput = ({
 }) => {
   const [isEdit, setIsEdit] = useState(false);
 
-  const { selectProps, queryResult } = useUsersSelect();
+  const { selectProps, queryResult } = oldUsersSelect();
 
   return (
     <div

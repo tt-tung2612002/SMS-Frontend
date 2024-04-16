@@ -42,7 +42,6 @@ export const CompanyListPage: FC<PropsWithChildren> = ({ children }) => {
     resource: "classes",
 
     onSearch: (values) => {
-      console.log(values);
       return [
         {
           field: "name",
@@ -55,8 +54,8 @@ export const CompanyListPage: FC<PropsWithChildren> = ({ children }) => {
       mode: "off",
       initial: [
         {
-          field: "createdAt",
-          order: "desc",
+          field: "name",
+          order: "asc",
         },
       ],
     },
@@ -70,7 +69,7 @@ export const CompanyListPage: FC<PropsWithChildren> = ({ children }) => {
         },
         {
           field: "teacherId",
-          operator: "in",
+          operator: "eq",
           value: undefined,
         },
       ],

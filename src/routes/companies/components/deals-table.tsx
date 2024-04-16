@@ -19,7 +19,7 @@ import {
   CompanyTotalDealsAmountQuery,
 } from "@/graphql/types";
 import { useDealStagesSelect } from "@/hooks/useDealStagesSelect";
-import { useUsersSelect } from "@/hooks/useUsersSelect";
+import { oldUsersSelect } from "@/hooks/useUsersSelect";
 import { currencyNumber } from "@/utilities";
 
 import {
@@ -84,7 +84,7 @@ export const CompanyDealsTable: FC<Props> = ({ style }) => {
     },
   });
 
-  const { selectProps: usersSelectProps } = useUsersSelect();
+  const { selectProps: usersSelectProps } = oldUsersSelect();
   const { selectProps: dealStagesSelectProps } = useDealStagesSelect();
 
   const hasData = tableProps.loading
@@ -133,7 +133,7 @@ export const CompanyDealsTable: FC<Props> = ({ style }) => {
           ) : (
             <Text strong>
               {currencyNumber(
-                companyData?.data.dealsAggregate?.[0]?.sum?.value || 0,
+                companyData?.data.dealsAggregate?.[0]?.sum?.value || 0
               )}
             </Text>
           )}

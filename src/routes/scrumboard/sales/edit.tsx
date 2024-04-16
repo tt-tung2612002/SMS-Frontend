@@ -15,7 +15,7 @@ import {
 } from "@/graphql/types";
 import { useContactsSelect } from "@/hooks/useContactsSelect";
 import { useDealStagesSelect } from "@/hooks/useDealStagesSelect";
-import { useUsersSelect } from "@/hooks/useUsersSelect";
+import { oldUsersSelect } from "@/hooks/useUsersSelect";
 
 import {
   SALES_COMPANIES_SELECT_QUERY,
@@ -51,7 +51,7 @@ export const SalesEditPage = () => {
   const { selectProps: stageSelectProps } = useDealStagesSelect();
 
   const { selectProps: userSelectProps, queryResult: userSelectQueryResult } =
-    useUsersSelect();
+    oldUsersSelect();
 
   const deal = queryResult?.data?.data;
 

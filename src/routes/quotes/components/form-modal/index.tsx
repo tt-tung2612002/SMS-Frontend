@@ -14,7 +14,7 @@ import {
 } from "@/graphql/types";
 import { useCompaniesSelect } from "@/hooks/useCompaniesSelect";
 import { useContactsSelect } from "@/hooks/useContactsSelect";
-import { useUsersSelect } from "@/hooks/useUsersSelect";
+import { oldUsersSelect } from "@/hooks/useUsersSelect";
 
 import {
   QUOTES_CREATE_QUOTE_MUTATION,
@@ -73,7 +73,7 @@ export const QuotesFormModal: FC<Props> = ({
   const {
     selectProps: selectPropsSalesOwners,
     queryResult: { isLoading: isLoadingSalesOwners },
-  } = useUsersSelect();
+  } = oldUsersSelect();
 
   const loading =
     isLoadingCompanies || isLoadingContact || isLoadingSalesOwners;

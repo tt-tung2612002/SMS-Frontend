@@ -35,7 +35,7 @@ import {
   CreateCompanyMutation,
   CreateCompanyMutationVariables,
 } from "@/graphql/types";
-import { useUsersSelect } from "@/hooks/useUsersSelect";
+import { oldUsersSelect } from "@/hooks/useUsersSelect";
 
 import { COMPANY_CREATE_MUTATION } from "./classqueries";
 
@@ -72,7 +72,7 @@ export const CompanyCreatePage = ({ isOverModal }: Props) => {
     },
   });
 
-  const { selectProps, queryResult } = useUsersSelect();
+  const { selectProps, queryResult } = oldUsersSelect();
 
   const { mutateAsync: createManyMutateAsync } = useCreateMany();
 

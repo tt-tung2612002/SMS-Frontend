@@ -38,7 +38,7 @@ import { TimezoneEnum } from "@/enums";
 import type { Contact } from "@/graphql/schema.types";
 import { ContactShowQuery } from "@/graphql/types";
 import { useCompaniesSelect } from "@/hooks/useCompaniesSelect";
-import { useUsersSelect } from "@/hooks/useUsersSelect";
+import { oldUsersSelect } from "@/hooks/useUsersSelect";
 
 import { ContactComment, ContactStatus } from "../components";
 import styles from "./index.module.css";
@@ -67,7 +67,7 @@ export const ContactShowPage: React.FC = () => {
   } = useCompaniesSelect();
 
   const { selectProps: usersSelectProps, queryResult: usersSelectQueryResult } =
-    useUsersSelect();
+    oldUsersSelect();
 
   const closeModal = () => {
     setActiveForm(undefined);

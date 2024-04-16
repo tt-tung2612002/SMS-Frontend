@@ -209,8 +209,6 @@ export const localDataProvider = (() => {
       variables = gqlQuery.variables;
     }
 
-    console.log(variables);
-
     const response = await localClient.request<BaseRecord>(query, variables);
 
     return {

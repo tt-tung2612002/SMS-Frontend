@@ -4,7 +4,7 @@ import { HttpError } from "@refinedev/core";
 import { Button, Form, Select, Space } from "antd";
 
 import { Task } from "@/graphql/schema.types";
-import { useUsersSelect } from "@/hooks/useUsersSelect";
+import { oldUsersSelect} from "@/hooks/useUsersSelect";
 
 import { KANBAN_UPDATE_TASK_MUTATION } from "../../kanban/queries";
 
@@ -29,7 +29,7 @@ export const UsersForm = ({ initialValues, cancelForm }: Props) => {
     },
   });
 
-  const { selectProps } = useUsersSelect();
+  const { selectProps } = oldUsersSelect();
 
   return (
     <div

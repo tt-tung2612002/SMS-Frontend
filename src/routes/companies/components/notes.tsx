@@ -91,7 +91,7 @@ export const CompanyNoteForm = () => {
   });
 
   const handleOnFinish = async (
-    values: GetVariables<CompanyCreateCompanyNoteMutationVariables>,
+    values: GetVariables<CompanyCreateCompanyNoteMutationVariables>
   ) => {
     if (!companyId) {
       return;
@@ -127,6 +127,7 @@ export const CompanyNoteForm = () => {
         name={me?.name}
         src={me?.avatarUrl}
       />
+
       <Form {...formProps} style={{ width: "100%" }} onFinish={handleOnFinish}>
         <Form.Item
           name="note"

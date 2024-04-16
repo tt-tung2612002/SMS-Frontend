@@ -1,10 +1,10 @@
 import { FC } from "react";
 
-import { FilterDropdown } from "@refinedev/antd";
+import { DeleteButton, EditButton, FilterDropdown } from "@refinedev/antd";
 import { CrudFilters, CrudSorting, getDefaultFilter } from "@refinedev/core";
 import { GetFieldsFromList } from "@refinedev/nestjs-query";
 
-import { SearchOutlined } from "@ant-design/icons";
+import { EyeOutlined, SearchOutlined } from "@ant-design/icons";
 import { Input, Select, Space, Table, TableProps } from "antd";
 
 import { CustomAvatar, PaginationTotal, Text } from "@/components";
@@ -23,8 +23,6 @@ type Props = {
 export const CompaniesTableView: FC<Props> = ({ tableProps, filters }) => {
   const { selectProps: selectPropsUsers } = useUsersSelect();
 
-  // const { selectProps: selectPropsContacts } = useContactsSelect();
-
   return (
     <Table
       {...tableProps}
@@ -40,14 +38,14 @@ export const CompaniesTableView: FC<Props> = ({ tableProps, filters }) => {
       <Table.Column<Class>
         dataIndex="name"
         title="Class Name"
-        sorter={(a, b) => a.id - b.id}
-        defaultFilteredValue={getDefaultFilter("name")}
-        filterIcon={<SearchOutlined />}
-        filterDropdown={(props) => (
-          <FilterDropdown {...props}>
-            <Input placeholder="Search Class" />
-          </FilterDropdown>
-        )}
+        sorter={(a, b) => a.name.localeCompare(b.name)}
+        // defaultFilteredValue={getDefaultFilter("name")}
+        // filterIcon={<SearchOutlined />}
+        // filterDropdown={(props) => (
+        //   <FilterDropdown {...props}>
+        //     <Input placeholder="Search Class" />
+        //   </FilterDropdown>
+        // )}
         render={(_, record) => {
           return (
             <Space>
@@ -68,23 +66,33 @@ export const CompaniesTableView: FC<Props> = ({ tableProps, filters }) => {
         }}
       />
       <Table.Column<Class>
-        dataIndex="teacherId"
+        dataIndex={["teacherId"]}
+        defaultFilteredValue={getDefaultFilter("teacherId", filters, "eq")}
         title="Teacher"
-        filterDropdown={(props) => (
-          <FilterDropdown
-            {...props}
-            mapValue={(selectedKeys) =>
-              selectedKeys.map((i) => parseInt(i.toString()))
-            }
-          >
-            <Select
-              placeholder="Search Teacher"
-              style={{ width: 220 }}
-              {...selectPropsUsers}
-            />
-          </FilterDropdown>
-        )}
-        defaultFilteredValue={getDefaultFilter("teacher.id", filters, "in")}
+        // filters={
+        //   teacherNames
+        //     ? teacherNames.map((name) => {
+        //         console.log(name);
+        //         return {
+        //           text: name,
+        //           value: name,
+        //         };
+        //       })
+        //     : []
+        // }
+        // onFilter={(value, record) =>
+        //   record.teacher?.userInfoById?.name === value
+        // }
+        // filterDropdown={(props) => (
+        //   <FilterDropdown {...props}>
+        //     <Select
+        //       placeholder="Search Teacher"
+        //       style={{ width: 220 }}
+        //       {...selectPropsUsers}
+        //     />
+        //   </FilterDropdown>
+        // )}
+        sorter={(a, b) => a.name.localeCompare(b.name)}
         render={(_, record) => {
           const teacher = record.teacher;
           return (
@@ -137,7 +145,7 @@ export const CompaniesTableView: FC<Props> = ({ tableProps, filters }) => {
           }}
         />
       }
-      {/* <Table.Column<Class>
+      <Table.Column<Class>
         fixed="right"
         dataIndex="id"
         title="Actions"
@@ -149,11 +157,10 @@ export const CompaniesTableView: FC<Props> = ({ tableProps, filters }) => {
               size="small"
               recordItemId={value}
             />
-
             <DeleteButton hideText size="small" recordItemId={value} />
           </Space>
-        )} 
-      />*/}
+        )}
+      />
     </Table>
   );
 };

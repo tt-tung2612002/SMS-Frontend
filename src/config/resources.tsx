@@ -85,9 +85,9 @@ export const resources: IResourceItem[] = [
   {
     name: "classes",
     list: "/classes",
-    // show: "/companies/:id",
-    // create: "/companies/create",
-    // edit: "/companies/edit/:id",
+    show: "/classes/:id",
+    create: "/classes/create",
+    edit: "/classes/edit/:id",
     meta: {
       label: "Class Management",
       icon: <ShopOutlined />,

@@ -28,7 +28,7 @@ import {
 import { Quote, QuoteStatus } from "@/graphql/schema.types";
 import { QuotesTableQuery } from "@/graphql/types";
 import { useCompaniesSelect } from "@/hooks/useCompaniesSelect";
-import { useUsersSelect } from "@/hooks/useUsersSelect";
+import { oldUsersSelect } from "@/hooks/useUsersSelect";
 import { currencyNumber } from "@/utilities";
 
 import { QUOTES_TABLE_QUERY } from "./queries";
@@ -94,7 +94,7 @@ export const QuotesListPage: FC<PropsWithChildren> = ({ children }) => {
 
   const { selectProps: selectPropsCompanies } = useCompaniesSelect();
 
-  const { selectProps: selectPropsUsers } = useUsersSelect();
+  const { selectProps: selectPropsUsers } = oldUsersSelect();
   const onSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     searchFormProps?.onFinish?.({
       title: e.target.value ?? "",

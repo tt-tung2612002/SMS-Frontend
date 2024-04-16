@@ -12,7 +12,8 @@ type Query implements Node {
   nodeId: ID!
 
   """Fetches an object given its globally unique `ID`."""
-  node(
+  node
+          (
     """The globally unique `ID`."""
     nodeId: ID!
   ): Node
