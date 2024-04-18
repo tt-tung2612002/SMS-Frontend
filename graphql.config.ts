@@ -19,8 +19,9 @@ const config: IGraphQLConfig = {
         "src/graphql/new/types.ts": {
           preset: "import-types",
           documents: [
-            "src/**/classqueries.{ts,tsx}",
-            "src/**/useUsersSelect.{ts,tsx}",
+            // "src/**/classqueries.{ts,tsx}",
+            "src/**/createClass.ts}",
+            // "src/**/useUsersSelect.{ts,tsx}",
           ],
           // documents: "src/graphql/schema.graphql",
           plugins: ["typescript-operations"],

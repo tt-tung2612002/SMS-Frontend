@@ -30,26 +30,25 @@ export type Scalars = {
 };
 
 export type Class = Node & {
-  classLevel?: Maybe<Scalars["Int"]["output"]>;
+  classLevel: Scalars["Int"]["output"];
   /** Reads and enables pagination through a set of `ClassManagement`. */
   classManagements: ClassManagementsConnection;
   /** Reads a single `ClassType` that is related to this `Class`. */
   classType?: Maybe<ClassType>;
-  classTypeId?: Maybe<Scalars["Int"]["output"]>;
+  classTypeId: Scalars["Int"]["output"];
   description?: Maybe<Scalars["String"]["output"]>;
   endDate?: Maybe<Scalars["Datetime"]["output"]>;
   id: Scalars["Int"]["output"];
-  logoUrl?: Maybe<Scalars["String"]["output"]>;
+  logoUrl: Scalars["String"]["output"];
   name: Scalars["String"]["output"];
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
   nodeId: Scalars["ID"]["output"];
   startDate?: Maybe<Scalars["Datetime"]["output"]>;
-  /** Reads a single `User` that is related to this `Class`. */
-  teacher: Maybe<User>;
-  teacherId?: Maybe<Scalars["Int"]["output"]>;
   /** Reads and enables pagination through a set of `User`. */
-  usersByClassManagementClassIdAndUserId: ClassUsersByClassManagementClassIdAndUserIdManyToManyConnection;
-  students: ClassUsersByClassManagementClassIdAndUserIdManyToManyConnection;
+  students: ClassStudentsManyToManyConnection;
+  /** Reads a single `User` that is related to this `Class`. */
+  teacher?: Maybe<User>;
+  teacherId: Scalars["Int"]["output"];
 };
 
 export type ClassClassManagementsArgs = {
@@ -63,7 +62,7 @@ export type ClassClassManagementsArgs = {
   orderBy?: InputMaybe<Array<ClassManagementsOrderBy>>;
 };
 
-export type ClassUsersByClassManagementClassIdAndUserIdArgs = {
+export type ClassStudentsArgs = {
   after?: InputMaybe<Scalars["Cursor"]["input"]>;
   before?: InputMaybe<Scalars["Cursor"]["input"]>;
   condition?: InputMaybe<UserCondition>;
@@ -126,15 +125,15 @@ export type ClassFilter = {
 
 /** An input for mutations affecting `Class` */
 export type ClassInput = {
-  classLevel?: InputMaybe<Scalars["Int"]["input"]>;
-  classTypeId?: InputMaybe<Scalars["Int"]["input"]>;
+  classLevel: Scalars["Int"]["input"];
+  classTypeId: Scalars["Int"]["input"];
   description?: InputMaybe<Scalars["String"]["input"]>;
   endDate?: InputMaybe<Scalars["Datetime"]["input"]>;
-  id: Scalars["Int"]["input"];
-  logoUrl?: InputMaybe<Scalars["String"]["input"]>;
+  id?: InputMaybe<Scalars["Int"]["input"]>;
+  logoUrl: Scalars["String"]["input"];
   name: Scalars["String"]["input"];
   startDate?: InputMaybe<Scalars["Datetime"]["input"]>;
-  teacherId?: InputMaybe<Scalars["Int"]["input"]>;
+  teacherId: Scalars["Int"]["input"];
 };
 
 export type ClassManagement = Node & {
@@ -226,6 +225,26 @@ export type ClassPatch = {
   name?: InputMaybe<Scalars["String"]["input"]>;
   startDate?: InputMaybe<Scalars["Datetime"]["input"]>;
   teacherId?: InputMaybe<Scalars["Int"]["input"]>;
+};
+
+/** A connection to a list of `User` values, with data from `ClassManagement`. */
+export type ClassStudentsManyToManyConnection = {
+  /** A list of edges which contains the `User`, info from the `ClassManagement`, and the cursor to aid in pagination. */
+  edges: Array<ClassStudentsManyToManyEdge>;
+  /** A list of `User` objects. */
+  nodes: Array<User>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `User` you could get from the connection. */
+  totalCount: Scalars["Int"]["output"];
+};
+
+/** A `User` edge in the connection, with data from `ClassManagement`. */
+export type ClassStudentsManyToManyEdge = {
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars["Cursor"]["output"]>;
+  /** The `User` at the end of the edge. */
+  node: User;
 };
 
 export type ClassType = Node & {
@@ -371,26 +390,6 @@ export type ClassTypesOrderBy =
   | "NATURAL"
   | "PRIMARY_KEY_ASC"
   | "PRIMARY_KEY_DESC";
-
-/** A connection to a list of `User` values, with data from `ClassManagement`. */
-export type ClassUsersByClassManagementClassIdAndUserIdManyToManyConnection = {
-  /** A list of edges which contains the `User`, info from the `ClassManagement`, and the cursor to aid in pagination. */
-  edges: Array<ClassUsersByClassManagementClassIdAndUserIdManyToManyEdge>;
-  /** A list of `User` objects. */
-  nodes: Array<User>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `User` you could get from the connection. */
-  totalCount: Scalars["Int"]["output"];
-};
-
-/** A `User` edge in the connection, with data from `ClassManagement`. */
-export type ClassUsersByClassManagementClassIdAndUserIdManyToManyEdge = {
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars["Cursor"]["output"]>;
-  /** The `User` at the end of the edge. */
-  node: User;
-};
 
 /** A connection to a list of `Class` values. */
 export type ClassesConnection = {
@@ -704,14 +703,14 @@ export type CreateUserRolePayloadUserRoleEdgeArgs = {
 export type DatetimeFilter = {
   /** Not equal to the specified value, treating null like an ordinary value. */
   distinctFrom?: InputMaybe<Scalars["Datetime"]["input"]>;
+  /** Included in the specified list. */
+  eq?: InputMaybe<Array<Scalars["Datetime"]["input"]>>;
   /** Equal to the specified value. */
   equalTo?: InputMaybe<Scalars["Datetime"]["input"]>;
   /** Greater than the specified value. */
   greaterThan?: InputMaybe<Scalars["Datetime"]["input"]>;
   /** Greater than or equal to the specified value. */
   greaterThanOrEqualTo?: InputMaybe<Scalars["Datetime"]["input"]>;
-  /** Included in the specified list. */
-  in?: InputMaybe<Array<Scalars["Datetime"]["input"]>>;
   /** Is null (if `true` is specified) or is not null (if `false` is specified). */
   isNull?: InputMaybe<Scalars["Boolean"]["input"]>;
   /** Less than the specified value. */
@@ -1134,14 +1133,14 @@ export type DeleteUserRolePayloadUserRoleEdgeArgs = {
 export type IntFilter = {
   /** Not equal to the specified value, treating null like an ordinary value. */
   distinctFrom?: InputMaybe<Scalars["Int"]["input"]>;
+  /** Included in the specified list. */
+  eq?: InputMaybe<Array<Scalars["Int"]["input"]>>;
   /** Equal to the specified value. */
   equalTo?: InputMaybe<Scalars["Int"]["input"]>;
   /** Greater than the specified value. */
   greaterThan?: InputMaybe<Scalars["Int"]["input"]>;
   /** Greater than or equal to the specified value. */
   greaterThanOrEqualTo?: InputMaybe<Scalars["Int"]["input"]>;
-  /** Included in the specified list. */
-  in?: InputMaybe<Array<Scalars["Int"]["input"]>>;
   /** Is null (if `true` is specified) or is not null (if `false` is specified). */
   isNull?: InputMaybe<Scalars["Boolean"]["input"]>;
   /** Less than the specified value. */
@@ -1930,6 +1929,8 @@ export type StringFilter = {
   endsWith?: InputMaybe<Scalars["String"]["input"]>;
   /** Ends with the specified string (case-insensitive). */
   endsWithInsensitive?: InputMaybe<Scalars["String"]["input"]>;
+  /** Included in the specified list. */
+  eq?: InputMaybe<Array<Scalars["String"]["input"]>>;
   /** Equal to the specified value. */
   equalTo?: InputMaybe<Scalars["String"]["input"]>;
   /** Equal to the specified value (case-insensitive). */
@@ -1944,8 +1945,6 @@ export type StringFilter = {
   greaterThanOrEqualToInsensitive?: InputMaybe<Scalars["String"]["input"]>;
   /** Contains the specified string (case-sensitive). */
   iLike?: InputMaybe<Scalars["String"]["input"]>;
-  /** Included in the specified list. */
-  in?: InputMaybe<Array<Scalars["String"]["input"]>>;
   /** Included in the specified list (case-insensitive). */
   inInsensitive?: InputMaybe<Array<Scalars["String"]["input"]>>;
   /** Contains the specified string (case-insensitive). */
@@ -2734,13 +2733,12 @@ export type UserFilter = {
 };
 
 export type UserInfo = Node & {
-  avatarUrl?: Maybe<Scalars["String"]["output"]>;
+  avatarUrl: Scalars["String"]["output"];
   dateOfBirth?: Maybe<Scalars["Datetime"]["output"]>;
   email: Scalars["String"]["output"];
   firstName: Scalars["String"]["output"];
-  name: Scalars["String"]["output"];
   id: Scalars["Int"]["output"];
-  lastName?: Maybe<Scalars["String"]["output"]>;
+  lastName: Scalars["String"]["output"];
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
   nodeId: Scalars["ID"]["output"];
   phoneNumber: Scalars["String"]["output"];
@@ -2795,12 +2793,12 @@ export type UserInfoFilter = {
 
 /** An input for mutations affecting `UserInfo` */
 export type UserInfoInput = {
-  avatarUrl?: InputMaybe<Scalars["String"]["input"]>;
+  avatarUrl: Scalars["String"]["input"];
   dateOfBirth?: InputMaybe<Scalars["Datetime"]["input"]>;
   email: Scalars["String"]["input"];
-  firstName?: InputMaybe<Scalars["String"]["input"]>;
+  firstName: Scalars["String"]["input"];
   id: Scalars["Int"]["input"];
-  lastName?: InputMaybe<Scalars["String"]["input"]>;
+  lastName: Scalars["String"]["input"];
   phoneNumber: Scalars["String"]["input"];
 };
 

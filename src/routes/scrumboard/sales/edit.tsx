@@ -15,7 +15,7 @@ import {
 } from "@/graphql/types";
 import { useContactsSelect } from "@/hooks/useContactsSelect";
 import { useDealStagesSelect } from "@/hooks/useDealStagesSelect";
-import { oldUsersSelect } from "@/hooks/useUsersSelect";
+import { oldUsersSelect } from "@/hooks/useOldUsersSelect";
 
 import {
   SALES_COMPANIES_SELECT_QUERY,

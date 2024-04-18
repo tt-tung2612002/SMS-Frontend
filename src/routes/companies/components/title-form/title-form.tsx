@@ -13,7 +13,7 @@ import {
   CompanyTitleFormMutation,
   CompanyTitleFormMutationVariables,
 } from "@/graphql/types";
-import { oldUsersSelect } from "@/hooks/useUsersSelect";
+import { oldUsersSelect } from "@/hooks/useOldUsersSelect";
 import { getNameInitials } from "@/utilities";
 
 import { COMPANY_TITLE_FORM_MUTATION, COMPANY_TITLE_QUERY } from "./queries";

@@ -1,0 +1,12 @@
+body .w-md-editor-text-pre > code,
+body .w-md-editor-text-input {
+  font-size: 100px !important;
+  line-height: 24px !important;
+}
+
+.w-md-editor-text-pre,
+.w-md-editor-text-input,
+.w-md-editor-text > .w-md-editor-text-pre {
+  font-size: 100px !important;
+  line-height: 24px !important;
+}

@@ -4,6 +4,7 @@ import graphqlDataProvider, { GraphQLClient } from "@refinedev/nestjs-query";
 
 import camelcase from "camelcase";
 import * as gql from "gql-query-builder";
+import gqlTag from "graphql-tag";
 import { singular } from "pluralize";
 
 import { axiosInstance } from "./axios";
@@ -216,5 +217,39 @@ export const localDataProvider = (() => {
       total: response[operation].totalCount,
     };
   };
+  provider.deleteOne = async ({ resource, id, meta }) => {
+    const pascalResource = camelcase(singular(resource), {
+      pascalCase: true,
+    });
+
+    const operation = `delete${pascalResource}`;
+
+    if (meta?.gqlMutation) {
+      const response = await localClient.request<BaseRecord>(meta.gqlMutation, {
+        input: { id },
+      });
+
+      return {
+        data: response[operation],
+      };
+    }
+
+    const query = gqlTag`
+                    mutation Delete${pascalResource}($input: Delete${pascalResource}Input!) {
+                        ${operation}(input: $input) {
+                          deleted${pascalResource}NodeId
+                        }
+                    }
+                `;
+
+    const response = await localClient.request<BaseRecord>(query, {
+      input: { id },
+    });
+
+    return {
+      data: response[operation],
+    };
+  };
+
   return provider;
 })();

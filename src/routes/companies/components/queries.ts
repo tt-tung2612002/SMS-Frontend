@@ -17,7 +17,7 @@ export const COMPANY_CONTACTS_TABLE_QUERY = gql`
         status
       }
       totalCount
-    }
+   }
   }
 `;
 

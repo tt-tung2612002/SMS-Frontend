@@ -19,7 +19,7 @@ import {
   CompanyTotalDealsAmountQuery,
 } from "@/graphql/types";
 import { useDealStagesSelect } from "@/hooks/useDealStagesSelect";
-import { oldUsersSelect } from "@/hooks/useUsersSelect";
+import { oldUsersSelect } from "@/hooks/useOldUsersSelect";
 import { currencyNumber } from "@/utilities";
 
 import {

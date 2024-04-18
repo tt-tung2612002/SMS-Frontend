@@ -28,7 +28,7 @@ import {
 import { Quote, QuoteStatus } from "@/graphql/schema.types";
 import { QuotesTableQuery } from "@/graphql/types";
 import { useCompaniesSelect } from "@/hooks/useCompaniesSelect";
-import { oldUsersSelect } from "@/hooks/useUsersSelect";
+import { oldUsersSelect } from "@/hooks/useOldUsersSelect";
 import { currencyNumber } from "@/utilities";
 
 import { QUOTES_TABLE_QUERY } from "./queries";

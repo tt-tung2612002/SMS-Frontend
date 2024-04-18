@@ -14,7 +14,7 @@ import {
 } from "@/graphql/types";
 import { useCompaniesSelect } from "@/hooks/useCompaniesSelect";
 import { useContactsSelect } from "@/hooks/useContactsSelect";
-import { oldUsersSelect } from "@/hooks/useUsersSelect";
+import { oldUsersSelect } from "@/hooks/useOldUsersSelect";
 
 import {
   QUOTES_CREATE_QUOTE_MUTATION,

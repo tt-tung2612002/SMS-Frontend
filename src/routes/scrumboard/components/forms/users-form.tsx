@@ -4,7 +4,7 @@ import { HttpError } from "@refinedev/core";
 import { Button, Form, Select, Space } from "antd";
 
 import { Task } from "@/graphql/schema.types";
-import { oldUsersSelect} from "@/hooks/useUsersSelect";
+import { oldUsersSelect} from "@/hooks/useOldUsersSelect";
 
 import { KANBAN_UPDATE_TASK_MUTATION } from "../../kanban/queries";
 

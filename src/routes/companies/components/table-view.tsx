@@ -4,12 +4,12 @@ import { DeleteButton, EditButton, FilterDropdown } from "@refinedev/antd";
 import { CrudFilters, CrudSorting, getDefaultFilter } from "@refinedev/core";
 import { GetFieldsFromList } from "@refinedev/nestjs-query";
 
-import { EyeOutlined, SearchOutlined } from "@ant-design/icons";
-import { Input, Select, Space, Table, TableProps } from "antd";
+import { EyeOutlined } from "@ant-design/icons";
+import { Select, Space, Table, TableProps } from "antd";
 
 import { CustomAvatar, PaginationTotal, Text } from "@/components";
+import { ClassesTableQuery } from "@/graphql/new/customTypes";
 import { Class } from "@/graphql/new/schema.types";
-import { ClassesTableQuery } from "@/graphql/new/types";
 import { useUsersSelect } from "@/hooks/useUsersSelect";
 
 import { AvatarGroup } from "./avatar-group";
@@ -157,7 +157,12 @@ export const CompaniesTableView: FC<Props> = ({ tableProps, filters }) => {
               size="small"
               recordItemId={value}
             />
-            <DeleteButton hideText size="small" recordItemId={value} />
+            <DeleteButton
+              hideText
+              size="small"
+              dataProviderName="local"
+              recordItemId={value}
+            />
           </Space>
         )}
       />

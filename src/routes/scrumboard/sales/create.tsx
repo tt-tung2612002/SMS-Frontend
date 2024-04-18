@@ -31,7 +31,7 @@ import { SelectOptionWithAvatar } from "@/components";
 import { Contact, Deal, User } from "@/graphql/schema.types";
 import { SalesCompaniesSelectQuery } from "@/graphql/types";
 import { useDealStagesSelect } from "@/hooks/useDealStagesSelect";
-import { oldUsersSelect } from "@/hooks/useUsersSelect";
+import { oldUsersSelect } from "@/hooks/useOldUsersSelect";
 
 import {
   SALES_COMPANIES_SELECT_QUERY,

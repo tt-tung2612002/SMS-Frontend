@@ -1,52 +1,32 @@
+import React from "react";
 import { useLocation, useSearchParams } from "react-router-dom";
 
 import { useModalForm } from "@refinedev/antd";
-import {
-  CreateResponse,
-  HttpError,
-  useCreateMany,
-  useGetToPath,
-  useGo,
-} from "@refinedev/core";
+import { HttpError, useGetToPath, useGo } from "@refinedev/core";
 import { GetFields, GetVariables } from "@refinedev/nestjs-query";
 
-import {
-  DeleteOutlined,
-  LeftOutlined,
-  MailOutlined,
-  PlusCircleOutlined,
-  UserOutlined,
-} from "@ant-design/icons";
-import {
-  Button,
-  Col,
-  Form,
-  Input,
-  Modal,
-  Row,
-  Select,
-  Space,
-  Typography,
-} from "antd";
+import { LeftOutlined } from "@ant-design/icons";
+import MDEditor from "@uiw/react-md-editor";
+import { Form, Input, Modal, Select } from "antd";
 
 import { SelectOptionWithAvatar } from "@/components";
-import { Company } from "@/graphql/schema.types";
 import {
-  CreateCompanyMutation,
-  CreateCompanyMutationVariables,
-} from "@/graphql/types";
-import { oldUsersSelect } from "@/hooks/useUsersSelect";
+  CreateClassMutation,
+  CreateClassMutationVariables,
+} from "@/graphql/new/types";
+import { oldUsersSelect } from "@/hooks/useOldUsersSelect";
 
-import { COMPANY_CREATE_MUTATION } from "./classqueries";
+import { CLASS_CREATE_MUTATION } from "./queries/createClass";
+
+type Class = GetFields<CreateClassMutation>;
 
 type Props = {
   isOverModal?: boolean;
 };
 
-type FormValues = GetVariables<CreateCompanyMutationVariables> & {
-  contacts?: {
-    name?: string;
-    email?: string;
+type FormValues = GetVariables<CreateClassMutationVariables> & {
+  class: {
+    name: string;
   }[];
 };
 
@@ -55,27 +35,27 @@ export const CompanyCreatePage = ({ isOverModal }: Props) => {
   const [searchParams] = useSearchParams();
   const { pathname } = useLocation();
   const go = useGo();
-
+  const [value, setValue] = React.useState("");
   const { formProps, modalProps, close, onFinish } = useModalForm<
-    GetFields<CreateCompanyMutation>,
-    HttpError,
-    FormValues
+    GetFields<CreateClassMutation>,
+    HttpError
+    // FormValues
   >({
     action: "create",
     defaultVisible: true,
-    resource: "companies",
+    resource: "classes",
     redirect: false,
     warnWhenUnsavedChanges: !isOverModal,
     mutationMode: "pessimistic",
+    dataProviderName: "local",
     meta: {
-      gqlMutation: COMPANY_CREATE_MUTATION,
+      gqlMutation: CLASS_CREATE_MUTATION,
     },
   });
 
   const { selectProps, queryResult } = oldUsersSelect();
 
-  const { mutateAsync: createManyMutateAsync } = useCreateMany();
-
+  // const { mutateAsync: createManyMutateAsync } = useCreateMany();
   return (
     <Modal
       {...modalProps}
@@ -98,65 +78,63 @@ export const CompanyCreatePage = ({ isOverModal }: Props) => {
           type: "replace",
         });
       }}
-      title="Add new company"
-      width={512}
+      title="Add new class"
+      width={1024}
       closeIcon={<LeftOutlined />}
     >
       <Form
         {...formProps}
         layout="vertical"
-        onFinish={async (values) => {
-          try {
-            const data = await onFinish({
-              name: values.name,
-              salesOwnerId: values.salesOwnerId,
-            });
+        // onFinish={async (values) => {
+        //   try {
 
-            const createdCompany = (data as CreateResponse<Company>)?.data;
+        //     // const createdClass = (data as CreateResponse<Class>)?.data;
 
-            if ((values.contacts ?? [])?.length > 0) {
-              await createManyMutateAsync({
-                resource: "contacts",
-                values:
-                  values.contacts?.map((contact) => ({
-                    ...contact,
-                    companyId: createdCompany.id,
-                    salesOwnerId: createdCompany.salesOwner.id,
-                  })) ?? [],
-                successNotification: false,
-              });
-            }
+        //     // if ((values.contacts ?? [])?.length > 0) {
+        //     //   await createManyMutateAsync({
+        //     //     resource: "contacts",
+        //     //     values:
+        //     //       values.contacts?.map((contact) => ({
+        //     //         ...contact,
+        //     //         companyId: createdCompany.id,
+        //     //         salesOwnerId: createdCompany.salesOwner.id,
+        //     //       })) ?? [],
+        //     //     successNotification: false,
+        //     //   });
+        //     // }
 
-            go({
-              to: searchParams.get("to") ?? pathname,
-              query: {
-                companyId: createdCompany.id,
-                to: undefined,
-              },
-              options: {
-                keepQuery: true,
-              },
-              type: "replace",
-            });
-          } catch (error) {
-            Promise.reject(error);
-          }
-        }}
+        //     go({
+        //       to: searchParams.get("to") ?? pathname,
+        //       query: {
+        //         // companyId: createdCompany.id,
+        //         to: undefined,
+        //       },
+        //       options: {
+        //         keepQuery: true,
+        //       },
+        //       type: "replace",
+        //     });
+        //   } catch (error) {
+        //     Promise.reject(error);
+        //   }
+        // }}
       >
-        <Form.Item
-          label="Company name"
-          name="name"
-          rules={[{ required: true }]}
-        >
-          <Input placeholder="Please enter company name" />
+        <Form.Item label="Class name" name="name" rules={[{ required: true }]}>
+          <Input placeholder="Please enter class name" />
         </Form.Item>
+        <MDEditor
+          data-color-mode="light"
+          value={value ?? ""}
+          onChange={(value) => setValue(value ?? "")}
+          preview="live"
+        />
         <Form.Item
-          label="Sales owner"
-          name="salesOwnerId"
-          rules={[{ required: true }]}
+          label="Teacher"
+          name="teacherId"
+          rules={[{ required: false }]}
         >
           <Select
-            placeholder="Please sales owner user"
+            placeholder="Please select homeroom teacher"
             {...selectProps}
             options={
               queryResult.data?.data?.map((user) => ({
@@ -171,7 +149,7 @@ export const CompanyCreatePage = ({ isOverModal }: Props) => {
             }
           />
         </Form.Item>
-        <Form.List name="contacts">
+        {/* <Form.List name="contacts">
           {(fields, { add, remove }) => (
             <Space direction="vertical">
               {fields.map(({ key, name, ...restField }) => (
@@ -205,7 +183,7 @@ export const CompanyCreatePage = ({ isOverModal }: Props) => {
               </Typography.Link>
             </Space>
           )}
-        </Form.List>
+        </Form.List> */}
       </Form>
     </Modal>
   );

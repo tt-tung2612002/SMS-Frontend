@@ -13,10 +13,10 @@ import { Form, Grid, Input, Radio, Space, Spin } from "antd";
 import { debounce } from "lodash";
 
 import { ListTitleButton } from "@/components";
-import { ClassesTableQuery } from "@/graphql/new/types";
+import { ClassesTableQuery } from "@/graphql/new/customTypes";
 
-import { CLASSES_TABLE_QUERY } from "./classqueries";
 import { CompaniesTableView } from "./components";
+import { CLASSES_TABLE_QUERY } from "./queries/getClasses";
 
 type View = "card" | "table";
 

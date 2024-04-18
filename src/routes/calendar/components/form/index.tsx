@@ -20,7 +20,7 @@ import dayjs from "dayjs";
 
 import { EVENT_CATEGORIES_QUERY } from "@/graphql/queries";
 import { EventCategoriesQuery } from "@/graphql/types";
-import { oldUsersSelect } from "@/hooks/useUsersSelect";
+import { oldUsersSelect } from "@/hooks/useOldUsersSelect";
 
 type CalendarFormProps = {
   isAllDayEvent: boolean;

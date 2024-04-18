@@ -16,7 +16,7 @@ import { Button, Card, Input, Select, Space, Table } from "antd";
 import { Participants, QuoteStatusTag, Text } from "@/components";
 import { QuoteStatus } from "@/graphql/schema.types";
 import { CompanyQuotesTableQuery } from "@/graphql/types";
-import { oldUsersSelect } from "@/hooks/useUsersSelect";
+import { oldUsersSelect } from "@/hooks/useOldUsersSelect";
 import { currencyNumber } from "@/utilities";
 
 import { COMPANY_QUOTES_TABLE_QUERY } from "./queries";

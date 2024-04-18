@@ -38,7 +38,7 @@ import { TimezoneEnum } from "@/enums";
 import type { Contact } from "@/graphql/schema.types";
 import { ContactShowQuery } from "@/graphql/types";
 import { useCompaniesSelect } from "@/hooks/useCompaniesSelect";
-import { oldUsersSelect } from "@/hooks/useUsersSelect";
+import { oldUsersSelect } from "@/hooks/useOldUsersSelect";
 
 import { ContactComment, ContactStatus } from "../components";
 import styles from "./index.module.css";
@@ -169,8 +169,8 @@ export const ContactShowPage: React.FC = () => {
               activeForm && activeForm === "email"
                 ? "form"
                 : email
-                  ? "view"
-                  : "empty"
+                ? "view"
+                : "empty"
             }
             itemProps={{
               name: "email",
@@ -190,8 +190,8 @@ export const ContactShowPage: React.FC = () => {
               activeForm && activeForm === "companyId"
                 ? "form"
                 : company.id
-                  ? "view"
-                  : "empty"
+                ? "view"
+                : "empty"
             }
             itemProps={{
               name: "companyId",
@@ -237,7 +237,7 @@ export const ContactShowPage: React.FC = () => {
                             avatarUrl={avatarUrl ?? undefined}
                           />
                         ),
-                      }),
+                      })
                     ) ?? []
                   }
                 />
@@ -261,7 +261,7 @@ export const ContactShowPage: React.FC = () => {
                         avatarUrl={avatarUrl ?? undefined}
                       />
                     ),
-                  }),
+                  })
                 ) ?? []
               }
             />
@@ -272,8 +272,8 @@ export const ContactShowPage: React.FC = () => {
               activeForm && activeForm === "jobTitle"
                 ? "form"
                 : jobTitle
-                  ? "view"
-                  : "empty"
+                ? "view"
+                : "empty"
             }
             itemProps={{
               name: "jobTitle",
@@ -292,8 +292,8 @@ export const ContactShowPage: React.FC = () => {
               activeForm && activeForm === "phone"
                 ? "form"
                 : phone
-                  ? "view"
-                  : "empty"
+                ? "view"
+                : "empty"
             }
             itemProps={{
               name: "phone",
@@ -313,8 +313,8 @@ export const ContactShowPage: React.FC = () => {
               activeForm && activeForm === "timezone"
                 ? "form"
                 : timezone
-                  ? "view"
-                  : "empty"
+                ? "view"
+                : "empty"
             }
             itemProps={{
               name: "timezone",
@@ -367,7 +367,7 @@ export const ContactShowPage: React.FC = () => {
                 },
                 {
                   onSuccess: () => closeModal(),
-                },
+                }
               );
             }}
             okText="Yes"
