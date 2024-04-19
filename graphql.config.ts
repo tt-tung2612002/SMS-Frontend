@@ -16,11 +16,11 @@ const config: IGraphQLConfig = {
             enumsAsTypes: true,
           },
         },
-        "src/graphql/new/types.ts": {
+        "src/graphql/new/types2.ts": {
           preset: "import-types",
           documents: [
             // "src/**/classqueries.{ts,tsx}",
-            "src/**/createClass.ts}",
+            "src/**/getClassForm.{ts,tsx}",
             // "src/**/useUsersSelect.{ts,tsx}",
           ],
           // documents: "src/graphql/schema.graphql",

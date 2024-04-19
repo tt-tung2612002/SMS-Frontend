@@ -12,6 +12,7 @@ import { App as AntdApp, ConfigProvider } from "antd";
 
 import { resources, themeConfig } from "@/config";
 import { authProvider, dataProvider, localDataProvider } from "@/providers";
+import { CompanyCreatePage } from "@/routes/classes/create";
 
 import { AlgoliaSearchWrapper, FullScreenLoading, Layout } from "./components";
 import { useAutoLoginForDemo } from "./hooks";
@@ -22,8 +23,7 @@ import {
   CalendarPageWrapper,
   CalendarShowPage,
 } from "./routes/calendar";
-import { CompanyEditPage, CompanyListPage } from "./routes/companies";
-import { CompanyCreatePage } from "./routes/companies/create";
+import { CompanyEditPage, CompanyListPage } from "./routes/classes";
 import { ContactShowPage, ContactsListPage } from "./routes/contacts";
 import { DashboardPage } from "./routes/dashboard";
 import { ForgotPasswordPage } from "./routes/forgot-password";
@@ -184,10 +184,10 @@ const App: React.FC = () => {
                   >
                     <Route path="create" element={<CompanyCreatePage />} />
                   </Route>
-                  <Route
-                    path="/classes/edit/:id"
-                    element={<CompanyEditPage />}
-                  />
+                    <Route
+                      path="/classes/edit/:id"
+                      element={<CompanyEditPage />}
+                    />
                   <Route
                     path="/contacts"
                     element={

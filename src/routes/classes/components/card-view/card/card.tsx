@@ -7,31 +7,33 @@ import { DeleteOutlined, EyeOutlined, MoreOutlined } from "@ant-design/icons";
 import { Button, Card, Dropdown, Space, Tooltip } from "antd";
 
 import { CustomAvatar, Text } from "@/components";
-import { CompaniesTableQuery } from "@/graphql/types";
-import { currencyNumber } from "@/utilities";
+import { ClassesTableQuery } from "@/graphql/new/customTypes";
 
 import { AvatarGroup } from "../../avatar-group";
 import { CompanyCardSkeleton } from "./skeleton";
 
 type Props = {
-  company: GetFieldsFromList<CompaniesTableQuery> | null;
+  classes: GetFieldsFromList<ClassesTableQuery> | null;
 };
 
-export const CompanyCard: FC<Props> = ({ company }) => {
+export const CompanyCard: FC<Props> = ({ classes }) => {
   const { edit } = useNavigation();
   const { mutate } = useDelete();
 
-  if (!company) return <CompanyCardSkeleton />;
+  if (!classes) return <CompanyCardSkeleton />;
 
-  const relatedContactAvatars = company?.contacts?.nodes?.map((contact) => {
+  const studentAvatars = classes?.students?.nodes?.map((student) => {
     return {
-      name: contact.name,
-      src: contact.avatarUrl as string | undefined,
+      name: student.userInfoById?.name,
+      src: student.userInfoById.avatarUrl as string | undefined,
     };
   });
 
   return (
     <Card
+      onClick={() => {
+        edit("classes", classes.id);
+      }}
       size="small"
       actions={[
         <div
@@ -53,12 +55,12 @@ export const CompanyCard: FC<Props> = ({ company }) => {
               gap: "6px",
             }}
           >
-            <Text size="xs">Related contacts</Text>
+            <Text size="xs">Students</Text>
             <AvatarGroup
               size={"small"}
               overlap
               gap="4px"
-              avatars={relatedContactAvatars}
+              avatars={studentAvatars}
             />
           </div>
           <div
@@ -69,14 +71,14 @@ export const CompanyCard: FC<Props> = ({ company }) => {
               gap: "6px",
             }}
           >
-            <Text size="xs">Sales owner</Text>
+            <Text size="xs">Teacher</Text>
             <Tooltip
-              title={company.salesOwner?.name}
-              key={company.salesOwner?.id}
+              title={classes?.teacher?.userInfoById?.firstName}
+              key={classes?.teacher?.id}
             >
               <CustomAvatar
-                name={company.salesOwner?.name}
-                src={company.salesOwner?.avatarUrl}
+                name={classes?.teacher?.userInfoById?.firstName}
+                src={classes?.teacher?.userInfoById?.avatarUrl}
               />
             </Tooltip>
           </div>
@@ -95,22 +97,23 @@ export const CompanyCard: FC<Props> = ({ company }) => {
           menu={{
             items: [
               {
-                label: "View company",
+                label: "View class",
                 key: "1",
                 icon: <EyeOutlined />,
                 onClick: () => {
-                  edit("companies", company.id);
+                  edit("classes", classes.id);
                 },
               },
               {
                 danger: true,
-                label: "Delete company",
+                label: "Delete class",
                 key: "2",
                 icon: <DeleteOutlined />,
                 onClick: () => {
                   mutate({
-                    resource: "company",
-                    id: company.id,
+                    resource: "classes",
+                    id: classes.id,
+                    dataProviderName: "local",
                   });
                 },
               },
@@ -138,8 +141,8 @@ export const CompanyCard: FC<Props> = ({ company }) => {
         </Dropdown>
 
         <CustomAvatar
-          name={company.name}
-          src={company.avatarUrl}
+          name={classes.name}
+          src={classes.logoUrl}
           shape="square"
           style={{
             width: "48px",
@@ -149,12 +152,12 @@ export const CompanyCard: FC<Props> = ({ company }) => {
         <Text
           strong
           size="md"
-          ellipsis={{ tooltip: company.name }}
+          ellipsis={{ tooltip: classes.name }}
           style={{
             marginTop: "12px",
           }}
         >
-          {company.name}
+          {classes.name}
         </Text>
 
         <Space
@@ -164,18 +167,7 @@ export const CompanyCard: FC<Props> = ({ company }) => {
             marginTop: "8px",
             alignItems: "center",
           }}
-        >
-          <Text type="secondary">Open deals amount</Text>
-          <Text
-            strong
-            size="md"
-            style={{
-              marginTop: "12px",
-            }}
-          >
-            {currencyNumber(company?.dealsAggregate?.[0].sum?.value || 0)}
-          </Text>
-        </Space>
+        ></Space>
       </div>
     </Card>
   );

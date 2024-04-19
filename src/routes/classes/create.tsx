@@ -36,7 +36,7 @@ export const CompanyCreatePage = ({ isOverModal }: Props) => {
   const { pathname } = useLocation();
   const go = useGo();
   const [value, setValue] = React.useState("");
-  const { formProps, modalProps, close, onFinish } = useModalForm<
+  const { formProps, modalProps, close } = useModalForm<
     GetFields<CreateClassMutation>,
     HttpError
     // FormValues
@@ -54,6 +54,7 @@ export const CompanyCreatePage = ({ isOverModal }: Props) => {
   });
 
   const { selectProps, queryResult } = oldUsersSelect();
+
 
   // const { mutateAsync: createManyMutateAsync } = useCreateMany();
   return (

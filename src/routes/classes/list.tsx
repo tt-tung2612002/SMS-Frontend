@@ -15,7 +15,7 @@ import { debounce } from "lodash";
 import { ListTitleButton } from "@/components";
 import { ClassesTableQuery } from "@/graphql/new/customTypes";
 
-import { CompaniesTableView } from "./components";
+import { CompaniesCardView, CompaniesTableView } from "./components";
 import { CLASSES_TABLE_QUERY } from "./queries/getClasses";
 
 type View = "card" | "table";
@@ -30,15 +30,14 @@ export const CompanyListPage: FC<PropsWithChildren> = ({ children }) => {
     searchFormProps,
     filters,
     sorters,
-    // setCurrent,
-    // setPageSize,
+    setCurrent,
+    setPageSize,
     setFilters,
   } = useTable<
     GetFieldsFromList<ClassesTableQuery>,
     HttpError,
     { name: string }
   >({
-    // fuck you
     resource: "classes",
 
     onSearch: (values) => {
@@ -75,7 +74,7 @@ export const CompanyListPage: FC<PropsWithChildren> = ({ children }) => {
       ],
     },
     pagination: {
-      pageSize: 6,
+      pageSize: 8,
       mode: "client",
     },
     dataProviderName: "local",
@@ -156,10 +155,12 @@ export const CompanyListPage: FC<PropsWithChildren> = ({ children }) => {
             sorters={sorters}
           />
         ) : (
-          <CompaniesTableView
+          <CompaniesCardView
             tableProps={tableProps}
-            filters={filters}
-            sorters={sorters}
+            setPageSize={setPageSize}
+            setCurrent={setCurrent}
+            // filters={filters}
+            // sorters={sorters}
           />
         )}
       </List>

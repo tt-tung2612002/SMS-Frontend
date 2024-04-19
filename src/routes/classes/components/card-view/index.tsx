@@ -5,13 +5,14 @@ import { GetFieldsFromList } from "@refinedev/nestjs-query";
 import { List, ListProps, TableProps } from "antd";
 
 import { PaginationTotal } from "@/components";
-// import { aa } from "@/graphql/schema.types";
-import { CompaniesTableQuery } from "@/graphql/types";
+import { ClassesTableQuery } from "@/graphql/new/customTypes";
 
 import { CompanyCard, CompanyCardSkeleton } from "./card";
 
+type Class = GetFieldsFromList<ClassesTableQuery>;
+
 type Props = {
-  tableProps: TableProps<GetFieldsFromList<CompaniesTableQuery>>;
+  tableProps: TableProps<GetFieldsFromList<ClassesTableQuery>>;
   setCurrent: (current: number) => void;
   setPageSize: (pageSize: number) => void;
 };
@@ -39,11 +40,13 @@ export const CompaniesCardView: FC<Props> = ({
       dataSource={data}
       renderItem={(item) => (
         <List.Item>
-          <CompanyCard company={item} />
+          <CompanyCard classes={item} />
         </List.Item>
       )}
+      // pagination={pagination}
       pagination={{
-        ...(pagination as ListProps<aa>["pagination"]),
+        ...pagination,
+        ...(pagination as ListProps<Class>["pagination"]),
         hideOnSinglePage: true,
         itemRender: undefined,
         position: "bottom",
@@ -54,7 +57,7 @@ export const CompaniesCardView: FC<Props> = ({
           setPageSize(pageSize);
         },
         showTotal: (total) => (
-          <PaginationTotal total={total} entityName="company" />
+          <PaginationTotal total={total} entityName="classes" />
         ),
       }}
     >

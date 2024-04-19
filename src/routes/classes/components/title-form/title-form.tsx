@@ -1,40 +1,52 @@
 import { useState } from "react";
+import { useParams } from "react-router-dom";
 
 import { useForm } from "@refinedev/antd";
-import { HttpError } from "@refinedev/core";
+import { HttpError, useOne } from "@refinedev/core";
 import { GetFields, GetVariables } from "@refinedev/nestjs-query";
 
 import { EditOutlined } from "@ant-design/icons";
 import { Button, Form, Select, Skeleton, Space } from "antd";
+import type * as Types from "graphql/new/schema.types";
 
 import { CustomAvatar, SelectOptionWithAvatar, Text } from "@/components";
-import { User } from "@/graphql/schema.types";
 import {
-  CompanyTitleFormMutation,
-  CompanyTitleFormMutationVariables,
-} from "@/graphql/types";
-import { oldUsersSelect } from "@/hooks/useOldUsersSelect";
+  UpdateClassMutation,
+  UpdateClassMutationVariables,
+} from "@/graphql/new/types";
+import { useUsersSelect } from "@/hooks/useUsersSelect";
 import { getNameInitials } from "@/utilities";
 
-import { COMPANY_TITLE_FORM_MUTATION, COMPANY_TITLE_QUERY } from "./queries";
+import { CLASS_UPDATE_MUTATION } from "../../queries/updateClass";
+import { CLASS_TITLE_QUERY } from "./getClassForm";
 import styles from "./title-form.module.css";
 
 export const CompanyTitleForm = () => {
-  const { formProps, queryResult, onFinish } = useForm<
-    GetFields<CompanyTitleFormMutation>,
+  const { formProps, onFinish } = useForm<
+    GetFields<UpdateClassMutation>,
     HttpError,
-    GetVariables<CompanyTitleFormMutationVariables>
+    GetVariables<UpdateClassMutationVariables>
   >({
     redirect: false,
-    resource: "companies",
     meta: {
-      gqlMutation: COMPANY_TITLE_FORM_MUTATION,
-      gqlQuery: COMPANY_TITLE_QUERY,
+      gqlMutation: CLASS_UPDATE_MUTATION,
+      gqlQuery: CLASS_TITLE_QUERY,
     },
+    dataProviderName: "local",
   });
 
-  const company = queryResult?.data?.data;
-  const loading = queryResult?.isLoading;
+  const { id } = useParams();
+  const { data, isLoading } = useOne<Types.Class, HttpError>({
+    resource: "classes",
+    dataProviderName: "local",
+    meta: {
+      gqlQuery: CLASS_TITLE_QUERY,
+    },
+    id,
+  });
+
+  const currentClass = data?.data;
+  const loading = isLoading;
 
   return (
     <Form {...formProps}>
@@ -42,8 +54,8 @@ export const CompanyTitleForm = () => {
         <CustomAvatar
           size="large"
           shape="square"
-          src={company?.avatarUrl}
-          name={getNameInitials(company?.name || "")}
+          src={currentClass?.logoUrl}
+          name={getNameInitials(currentClass?.name || "")}
           style={{
             width: 96,
             height: 96,
@@ -66,11 +78,11 @@ export const CompanyTitleForm = () => {
             />
           </Form.Item>
           <SalesOwnerInput
-            salesOwner={company?.salesOwner}
+            teacher={currentClass?.teacher}
             loading={loading}
             onChange={(value) => {
               onFinish?.({
-                salesOwnerId: value,
+                name: value,
               });
             }}
           />
@@ -111,17 +123,18 @@ const TitleInput = ({
 };
 
 const SalesOwnerInput = ({
-  salesOwner,
+  teacher,
   onChange,
   loading,
-}: {
+}: // loading,
+{
   onChange?: (value: string) => void;
-  salesOwner?: Partial<User>;
+  teacher: any;
   loading?: boolean;
 }) => {
   const [isEdit, setIsEdit] = useState(false);
 
-  const { selectProps, queryResult } = oldUsersSelect();
+  const { selectProps, queryResult } = useUsersSelect();
 
   return (
     <div
@@ -137,27 +150,27 @@ const SalesOwnerInput = ({
           marginRight: 12,
         }}
       >
-        Sales Owner:
+        Teacher:
       </Text>
       {loading && <Skeleton.Input size="small" style={{ width: 120 }} active />}
-      {!isEdit && !loading && (
+      {!isEdit && (
         <>
           <CustomAvatar
             size="small"
-            src={salesOwner?.avatarUrl}
+            src={teacher?.userInfoById?.avatarUrl}
             style={{
               marginRight: 4,
             }}
           />
-          <Text>{salesOwner?.name}</Text>
+          <Text>{teacher?.userInfoById?.firstName}</Text>
           <Button
             type="link"
             icon={<EditOutlined className={styles.salesOwnerInputEditIcon} />}
           />
         </>
       )}
-      {isEdit && !loading && (
-        <Form.Item name={["salesOwner", "id"]} noStyle>
+      {isEdit && (
+        <Form.Item name={["teacher", "id"]} noStyle>
           <Select
             {...selectProps}
             defaultOpen={true}

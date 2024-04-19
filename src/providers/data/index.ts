@@ -12,6 +12,8 @@ import {
   generateFilters,
   generatePaging,
   generateSorting,
+  getOperationFields,
+  isMutation,
 } from "./utils/camel";
 
 export const API_BASE_URL = "https://api.crm.refine.dev";
@@ -71,77 +73,6 @@ export const localClient = new GraphQLClient(LOCAL_URL, {
 //     },
 //   }),
 // });
-
-async function customGetList({
-  resource,
-  pagination,
-  sorters,
-  filters,
-  meta,
-}: {
-  resource: string;
-  pagination: any;
-  sorters: any;
-  filters: any;
-  meta: any;
-}): Promise<{ data: BaseRecord[]; total: number }> {
-  const operation = camelcase(resource);
-  const paging = generatePaging(pagination || {});
-  const queryVariables: VariableOptions = {};
-  let query;
-  let variables;
-
-  if (meta?.gqlQuery) {
-    query = meta.gqlQuery;
-    variables = {
-      filter: filters ? generateFilters(filters as LogicalFilter[]) : {},
-      sorting: sorters ? generateSorting(sorters) : [],
-      paging,
-    };
-  } else {
-    if (filters) {
-      queryVariables["filter"] = {
-        type: camelcase(`${singular(resource)}Filter`, { pascalCase: true }),
-        required: true,
-        value: generateFilters(filters as LogicalFilter[]),
-      };
-    }
-
-    if (sorters) {
-      queryVariables["sorting"] = {
-        type: camelcase(`${singular(resource)}Sort`, { pascalCase: true }),
-        required: true,
-        list: [true],
-        value: generateSorting(sorters),
-      };
-    }
-
-    if (paging) {
-      queryVariables["paging"] = {
-        type: "OffsetPaging",
-        required: true,
-        value: paging,
-      };
-    }
-
-    const gqlQuery = gql.query({
-      operation,
-      fields: [{ nodes: meta?.fields }, "totalCount"],
-      variables: queryVariables,
-    });
-
-    query = gqlQuery.query;
-    variables = gqlQuery.variables;
-  }
-
-  const client = new GraphQLClient(API_URL); // Ensure API_URL is defined and client is properly configured
-  const response = await client.request<BaseRecord>(query, variables);
-
-  return {
-    data: response[operation].nodes,
-    total: response[operation].totalCount,
-  };
-}
 
 export const dataProvider = graphqlDataProvider(client);
 export const localDataProvider = (() => {
@@ -245,6 +176,105 @@ export const localDataProvider = (() => {
     const response = await localClient.request<BaseRecord>(query, {
       input: { id },
     });
+
+    return {
+      data: response[operation],
+    };
+  };
+
+  provider.getOne = async ({ resource, id, meta }) => {
+    const operation = camelcase(singular(resource));
+
+    const gqlOperation = meta?.gqlQuery ?? meta?.gqlMutation;
+
+    id = parseInt(id.toString(), 10);
+
+    if (gqlOperation) {
+      let query = gqlOperation;
+      const variables = { id: id };
+
+      if (isMutation(gqlOperation)) {
+        const stringFields = getOperationFields(gqlOperation);
+
+        query = gqlTag`
+                        query Get${camelcase(singular(resource), {
+                          pascalCase: true,
+                        })}($id: ID!) {
+                            ${operation}(id: $id) {
+                            ${stringFields}
+                            }
+                        }
+                    `;
+      }
+
+      const response = await localClient.request<BaseRecord>(query, variables);
+
+      return {
+        data: response[operation],
+      };
+    }
+
+    const { query, variables } = gql.query({
+      operation,
+      fields: meta?.fields || ["id"],
+      variables: {
+        id: {
+          type: "Int",
+          required: true,
+          value: id,
+        },
+      },
+    });
+
+    const response = await localClient.request<BaseRecord>(query, variables);
+
+    return {
+      data: response[operation],
+    };
+  };
+
+  provider.update = async ({ resource, id, variables, meta }) => {
+    const operation = `update${camelcase(singular(resource), {
+      pascalCase: true,
+    })}`;
+
+    const gqlOperation = meta?.gqlMutation ?? meta?.gqlQuery;
+    id = parseInt(id.toString(), 10);
+
+    if (gqlOperation) {
+      const response = await localClient.request<BaseRecord>(gqlOperation, {
+        input: {
+          id,
+          patch: variables,
+        },
+      });
+
+      return {
+        data: response[operation],
+      };
+    }
+
+    const { query, variables: queryVariables } = gql.mutation({
+      operation,
+      fields: meta?.fields || ["id"],
+      variables: {
+        input: {
+          type: `Update${camelcase(singular(resource), {
+            pascalCase: true,
+          })}Input`,
+          required: true,
+          value: {
+            id,
+            patch: variables,
+          },
+        },
+      },
+    });
+
+    const response = await localClient.request<BaseRecord>(
+      query,
+      queryVariables
+    );
 
     return {
       data: response[operation],

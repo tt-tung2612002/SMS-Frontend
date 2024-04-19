@@ -30,16 +30,16 @@ export type Scalars = {
 };
 
 export type Class = Node & {
-  classLevel: Scalars["Int"]["output"];
+  classLevel?: Maybe<Scalars["Int"]["output"]>;
   /** Reads and enables pagination through a set of `ClassManagement`. */
   classManagements: ClassManagementsConnection;
   /** Reads a single `ClassType` that is related to this `Class`. */
   classType?: Maybe<ClassType>;
-  classTypeId: Scalars["Int"]["output"];
+  classTypeId?: Maybe<Scalars["Int"]["output"]>;
   description?: Maybe<Scalars["String"]["output"]>;
   endDate?: Maybe<Scalars["Datetime"]["output"]>;
   id: Scalars["Int"]["output"];
-  logoUrl: Scalars["String"]["output"];
+  logoUrl?: Maybe<Scalars["String"]["output"]>;
   name: Scalars["String"]["output"];
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
   nodeId: Scalars["ID"]["output"];
@@ -48,7 +48,7 @@ export type Class = Node & {
   students: ClassStudentsManyToManyConnection;
   /** Reads a single `User` that is related to this `Class`. */
   teacher?: Maybe<User>;
-  teacherId: Scalars["Int"]["output"];
+  teacherId?: Maybe<Scalars["Int"]["output"]>;
 };
 
 export type ClassClassManagementsArgs = {
@@ -125,15 +125,15 @@ export type ClassFilter = {
 
 /** An input for mutations affecting `Class` */
 export type ClassInput = {
-  classLevel: Scalars["Int"]["input"];
-  classTypeId: Scalars["Int"]["input"];
+  classLevel?: InputMaybe<Scalars["Int"]["input"]>;
+  classTypeId?: InputMaybe<Scalars["Int"]["input"]>;
   description?: InputMaybe<Scalars["String"]["input"]>;
   endDate?: InputMaybe<Scalars["Datetime"]["input"]>;
   id?: InputMaybe<Scalars["Int"]["input"]>;
-  logoUrl: Scalars["String"]["input"];
+  logoUrl?: InputMaybe<Scalars["String"]["input"]>;
   name: Scalars["String"]["input"];
   startDate?: InputMaybe<Scalars["Datetime"]["input"]>;
-  teacherId: Scalars["Int"]["input"];
+  teacherId?: InputMaybe<Scalars["Int"]["input"]>;
 };
 
 export type ClassManagement = Node & {

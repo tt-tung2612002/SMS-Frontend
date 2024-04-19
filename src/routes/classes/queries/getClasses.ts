@@ -8,6 +8,7 @@ export const CLASSES_TABLE_QUERY = gql`
         name
         logoUrl
         teacher {
+          id
           userInfoById {
             firstName
             lastName

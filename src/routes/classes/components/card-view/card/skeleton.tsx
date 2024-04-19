@@ -26,7 +26,7 @@ export const CompanyCardSkeleton = () => {
               gap: "6px",
             }}
           >
-            <Text size="xs">Related contacts</Text>
+            <Text size="xs">Students</Text>
             <Space size={4}>
               <Skeleton.Avatar active shape="circle" size="small" />
               <Skeleton.Avatar active shape="circle" size="small" />
@@ -41,7 +41,7 @@ export const CompanyCardSkeleton = () => {
               gap: "6px",
             }}
           >
-            <Text size="xs">Sales owner</Text>
+            <Text size="xs">Teacher</Text>
             <Space size={4}>
               <Skeleton.Avatar active shape="circle" size="small" />
             </Space>

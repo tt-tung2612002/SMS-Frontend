@@ -19,3 +19,20 @@ export type CreateClassMutation = {
     };
   };
 };
+
+export type UpdateClassMutationVariables = Types.Exact<{
+  input: Types.UpdateClassInput;
+}>;
+
+export type UpdateClassMutation = {
+  updateClass: {
+    class: Pick<Types.Class, "id" | "name" | "logoUrl"> & {
+      teacher: 
+        Pick<Types.User, "id"> & {
+          userInfoById: Types.Maybe<
+            Pick<Types.UserInfo, "firstName" | "avatarUrl">
+          >;
+        }
+    };
+  };
+};

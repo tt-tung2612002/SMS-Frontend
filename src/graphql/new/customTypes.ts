@@ -27,10 +27,9 @@ export type ClassesTableQuery = {
   classes: Pick<Types.ClassesConnection, "totalCount"> & {
     nodes: Array<
       Pick<Types.Class, "id" | "name" | "logoUrl"> & {
-        teacher: {
-          userInfoById: Pick<
-            Types.UserInfo,
-            "id" | "firstName" | "lastName" | "avatarUrl"
+        teacher: Pick<Types.User, "id"> & {
+          userInfoById: Types.Maybe<
+            Pick<Types.UserInfo, "firstName" | "lastName" | "avatarUrl">
           >;
         };
         students: {
