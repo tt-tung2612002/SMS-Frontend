@@ -1,7 +1,7 @@
 import { FC } from "react";
 
 import { DeleteButton, EditButton, FilterDropdown } from "@refinedev/antd";
-import { CrudFilters, CrudSorting, getDefaultFilter } from "@refinedev/core";
+import { CrudFilters, CrudSorting, getDefaultFilter, useNavigation } from "@refinedev/core";
 import { GetFieldsFromList } from "@refinedev/nestjs-query";
 
 import { EyeOutlined } from "@ant-design/icons";
@@ -22,7 +22,8 @@ type Props = {
 
 export const CompaniesTableView: FC<Props> = ({ tableProps, filters }) => {
   const { selectProps: selectPropsUsers } = useUsersSelect();
-
+  const { edit } = useNavigation();
+  
   return (
     <Table
       {...tableProps}
@@ -156,12 +157,18 @@ export const CompaniesTableView: FC<Props> = ({ tableProps, filters }) => {
               hideText
               size="small"
               recordItemId={value}
+              accessControl={{
+                hideIfUnauthorized: true,
+              }}
             />
             <DeleteButton
               hideText
               size="small"
               dataProviderName="local"
               recordItemId={value}
+              accessControl={{
+                hideIfUnauthorized: true,
+              }}
             />
           </Space>
         )}

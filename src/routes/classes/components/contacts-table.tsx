@@ -50,7 +50,7 @@ export const CompanyContactsTable: FC = () => {
   const params = useParams();
 
   const { tableProps, filters, setFilters } = useTable<Contact>({
-    resource: "contacts",
+    resource: "students",
     syncWithLocation: false,
     sorters: {
       initial: [
@@ -228,7 +228,7 @@ export const CompanyContactsTable: FC = () => {
                     hideText
                     recordItemId={value}
                     size="small"
-                    resource="contacts"
+                    resource="students"
                     icon={<ExportOutlined />}
                   />
                 </Space>
@@ -275,7 +275,7 @@ const ContactForm = () => {
     }));
 
     await mutateAsync({
-      resource: "contacts",
+      resource: "students",
       values: contacts,
       successNotification: false,
     });

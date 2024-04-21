@@ -24,7 +24,7 @@ import {
   CalendarShowPage,
 } from "./routes/calendar";
 import { CompanyEditPage, CompanyListPage } from "./routes/classes";
-import { ContactShowPage, ContactsListPage } from "./routes/contacts";
+import { ContactsListPage } from "./routes/contacts";
 import { DashboardPage } from "./routes/dashboard";
 import { ForgotPasswordPage } from "./routes/forgot-password";
 import { LoginPage } from "./routes/login";
@@ -35,21 +35,6 @@ import {
   QuotesShowPage,
 } from "./routes/quotes";
 import { RegisterPage } from "./routes/register";
-import {
-  KanbanCreatePage,
-  KanbanCreateStage,
-  KanbanEditPage,
-  KanbanEditStage,
-  KanbanPage,
-} from "./routes/scrumboard/kanban";
-import {
-  SalesCreatePage,
-  SalesCreateStage,
-  SalesEditPage,
-  SalesEditStage,
-  SalesFinalizeDeal,
-  SalesPage,
-} from "./routes/scrumboard/sales";
 import { UpdatePasswordPage } from "./routes/update-password";
 
 import "@refinedev/antd/dist/reset.css";
@@ -118,7 +103,7 @@ const App: React.FC = () => {
                     <Route path="edit/:id" element={<CalendarEditPage />} />
                     <Route path="create" element={<CalendarCreatePage />} />
                   </Route>
-                  <Route path="/scrumboard" element={<Outlet />}>
+                  {/* <Route path="/scrumboard" element={<Outlet />}>
                     <Route
                       path="kanban"
                       element={
@@ -157,7 +142,7 @@ const App: React.FC = () => {
                         {/* <Route
                           path="company/create"
                           element={<CompanyCreatePage isOverModal />}
-                        /> */}
+                        /> }
                       </Route>
                       <Route path="edit/:id" element={<SalesEditPage />} />
                       <Route
@@ -173,7 +158,7 @@ const App: React.FC = () => {
                         element={<SalesFinalizeDeal />}
                       />
                     </Route>
-                  </Route>
+                  </Route> */}
                   <Route
                     path="/classes"
                     element={
@@ -184,34 +169,39 @@ const App: React.FC = () => {
                   >
                     <Route path="create" element={<CompanyCreatePage />} />
                   </Route>
-                    <Route
-                      path="/classes/edit/:id"
-                      element={<CompanyEditPage />}
-                    />
                   <Route
-                    path="/contacts"
-                    element={
-                      <ContactsListPage>
-                        <Outlet />
-                      </ContactsListPage>
-                    }
-                  >
-                    <Route path="show/:id" element={<ContactShowPage />} />
-                    {/* <Route index element={null} />
+                    path="/classes/edit/:id"
+                    element={<CompanyEditPage />}
+                  />
+
+                  <Route path="/people" element={<Outlet />}>
                     <Route
-                      path="create"
+                      path="students"
                       element={
-                        <ContactCreatePage>
+                        <ContactsListPage>
                           <Outlet />
-                        </ContactCreatePage>
+                        </ContactsListPage>
                       }
                     >
+                      {/* <Route path="show/:id" element={<ContactShowPage />} />
+                      <Route index element={null} />
                       <Route
-                        path="company-create"
-                        element={<CompanyCreatePage isOverModal />}
-                      />classee
-                    </Route> */}
+                        path="create"
+                        element={
+                          <ContactCreatePage>
+                            <Outlet />
+                          </ContactCreatePage>
+                        }
+                      >
+                        <Route
+                          path="company-create"
+                          element={<CompanyCreatePage isOverModal />}
+                        />
+                      </Route> */}
+                    </Route>
+                    {/* <Route path="teachers" element={<AuditLogPage />} /> */}
                   </Route>
+
                   <Route
                     path="/quotes"
                     element={

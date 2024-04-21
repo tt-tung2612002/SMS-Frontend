@@ -100,16 +100,36 @@ export const resources: IResourceItem[] = [
   //   meta: {},
   // },
   {
-    name: "contacts",
-    list: "/contacts",
-    create: "/contacts/create",
-    edit: "/contacts/edit/:id",
-    show: "/contacts/show/:id",
+    name: "people",
     meta: {
-      label: "Contacts",
-      icon: <TeamOutlined />,
+      label: "Human Resources",
+      icon: <CrownOutlined />,
     },
   },
+  {
+    name: "students",
+    list: "/people/students",
+    create: "/people/students/create",
+    edit: "/people/students/edit/:id",
+    show: "/people/students/show/:id",
+    meta: {
+      label: "Students",
+      icon: <TeamOutlined />,
+      parent: "people",
+    },
+  },
+  // {
+  //   name: "teachers",
+  //   list: "/people/teachers",
+  //   create: "/people/teachers/create",
+  //   edit: "/people/teachers/edit/:id",
+  //   show: "/people/teachers/show/:id",
+  //   meta: {
+  //     parent: "people",
+  //     label: "Teacher",
+  //     icon: <TeamOutlined />,
+  //   },
+  // },
   {
     name: "quotes",
     list: "/quotes",
@@ -121,6 +141,7 @@ export const resources: IResourceItem[] = [
       icon: <ContainerOutlined />,
     },
   },
+
   {
     name: "administration",
     meta: {

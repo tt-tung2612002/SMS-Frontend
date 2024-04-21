@@ -33,7 +33,7 @@ export const ContactCard: React.FC<ContactCardProps> = ({ contact }) => {
       key: "show",
       icon: <EyeOutlined />,
       onClick: () => {
-        show("contacts", id, "replace");
+        show("students", id, "replace");
       },
     },
     {
@@ -43,7 +43,7 @@ export const ContactCard: React.FC<ContactCardProps> = ({ contact }) => {
       icon: <DeleteOutlined />,
       onClick: () => {
         deleteMutate({
-          resource: "contacts",
+          resource: "students",
           id,
         });
       },

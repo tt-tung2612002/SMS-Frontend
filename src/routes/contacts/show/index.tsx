@@ -72,7 +72,7 @@ export const ContactShowPage: React.FC = () => {
   const closeModal = () => {
     setActiveForm(undefined);
 
-    list("contacts");
+    list("students");
   };
 
   const { data, isLoading, isError } = queryResult;
@@ -146,7 +146,7 @@ export const ContactShowPage: React.FC = () => {
             editable={{
               onChange(value) {
                 mutate({
-                  resource: "contacts",
+                  resource: "students",
                   id,
                   values: {
                     name: value,

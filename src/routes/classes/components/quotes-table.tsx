@@ -204,7 +204,7 @@ export const CompanyQuotesTable: FC<Props> = ({ style }) => {
                   recordItemId={value}
                   hideText
                   size="small"
-                  resource="contacts"
+                  resource="students"
                   icon={<ExportOutlined />}
                 />
               );

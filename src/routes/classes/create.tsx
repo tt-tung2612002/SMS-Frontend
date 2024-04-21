@@ -14,7 +14,7 @@ import {
   CreateClassMutation,
   CreateClassMutationVariables,
 } from "@/graphql/new/types";
-import { oldUsersSelect } from "@/hooks/useOldUsersSelect";
+import { useUsersSelect } from "@/hooks/useUsersSelect";
 
 import { CLASS_CREATE_MUTATION } from "./queries/createClass";
 
@@ -53,8 +53,8 @@ export const CompanyCreatePage = ({ isOverModal }: Props) => {
     },
   });
 
-  const { selectProps, queryResult } = oldUsersSelect();
-
+  const { selectProps, queryResult } = useUsersSelect();
+  const users = queryResult?.data?.data ?? [];
 
   // const { mutateAsync: createManyMutateAsync } = useCreateMany();
   return (
@@ -123,12 +123,18 @@ export const CompanyCreatePage = ({ isOverModal }: Props) => {
         <Form.Item label="Class name" name="name" rules={[{ required: true }]}>
           <Input placeholder="Please enter class name" />
         </Form.Item>
-        <MDEditor
-          data-color-mode="light"
-          value={value ?? ""}
-          onChange={(value) => setValue(value ?? "")}
-          preview="live"
-        />
+        <Form.Item
+          label="Description"
+          name="description"
+          rules={[{ required: false }]}
+        >
+          <MDEditor
+            data-color-mode="light"
+            value={value ?? ""}
+            onChange={(value) => setValue(value ?? "")}
+            preview="edit"
+          />
+        </Form.Item>
         <Form.Item
           label="Teacher"
           name="teacherId"
@@ -138,12 +144,12 @@ export const CompanyCreatePage = ({ isOverModal }: Props) => {
             placeholder="Please select homeroom teacher"
             {...selectProps}
             options={
-              queryResult.data?.data?.map((user) => ({
-                value: user.id,
+              users.map(({ id, info }) => ({
+                value: id,
                 label: (
                   <SelectOptionWithAvatar
-                    name={user.name}
-                    avatarUrl={user.avatarUrl ?? undefined}
+                    name={info?.name}
+                    avatarUrl={info?.avatarUrl ?? undefined}
                   />
                 ),
               })) ?? []

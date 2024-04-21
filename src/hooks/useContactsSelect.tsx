@@ -7,25 +7,25 @@ import gql from "graphql-tag";
 import { ContactsSelectQuery } from "@/graphql/types";
 
 const CONTACTS_SELECT_QUERY = gql`
-    query ContactsSelect(
-        $filter: ContactFilter!
-        $sorting: [ContactSort!]
-        $paging: OffsetPaging!
-    ) {
-        contacts(filter: $filter, sorting: $sorting, paging: $paging) {
-            nodes {
-                id
-                name
-                avatarUrl
-            }
-        }
+  query ContactsSelect(
+    $filter: ContactFilter!
+    $sorting: [ContactSort!]
+    $paging: OffsetPaging!
+  ) {
+    contacts(filter: $filter, sorting: $sorting, paging: $paging) {
+      nodes {
+        id
+        name
+        avatarUrl
+      }
     }
+  }
 `;
 
 export const useContactsSelect = (params?: { filters?: CrudFilters }) => {
   const { filters } = params || {};
   return useSelect<GetFieldsFromList<ContactsSelectQuery>>({
-    resource: "contacts",
+    resource: "students",
     optionLabel: "name",
     filters,
     meta: {

@@ -22,7 +22,7 @@ import { CLASS_TITLE_QUERY } from "./getClassForm";
 import styles from "./title-form.module.css";
 
 export const CompanyTitleForm = () => {
-  const { formProps, onFinish } = useForm<
+  const { formProps, onFinish, queryResult } = useForm<
     GetFields<UpdateClassMutation>,
     HttpError,
     GetVariables<UpdateClassMutationVariables>
@@ -36,7 +36,7 @@ export const CompanyTitleForm = () => {
   });
 
   const { id } = useParams();
-  const { data, isLoading } = useOne<Types.Class, HttpError>({
+  const { data } = useOne<Types.Class, HttpError>({
     resource: "classes",
     dataProviderName: "local",
     meta: {
@@ -46,7 +46,8 @@ export const CompanyTitleForm = () => {
   });
 
   const currentClass = data?.data;
-  const loading = isLoading;
+  // const currentClass = queryResult?.data?.data?.class;
+  const loading = queryResult?.isLoading;
 
   return (
     <Form {...formProps}>
@@ -55,7 +56,7 @@ export const CompanyTitleForm = () => {
           size="large"
           shape="square"
           src={currentClass?.logoUrl}
-          name={getNameInitials(currentClass?.name || "")}
+          name={getNameInitials("Do it Yourself")}
           style={{
             width: 96,
             height: 96,
@@ -82,7 +83,7 @@ export const CompanyTitleForm = () => {
             loading={loading}
             onChange={(value) => {
               onFinish?.({
-                name: value,
+                teacherId: value,
               });
             }}
           />
@@ -128,13 +129,15 @@ const SalesOwnerInput = ({
   loading,
 }: // loading,
 {
-  onChange?: (value: string) => void;
+  onChange?: (value: number) => void;
   teacher: any;
   loading?: boolean;
 }) => {
   const [isEdit, setIsEdit] = useState(false);
 
   const { selectProps, queryResult } = useUsersSelect();
+
+  const users = queryResult?.data?.data ?? [];
 
   return (
     <div
@@ -169,7 +172,7 @@ const SalesOwnerInput = ({
           />
         </>
       )}
-      {isEdit && (
+      {isEdit && !loading && (
         <Form.Item name={["teacher", "id"]} noStyle>
           <Select
             {...selectProps}
@@ -184,16 +187,16 @@ const SalesOwnerInput = ({
               e.stopPropagation();
             }}
             onChange={(value, option) => {
-              onChange?.(value as unknown as string);
+              onChange?.(value as unknown as number);
               selectProps.onChange?.(value, option);
             }}
             options={
-              queryResult.data?.data?.map(({ id, name, avatarUrl }) => ({
+              users.map(({ id, info }) => ({
                 value: id,
                 label: (
                   <SelectOptionWithAvatar
-                    name={name}
-                    avatarUrl={avatarUrl ?? undefined}
+                    name={info?.name}
+                    avatarUrl={info?.avatarUrl ?? undefined}
                   />
                 ),
               })) ?? []

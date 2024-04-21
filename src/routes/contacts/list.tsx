@@ -12,7 +12,6 @@ import {
 import { Form, Grid, Input, Radio, Space, Spin } from "antd";
 import debounce from "lodash/debounce";
 
-import { ListTitleButton } from "@/components";
 import { ContactsListQuery } from "@/graphql/types";
 
 import { CardView, TableView } from "./components";
@@ -38,13 +37,13 @@ export const ContactsListPage: React.FC<Props> = ({ children }) => {
     GetFieldsFromList<ContactsListQuery>,
     HttpError,
     {
-      name: string
-      
+      name: string;
     }
   >({
     pagination: {
       pageSize: 12,
     },
+    resource: "contacts",
     sorters: {
       initial: [
         {
@@ -159,9 +158,9 @@ export const ContactsListPage: React.FC<Props> = ({ children }) => {
             marginTop: "28px",
           },
         }}
-        title={
-          <ListTitleButton toPath="contacts" buttonText="Add new contact" />
-        }
+        // title={
+        //   <ListTitleButton toPath="/people/students" buttonText="Add new contact" />
+        // }
       >
         {screens.xs || view === "card" ? (
           <CardView
