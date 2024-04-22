@@ -27,12 +27,38 @@ export type UpdateClassMutationVariables = Types.Exact<{
 export type UpdateClassMutation = {
   updateClass: {
     class: Pick<Types.Class, "id" | "name" | "logoUrl"> & {
-      teacher: 
-        Pick<Types.User, "id"> & {
-          userInfoById: Types.Maybe<
-            Pick<Types.UserInfo, "firstName" | "avatarUrl">
-          >;
-        }
+      teacher: Pick<Types.User, "id"> & {
+        userInfoById: Types.Maybe<
+          Pick<Types.UserInfo, "firstName" | "avatarUrl">
+        >;
+      };
     };
+  };
+};
+
+export type DashboardTotalCountsQueryVariables = Types.Exact<{
+  [key: string]: never;
+}>;
+
+export type DashboardTotalCountsQuery = {
+  classes: Types.Maybe<Pick<Types.ClassesConnection, "totalCount">>;
+  students: Types.Maybe<Pick<Types.UserRolesConnection, "totalCount">>;
+  teachers: Types.Maybe<Pick<Types.UserRolesConnection, "totalCount">>;
+};
+
+export type StudentsListQueryVariables = Types.Exact<{
+  filter: Types.UserFilter;
+}>;
+
+export type StudentsListQuery = {
+  users: Pick<Types.UsersConnection, "totalCount"> & {
+    nodes: Array<
+      Pick<Types.User, "id"> & {
+        info: Pick<
+          Types.UserInfo,
+          "firstName" | "lastName" | "email" | "phoneNumber" | "avatarUrl"
+        >;
+      }
+    >;
   };
 };

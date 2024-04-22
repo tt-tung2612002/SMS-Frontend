@@ -50,7 +50,7 @@ export const CompanyContactsTable: FC = () => {
   const params = useParams();
 
   const { tableProps, filters, setFilters } = useTable<Contact>({
-    resource: "students",
+    resource: "contacts",
     syncWithLocation: false,
     sorters: {
       initial: [

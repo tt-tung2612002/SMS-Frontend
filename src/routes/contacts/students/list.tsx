@@ -12,10 +12,11 @@ import {
 import { Form, Grid, Input, Radio, Space, Spin } from "antd";
 import debounce from "lodash/debounce";
 
+import { ListTitleButton } from "@/components";
 import { ContactsListQuery } from "@/graphql/types";
 
-import { CardView, TableView } from "./components";
-import { CONTACTS_LIST_QUERY } from "./queries";
+import { CardView, TableView } from "../components";
+import { CONTACTS_LIST_QUERY } from "./queries/studentsList";
 
 type Props = React.PropsWithChildren;
 type View = "card" | "table";
@@ -43,7 +44,7 @@ export const ContactsListPage: React.FC<Props> = ({ children }) => {
     pagination: {
       pageSize: 12,
     },
-    resource: "contacts",
+    resource: "students",
     sorters: {
       initial: [
         {
@@ -98,7 +99,6 @@ export const ContactsListPage: React.FC<Props> = ({ children }) => {
   const onViewChange = (value: View) => {
     setView(value);
     setFilters([], "replace");
-    // TODO: useForm should handle this automatically. remove this when its fixed from antd useForm.
     searchFormProps.form?.resetFields();
   };
 
@@ -158,9 +158,12 @@ export const ContactsListPage: React.FC<Props> = ({ children }) => {
             marginTop: "28px",
           },
         }}
-        // title={
-        //   <ListTitleButton toPath="/people/students" buttonText="Add new contact" />
-        // }
+        title={
+          <ListTitleButton
+            toPath="/people/students"
+            buttonText="Add new contact"
+          />
+        }
       >
         {screens.xs || view === "card" ? (
           <CardView

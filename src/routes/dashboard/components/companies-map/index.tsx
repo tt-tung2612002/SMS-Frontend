@@ -32,16 +32,13 @@ export const CompaniesMap: React.FC = () => {
         >
           <GlobalOutlined />
           <Text size="sm" style={{ marginLeft: ".5rem" }}>
-            Companies
+            Class Map
           </Text>
         </div>
       }
       extra={
-        <Button
-          onClick={() => list("companies")}
-          icon={<RightCircleOutlined />}
-        >
-          See all companies
+        <Button onClick={() => list("classes")} icon={<RightCircleOutlined />}>
+          See all classes
         </Button>
       }
     >

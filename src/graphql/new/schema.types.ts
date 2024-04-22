@@ -2444,12 +2444,14 @@ export type User = Node & {
   classesByClassManagementUserIdAndClassId: UserClassesByClassManagementUserIdAndClassIdManyToManyConnection;
   /** Reads and enables pagination through a set of `Class`. */
   classesByTeacherId: ClassesConnection;
+  createdAt?: Maybe<Scalars["Datetime"]["output"]>;
   createdDate: Scalars["Datetime"]["output"];
   id: Scalars["Int"]["output"];
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
   nodeId: Scalars["ID"]["output"];
   /** Reads and enables pagination through a set of `Role`. */
   rolesByUserRoleUserIdAndRoleId: UserRolesByUserRoleUserIdAndRoleIdManyToManyConnection;
+  updatedAt?: Maybe<Scalars["Datetime"]["output"]>;
   updatedDate: Scalars["Datetime"]["output"];
   /** Reads and enables pagination through a set of `UserAttribute`. */
   userAttributes: UserAttributesConnection;
@@ -2704,10 +2706,14 @@ export type UserClassesByClassManagementUserIdAndClassIdManyToManyEdge = {
 
 /** A condition to be used against `User` object types. All fields are tested for equality and combined with a logical ‘and.’ */
 export type UserCondition = {
+  /** Checks for equality with the object’s `createdAt` field. */
+  createdAt?: InputMaybe<Scalars["Datetime"]["input"]>;
   /** Checks for equality with the object’s `createdDate` field. */
   createdDate?: InputMaybe<Scalars["Datetime"]["input"]>;
   /** Checks for equality with the object’s `id` field. */
   id?: InputMaybe<Scalars["Int"]["input"]>;
+  /** Checks for equality with the object’s `updatedAt` field. */
+  updatedAt?: InputMaybe<Scalars["Datetime"]["input"]>;
   /** Checks for equality with the object’s `updatedDate` field. */
   updatedDate?: InputMaybe<Scalars["Datetime"]["input"]>;
   /** Checks for equality with the object’s `username` field. */
@@ -2718,6 +2724,8 @@ export type UserCondition = {
 export type UserFilter = {
   /** Checks for all expressions in this list. */
   and?: InputMaybe<Array<UserFilter>>;
+  /** Filter by the object’s `createdAt` field. */
+  createdAt?: InputMaybe<DatetimeFilter>;
   /** Filter by the object’s `createdDate` field. */
   createdDate?: InputMaybe<DatetimeFilter>;
   /** Filter by the object’s `id` field. */
@@ -2726,6 +2734,8 @@ export type UserFilter = {
   not?: InputMaybe<UserFilter>;
   /** Checks for any expressions in this list. */
   or?: InputMaybe<Array<UserFilter>>;
+  /** Filter by the object’s `updatedAt` field. */
+  updatedAt?: InputMaybe<DatetimeFilter>;
   /** Filter by the object’s `updatedDate` field. */
   updatedDate?: InputMaybe<DatetimeFilter>;
   /** Filter by the object’s `username` field. */
@@ -2735,6 +2745,7 @@ export type UserFilter = {
 export type UserInfo = Node & {
   avatarUrl: Scalars["String"]["output"];
   dateOfBirth?: Maybe<Scalars["Datetime"]["output"]>;
+  dateofbirth?: Maybe<Scalars["Datetime"]["output"]>;
   email: Scalars["String"]["output"];
   firstName: Scalars["String"]["output"];
   id: Scalars["Int"]["output"];
@@ -2755,6 +2766,8 @@ export type UserInfoCondition = {
   avatarUrl?: InputMaybe<Scalars["String"]["input"]>;
   /** Checks for equality with the object’s `dateOfBirth` field. */
   dateOfBirth?: InputMaybe<Scalars["Datetime"]["input"]>;
+  /** Checks for equality with the object’s `dateofbirth` field. */
+  dateofbirth?: InputMaybe<Scalars["Datetime"]["input"]>;
   /** Checks for equality with the object’s `email` field. */
   email?: InputMaybe<Scalars["String"]["input"]>;
   /** Checks for equality with the object’s `firstName` field. */
@@ -2775,6 +2788,8 @@ export type UserInfoFilter = {
   avatarUrl?: InputMaybe<StringFilter>;
   /** Filter by the object’s `dateOfBirth` field. */
   dateOfBirth?: InputMaybe<DatetimeFilter>;
+  /** Filter by the object’s `dateofbirth` field. */
+  dateofbirth?: InputMaybe<DatetimeFilter>;
   /** Filter by the object’s `email` field. */
   email?: InputMaybe<StringFilter>;
   /** Filter by the object’s `firstName` field. */
@@ -2795,6 +2810,7 @@ export type UserInfoFilter = {
 export type UserInfoInput = {
   avatarUrl: Scalars["String"]["input"];
   dateOfBirth?: InputMaybe<Scalars["Datetime"]["input"]>;
+  dateofbirth?: InputMaybe<Scalars["Datetime"]["input"]>;
   email: Scalars["String"]["input"];
   firstName: Scalars["String"]["input"];
   id: Scalars["Int"]["input"];
@@ -2806,6 +2822,7 @@ export type UserInfoInput = {
 export type UserInfoPatch = {
   avatarUrl?: InputMaybe<Scalars["String"]["input"]>;
   dateOfBirth?: InputMaybe<Scalars["Datetime"]["input"]>;
+  dateofbirth?: InputMaybe<Scalars["Datetime"]["input"]>;
   email?: InputMaybe<Scalars["String"]["input"]>;
   firstName?: InputMaybe<Scalars["String"]["input"]>;
   id?: InputMaybe<Scalars["Int"]["input"]>;
@@ -2837,6 +2854,8 @@ export type UserInfosEdge = {
 export type UserInfosOrderBy =
   | "AVATAR_URL_ASC"
   | "AVATAR_URL_DESC"
+  | "DATEOFBIRTH_ASC"
+  | "DATEOFBIRTH_DESC"
   | "DATE_OF_BIRTH_ASC"
   | "DATE_OF_BIRTH_DESC"
   | "EMAIL_ASC"
@@ -2855,16 +2874,20 @@ export type UserInfosOrderBy =
 
 /** An input for mutations affecting `User` */
 export type UserInput = {
+  createdAt?: InputMaybe<Scalars["Datetime"]["input"]>;
   createdDate?: InputMaybe<Scalars["Datetime"]["input"]>;
   id?: InputMaybe<Scalars["Int"]["input"]>;
+  updatedAt?: InputMaybe<Scalars["Datetime"]["input"]>;
   updatedDate?: InputMaybe<Scalars["Datetime"]["input"]>;
   username: Scalars["String"]["input"];
 };
 
 /** Represents an update to a `User`. Fields that are set will be updated. */
 export type UserPatch = {
+  createdAt?: InputMaybe<Scalars["Datetime"]["input"]>;
   createdDate?: InputMaybe<Scalars["Datetime"]["input"]>;
   id?: InputMaybe<Scalars["Int"]["input"]>;
+  updatedAt?: InputMaybe<Scalars["Datetime"]["input"]>;
   updatedDate?: InputMaybe<Scalars["Datetime"]["input"]>;
   username?: InputMaybe<Scalars["String"]["input"]>;
 };
@@ -2989,6 +3012,8 @@ export type UsersEdge = {
 
 /** Methods to use when ordering `User`. */
 export type UsersOrderBy =
+  | "CREATED_AT_ASC"
+  | "CREATED_AT_DESC"
   | "CREATED_DATE_ASC"
   | "CREATED_DATE_DESC"
   | "ID_ASC"
@@ -2996,6 +3021,8 @@ export type UsersOrderBy =
   | "NATURAL"
   | "PRIMARY_KEY_ASC"
   | "PRIMARY_KEY_DESC"
+  | "UPDATED_AT_ASC"
+  | "UPDATED_AT_DESC"
   | "UPDATED_DATE_ASC"
   | "UPDATED_DATE_DESC"
   | "USERNAME_ASC"

@@ -46,7 +46,7 @@ export const TableView: React.FC<Props> = ({
         ...tableProps.pagination,
         pageSizeOptions: ["12", "24", "48", "96"],
         showTotal: (total) => (
-          <PaginationTotal total={total} entityName="contacts" />
+          <PaginationTotal total={total} entityName="students" />
         ),
       }}
       rowKey="id"

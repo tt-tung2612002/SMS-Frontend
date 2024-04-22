@@ -8,10 +8,9 @@ import {
   BankOutlined,
   ColumnWidthOutlined,
   DollarOutlined,
-  EnvironmentOutlined,
   ShopOutlined,
 } from "@ant-design/icons";
-import { Card, Input, InputNumber, Select, Space } from "antd";
+import { Card, InputNumber, Select, Space } from "antd";
 
 import { SingleElementForm, Text } from "@/components";
 import { BusinessType, CompanySize, Industry } from "@/graphql/schema.types";
@@ -69,7 +68,7 @@ export const CompanyInfoForm = () => {
       title={
         <Space size={15}>
           <ShopOutlined className="sm" />
-          <Text>Company info</Text>
+          <Text>Class info</Text>
         </Space>
       }
       headStyle={{
@@ -91,7 +90,7 @@ export const CompanyInfoForm = () => {
         state={getActiveForm({ formName: "companySize" })}
         itemProps={{
           name: "companySize",
-          label: "Company size",
+          label: "Class Size",
         }}
         view={<Text>{companySize}</Text>}
         onClick={() => setActiveForm("companySize")}
@@ -116,7 +115,7 @@ export const CompanyInfoForm = () => {
         state={getActiveForm({ formName: "totalRevenue" })}
         itemProps={{
           name: "totalRevenue",
-          label: "Total revenue",
+          label: "Class Level",
         }}
         view={<Text>{currencyNumber(totalRevenue || 0)}</Text>}
         onClick={() => setActiveForm("totalRevenue")}
@@ -168,7 +167,7 @@ export const CompanyInfoForm = () => {
         state={getActiveForm({ formName: "businessType" })}
         itemProps={{
           name: "businessType",
-          label: "Business type",
+          label: "Class Schedule",
         }}
         view={<Text>{businessType}</Text>}
         onClick={() => setActiveForm("businessType")}
@@ -184,7 +183,7 @@ export const CompanyInfoForm = () => {
           }}
         />
       </SingleElementForm>
-      <SingleElementForm
+      {/* <SingleElementForm
         loading={loading}
         style={{
           padding: "0.5rem 1rem",
@@ -208,8 +207,8 @@ export const CompanyInfoForm = () => {
             width: "100%",
           }}
         />
-      </SingleElementForm>
-      <SingleElementForm
+      </SingleElementForm> */}
+      {/* <SingleElementForm
         loading={loading}
         style={{
           padding: "0.5rem 1rem",
@@ -233,7 +232,7 @@ export const CompanyInfoForm = () => {
             width: "100%",
           }}
         />
-      </SingleElementForm>
+      </SingleElementForm> */}
     </Card>
   );
 };

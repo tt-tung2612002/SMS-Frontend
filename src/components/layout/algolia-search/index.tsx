@@ -9,13 +9,12 @@ import { Input, List, Popover, Tag, Typography } from "antd";
 import cn from "classnames";
 
 import {
-    aa,
-    Contact,
-    Deal,
-    Event,
-    Quote,
-    Task,
-    User,
+  Contact,
+  Deal,
+  Event,
+  Quote,
+  Task,
+  User,
 } from "@/graphql/schema.types";
 
 import { CustomAvatar } from "../../custom-avatar";
@@ -75,7 +74,7 @@ export const AlgoliaSearch: React.FC = () => {
   );
 };
 
-type Hit = (User | Deal | Task | aa | Contact | Quote | Event) & {
+type Hit = (User | Deal | Task | Contact | Quote | Event) & {
   resource: string;
 };
 
@@ -124,7 +123,11 @@ export const AlgoliaSearchResult: FC<SearchResultProps> = ({ onHitClick }) => {
   };
 
   const getResourceLink = (item: Hit) => {
-    if (["contacts", "quotes", "events", "user"].includes(item.resource)) {
+    if (
+      ["students", "contacts", "quotes", "events", "user"].includes(
+        item.resource
+      )
+    ) {
       return showUrl(item.resource, item.id);
     }
 

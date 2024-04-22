@@ -118,18 +118,18 @@ export const resources: IResourceItem[] = [
       parent: "people",
     },
   },
-  // {
-  //   name: "teachers",
-  //   list: "/people/teachers",
-  //   create: "/people/teachers/create",
-  //   edit: "/people/teachers/edit/:id",
-  //   show: "/people/teachers/show/:id",
-  //   meta: {
-  //     parent: "people",
-  //     label: "Teacher",
-  //     icon: <TeamOutlined />,
-  //   },
-  // },
+  {
+    name: "teachers",
+    list: "/people/teachers",
+    create: "/people/teachers/create",
+    edit: "/people/teachers/edit/:id",
+    show: "/people/teachers/show/:id",
+    meta: {
+      parent: "people",
+      label: "Teacher",
+      icon: <TeamOutlined />,
+    },
+  },
   {
     name: "quotes",
     list: "/quotes",

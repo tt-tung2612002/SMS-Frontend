@@ -45,3 +45,15 @@ export type ClassesTableQuery = {
     >;
   };
 };
+export type StudentShowQueryVariables = Types.Exact<{
+  id: Types.Scalars["Int"]["input"];
+}>;
+
+export type StudentShowQuery = {
+  user: Pick<Types.User, "id"> & {
+    info: Pick<
+      Types.UserInfo,
+      "firstName" | "lastName" | "email" | "phoneNumber" | "avatarUrl"
+    >;
+  };
+};

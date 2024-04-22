@@ -24,8 +24,8 @@ export const CompanyCard: FC<Props> = ({ classes }) => {
 
   const studentAvatars = classes?.students?.nodes?.map((student) => {
     return {
-      name: student.userInfoById?.name,
-      src: student.userInfoById.avatarUrl as string | undefined,
+      name: student?.userInfoById?.name,
+      src: student?.userInfoById?.avatarUrl as string | undefined,
     };
   });
 

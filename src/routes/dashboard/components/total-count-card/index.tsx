@@ -10,7 +10,7 @@ import styles from "./index.module.css";
 
 const Area = React.lazy(() => import("@ant-design/plots/es/components/area"));
 
-type Type = "companies" | "contacts" | "deals";
+type Type = "classes" | "students" | "teachers";
 
 export const DashboardTotalCountCard: React.FC<{
   resource: Type;
@@ -142,7 +142,7 @@ const variants: {
     data: { index: string; value: number }[];
   };
 } = {
-  companies: {
+  classes: {
     primaryColor: "#1677FF",
     secondaryColor: "#BAE0FF",
     icon: (
@@ -155,7 +155,7 @@ const variants: {
         />
       </IconWrapper>
     ),
-    title: "Number of companies",
+    title: "Number of classes",
     data: [
       {
         index: "1",
@@ -179,7 +179,8 @@ const variants: {
       },
     ],
   },
-  contacts: {
+
+  students: {
     primaryColor: "#52C41A",
     secondaryColor: "#D9F7BE",
     icon: (
@@ -192,7 +193,7 @@ const variants: {
         />
       </IconWrapper>
     ),
-    title: "Number of contacts",
+    title: "Number of students",
     data: [
       {
         index: "1",
@@ -220,7 +221,7 @@ const variants: {
       },
     ],
   },
-  deals: {
+  teachers: {
     primaryColor: "#FA541C",
     secondaryColor: "#FFD8BF",
     icon: (
@@ -233,7 +234,7 @@ const variants: {
         />
       </IconWrapper>
     ),
-    title: "Total deals in pipeline",
+    title: "Number of teachers",
     data: [
       {
         index: "1",

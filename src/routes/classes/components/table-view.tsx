@@ -1,7 +1,7 @@
 import { FC } from "react";
 
 import { DeleteButton, EditButton, FilterDropdown } from "@refinedev/antd";
-import { CrudFilters, CrudSorting, getDefaultFilter, useNavigation } from "@refinedev/core";
+import { CrudFilters, CrudSorting, getDefaultFilter } from "@refinedev/core";
 import { GetFieldsFromList } from "@refinedev/nestjs-query";
 
 import { EyeOutlined } from "@ant-design/icons";
@@ -10,7 +10,6 @@ import { Select, Space, Table, TableProps } from "antd";
 import { CustomAvatar, PaginationTotal, Text } from "@/components";
 import { ClassesTableQuery } from "@/graphql/new/customTypes";
 import { Class } from "@/graphql/new/schema.types";
-import { useUsersSelect } from "@/hooks/useUsersSelect";
 
 import { AvatarGroup } from "./avatar-group";
 
@@ -21,8 +20,8 @@ type Props = {
 };
 
 export const CompaniesTableView: FC<Props> = ({ tableProps, filters }) => {
-  const { selectProps: selectPropsUsers } = useUsersSelect();
-  const { edit } = useNavigation();
+  // const { selectProps: selectPropsUsers } = useUsersSelect();
+  // const { edit } = useNavigation();
   
   return (
     <Table

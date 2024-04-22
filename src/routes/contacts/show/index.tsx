@@ -1,384 +1,204 @@
-import React, { useState } from "react";
+import { useState } from "react";
+import { useParams } from "react-router-dom";
 
-import { useDelete, useNavigation, useShow, useUpdate } from "@refinedev/core";
-import { GetFields } from "@refinedev/nestjs-query/dist/interfaces";
+import { useForm } from "@refinedev/antd";
+import { HttpError, useOne } from "@refinedev/core";
+import { GetFields, GetVariables } from "@refinedev/nestjs-query";
 
+import { EditOutlined } from "@ant-design/icons";
+import { Button, Form, Select, Skeleton, Space } from "antd";
+import type * as Types from "graphql/new/schema.types";
+
+import { CustomAvatar, SelectOptionWithAvatar, Text } from "@/components";
 import {
-  CloseOutlined,
-  DeleteOutlined,
-  EditOutlined,
-  GlobalOutlined,
-  IdcardOutlined,
-  MailOutlined,
-  PhoneOutlined,
-  ShopOutlined,
-} from "@ant-design/icons";
-import {
-  Button,
-  Card,
-  Drawer,
-  Form,
-  Input,
-  Popconfirm,
-  Select,
-  Space,
-  Spin,
-  Typography,
-} from "antd";
-import dayjs from "dayjs";
+  UpdateClassMutation,
+  UpdateClassMutationVariables,
+} from "@/graphql/new/types";
+import { useUsersSelect } from "@/hooks/useUsersSelect";
+import { CLASS_TITLE_QUERY } from "@/routes/classes/components/title-form/getClassForm";
+import { CLASS_UPDATE_MUTATION } from "@/routes/classes/queries/updateClass";
+import { getNameInitials } from "@/utilities";
 
-import {
-  CustomAvatar,
-  SelectOptionWithAvatar,
-  SingleElementForm,
-  Text,
-  TextIcon,
-} from "@/components";
-import { TimezoneEnum } from "@/enums";
-import type { Contact } from "@/graphql/schema.types";
-import { ContactShowQuery } from "@/graphql/types";
-import { useCompaniesSelect } from "@/hooks/useCompaniesSelect";
-import { oldUsersSelect } from "@/hooks/useOldUsersSelect";
-
-import { ContactComment, ContactStatus } from "../components";
-import styles from "./index.module.css";
-import { CONTACT_SHOW_QUERY } from "./queries";
-
-const timezoneOptions = Object.keys(TimezoneEnum).map((key) => ({
-  label: TimezoneEnum[key as keyof typeof TimezoneEnum],
-  value: TimezoneEnum[key as keyof typeof TimezoneEnum],
-}));
-
-export const ContactShowPage: React.FC = () => {
-  const [activeForm, setActiveForm] = useState<
-    "email" | "companyId" | "jobTitle" | "phone" | "timezone"
-  >();
-  const { list } = useNavigation();
-  const { mutate } = useUpdate<Contact>();
-  const { mutate: deleteMutation } = useDelete<Contact>();
-  const { queryResult } = useShow<GetFields<ContactShowQuery>>({
+export const ContactShowPage = () => {
+  const { formProps, onFinish, queryResult } = useForm<
+    GetFields<UpdateClassMutation>,
+    HttpError,
+    GetVariables<UpdateClassMutationVariables>
+  >({
+    resource: "classes",
+    redirect: false,
     meta: {
-      gqlQuery: CONTACT_SHOW_QUERY,
+      gqlMutation: CLASS_UPDATE_MUTATION,
+      gqlQuery: CLASS_TITLE_QUERY,
     },
+    dataProviderName: "local",
   });
-  const {
-    selectProps: companySelectProps,
-    queryResult: companySelectQueryResult,
-  } = useCompaniesSelect();
 
-  const { selectProps: usersSelectProps, queryResult: usersSelectQueryResult } =
-    oldUsersSelect();
-
-  const closeModal = () => {
-    setActiveForm(undefined);
-
-    list("students");
-  };
-
-  const { data, isLoading, isError } = queryResult;
-
-  if (isError) {
-    closeModal();
-    return null;
-  }
-
-  if (isLoading) {
-    return (
-      <Drawer
-        open
-        width={756}
-        bodyStyle={{
-          background: "#f5f5f5",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        <Spin />
-      </Drawer>
-    );
-  }
-
-  const {
+  const { id } = useParams();
+  const { data } = useOne<Types.Class, HttpError>({
+    resource: "classes",
+    dataProviderName: "local",
+    meta: {
+      gqlQuery: CLASS_TITLE_QUERY,
+    },
     id,
-    name,
-    email,
-    jobTitle,
-    phone,
-    timezone,
-    avatarUrl,
-    company,
-    createdAt,
-    salesOwner,
-  } = data?.data ?? {};
+  });
+
+  const currentClass = data?.data;
+  // const currentClass = queryResult?.data?.data?.class;
+  const loading = queryResult?.isLoading;
+  console.log(data);
 
   return (
-    <Drawer
-      open
-      onClose={() => closeModal()}
-      width={756}
-      bodyStyle={{ background: "#f5f5f5", padding: 0 }}
-      headerStyle={{ display: "none" }}
-    >
-      <div className={styles.header}>
-        <Button
-          type="text"
-          icon={<CloseOutlined />}
-          onClick={() => closeModal()}
-        />
-      </div>
-      <div className={styles.container}>
-        <div className={styles.name}>
-          <CustomAvatar
-            style={{
-              marginRight: "1rem",
-              flexShrink: 0,
-              fontSize: "40px",
-            }}
-            size={96}
-            src={avatarUrl}
-            name={name}
-          />
-          <Typography.Title
-            level={3}
-            style={{ padding: 0, margin: 0, width: "100%" }}
-            className={styles.title}
-            editable={{
-              onChange(value) {
-                mutate({
-                  resource: "students",
-                  id,
-                  values: {
-                    name: value,
-                  },
-                  successNotification: false,
-                });
-              },
-              triggerType: ["text", "icon"],
-              icon: <EditOutlined className={styles.titleEditIcon} />,
-            }}
-          >
-            {name}
-          </Typography.Title>
-        </div>
-
-        <div className={styles.form}>
-          <SingleElementForm
-            icon={<MailOutlined className="tertiary" />}
-            state={
-              activeForm && activeForm === "email"
-                ? "form"
-                : email
-                ? "view"
-                : "empty"
-            }
-            itemProps={{
-              name: "email",
-              label: "Email",
-            }}
-            view={<Text>{email}</Text>}
-            onClick={() => setActiveForm("email")}
-            onUpdate={() => setActiveForm(undefined)}
-            onCancel={() => setActiveForm(undefined)}
-          >
-            <Input defaultValue={email} />
-          </SingleElementForm>
-
-          <SingleElementForm
-            icon={<ShopOutlined className="tertiary" />}
-            state={
-              activeForm && activeForm === "companyId"
-                ? "form"
-                : company.id
-                ? "view"
-                : "empty"
-            }
-            itemProps={{
-              name: "companyId",
-              label: "Company",
-            }}
-            view={
-              <Space>
-                <CustomAvatar src={company.avatarUrl} name={company.name} />
-                <Text>{company.name}</Text>
-              </Space>
-            }
-            onClick={() => setActiveForm("companyId")}
-            onCancel={() => setActiveForm(undefined)}
-            onUpdate={() => {
-              setActiveForm(undefined);
-            }}
-            extra={
-              <Form.Item
-                name="salesOwnerId"
-                label="Sales Owner"
-                labelCol={{
-                  style: {
-                    marginTop: "0.8rem",
-                  },
-                }}
-              >
-                <Select
-                  style={{
-                    width: "100%",
-                  }}
-                  defaultValue={{
-                    label: salesOwner.name,
-                    value: salesOwner.id,
-                  }}
-                  {...usersSelectProps}
-                  options={
-                    usersSelectQueryResult.data?.data?.map(
-                      ({ id, name, avatarUrl }) => ({
-                        value: id,
-                        label: (
-                          <SelectOptionWithAvatar
-                            name={name}
-                            avatarUrl={avatarUrl ?? undefined}
-                          />
-                        ),
-                      })
-                    ) ?? []
-                  }
-                />
-              </Form.Item>
-            }
-          >
-            <Select
-              style={{ width: "100%" }}
-              defaultValue={{
-                label: data.data.company.name,
-                value: data.data.company.id,
-              }}
-              {...companySelectProps}
-              options={
-                companySelectQueryResult.data?.data?.map(
-                  ({ id, name, avatarUrl }) => ({
-                    value: id,
-                    label: (
-                      <SelectOptionWithAvatar
-                        name={name}
-                        avatarUrl={avatarUrl ?? undefined}
-                      />
-                    ),
-                  })
-                ) ?? []
-              }
-            />
-          </SingleElementForm>
-          <SingleElementForm
-            icon={<IdcardOutlined className="tertiary" />}
-            state={
-              activeForm && activeForm === "jobTitle"
-                ? "form"
-                : jobTitle
-                ? "view"
-                : "empty"
-            }
-            itemProps={{
-              name: "jobTitle",
-              label: "Title",
-            }}
-            view={<Text>{jobTitle}</Text>}
-            onClick={() => setActiveForm("jobTitle")}
-            onUpdate={() => setActiveForm(undefined)}
-            onCancel={() => setActiveForm(undefined)}
-          >
-            <Input defaultValue={jobTitle || ""} />
-          </SingleElementForm>
-          <SingleElementForm
-            icon={<PhoneOutlined className="tertiary" />}
-            state={
-              activeForm && activeForm === "phone"
-                ? "form"
-                : phone
-                ? "view"
-                : "empty"
-            }
-            itemProps={{
-              name: "phone",
-              label: "Phone",
-            }}
-            view={<Text>{phone}</Text>}
-            onClick={() => setActiveForm("phone")}
-            onUpdate={() => setActiveForm(undefined)}
-            onCancel={() => setActiveForm(undefined)}
-          >
-            <Input defaultValue={phone || ""} />
-          </SingleElementForm>
-          <SingleElementForm
-            style={{ borderBottom: "none" }}
-            icon={<GlobalOutlined className="tertiary" />}
-            state={
-              activeForm && activeForm === "timezone"
-                ? "form"
-                : timezone
-                ? "view"
-                : "empty"
-            }
-            itemProps={{
-              name: "timezone",
-              label: "TimezoneEnum",
-            }}
-            view={<Text>{timezone}</Text>}
-            onClick={() => setActiveForm("timezone")}
-            onUpdate={() => setActiveForm(undefined)}
-            onCancel={() => setActiveForm(undefined)}
-          >
-            <Select
-              style={{ width: "100%" }}
-              options={timezoneOptions}
-              defaultValue={data.data.timezone}
-            />
-          </SingleElementForm>
-        </div>
-
-        <div className={styles.stage}>
-          <ContactStatus contact={data.data} />
-        </div>
-
-        <Card
-          title={
-            <>
-              <TextIcon />
-              <Text style={{ marginLeft: ".8rem" }}>Notes</Text>
-            </>
-          }
-          bodyStyle={{
-            padding: 0,
+    <Form {...formProps}>
+      <Space size={16}>
+        <CustomAvatar
+          size="large"
+          shape="square"
+          src={currentClass?.logoUrl}
+          name={getNameInitials("Do it Yourself")}
+          style={{
+            width: 96,
+            height: 96,
+            fontSize: 48,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            border: "none",
           }}
-        >
-          <ContactComment />
-        </Card>
-
-        <div className={styles.actions}>
-          <Text className="ant-text tertiary">
-            Created on: {dayjs(createdAt).format("MMMM DD, YYYY")}
-          </Text>
-
-          <Popconfirm
-            title="Delete the contact"
-            description="Are you sure to delete this contact?"
-            onConfirm={() => {
-              deleteMutation(
-                {
-                  id,
-                  resource: "contacts",
-                },
-                {
-                  onSuccess: () => closeModal(),
-                }
-              );
+        />
+        <Space direction="vertical" size={0}>
+          <Form.Item name="name" required noStyle>
+            <TitleInput
+              loading={loading}
+              onChange={(value) => {
+                return onFinish?.({
+                  name: value,
+                });
+              }}
+            />
+          </Form.Item>
+          <SalesOwnerInput
+            teacher={currentClass?.teacher}
+            loading={loading}
+            onChange={(value) => {
+              onFinish?.({
+                teacherId: value,
+              });
             }}
-            okText="Yes"
-            cancelText="No"
-          >
-            <Button type="link" danger icon={<DeleteOutlined />}>
-              Delete Contact
-            </Button>
-          </Popconfirm>
-        </div>
-      </div>
-    </Drawer>
+          />
+        </Space>
+      </Space>
+    </Form>
+  );
+};
+
+const TitleInput = ({
+  value,
+  onChange,
+  loading,
+}: {
+  // value is set by <Form.Item />
+  value?: string;
+  onChange?: (value: string) => void;
+  loading?: boolean;
+}) => {
+  return (
+    <Text
+      size="xl"
+      strong
+      editable={{
+        onChange,
+        triggerType: ["text", "icon"],
+        icon: <EditOutlined />,
+      }}
+    >
+      {loading ? (
+        <Skeleton.Input size="small" style={{ width: 200 }} active />
+      ) : (
+        value
+      )}
+    </Text>
+  );
+};
+
+const SalesOwnerInput = ({
+  teacher,
+  onChange,
+  loading,
+}: // loading,
+{
+  onChange?: (value: number) => void;
+  teacher: any;
+  loading?: boolean;
+}) => {
+  const [isEdit, setIsEdit] = useState(false);
+
+  const { selectProps, queryResult } = useUsersSelect();
+
+  const users = queryResult?.data?.data ?? [];
+
+  return (
+    <div
+      role="button"
+      onClick={() => {
+        setIsEdit(true);
+      }}
+    >
+      <Text
+        type="secondary"
+        style={{
+          marginRight: 12,
+        }}
+      >
+        Teacher:
+      </Text>
+      {loading && <Skeleton.Input size="small" style={{ width: 120 }} active />}
+      {!isEdit && (
+        <>
+          <CustomAvatar
+            size="small"
+            src={teacher?.userInfoById?.avatarUrl}
+            style={{
+              marginRight: 4,
+            }}
+          />
+          <Text>{teacher?.userInfoById?.firstName}</Text>
+          <Button type="link" icon={<EditOutlined />} />
+        </>
+      )}
+      {isEdit && !loading && (
+        <Form.Item name={["teacher", "id"]} noStyle>
+          <Select
+            {...selectProps}
+            defaultOpen={true}
+            autoFocus
+            onDropdownVisibleChange={(open) => {
+              if (!open) {
+                setIsEdit(false);
+              }
+            }}
+            onClick={(e) => {
+              e.stopPropagation();
+            }}
+            onChange={(value, option) => {
+              onChange?.(value as unknown as number);
+              selectProps.onChange?.(value, option);
+            }}
+            options={
+              users.map(({ id, info }) => ({
+                value: id,
+                label: (
+                  <SelectOptionWithAvatar
+                    name={info?.name}
+                    avatarUrl={info?.avatarUrl ?? undefined}
+                  />
+                ),
+              })) ?? []
+            }
+          />
+        </Form.Item>
+      )}
+    </div>
   );
 };

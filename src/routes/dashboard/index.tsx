@@ -5,7 +5,7 @@ import { useCustom } from "@refinedev/core";
 import { Col, Row } from "antd";
 
 import { CalendarUpcomingEvents } from "@/components";
-import { DashboardTotalCountsQuery } from "@/graphql/types";
+import { DashboardTotalCountsQuery } from "@/graphql/new/types";
 
 import {
   CompaniesMap,
@@ -15,42 +15,43 @@ import {
   DashboardTotalCountCard,
   DashboardTotalRevenueChart,
 } from "./components";
-import { DASHBOARD_TOTAL_COUNTS_QUERY } from "./queries";
+import { DASHBOARD_TOTAL_COUNTS_QUERY } from "./dashboardGetTotalCount";
 
 export const DashboardPage: React.FC = () => {
   const { data, isLoading } = useCustom<DashboardTotalCountsQuery>({
     url: "",
     method: "get",
+    dataProviderName: "local",
     meta: { gqlQuery: DASHBOARD_TOTAL_COUNTS_QUERY },
   });
 
   return (
     <div className="page-container">
       <Row gutter={[32, 32]}>
-        <Col xs={24} sm={24} xl={8}>
+        <Col xs={24} sm={48} xl={8}>
           <DashboardTotalCountCard
-            resource="companies"
+            resource="classes"
             isLoading={isLoading}
-            totalCount={data?.data["companies"].totalCount}
+            totalCount={data?.data?.classes?.totalCount}
           />
         </Col>
         <Col xs={24} sm={24} xl={8}>
           <DashboardTotalCountCard
-            resource="contacts"
+            resource="students"
             isLoading={isLoading}
-            totalCount={data?.data["contacts"].totalCount}
+            totalCount={data?.data?.students?.totalCount}
           />
         </Col>
         <Col xs={24} sm={24} xl={8}>
           <DashboardTotalCountCard
-            resource="deals"
+            resource="teachers"
             isLoading={isLoading}
-            totalCount={data?.data["deals"].totalCount}
+            totalCount={data?.data?.teachers?.totalCount}
           />
         </Col>
       </Row>
 
-      <Row
+      {/* <Row
         gutter={[32, 32]}
         style={{
           marginTop: "32px",
@@ -76,7 +77,7 @@ export const DashboardPage: React.FC = () => {
         >
           <DashboardDealsChart />
         </Col>
-      </Row>
+      </Row> */}
 
       <Row
         gutter={[32, 32]}
