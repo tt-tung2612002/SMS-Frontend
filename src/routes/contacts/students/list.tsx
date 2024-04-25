@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { FC, PropsWithChildren, useState } from "react";
 
 import { List, useTable } from "@refinedev/antd";
 import { HttpError } from "@refinedev/core";
@@ -10,92 +10,71 @@ import {
   UnorderedListOutlined,
 } from "@ant-design/icons";
 import { Form, Grid, Input, Radio, Space, Spin } from "antd";
-import debounce from "lodash/debounce";
+import { debounce } from "lodash";
 
 import { ListTitleButton } from "@/components";
-import { ContactsListQuery } from "@/graphql/types";
+import { StudentsListQuery } from "@/graphql/new/types";
 
-import { CardView, TableView } from "../components";
-import { CONTACTS_LIST_QUERY } from "./queries/studentsList";
+import { StudentsTableView } from "../components";
+import { STUDENTS_LIST_QUERY } from "./queries/studentsList";
 
-type Props = React.PropsWithChildren;
 type View = "card" | "table";
 
-export const ContactsListPage: React.FC<Props> = ({ children }) => {
+export const StudentsListPage: FC<PropsWithChildren> = ({ children }) => {
   const [view, setView] = useState<View>("table");
   const screens = Grid.useBreakpoint();
 
   const {
     tableProps,
+    tableQueryResult,
     searchFormProps,
-    setCurrent,
-    setPageSize,
     filters,
     sorters,
     setFilters,
-    tableQueryResult,
   } = useTable<
-    GetFieldsFromList<ContactsListQuery>,
+    GetFieldsFromList<StudentsListQuery>,
     HttpError,
-    {
-      name: string;
-    }
+    { name: string }
   >({
-    pagination: {
-      pageSize: 12,
-    },
-    resource: "students",
-    sorters: {
-      initial: [
-        {
-          field: "createdAt",
-          order: "asc",
-        },
-      ],
-    },
-    filters: {
-      initial: [
-        {
-          field: "name",
-          value: undefined,
-          operator: "contains",
-        },
-        {
-          field: "email",
-          value: undefined,
-          operator: "contains",
-        },
-        {
-          field: "company.id",
-          value: undefined,
-          operator: "eq",
-        },
-        {
-          field: "jobTitle",
-          value: undefined,
-          operator: "contains",
-        },
-        {
-          field: "status",
-          value: undefined,
-          operator: "in",
-        },
-      ],
-    },
+    resource: "roles",
+
     onSearch: (values) => {
       return [
         {
-          field: "name",
+          field: "firstName",
           operator: "contains",
           value: values.name,
         },
       ];
     },
+    sorters: {
+      mode: "off",
+      initial: [
+        {
+          field: "username",
+          order: "asc",
+        },
+      ],
+    },
+    filters: {
+      mode: "off",
+      initial: [
+        {
+          field: "id",
+          operator: "eq",
+          value: undefined,
+        },
+      ],
+    },
+    pagination: {
+      pageSize: 6,
+      mode: "off",
+    },
+    dataProviderName: "local",
     meta: {
-      gqlQuery: CONTACTS_LIST_QUERY,
+      gqlQuery: STUDENTS_LIST_QUERY,
     },
   });
-
   const onViewChange = (value: View) => {
     setView(value);
     setFilters([], "replace");
@@ -104,15 +83,16 @@ export const ContactsListPage: React.FC<Props> = ({ children }) => {
 
   const onSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     searchFormProps?.onFinish?.({
-      name: e.target.value,
+      name: e.target.value ?? "",
     });
   };
+
   const debouncedOnChange = debounce(onSearch, 500);
 
   return (
     <div className="page-container">
       <List
-        breadcrumb={true}
+        breadcrumb={false}
         headerButtons={() => {
           return (
             <Space
@@ -121,7 +101,7 @@ export const ContactsListPage: React.FC<Props> = ({ children }) => {
               }}
             >
               <Form {...searchFormProps} layout="inline">
-                <Form.Item name="name" noStyle>
+                <Form.Item name="username" noStyle>
                   <Input
                     size="large"
                     prefix={<SearchOutlined className="anticon tertiary" />}
@@ -159,27 +139,26 @@ export const ContactsListPage: React.FC<Props> = ({ children }) => {
           },
         }}
         title={
-          <ListTitleButton
-            toPath="/people/students"
-            buttonText="Add new contact"
-          />
+          <ListTitleButton toPath="students" buttonText="Add new students" />
         }
       >
-        {screens.xs || view === "card" ? (
-          <CardView
+        {view === "table" ? (
+          <StudentsTableView
             tableProps={tableProps}
-            setPageSize={setPageSize}
-            setCurrent={setCurrent}
+            // filters={filters}
+            // sorters={sorters}
           />
         ) : (
-          <TableView
+          <StudentsTableView
             tableProps={tableProps}
-            filters={filters}
-            sorters={sorters}
+            // setPageSize={setPageSize}
+            // setCurrent={setCurrent}
+            // filters={filters}
+            // sorters={sorters}
           />
         )}
-        {children}
       </List>
+      {children}
     </div>
   );
 };

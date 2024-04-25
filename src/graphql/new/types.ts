@@ -47,18 +47,29 @@ export type DashboardTotalCountsQuery = {
 };
 
 export type StudentsListQueryVariables = Types.Exact<{
-  filter: Types.UserFilter;
+  filter: Types.UserInfoFilter;
 }>;
 
 export type StudentsListQuery = {
-  users: Pick<Types.UsersConnection, "totalCount"> & {
-    nodes: Array<
-      Pick<Types.User, "id"> & {
-        info: Pick<
-          Types.UserInfo,
-          "firstName" | "lastName" | "email" | "phoneNumber" | "avatarUrl"
+  roles: {
+    nodes: Array<{
+      students: Pick<
+        Types.RoleUserInfosByUserRoleRoleIdAndUserIdManyToManyConnection,
+        "totalCount"
+      > & {
+        nodes: Array<
+          Pick<
+            Types.UserInfo,
+            | "id"
+            | "firstName"
+            | "lastName"
+            | "avatarUrl"
+            | "email"
+            | "phoneNumber"
+            | "dateOfBirth"
+          >
         >;
-      }
-    >;
+      };
+    }>;
   };
 };

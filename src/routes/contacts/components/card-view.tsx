@@ -16,7 +16,7 @@ type Props = {
   setPageSize: (pageSize: number) => void;
 };
 
-export const CardView: React.FC<Props> = ({
+export const StudentsCardView: React.FC<Props> = ({
   tableProps: { dataSource, pagination, loading },
   setCurrent,
   setPageSize,

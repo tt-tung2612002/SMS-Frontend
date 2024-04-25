@@ -686,8 +686,8 @@ export type CreateUserRolePayload = {
   query?: Maybe<Query>;
   /** Reads a single `Role` that is related to this `UserRole`. */
   role?: Maybe<Role>;
-  /** Reads a single `User` that is related to this `UserRole`. */
-  user?: Maybe<User>;
+  /** Reads a single `UserInfo` that is related to this `UserRole`. */
+  user?: Maybe<UserInfo>;
   /** The `UserRole` that was created by this mutation. */
   userRole?: Maybe<UserRole>;
   /** An edge for our `UserRole`. May be used by Relay 1. */
@@ -1082,53 +1082,6 @@ export type DeleteUserPayloadUserEdgeArgs = {
   orderBy?: InputMaybe<Array<UsersOrderBy>>;
 };
 
-/** All input for the `deleteUserRoleByNodeId` mutation. */
-export type DeleteUserRoleByNodeIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
-  /** The globally unique `ID` which will identify a single `UserRole` to be deleted. */
-  nodeId: Scalars["ID"]["input"];
-};
-
-/** All input for the `deleteUserRole` mutation. */
-export type DeleteUserRoleInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
-  roleId: Scalars["Int"]["input"];
-  userId: Scalars["Int"]["input"];
-};
-
-/** The output of our delete `UserRole` mutation. */
-export type DeleteUserRolePayload = {
-  /**
-   * The exact same `clientMutationId` that was provided in the mutation input,
-   * unchanged and unused. May be used by a client to track mutations.
-   */
-  clientMutationId?: Maybe<Scalars["String"]["output"]>;
-  deletedUserRoleNodeId?: Maybe<Scalars["ID"]["output"]>;
-  /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>;
-  /** Reads a single `Role` that is related to this `UserRole`. */
-  role?: Maybe<Role>;
-  /** Reads a single `User` that is related to this `UserRole`. */
-  user?: Maybe<User>;
-  /** The `UserRole` that was deleted by this mutation. */
-  userRole?: Maybe<UserRole>;
-  /** An edge for our `UserRole`. May be used by Relay 1. */
-  userRoleEdge?: Maybe<UserRolesEdge>;
-};
-
-/** The output of our delete `UserRole` mutation. */
-export type DeleteUserRolePayloadUserRoleEdgeArgs = {
-  orderBy?: InputMaybe<Array<UserRolesOrderBy>>;
-};
-
 /** A filter to be used against Int fields. All fields are combined with a logical ‘and.’ */
 export type IntFilter = {
   /** Not equal to the specified value, treating null like an ordinary value. */
@@ -1211,10 +1164,6 @@ export type Mutation = {
   deleteUserInfoByNodeId?: Maybe<DeleteUserInfoPayload>;
   /** Deletes a single `UserInfo` using a unique key. */
   deleteUserInfoByPhoneNumber?: Maybe<DeleteUserInfoPayload>;
-  /** Deletes a single `UserRole` using a unique key. */
-  deleteUserRole?: Maybe<DeleteUserRolePayload>;
-  /** Deletes a single `UserRole` using its globally unique id. */
-  deleteUserRoleByNodeId?: Maybe<DeleteUserRolePayload>;
   /** Updates a single `Class` using a unique key and a patch. */
   updateClass?: Maybe<UpdateClassPayload>;
   /** Updates a single `Class` using its globally unique id and a patch. */
@@ -1253,10 +1202,6 @@ export type Mutation = {
   updateUserInfoByNodeId?: Maybe<UpdateUserInfoPayload>;
   /** Updates a single `UserInfo` using a unique key and a patch. */
   updateUserInfoByPhoneNumber?: Maybe<UpdateUserInfoPayload>;
-  /** Updates a single `UserRole` using a unique key and a patch. */
-  updateUserRole?: Maybe<UpdateUserRolePayload>;
-  /** Updates a single `UserRole` using its globally unique id and a patch. */
-  updateUserRoleByNodeId?: Maybe<UpdateUserRolePayload>;
 };
 
 /** The root mutation type which contains root level fields which mutate data. */
@@ -1395,16 +1340,6 @@ export type MutationDeleteUserInfoByPhoneNumberArgs = {
 };
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeleteUserRoleArgs = {
-  input: DeleteUserRoleInput;
-};
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeleteUserRoleByNodeIdArgs = {
-  input: DeleteUserRoleByNodeIdInput;
-};
-
-/** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpdateClassArgs = {
   input: UpdateClassInput;
 };
@@ -1499,16 +1434,6 @@ export type MutationUpdateUserInfoByPhoneNumberArgs = {
   input: UpdateUserInfoByPhoneNumberInput;
 };
 
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateUserRoleArgs = {
-  input: UpdateUserRoleInput;
-};
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateUserRoleByNodeIdArgs = {
-  input: UpdateUserRoleByNodeIdInput;
-};
-
 /** An object with a globally unique `ID`. */
 export type Node = {
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
@@ -1576,9 +1501,6 @@ export type Query = Node & {
   userInfoByPhoneNumber?: Maybe<UserInfo>;
   /** Reads and enables pagination through a set of `UserInfo`. */
   userInfos?: Maybe<UserInfosConnection>;
-  userRole?: Maybe<UserRole>;
-  /** Reads a single `UserRole` using its globally unique `ID`. */
-  userRoleByNodeId?: Maybe<UserRole>;
   /** Reads and enables pagination through a set of `UserRole`. */
   userRoles?: Maybe<UserRolesConnection>;
   /** Reads and enables pagination through a set of `User`. */
@@ -1759,17 +1681,6 @@ export type QueryUserInfosArgs = {
 };
 
 /** The root query type which gives access points into the data universe. */
-export type QueryUserRoleArgs = {
-  roleId: Scalars["Int"]["input"];
-  userId: Scalars["Int"]["input"];
-};
-
-/** The root query type which gives access points into the data universe. */
-export type QueryUserRoleByNodeIdArgs = {
-  nodeId: Scalars["ID"]["input"];
-};
-
-/** The root query type which gives access points into the data universe. */
 export type QueryUserRolesArgs = {
   after?: InputMaybe<Scalars["Cursor"]["input"]>;
   before?: InputMaybe<Scalars["Cursor"]["input"]>;
@@ -1799,10 +1710,21 @@ export type Role = Node & {
   name?: Maybe<Scalars["String"]["output"]>;
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
   nodeId: Scalars["ID"]["output"];
+  /** Reads and enables pagination through a set of `UserInfo`. */
+  userInfosByUserRoleRoleIdAndUserId: RoleUserInfosByUserRoleRoleIdAndUserIdManyToManyConnection;
   /** Reads and enables pagination through a set of `UserRole`. */
   userRoles: UserRolesConnection;
-  /** Reads and enables pagination through a set of `User`. */
-  usersByUserRoleRoleIdAndUserId: RoleUsersByUserRoleRoleIdAndUserIdManyToManyConnection;
+};
+
+export type RoleUserInfosByUserRoleRoleIdAndUserIdArgs = {
+  after?: InputMaybe<Scalars["Cursor"]["input"]>;
+  before?: InputMaybe<Scalars["Cursor"]["input"]>;
+  condition?: InputMaybe<UserInfoCondition>;
+  filter?: InputMaybe<UserInfoFilter>;
+  first?: InputMaybe<Scalars["Int"]["input"]>;
+  last?: InputMaybe<Scalars["Int"]["input"]>;
+  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  orderBy?: InputMaybe<Array<UserInfosOrderBy>>;
 };
 
 export type RoleUserRolesArgs = {
@@ -1814,17 +1736,6 @@ export type RoleUserRolesArgs = {
   last?: InputMaybe<Scalars["Int"]["input"]>;
   offset?: InputMaybe<Scalars["Int"]["input"]>;
   orderBy?: InputMaybe<Array<UserRolesOrderBy>>;
-};
-
-export type RoleUsersByUserRoleRoleIdAndUserIdArgs = {
-  after?: InputMaybe<Scalars["Cursor"]["input"]>;
-  before?: InputMaybe<Scalars["Cursor"]["input"]>;
-  condition?: InputMaybe<UserCondition>;
-  filter?: InputMaybe<UserFilter>;
-  first?: InputMaybe<Scalars["Int"]["input"]>;
-  last?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  orderBy?: InputMaybe<Array<UsersOrderBy>>;
 };
 
 /** A condition to be used against `Role` object types. All fields are tested for equality and combined with a logical ‘and.’ */
@@ -1867,25 +1778,40 @@ export type RolePatch = {
   name?: InputMaybe<Scalars["String"]["input"]>;
 };
 
-/** A connection to a list of `User` values, with data from `UserRole`. */
-export type RoleUsersByUserRoleRoleIdAndUserIdManyToManyConnection = {
-  /** A list of edges which contains the `User`, info from the `UserRole`, and the cursor to aid in pagination. */
-  edges: Array<RoleUsersByUserRoleRoleIdAndUserIdManyToManyEdge>;
-  /** A list of `User` objects. */
-  nodes: Array<User>;
+/** A connection to a list of `UserInfo` values, with data from `UserRole`. */
+export type RoleUserInfosByUserRoleRoleIdAndUserIdManyToManyConnection = {
+  /** A list of edges which contains the `UserInfo`, info from the `UserRole`, and the cursor to aid in pagination. */
+  edges: Array<RoleUserInfosByUserRoleRoleIdAndUserIdManyToManyEdge>;
+  /** A list of `UserInfo` objects. */
+  nodes: Array<UserInfo>;
   /** Information to aid in pagination. */
   pageInfo: PageInfo;
-  /** The count of *all* `User` you could get from the connection. */
+  /** The count of *all* `UserInfo` you could get from the connection. */
   totalCount: Scalars["Int"]["output"];
 };
 
-/** A `User` edge in the connection, with data from `UserRole`. */
-export type RoleUsersByUserRoleRoleIdAndUserIdManyToManyEdge = {
+/** A `UserInfo` edge in the connection, with data from `UserRole`. */
+export type RoleUserInfosByUserRoleRoleIdAndUserIdManyToManyEdge = {
   /** A cursor for use in pagination. */
   cursor?: Maybe<Scalars["Cursor"]["output"]>;
-  /** The `User` at the end of the edge. */
-  node: User;
+  /** The `UserInfo` at the end of the edge. */
+  node: UserInfo;
+  /** Reads and enables pagination through a set of `UserRole`. */
+  userRolesByUserId: UserRolesConnection;
 };
+
+/** A `UserInfo` edge in the connection, with data from `UserRole`. */
+export type RoleUserInfosByUserRoleRoleIdAndUserIdManyToManyEdgeUserRolesByUserIdArgs =
+  {
+    after?: InputMaybe<Scalars["Cursor"]["input"]>;
+    before?: InputMaybe<Scalars["Cursor"]["input"]>;
+    condition?: InputMaybe<UserRoleCondition>;
+    filter?: InputMaybe<UserRoleFilter>;
+    first?: InputMaybe<Scalars["Int"]["input"]>;
+    last?: InputMaybe<Scalars["Int"]["input"]>;
+    offset?: InputMaybe<Scalars["Int"]["input"]>;
+    orderBy?: InputMaybe<Array<UserRolesOrderBy>>;
+  };
 
 /** A connection to a list of `Role` values. */
 export type RolesConnection = {
@@ -2385,56 +2311,6 @@ export type UpdateUserPayloadUserEdgeArgs = {
   orderBy?: InputMaybe<Array<UsersOrderBy>>;
 };
 
-/** All input for the `updateUserRoleByNodeId` mutation. */
-export type UpdateUserRoleByNodeIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
-  /** The globally unique `ID` which will identify a single `UserRole` to be updated. */
-  nodeId: Scalars["ID"]["input"];
-  /** An object where the defined keys will be set on the `UserRole` being updated. */
-  patch: UserRolePatch;
-};
-
-/** All input for the `updateUserRole` mutation. */
-export type UpdateUserRoleInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
-  /** An object where the defined keys will be set on the `UserRole` being updated. */
-  patch: UserRolePatch;
-  roleId: Scalars["Int"]["input"];
-  userId: Scalars["Int"]["input"];
-};
-
-/** The output of our update `UserRole` mutation. */
-export type UpdateUserRolePayload = {
-  /**
-   * The exact same `clientMutationId` that was provided in the mutation input,
-   * unchanged and unused. May be used by a client to track mutations.
-   */
-  clientMutationId?: Maybe<Scalars["String"]["output"]>;
-  /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>;
-  /** Reads a single `Role` that is related to this `UserRole`. */
-  role?: Maybe<Role>;
-  /** Reads a single `User` that is related to this `UserRole`. */
-  user?: Maybe<User>;
-  /** The `UserRole` that was updated by this mutation. */
-  userRole?: Maybe<UserRole>;
-  /** An edge for our `UserRole`. May be used by Relay 1. */
-  userRoleEdge?: Maybe<UserRolesEdge>;
-};
-
-/** The output of our update `UserRole` mutation. */
-export type UpdateUserRolePayloadUserRoleEdgeArgs = {
-  orderBy?: InputMaybe<Array<UserRolesOrderBy>>;
-};
-
 export type User = Node & {
   /** Reads and enables pagination through a set of `ClassManagement`. */
   classManagements: ClassManagementsConnection;
@@ -2449,8 +2325,6 @@ export type User = Node & {
   id: Scalars["Int"]["output"];
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
   nodeId: Scalars["ID"]["output"];
-  /** Reads and enables pagination through a set of `Role`. */
-  rolesByUserRoleUserIdAndRoleId: UserRolesByUserRoleUserIdAndRoleIdManyToManyConnection;
   updatedAt?: Maybe<Scalars["Datetime"]["output"]>;
   updatedDate: Scalars["Datetime"]["output"];
   /** Reads and enables pagination through a set of `UserAttribute`. */
@@ -2462,8 +2336,6 @@ export type User = Node & {
    * @deprecated Please use userInfoById instead
    */
   userInfosById: UserInfosConnection;
-  /** Reads and enables pagination through a set of `UserRole`. */
-  userRoles: UserRolesConnection;
   username: Scalars["String"]["output"];
 };
 
@@ -2511,17 +2383,6 @@ export type UserClassesByTeacherIdArgs = {
   orderBy?: InputMaybe<Array<ClassesOrderBy>>;
 };
 
-export type UserRolesByUserRoleUserIdAndRoleIdArgs = {
-  after?: InputMaybe<Scalars["Cursor"]["input"]>;
-  before?: InputMaybe<Scalars["Cursor"]["input"]>;
-  condition?: InputMaybe<RoleCondition>;
-  filter?: InputMaybe<RoleFilter>;
-  first?: InputMaybe<Scalars["Int"]["input"]>;
-  last?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  orderBy?: InputMaybe<Array<RolesOrderBy>>;
-};
-
 export type UserUserAttributesArgs = {
   after?: InputMaybe<Scalars["Cursor"]["input"]>;
   before?: InputMaybe<Scalars["Cursor"]["input"]>;
@@ -2542,17 +2403,6 @@ export type UserUserInfosByIdArgs = {
   last?: InputMaybe<Scalars["Int"]["input"]>;
   offset?: InputMaybe<Scalars["Int"]["input"]>;
   orderBy?: InputMaybe<Array<UserInfosOrderBy>>;
-};
-
-export type UserUserRolesArgs = {
-  after?: InputMaybe<Scalars["Cursor"]["input"]>;
-  before?: InputMaybe<Scalars["Cursor"]["input"]>;
-  condition?: InputMaybe<UserRoleCondition>;
-  filter?: InputMaybe<UserRoleFilter>;
-  first?: InputMaybe<Scalars["Int"]["input"]>;
-  last?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  orderBy?: InputMaybe<Array<UserRolesOrderBy>>;
 };
 
 export type UserAttribute = Node & {
@@ -2745,7 +2595,6 @@ export type UserFilter = {
 export type UserInfo = Node & {
   avatarUrl: Scalars["String"]["output"];
   dateOfBirth?: Maybe<Scalars["Datetime"]["output"]>;
-  dateofbirth?: Maybe<Scalars["Datetime"]["output"]>;
   email: Scalars["String"]["output"];
   firstName: Scalars["String"]["output"];
   id: Scalars["Int"]["output"];
@@ -2753,8 +2602,34 @@ export type UserInfo = Node & {
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
   nodeId: Scalars["ID"]["output"];
   phoneNumber: Scalars["String"]["output"];
+  /** Reads and enables pagination through a set of `Role`. */
+  rolesByUserRoleUserIdAndRoleId: UserInfoRolesByUserRoleUserIdAndRoleIdManyToManyConnection;
   /** Reads a single `User` that is related to this `UserInfo`. */
   userById?: Maybe<User>;
+  /** Reads and enables pagination through a set of `UserRole`. */
+  userRolesByUserId: UserRolesConnection;
+};
+
+export type UserInfoRolesByUserRoleUserIdAndRoleIdArgs = {
+  after?: InputMaybe<Scalars["Cursor"]["input"]>;
+  before?: InputMaybe<Scalars["Cursor"]["input"]>;
+  condition?: InputMaybe<RoleCondition>;
+  filter?: InputMaybe<RoleFilter>;
+  first?: InputMaybe<Scalars["Int"]["input"]>;
+  last?: InputMaybe<Scalars["Int"]["input"]>;
+  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  orderBy?: InputMaybe<Array<RolesOrderBy>>;
+};
+
+export type UserInfoUserRolesByUserIdArgs = {
+  after?: InputMaybe<Scalars["Cursor"]["input"]>;
+  before?: InputMaybe<Scalars["Cursor"]["input"]>;
+  condition?: InputMaybe<UserRoleCondition>;
+  filter?: InputMaybe<UserRoleFilter>;
+  first?: InputMaybe<Scalars["Int"]["input"]>;
+  last?: InputMaybe<Scalars["Int"]["input"]>;
+  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  orderBy?: InputMaybe<Array<UserRolesOrderBy>>;
 };
 
 /**
@@ -2766,8 +2641,6 @@ export type UserInfoCondition = {
   avatarUrl?: InputMaybe<Scalars["String"]["input"]>;
   /** Checks for equality with the object’s `dateOfBirth` field. */
   dateOfBirth?: InputMaybe<Scalars["Datetime"]["input"]>;
-  /** Checks for equality with the object’s `dateofbirth` field. */
-  dateofbirth?: InputMaybe<Scalars["Datetime"]["input"]>;
   /** Checks for equality with the object’s `email` field. */
   email?: InputMaybe<Scalars["String"]["input"]>;
   /** Checks for equality with the object’s `firstName` field. */
@@ -2788,8 +2661,6 @@ export type UserInfoFilter = {
   avatarUrl?: InputMaybe<StringFilter>;
   /** Filter by the object’s `dateOfBirth` field. */
   dateOfBirth?: InputMaybe<DatetimeFilter>;
-  /** Filter by the object’s `dateofbirth` field. */
-  dateofbirth?: InputMaybe<DatetimeFilter>;
   /** Filter by the object’s `email` field. */
   email?: InputMaybe<StringFilter>;
   /** Filter by the object’s `firstName` field. */
@@ -2810,7 +2681,6 @@ export type UserInfoFilter = {
 export type UserInfoInput = {
   avatarUrl: Scalars["String"]["input"];
   dateOfBirth?: InputMaybe<Scalars["Datetime"]["input"]>;
-  dateofbirth?: InputMaybe<Scalars["Datetime"]["input"]>;
   email: Scalars["String"]["input"];
   firstName: Scalars["String"]["input"];
   id: Scalars["Int"]["input"];
@@ -2822,13 +2692,47 @@ export type UserInfoInput = {
 export type UserInfoPatch = {
   avatarUrl?: InputMaybe<Scalars["String"]["input"]>;
   dateOfBirth?: InputMaybe<Scalars["Datetime"]["input"]>;
-  dateofbirth?: InputMaybe<Scalars["Datetime"]["input"]>;
   email?: InputMaybe<Scalars["String"]["input"]>;
   firstName?: InputMaybe<Scalars["String"]["input"]>;
   id?: InputMaybe<Scalars["Int"]["input"]>;
   lastName?: InputMaybe<Scalars["String"]["input"]>;
   phoneNumber?: InputMaybe<Scalars["String"]["input"]>;
 };
+
+/** A connection to a list of `Role` values, with data from `UserRole`. */
+export type UserInfoRolesByUserRoleUserIdAndRoleIdManyToManyConnection = {
+  /** A list of edges which contains the `Role`, info from the `UserRole`, and the cursor to aid in pagination. */
+  edges: Array<UserInfoRolesByUserRoleUserIdAndRoleIdManyToManyEdge>;
+  /** A list of `Role` objects. */
+  nodes: Array<Role>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `Role` you could get from the connection. */
+  totalCount: Scalars["Int"]["output"];
+};
+
+/** A `Role` edge in the connection, with data from `UserRole`. */
+export type UserInfoRolesByUserRoleUserIdAndRoleIdManyToManyEdge = {
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars["Cursor"]["output"]>;
+  /** The `Role` at the end of the edge. */
+  node: Role;
+  /** Reads and enables pagination through a set of `UserRole`. */
+  userRoles: UserRolesConnection;
+};
+
+/** A `Role` edge in the connection, with data from `UserRole`. */
+export type UserInfoRolesByUserRoleUserIdAndRoleIdManyToManyEdgeUserRolesArgs =
+  {
+    after?: InputMaybe<Scalars["Cursor"]["input"]>;
+    before?: InputMaybe<Scalars["Cursor"]["input"]>;
+    condition?: InputMaybe<UserRoleCondition>;
+    filter?: InputMaybe<UserRoleFilter>;
+    first?: InputMaybe<Scalars["Int"]["input"]>;
+    last?: InputMaybe<Scalars["Int"]["input"]>;
+    offset?: InputMaybe<Scalars["Int"]["input"]>;
+    orderBy?: InputMaybe<Array<UserRolesOrderBy>>;
+  };
 
 /** A connection to a list of `UserInfo` values. */
 export type UserInfosConnection = {
@@ -2854,8 +2758,6 @@ export type UserInfosEdge = {
 export type UserInfosOrderBy =
   | "AVATAR_URL_ASC"
   | "AVATAR_URL_DESC"
-  | "DATEOFBIRTH_ASC"
-  | "DATEOFBIRTH_DESC"
   | "DATE_OF_BIRTH_ASC"
   | "DATE_OF_BIRTH_DESC"
   | "EMAIL_ASC"
@@ -2892,14 +2794,12 @@ export type UserPatch = {
   username?: InputMaybe<Scalars["String"]["input"]>;
 };
 
-export type UserRole = Node & {
-  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  nodeId: Scalars["ID"]["output"];
+export type UserRole = {
   /** Reads a single `Role` that is related to this `UserRole`. */
   role?: Maybe<Role>;
   roleId: Scalars["Int"]["output"];
-  /** Reads a single `User` that is related to this `UserRole`. */
-  user?: Maybe<User>;
+  /** Reads a single `UserInfo` that is related to this `UserRole`. */
+  user?: Maybe<UserInfo>;
   userId: Scalars["Int"]["output"];
 };
 
@@ -2934,32 +2834,6 @@ export type UserRoleInput = {
   userId: Scalars["Int"]["input"];
 };
 
-/** Represents an update to a `UserRole`. Fields that are set will be updated. */
-export type UserRolePatch = {
-  roleId?: InputMaybe<Scalars["Int"]["input"]>;
-  userId?: InputMaybe<Scalars["Int"]["input"]>;
-};
-
-/** A connection to a list of `Role` values, with data from `UserRole`. */
-export type UserRolesByUserRoleUserIdAndRoleIdManyToManyConnection = {
-  /** A list of edges which contains the `Role`, info from the `UserRole`, and the cursor to aid in pagination. */
-  edges: Array<UserRolesByUserRoleUserIdAndRoleIdManyToManyEdge>;
-  /** A list of `Role` objects. */
-  nodes: Array<Role>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `Role` you could get from the connection. */
-  totalCount: Scalars["Int"]["output"];
-};
-
-/** A `Role` edge in the connection, with data from `UserRole`. */
-export type UserRolesByUserRoleUserIdAndRoleIdManyToManyEdge = {
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars["Cursor"]["output"]>;
-  /** The `Role` at the end of the edge. */
-  node: Role;
-};
-
 /** A connection to a list of `UserRole` values. */
 export type UserRolesConnection = {
   /** A list of edges which contains the `UserRole` and cursor to aid in pagination. */
@@ -2983,8 +2857,6 @@ export type UserRolesEdge = {
 /** Methods to use when ordering `UserRole`. */
 export type UserRolesOrderBy =
   | "NATURAL"
-  | "PRIMARY_KEY_ASC"
-  | "PRIMARY_KEY_DESC"
   | "ROLE_ID_ASC"
   | "ROLE_ID_DESC"
   | "USER_ID_ASC"

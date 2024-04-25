@@ -27,7 +27,7 @@ import { CompanyEditPage, CompanyListPage } from "./routes/classes";
 import {
   ContactCreatePage,
   ContactShowPage,
-  ContactsListPage,
+  StudentsListPage,
 } from "./routes/contacts/students";
 import { DashboardPage } from "./routes/dashboard";
 import { ForgotPasswordPage } from "./routes/forgot-password";
@@ -182,9 +182,9 @@ const App: React.FC = () => {
                     <Route
                       path="students"
                       element={
-                        <ContactsListPage>
+                        <StudentsListPage>
                           <Outlet />
-                        </ContactsListPage>
+                        </StudentsListPage>
                       }
                     >
                       <Route index element={null} />

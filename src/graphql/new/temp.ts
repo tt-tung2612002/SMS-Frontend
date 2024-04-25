@@ -1,18 +1,29 @@
 import type * as Types from "./schema.types";
 
-export type StudentShowQueryVariables = Types.Exact<{
-  id: Types.Scalars["Int"]["input"];
+export type StudentsListQueryVariables = Types.Exact<{
+  filter: Types.UserInfoFilter;
 }>;
 
-export type StudentShowQuery = {
-  user: Types.Maybe<
-    Pick<Types.User, "id"> & {
-      info: Types.Maybe<
-        Pick<
-          Types.UserInfo,
-          "firstName" | "lastName" | "email" | "phoneNumber" | "avatarUrl"
-        >
-      >;
-    }
-  >;
+export type StudentsListQuery = {
+  roles: Types.Maybe<{
+    nodes: Array<{
+      students: Pick<
+        Types.RoleUserInfosByUserRoleRoleIdAndUserIdManyToManyConnection,
+        "totalCount"
+      > & {
+        nodes: Array<
+          Pick<
+            Types.UserInfo,
+            | "id"
+            | "firstName"
+            | "lastName"
+            | "avatarUrl"
+            | "email"
+            | "phoneNumber"
+            | "dateOfBirth"
+          >
+        >;
+      };
+    }>;
+  }>;
 };

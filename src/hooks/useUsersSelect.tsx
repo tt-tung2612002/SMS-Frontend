@@ -5,7 +5,7 @@ import { GetFieldsFromList } from "@refinedev/nestjs-query";
 import gql from "graphql-tag";
 
 import { GetUsersQuery, StudentShowQuery } from "@/graphql/new/customTypes";
-import { STUDENT_SHOW_QUERY } from "@/routes/contacts/show/showStudent";
+import { STUDENT_SHOW_QUERY } from "@/routes/contacts/students/show/showStudent";
 
 const USERS_SELECT_QUERY = gql`
   query GetUsers($filter: UserFilter!) {

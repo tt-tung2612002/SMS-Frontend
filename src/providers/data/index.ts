@@ -146,6 +146,7 @@ export const localDataProvider = (() => {
     return {
       data: response[operation].nodes,
       total: response[operation].totalCount,
+      custom: response[operation],
     };
   };
   provider.deleteOne = async ({ resource, id, meta }) => {

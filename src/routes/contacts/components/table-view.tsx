@@ -1,147 +1,99 @@
-import {
-  DeleteButton,
-  FilterDropdown,
-  getDefaultSortOrder,
-  ShowButton,
-} from "@refinedev/antd";
-import { CrudFilters, CrudSorting, getDefaultFilter } from "@refinedev/core";
-import { GetFieldsFromList } from "@refinedev/nestjs-query";
+import { DeleteButton, EditButton } from "@refinedev/antd";
 
-import { PhoneOutlined } from "@ant-design/icons";
-import { Button, Input, Select, Space, Table, type TableProps } from "antd";
+import { EyeOutlined } from "@ant-design/icons";
+import { Space, Table, TableProps } from "antd";
 
-import {
-  ContactStatusTag,
-  CustomAvatar,
-  PaginationTotal,
-  Text,
-} from "@/components";
-import { ContactStatusEnum } from "@/enums";
-import { Contact } from "@/graphql/schema.types";
-import { ContactsListQuery } from "@/graphql/types";
-import { useCompaniesSelect } from "@/hooks/useCompaniesSelect";
+import { CustomAvatar, PaginationTotal, Text } from "@/components";
+import { UserInfo } from "@/graphql/new/schema.types";
 
 type Props = {
-  tableProps: TableProps<GetFieldsFromList<ContactsListQuery>>;
-  filters: CrudFilters;
-  sorters: CrudSorting;
+  tableProps: TableProps<any>;
+  // filters: CrudFilters;
+  // sorters: CrudSorting;
 };
 
-const statusOptions = Object.keys(ContactStatusEnum).map((key) => ({
-  label: `${key[0]}${key.slice(1).toLowerCase()}`,
-  value: ContactStatusEnum[key as keyof typeof ContactStatusEnum],
-}));
-
-export const TableView: React.FC<Props> = ({
+export const StudentsTableView: React.FC<Props> = ({
   tableProps,
-  filters,
-  sorters,
+  // filters,
+  // sorters,
 }) => {
-  const { selectProps } = useCompaniesSelect();
-
+  const newDataSource = tableProps.dataSource?.[0]?.students?.nodes;
   return (
     <Table
       {...tableProps}
+      rowKey="id"
+      dataSource={newDataSource}
       pagination={{
+        pageSize: 8,
+        showSizeChanger: false,
         ...tableProps.pagination,
-        pageSizeOptions: ["12", "24", "48", "96"],
+        pageSizeOptions: ["6", "12", "24", "48"],
+        total: tableProps.dataSource?.[0]?.students?.totalCount,
         showTotal: (total) => (
           <PaginationTotal total={total} entityName="students" />
         ),
       }}
-      rowKey="id"
     >
-      <Table.Column
-        dataIndex="name"
-        title="Name"
-        width={200}
-        defaultFilteredValue={getDefaultFilter("name", filters)}
-        defaultSortOrder={getDefaultSortOrder("name", sorters)}
-        filterDropdown={(props) => (
-          <FilterDropdown {...props}>
-            <Input placeholder="Search Name" />
-          </FilterDropdown>
-        )}
-        render={(_, record: Contact) => {
+      <Table.Column<UserInfo>
+        dataIndex="firstName"
+        title="Student Name"
+        sorter={(a, b) => (a.firstName || "").localeCompare(b.firstName || "")}
+        render={(_, record) => {
           return (
             <Space>
-              <CustomAvatar src={record.avatarUrl} name={record.name} />
-              <Text>{record.name}</Text>
+              <CustomAvatar
+                shape="square"
+                name={record.firstName}
+                src={record.avatarUrl}
+              />
+              <Text
+                style={{
+                  whiteSpace: "nowrap",
+                }}
+              >
+                {record.firstName}
+              </Text>
             </Space>
           );
         }}
       />
-      <Table.Column
-        dataIndex="email"
+      <Table.Column<UserInfo>
+        // dataIndex={["teacherId"]}
+        // defaultFilteredValue={getDefaultFilter("teacherId", filters, "eq")}
         title="Email"
-        defaultFilteredValue={getDefaultFilter("email", filters)}
-        defaultSortOrder={getDefaultSortOrder("email", sorters)}
-        filterDropdown={(props) => (
-          <FilterDropdown {...props}>
-            <Input placeholder="Search Email" />
-          </FilterDropdown>
-        )}
-      />
-      <Table.Column
-        dataIndex={["company", "id"]}
-        title="Company"
-        defaultFilteredValue={getDefaultFilter("company.id", filters)}
-        defaultSortOrder={getDefaultSortOrder("company.id", sorters)}
-        filterDropdown={(props) => (
-          <FilterDropdown {...props}>
-            <Select
-              placeholder="Search Company"
-              style={{ width: 220 }}
-              {...selectProps}
-            />
-          </FilterDropdown>
-        )}
-        render={(_, record: Contact) => {
-          return <span>{record?.company.name}</span>;
+        // sorter={(a, b) => a.name.localeCompare(b.name)}
+        render={(_, record) => {
+          return (
+            <Space>
+              <Text>{record.email}</Text>
+            </Space>
+          );
         }}
       />
-      <Table.Column
-        dataIndex="jobTitle"
-        title="Title"
-        filterDropdown={(props) => (
-          <FilterDropdown {...props}>
-            <Input placeholder="Search Title" />
-          </FilterDropdown>
-        )}
-      />
-      <Table.Column
-        dataIndex="status"
-        title="Status"
-        sorter
-        defaultFilteredValue={getDefaultFilter("status", filters)}
-        defaultSortOrder={getDefaultSortOrder("status", sorters)}
-        filterDropdown={(props) => (
-          <FilterDropdown {...props}>
-            <Select
-              style={{ width: "200px" }}
-              defaultValue={null}
-              mode="multiple"
-              options={statusOptions}
-            ></Select>
-          </FilterDropdown>
-        )}
-        render={(value: ContactStatusEnum) => (
-          <ContactStatusTag status={value} />
-        )}
-      />
-      <Table.Column<Contact>
+      <Table.Column<UserInfo>
         fixed="right"
+        dataIndex="id"
         title="Actions"
-        dataIndex="actions"
-        render={(_, record) => (
+        render={(value) => (
           <Space>
-            <ShowButton hideText size="small" recordItemId={record.id} />
-            <Button
+            <EditButton
+              icon={<EyeOutlined />}
+              hideText
               size="small"
-              href="tel:1234567890"
-              icon={<PhoneOutlined />}
+              recordItemId={value}
+              accessControl={{
+                hideIfUnauthorized: true,
+              }}
             />
-            <DeleteButton hideText size="small" recordItemId={record.id} />
+            <DeleteButton
+              hideText
+              size="small"
+              dataProviderName="local"
+              recordItemId={value}
+              accessControl={{
+                hideIfUnauthorized: true,
+              }}
+            />
           </Space>
         )}
       />

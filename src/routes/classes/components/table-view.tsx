@@ -20,20 +20,23 @@ type Props = {
 };
 
 export const CompaniesTableView: FC<Props> = ({ tableProps, filters }) => {
-  // const { selectProps: selectPropsUsers } = useUsersSelect();
-  // const { edit } = useNavigation();
-  
+  console.log(tableProps.pagination);
   return (
     <Table
       {...tableProps}
       pagination={{
+        defaultPageSize: 10,
+        showSizeChanger: true,
+        // pageSizeOptions: ["10", "20", "30"],
+
         ...tableProps.pagination,
-        pageSizeOptions: ["12", "24", "48", "96"],
+        pageSizeOptions: ["6", "12", "48", "96"],
         showTotal: (total) => (
           <PaginationTotal total={total} entityName="classes" />
         ),
       }}
       rowKey="id"
+      dataSource={tableProps.dataSource}
     >
       <Table.Column<Class>
         dataIndex="name"

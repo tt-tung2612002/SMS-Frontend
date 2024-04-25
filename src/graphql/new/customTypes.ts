@@ -45,6 +45,23 @@ export type ClassesTableQuery = {
     >;
   };
 };
+
+export type StudentsUpdateListQuery = {
+  students: {
+    nodes: Array<
+      Pick<
+        Types.UserInfo,
+        | "id"
+        | "firstName"
+        | "lastName"
+        | "avatarUrl"
+        | "email"
+        | "phoneNumber"
+        | "dateOfBirth"
+      >
+    >;
+  };
+};
 export type StudentShowQueryVariables = Types.Exact<{
   id: Types.Scalars["Int"]["input"];
 }>;

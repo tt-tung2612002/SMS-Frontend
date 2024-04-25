@@ -3,5 +3,9 @@
   "editor.formatOnPaste": true,
   "editor.formatOnSave": true,
   "editor.formatOnSaveMode": "file",
-  "eslint.format.enable": true
+  "eslint.format.enable": true,
+  "search.mode": "reuseEditor",
+  "typescript.workspaceSymbols.scope": "currentProject",
+  "search.useParentIgnoreFiles": true,
+  "workbench.editor.labelFormat": "default"
 }
