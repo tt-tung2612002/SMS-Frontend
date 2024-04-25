@@ -73,3 +73,26 @@ export type StudentsListQuery = {
     }>;
   };
 };
+export type TeachersListQuery = {
+  roles: {
+    nodes: Array<{
+      students: Pick<
+        Types.RoleUserInfosByUserRoleRoleIdAndUserIdManyToManyConnection,
+        "totalCount"
+      > & {
+        nodes: Array<
+          Pick<
+            Types.UserInfo,
+            | "id"
+            | "firstName"
+            | "lastName"
+            | "avatarUrl"
+            | "email"
+            | "phoneNumber"
+            | "dateOfBirth"
+          >
+        >;
+      };
+    }>;
+  };
+};

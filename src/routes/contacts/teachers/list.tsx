@@ -13,14 +13,14 @@ import { Form, Grid, Input, Radio, Space, Spin } from "antd";
 import { debounce } from "lodash";
 
 import { ListTitleButton } from "@/components";
-import { StudentsListQuery } from "@/graphql/new/types";
+import { TeachersListQuery } from "@/graphql/new/types";
 
-import { StudentsTableView } from "./components";
-import { STUDENTS_LIST_QUERY } from "./queries/studentsList";
+import { TeachersTableView } from "./components/table-view";
+import { TEACHER_LIST_QUERY } from "./queries/teachersList";
 
 type View = "card" | "table";
 
-export const StudentsListPage: FC<PropsWithChildren> = ({ children }) => {
+export const TeachersListPage: FC<PropsWithChildren> = ({ children }) => {
   const [view, setView] = useState<View>("table");
   const screens = Grid.useBreakpoint();
 
@@ -28,11 +28,11 @@ export const StudentsListPage: FC<PropsWithChildren> = ({ children }) => {
     tableProps,
     tableQueryResult,
     searchFormProps,
-    filters,
-    sorters,
+    // filters,
+    // sorters,
     setFilters,
   } = useTable<
-    GetFieldsFromList<StudentsListQuery>,
+    GetFieldsFromList<TeachersListQuery>,
     HttpError,
     { name: string }
   >({
@@ -77,7 +77,7 @@ export const StudentsListPage: FC<PropsWithChildren> = ({ children }) => {
     },
     dataProviderName: "local",
     meta: {
-      gqlQuery: STUDENTS_LIST_QUERY,
+      gqlQuery: TEACHER_LIST_QUERY,
     },
   });
   const onViewChange = (value: View) => {
@@ -148,13 +148,13 @@ export const StudentsListPage: FC<PropsWithChildren> = ({ children }) => {
         }
       >
         {view === "table" ? (
-          <StudentsTableView
+          <TeachersTableView
             tableProps={tableProps}
             // filters={filters}
             // sorters={sorters}
           />
         ) : (
-          <StudentsTableView
+          <TeachersTableView
             tableProps={tableProps}
             // setPageSize={setPageSize}
             // setCurrent={setCurrent}

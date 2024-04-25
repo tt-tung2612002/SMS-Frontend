@@ -29,6 +29,7 @@ import {
   ContactShowPage,
   StudentsListPage,
 } from "./routes/contacts/students";
+import { TeachersListPage } from "./routes/contacts/teachers/list";
 import { DashboardPage } from "./routes/dashboard";
 import { ForgotPasswordPage } from "./routes/forgot-password";
 import { LoginPage } from "./routes/login";
@@ -204,6 +205,14 @@ const App: React.FC = () => {
                       </Route>
                     </Route>
                     {/* <Route path="teachers" element={<AuditLogPage />} /> */}
+                    <Route
+                      path="teachers"
+                      element={
+                        <TeachersListPage>
+                          <Outlet />
+                        </TeachersListPage>
+                      }
+                    ></Route>
                   </Route>
 
                   <Route
