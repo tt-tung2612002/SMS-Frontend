@@ -1,29 +1,26 @@
 import type * as Types from "./schema.types";
 
-export type StudentsListQueryVariables = Types.Exact<{
-  filter: Types.UserInfoFilter;
+export type CalendarEventsQueryVariables = Types.Exact<{
+  filter: Types.EventFilter;
 }>;
 
-export type StudentsListQuery = {
-  roles: Types.Maybe<{
-    nodes: Array<{
-      students: Pick<
-        Types.RoleUserInfosByUserRoleRoleIdAndUserIdManyToManyConnection,
-        "totalCount"
+export type CalendarEventsQuery = {
+  events: Pick<Types.EventsConnection, "totalCount"> & {
+    nodes: Array<
+      Pick<
+        Types.Event,
+        "id" | "startDate" | "title" | "endDate" | "description" | "color"
       > & {
-        nodes: Array<
-          Pick<
-            Types.UserInfo,
-            | "id"
-            | "firstName"
-            | "lastName"
-            | "avatarUrl"
-            | "email"
-            | "phoneNumber"
-            | "dateOfBirth"
-          >
-        >;
-      };
-    }>;
-  }>;
+        participants: {
+          nodes: Array<
+            Pick<
+              Types.UserInfo,
+              "id" | "avatarUrl" | "dateOfBirth" | "firstName"
+            >
+          >;
+        };
+        categories: { nodes: Array<Pick<Types.Category, "id" | "title">> };
+      }
+    >;
+  };
 };

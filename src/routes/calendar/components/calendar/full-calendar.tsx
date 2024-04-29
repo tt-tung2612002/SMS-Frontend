@@ -5,7 +5,7 @@ import listPlugin from "@fullcalendar/list";
 import FullCalendar from "@fullcalendar/react";
 import timeGridPlugin from "@fullcalendar/timegrid";
 
-import { Event } from "@/graphql/schema.types";
+import { Event } from "@/graphql/new/schema.types";
 
 type FullCalendarWrapperProps = {
   calendarRef: RefObject<FullCalendar>;

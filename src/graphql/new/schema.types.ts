@@ -29,12 +29,150 @@ export type Scalars = {
   Datetime: { input: any; output: any };
 };
 
+/** A connection to a list of `Category` values. */
+export type CategoriesConnection = {
+  /** A list of edges which contains the `Category` and cursor to aid in pagination. */
+  edges: Array<CategoriesEdge>;
+  /** A list of `Category` objects. */
+  nodes: Array<Category>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `Category` you could get from the connection. */
+  totalCount: Scalars["Int"]["output"];
+};
+
+/** A `Category` edge in the connection. */
+export type CategoriesEdge = {
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars["Cursor"]["output"]>;
+  /** The `Category` at the end of the edge. */
+  node: Category;
+};
+
+/** Methods to use when ordering `Category`. */
+export type CategoriesOrderBy =
+  | "CREATED_AT_ASC"
+  | "CREATED_AT_DESC"
+  | "ID_ASC"
+  | "ID_DESC"
+  | "NATURAL"
+  | "PRIMARY_KEY_ASC"
+  | "PRIMARY_KEY_DESC"
+  | "TITLE_ASC"
+  | "TITLE_DESC"
+  | "UPDATED_AT_ASC"
+  | "UPDATED_AT_DESC";
+
+export type Category = Node & {
+  createdAt?: Maybe<Scalars["Datetime"]["output"]>;
+  /** Reads and enables pagination through a set of `EventCategory`. */
+  eventCategories: EventCategoriesConnection;
+  /** Reads and enables pagination through a set of `Event`. */
+  events: CategoryEventsManyToManyConnection;
+  id: Scalars["Int"]["output"];
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars["ID"]["output"];
+  title?: Maybe<Scalars["String"]["output"]>;
+  updatedAt?: Maybe<Scalars["Datetime"]["output"]>;
+};
+
+export type CategoryEventCategoriesArgs = {
+  after?: InputMaybe<Scalars["Cursor"]["input"]>;
+  before?: InputMaybe<Scalars["Cursor"]["input"]>;
+  condition?: InputMaybe<EventCategoryCondition>;
+  filter?: InputMaybe<EventCategoryFilter>;
+  first?: InputMaybe<Scalars["Int"]["input"]>;
+  last?: InputMaybe<Scalars["Int"]["input"]>;
+  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  orderBy?: InputMaybe<Array<EventCategoriesOrderBy>>;
+};
+
+export type CategoryEventsArgs = {
+  after?: InputMaybe<Scalars["Cursor"]["input"]>;
+  before?: InputMaybe<Scalars["Cursor"]["input"]>;
+  condition?: InputMaybe<EventCondition>;
+  filter?: InputMaybe<EventFilter>;
+  first?: InputMaybe<Scalars["Int"]["input"]>;
+  last?: InputMaybe<Scalars["Int"]["input"]>;
+  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  orderBy?: InputMaybe<Array<EventsOrderBy>>;
+};
+
+/**
+ * A condition to be used against `Category` object types. All fields are tested
+ * for equality and combined with a logical ‘and.’
+ */
+export type CategoryCondition = {
+  /** Checks for equality with the object’s `createdAt` field. */
+  createdAt?: InputMaybe<Scalars["Datetime"]["input"]>;
+  /** Checks for equality with the object’s `id` field. */
+  id?: InputMaybe<Scalars["Int"]["input"]>;
+  /** Checks for equality with the object’s `title` field. */
+  title?: InputMaybe<Scalars["String"]["input"]>;
+  /** Checks for equality with the object’s `updatedAt` field. */
+  updatedAt?: InputMaybe<Scalars["Datetime"]["input"]>;
+};
+
+/** A connection to a list of `Event` values, with data from `EventCategory`. */
+export type CategoryEventsManyToManyConnection = {
+  /** A list of edges which contains the `Event`, info from the `EventCategory`, and the cursor to aid in pagination. */
+  edges: Array<CategoryEventsManyToManyEdge>;
+  /** A list of `Event` objects. */
+  nodes: Array<Event>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `Event` you could get from the connection. */
+  totalCount: Scalars["Int"]["output"];
+};
+
+/** A `Event` edge in the connection, with data from `EventCategory`. */
+export type CategoryEventsManyToManyEdge = {
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars["Cursor"]["output"]>;
+  /** The `Event` at the end of the edge. */
+  node: Event;
+};
+
+/** A filter to be used against `Category` object types. All fields are combined with a logical ‘and.’ */
+export type CategoryFilter = {
+  /** Checks for all expressions in this list. */
+  and?: InputMaybe<Array<CategoryFilter>>;
+  /** Filter by the object’s `createdAt` field. */
+  createdAt?: InputMaybe<DatetimeFilter>;
+  /** Filter by the object’s `id` field. */
+  id?: InputMaybe<IntFilter>;
+  /** Negates the expression. */
+  not?: InputMaybe<CategoryFilter>;
+  /** Checks for any expressions in this list. */
+  or?: InputMaybe<Array<CategoryFilter>>;
+  /** Filter by the object’s `title` field. */
+  title?: InputMaybe<StringFilter>;
+  /** Filter by the object’s `updatedAt` field. */
+  updatedAt?: InputMaybe<DatetimeFilter>;
+};
+
+/** An input for mutations affecting `Category` */
+export type CategoryInput = {
+  createdAt?: InputMaybe<Scalars["Datetime"]["input"]>;
+  id: Scalars["Int"]["input"];
+  title?: InputMaybe<Scalars["String"]["input"]>;
+  updatedAt?: InputMaybe<Scalars["Datetime"]["input"]>;
+};
+
+/** Represents an update to a `Category`. Fields that are set will be updated. */
+export type CategoryPatch = {
+  createdAt?: InputMaybe<Scalars["Datetime"]["input"]>;
+  id?: InputMaybe<Scalars["Int"]["input"]>;
+  title?: InputMaybe<Scalars["String"]["input"]>;
+  updatedAt?: InputMaybe<Scalars["Datetime"]["input"]>;
+};
+
 export type Class = Node & {
   classLevel?: Maybe<Scalars["Int"]["output"]>;
+  classLevelId?: Maybe<Scalars["Int"]["output"]>;
   /** Reads and enables pagination through a set of `ClassManagement`. */
   classManagements: ClassManagementsConnection;
-  /** Reads a single `ClassType` that is related to this `Class`. */
-  classType?: Maybe<ClassType>;
+  classStatusId?: Maybe<Scalars["Int"]["output"]>;
   classTypeId?: Maybe<Scalars["Int"]["output"]>;
   description?: Maybe<Scalars["String"]["output"]>;
   endDate?: Maybe<Scalars["Datetime"]["output"]>;
@@ -44,11 +182,11 @@ export type Class = Node & {
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
   nodeId: Scalars["ID"]["output"];
   startDate?: Maybe<Scalars["Datetime"]["output"]>;
-  /** Reads and enables pagination through a set of `User`. */
-  students: ClassStudentsManyToManyConnection;
   /** Reads a single `User` that is related to this `Class`. */
   teacher?: Maybe<User>;
   teacherId?: Maybe<Scalars["Int"]["output"]>;
+  /** Reads and enables pagination through a set of `User`. */
+  users: ClassUsersManyToManyConnection;
 };
 
 export type ClassClassManagementsArgs = {
@@ -62,7 +200,7 @@ export type ClassClassManagementsArgs = {
   orderBy?: InputMaybe<Array<ClassManagementsOrderBy>>;
 };
 
-export type ClassStudentsArgs = {
+export type ClassUsersArgs = {
   after?: InputMaybe<Scalars["Cursor"]["input"]>;
   before?: InputMaybe<Scalars["Cursor"]["input"]>;
   condition?: InputMaybe<UserCondition>;
@@ -77,6 +215,10 @@ export type ClassStudentsArgs = {
 export type ClassCondition = {
   /** Checks for equality with the object’s `classLevel` field. */
   classLevel?: InputMaybe<Scalars["Int"]["input"]>;
+  /** Checks for equality with the object’s `classLevelId` field. */
+  classLevelId?: InputMaybe<Scalars["Int"]["input"]>;
+  /** Checks for equality with the object’s `classStatusId` field. */
+  classStatusId?: InputMaybe<Scalars["Int"]["input"]>;
   /** Checks for equality with the object’s `classTypeId` field. */
   classTypeId?: InputMaybe<Scalars["Int"]["input"]>;
   /** Checks for equality with the object’s `description` field. */
@@ -101,6 +243,10 @@ export type ClassFilter = {
   and?: InputMaybe<Array<ClassFilter>>;
   /** Filter by the object’s `classLevel` field. */
   classLevel?: InputMaybe<IntFilter>;
+  /** Filter by the object’s `classLevelId` field. */
+  classLevelId?: InputMaybe<IntFilter>;
+  /** Filter by the object’s `classStatusId` field. */
+  classStatusId?: InputMaybe<IntFilter>;
   /** Filter by the object’s `classTypeId` field. */
   classTypeId?: InputMaybe<IntFilter>;
   /** Filter by the object’s `description` field. */
@@ -123,18 +269,168 @@ export type ClassFilter = {
   teacherId?: InputMaybe<IntFilter>;
 };
 
+export type ClassInfo = Node & {
+  id: Scalars["Int"]["output"];
+  name: Scalars["String"]["output"];
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars["ID"]["output"];
+};
+
+/**
+ * A condition to be used against `ClassInfo` object types. All fields are tested
+ * for equality and combined with a logical ‘and.’
+ */
+export type ClassInfoCondition = {
+  /** Checks for equality with the object’s `id` field. */
+  id?: InputMaybe<Scalars["Int"]["input"]>;
+  /** Checks for equality with the object’s `name` field. */
+  name?: InputMaybe<Scalars["String"]["input"]>;
+};
+
+/** A filter to be used against `ClassInfo` object types. All fields are combined with a logical ‘and.’ */
+export type ClassInfoFilter = {
+  /** Checks for all expressions in this list. */
+  and?: InputMaybe<Array<ClassInfoFilter>>;
+  /** Filter by the object’s `id` field. */
+  id?: InputMaybe<IntFilter>;
+  /** Filter by the object’s `name` field. */
+  name?: InputMaybe<StringFilter>;
+  /** Negates the expression. */
+  not?: InputMaybe<ClassInfoFilter>;
+  /** Checks for any expressions in this list. */
+  or?: InputMaybe<Array<ClassInfoFilter>>;
+};
+
+/** An input for mutations affecting `ClassInfo` */
+export type ClassInfoInput = {
+  id: Scalars["Int"]["input"];
+  name: Scalars["String"]["input"];
+};
+
+/** Represents an update to a `ClassInfo`. Fields that are set will be updated. */
+export type ClassInfoPatch = {
+  id?: InputMaybe<Scalars["Int"]["input"]>;
+  name?: InputMaybe<Scalars["String"]["input"]>;
+};
+
+/** A connection to a list of `ClassInfo` values. */
+export type ClassInfosConnection = {
+  /** A list of edges which contains the `ClassInfo` and cursor to aid in pagination. */
+  edges: Array<ClassInfosEdge>;
+  /** A list of `ClassInfo` objects. */
+  nodes: Array<ClassInfo>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `ClassInfo` you could get from the connection. */
+  totalCount: Scalars["Int"]["output"];
+};
+
+/** A `ClassInfo` edge in the connection. */
+export type ClassInfosEdge = {
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars["Cursor"]["output"]>;
+  /** The `ClassInfo` at the end of the edge. */
+  node: ClassInfo;
+};
+
+/** Methods to use when ordering `ClassInfo`. */
+export type ClassInfosOrderBy =
+  | "ID_ASC"
+  | "ID_DESC"
+  | "NAME_ASC"
+  | "NAME_DESC"
+  | "NATURAL"
+  | "PRIMARY_KEY_ASC"
+  | "PRIMARY_KEY_DESC";
+
 /** An input for mutations affecting `Class` */
 export type ClassInput = {
   classLevel?: InputMaybe<Scalars["Int"]["input"]>;
+  classLevelId?: InputMaybe<Scalars["Int"]["input"]>;
+  classStatusId?: InputMaybe<Scalars["Int"]["input"]>;
   classTypeId?: InputMaybe<Scalars["Int"]["input"]>;
   description?: InputMaybe<Scalars["String"]["input"]>;
   endDate?: InputMaybe<Scalars["Datetime"]["input"]>;
-  id?: InputMaybe<Scalars["Int"]["input"]>;
+  id: Scalars["Int"]["input"];
   logoUrl?: InputMaybe<Scalars["String"]["input"]>;
   name: Scalars["String"]["input"];
   startDate?: InputMaybe<Scalars["Datetime"]["input"]>;
   teacherId?: InputMaybe<Scalars["Int"]["input"]>;
 };
+
+export type ClassLevel = Node & {
+  id: Scalars["Int"]["output"];
+  name?: Maybe<Scalars["String"]["output"]>;
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars["ID"]["output"];
+};
+
+/**
+ * A condition to be used against `ClassLevel` object types. All fields are tested
+ * for equality and combined with a logical ‘and.’
+ */
+export type ClassLevelCondition = {
+  /** Checks for equality with the object’s `id` field. */
+  id?: InputMaybe<Scalars["Int"]["input"]>;
+  /** Checks for equality with the object’s `name` field. */
+  name?: InputMaybe<Scalars["String"]["input"]>;
+};
+
+/** A filter to be used against `ClassLevel` object types. All fields are combined with a logical ‘and.’ */
+export type ClassLevelFilter = {
+  /** Checks for all expressions in this list. */
+  and?: InputMaybe<Array<ClassLevelFilter>>;
+  /** Filter by the object’s `id` field. */
+  id?: InputMaybe<IntFilter>;
+  /** Filter by the object’s `name` field. */
+  name?: InputMaybe<StringFilter>;
+  /** Negates the expression. */
+  not?: InputMaybe<ClassLevelFilter>;
+  /** Checks for any expressions in this list. */
+  or?: InputMaybe<Array<ClassLevelFilter>>;
+};
+
+/** An input for mutations affecting `ClassLevel` */
+export type ClassLevelInput = {
+  id: Scalars["Int"]["input"];
+  name?: InputMaybe<Scalars["String"]["input"]>;
+};
+
+/** Represents an update to a `ClassLevel`. Fields that are set will be updated. */
+export type ClassLevelPatch = {
+  id?: InputMaybe<Scalars["Int"]["input"]>;
+  name?: InputMaybe<Scalars["String"]["input"]>;
+};
+
+/** A connection to a list of `ClassLevel` values. */
+export type ClassLevelsConnection = {
+  /** A list of edges which contains the `ClassLevel` and cursor to aid in pagination. */
+  edges: Array<ClassLevelsEdge>;
+  /** A list of `ClassLevel` objects. */
+  nodes: Array<ClassLevel>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `ClassLevel` you could get from the connection. */
+  totalCount: Scalars["Int"]["output"];
+};
+
+/** A `ClassLevel` edge in the connection. */
+export type ClassLevelsEdge = {
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars["Cursor"]["output"]>;
+  /** The `ClassLevel` at the end of the edge. */
+  node: ClassLevel;
+};
+
+/** Methods to use when ordering `ClassLevel`. */
+export type ClassLevelsOrderBy =
+  | "ID_ASC"
+  | "ID_DESC"
+  | "NAME_ASC"
+  | "NAME_DESC"
+  | "NATURAL"
+  | "PRIMARY_KEY_ASC"
+  | "PRIMARY_KEY_DESC";
 
 export type ClassManagement = Node & {
   /** Reads a single `Class` that is related to this `ClassManagement`. */
@@ -217,6 +513,8 @@ export type ClassManagementsOrderBy =
 /** Represents an update to a `Class`. Fields that are set will be updated. */
 export type ClassPatch = {
   classLevel?: InputMaybe<Scalars["Int"]["input"]>;
+  classLevelId?: InputMaybe<Scalars["Int"]["input"]>;
+  classStatusId?: InputMaybe<Scalars["Int"]["input"]>;
   classTypeId?: InputMaybe<Scalars["Int"]["input"]>;
   description?: InputMaybe<Scalars["String"]["input"]>;
   endDate?: InputMaybe<Scalars["Datetime"]["input"]>;
@@ -227,58 +525,86 @@ export type ClassPatch = {
   teacherId?: InputMaybe<Scalars["Int"]["input"]>;
 };
 
-/** A connection to a list of `User` values, with data from `ClassManagement`. */
-export type ClassStudentsManyToManyConnection = {
-  /** A list of edges which contains the `User`, info from the `ClassManagement`, and the cursor to aid in pagination. */
-  edges: Array<ClassStudentsManyToManyEdge>;
-  /** A list of `User` objects. */
-  nodes: Array<User>;
+export type ClassStatus = Node & {
+  id: Scalars["Int"]["output"];
+  name?: Maybe<Scalars["String"]["output"]>;
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars["ID"]["output"];
+};
+
+/**
+ * A condition to be used against `ClassStatus` object types. All fields are tested
+ * for equality and combined with a logical ‘and.’
+ */
+export type ClassStatusCondition = {
+  /** Checks for equality with the object’s `id` field. */
+  id?: InputMaybe<Scalars["Int"]["input"]>;
+  /** Checks for equality with the object’s `name` field. */
+  name?: InputMaybe<Scalars["String"]["input"]>;
+};
+
+/** A filter to be used against `ClassStatus` object types. All fields are combined with a logical ‘and.’ */
+export type ClassStatusFilter = {
+  /** Checks for all expressions in this list. */
+  and?: InputMaybe<Array<ClassStatusFilter>>;
+  /** Filter by the object’s `id` field. */
+  id?: InputMaybe<IntFilter>;
+  /** Filter by the object’s `name` field. */
+  name?: InputMaybe<StringFilter>;
+  /** Negates the expression. */
+  not?: InputMaybe<ClassStatusFilter>;
+  /** Checks for any expressions in this list. */
+  or?: InputMaybe<Array<ClassStatusFilter>>;
+};
+
+/** An input for mutations affecting `ClassStatus` */
+export type ClassStatusInput = {
+  id: Scalars["Int"]["input"];
+  name?: InputMaybe<Scalars["String"]["input"]>;
+};
+
+/** Represents an update to a `ClassStatus`. Fields that are set will be updated. */
+export type ClassStatusPatch = {
+  id?: InputMaybe<Scalars["Int"]["input"]>;
+  name?: InputMaybe<Scalars["String"]["input"]>;
+};
+
+/** A connection to a list of `ClassStatus` values. */
+export type ClassStatusesConnection = {
+  /** A list of edges which contains the `ClassStatus` and cursor to aid in pagination. */
+  edges: Array<ClassStatusesEdge>;
+  /** A list of `ClassStatus` objects. */
+  nodes: Array<ClassStatus>;
   /** Information to aid in pagination. */
   pageInfo: PageInfo;
-  /** The count of *all* `User` you could get from the connection. */
+  /** The count of *all* `ClassStatus` you could get from the connection. */
   totalCount: Scalars["Int"]["output"];
 };
 
-/** A `User` edge in the connection, with data from `ClassManagement`. */
-export type ClassStudentsManyToManyEdge = {
+/** A `ClassStatus` edge in the connection. */
+export type ClassStatusesEdge = {
   /** A cursor for use in pagination. */
   cursor?: Maybe<Scalars["Cursor"]["output"]>;
-  /** The `User` at the end of the edge. */
-  node: User;
+  /** The `ClassStatus` at the end of the edge. */
+  node: ClassStatus;
 };
 
+/** Methods to use when ordering `ClassStatus`. */
+export type ClassStatusesOrderBy =
+  | "ID_ASC"
+  | "ID_DESC"
+  | "NAME_ASC"
+  | "NAME_DESC"
+  | "NATURAL"
+  | "PRIMARY_KEY_ASC"
+  | "PRIMARY_KEY_DESC";
+
 export type ClassType = Node & {
-  /** Reads and enables pagination through a set of `Class`. */
-  classes: ClassesConnection;
   description?: Maybe<Scalars["String"]["output"]>;
   id: Scalars["Int"]["output"];
   name?: Maybe<Scalars["String"]["output"]>;
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
   nodeId: Scalars["ID"]["output"];
-  /** Reads and enables pagination through a set of `User`. */
-  usersByClassClassTypeIdAndTeacherId: ClassTypeUsersByClassClassTypeIdAndTeacherIdManyToManyConnection;
-};
-
-export type ClassTypeClassesArgs = {
-  after?: InputMaybe<Scalars["Cursor"]["input"]>;
-  before?: InputMaybe<Scalars["Cursor"]["input"]>;
-  condition?: InputMaybe<ClassCondition>;
-  filter?: InputMaybe<ClassFilter>;
-  first?: InputMaybe<Scalars["Int"]["input"]>;
-  last?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  orderBy?: InputMaybe<Array<ClassesOrderBy>>;
-};
-
-export type ClassTypeUsersByClassClassTypeIdAndTeacherIdArgs = {
-  after?: InputMaybe<Scalars["Cursor"]["input"]>;
-  before?: InputMaybe<Scalars["Cursor"]["input"]>;
-  condition?: InputMaybe<UserCondition>;
-  filter?: InputMaybe<UserFilter>;
-  first?: InputMaybe<Scalars["Int"]["input"]>;
-  last?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  orderBy?: InputMaybe<Array<UsersOrderBy>>;
 };
 
 /**
@@ -324,41 +650,6 @@ export type ClassTypePatch = {
   name?: InputMaybe<Scalars["String"]["input"]>;
 };
 
-/** A connection to a list of `User` values, with data from `Class`. */
-export type ClassTypeUsersByClassClassTypeIdAndTeacherIdManyToManyConnection = {
-  /** A list of edges which contains the `User`, info from the `Class`, and the cursor to aid in pagination. */
-  edges: Array<ClassTypeUsersByClassClassTypeIdAndTeacherIdManyToManyEdge>;
-  /** A list of `User` objects. */
-  nodes: Array<User>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `User` you could get from the connection. */
-  totalCount: Scalars["Int"]["output"];
-};
-
-/** A `User` edge in the connection, with data from `Class`. */
-export type ClassTypeUsersByClassClassTypeIdAndTeacherIdManyToManyEdge = {
-  /** Reads and enables pagination through a set of `Class`. */
-  classesByTeacherId: ClassesConnection;
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars["Cursor"]["output"]>;
-  /** The `User` at the end of the edge. */
-  node: User;
-};
-
-/** A `User` edge in the connection, with data from `Class`. */
-export type ClassTypeUsersByClassClassTypeIdAndTeacherIdManyToManyEdgeClassesByTeacherIdArgs =
-  {
-    after?: InputMaybe<Scalars["Cursor"]["input"]>;
-    before?: InputMaybe<Scalars["Cursor"]["input"]>;
-    condition?: InputMaybe<ClassCondition>;
-    filter?: InputMaybe<ClassFilter>;
-    first?: InputMaybe<Scalars["Int"]["input"]>;
-    last?: InputMaybe<Scalars["Int"]["input"]>;
-    offset?: InputMaybe<Scalars["Int"]["input"]>;
-    orderBy?: InputMaybe<Array<ClassesOrderBy>>;
-  };
-
 /** A connection to a list of `ClassType` values. */
 export type ClassTypesConnection = {
   /** A list of edges which contains the `ClassType` and cursor to aid in pagination. */
@@ -391,6 +682,26 @@ export type ClassTypesOrderBy =
   | "PRIMARY_KEY_ASC"
   | "PRIMARY_KEY_DESC";
 
+/** A connection to a list of `User` values, with data from `ClassManagement`. */
+export type ClassUsersManyToManyConnection = {
+  /** A list of edges which contains the `User`, info from the `ClassManagement`, and the cursor to aid in pagination. */
+  edges: Array<ClassUsersManyToManyEdge>;
+  /** A list of `User` objects. */
+  nodes: Array<User>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `User` you could get from the connection. */
+  totalCount: Scalars["Int"]["output"];
+};
+
+/** A `User` edge in the connection, with data from `ClassManagement`. */
+export type ClassUsersManyToManyEdge = {
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars["Cursor"]["output"]>;
+  /** The `User` at the end of the edge. */
+  node: User;
+};
+
 /** A connection to a list of `Class` values. */
 export type ClassesConnection = {
   /** A list of edges which contains the `Class` and cursor to aid in pagination. */
@@ -415,6 +726,10 @@ export type ClassesEdge = {
 export type ClassesOrderBy =
   | "CLASS_LEVEL_ASC"
   | "CLASS_LEVEL_DESC"
+  | "CLASS_LEVEL_ID_ASC"
+  | "CLASS_LEVEL_ID_DESC"
+  | "CLASS_STATUS_ID_ASC"
+  | "CLASS_STATUS_ID_DESC"
   | "CLASS_TYPE_ID_ASC"
   | "CLASS_TYPE_ID_DESC"
   | "DESCRIPTION_ASC"
@@ -435,6 +750,68 @@ export type ClassesOrderBy =
   | "TEACHER_ID_ASC"
   | "TEACHER_ID_DESC";
 
+/** All input for the create `Category` mutation. */
+export type CreateCategoryInput = {
+  /** The `Category` to be created by this mutation. */
+  category: CategoryInput;
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
+};
+
+/** The output of our create `Category` mutation. */
+export type CreateCategoryPayload = {
+  /** The `Category` that was created by this mutation. */
+  category?: Maybe<Category>;
+  /** An edge for our `Category`. May be used by Relay 1. */
+  categoryEdge?: Maybe<CategoriesEdge>;
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars["String"]["output"]>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+};
+
+/** The output of our create `Category` mutation. */
+export type CreateCategoryPayloadCategoryEdgeArgs = {
+  orderBy?: InputMaybe<Array<CategoriesOrderBy>>;
+};
+
+/** All input for the create `ClassInfo` mutation. */
+export type CreateClassInfoInput = {
+  /** The `ClassInfo` to be created by this mutation. */
+  classInfo: ClassInfoInput;
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
+};
+
+/** The output of our create `ClassInfo` mutation. */
+export type CreateClassInfoPayload = {
+  /** The `ClassInfo` that was created by this mutation. */
+  classInfo?: Maybe<ClassInfo>;
+  /** An edge for our `ClassInfo`. May be used by Relay 1. */
+  classInfoEdge?: Maybe<ClassInfosEdge>;
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars["String"]["output"]>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+};
+
+/** The output of our create `ClassInfo` mutation. */
+export type CreateClassInfoPayloadClassInfoEdgeArgs = {
+  orderBy?: InputMaybe<Array<ClassInfosOrderBy>>;
+};
+
 /** All input for the create `Class` mutation. */
 export type CreateClassInput = {
   /** The `Class` to be created by this mutation. */
@@ -444,6 +821,37 @@ export type CreateClassInput = {
    * payload verbatim. May be used to track mutations by the client.
    */
   clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
+};
+
+/** All input for the create `ClassLevel` mutation. */
+export type CreateClassLevelInput = {
+  /** The `ClassLevel` to be created by this mutation. */
+  classLevel: ClassLevelInput;
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
+};
+
+/** The output of our create `ClassLevel` mutation. */
+export type CreateClassLevelPayload = {
+  /** The `ClassLevel` that was created by this mutation. */
+  classLevel?: Maybe<ClassLevel>;
+  /** An edge for our `ClassLevel`. May be used by Relay 1. */
+  classLevelEdge?: Maybe<ClassLevelsEdge>;
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars["String"]["output"]>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+};
+
+/** The output of our create `ClassLevel` mutation. */
+export type CreateClassLevelPayloadClassLevelEdgeArgs = {
+  orderBy?: InputMaybe<Array<ClassLevelsOrderBy>>;
 };
 
 /** All input for the create `ClassManagement` mutation. */
@@ -487,8 +895,6 @@ export type CreateClassPayload = {
   class?: Maybe<Class>;
   /** An edge for our `Class`. May be used by Relay 1. */
   classEdge?: Maybe<ClassesEdge>;
-  /** Reads a single `ClassType` that is related to this `Class`. */
-  classType?: Maybe<ClassType>;
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
@@ -503,6 +909,37 @@ export type CreateClassPayload = {
 /** The output of our create `Class` mutation. */
 export type CreateClassPayloadClassEdgeArgs = {
   orderBy?: InputMaybe<Array<ClassesOrderBy>>;
+};
+
+/** All input for the create `ClassStatus` mutation. */
+export type CreateClassStatusInput = {
+  /** The `ClassStatus` to be created by this mutation. */
+  classStatus: ClassStatusInput;
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
+};
+
+/** The output of our create `ClassStatus` mutation. */
+export type CreateClassStatusPayload = {
+  /** The `ClassStatus` that was created by this mutation. */
+  classStatus?: Maybe<ClassStatus>;
+  /** An edge for our `ClassStatus`. May be used by Relay 1. */
+  classStatusEdge?: Maybe<ClassStatusesEdge>;
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars["String"]["output"]>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+};
+
+/** The output of our create `ClassStatus` mutation. */
+export type CreateClassStatusPayloadClassStatusEdgeArgs = {
+  orderBy?: InputMaybe<Array<ClassStatusesOrderBy>>;
 };
 
 /** All input for the create `ClassType` mutation. */
@@ -534,6 +971,107 @@ export type CreateClassTypePayload = {
 /** The output of our create `ClassType` mutation. */
 export type CreateClassTypePayloadClassTypeEdgeArgs = {
   orderBy?: InputMaybe<Array<ClassTypesOrderBy>>;
+};
+
+/** All input for the create `EventCategory` mutation. */
+export type CreateEventCategoryInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
+  /** The `EventCategory` to be created by this mutation. */
+  eventCategory: EventCategoryInput;
+};
+
+/** The output of our create `EventCategory` mutation. */
+export type CreateEventCategoryPayload = {
+  /** Reads a single `Category` that is related to this `EventCategory`. */
+  category?: Maybe<Category>;
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars["String"]["output"]>;
+  /** Reads a single `Event` that is related to this `EventCategory`. */
+  event?: Maybe<Event>;
+  /** The `EventCategory` that was created by this mutation. */
+  eventCategory?: Maybe<EventCategory>;
+  /** An edge for our `EventCategory`. May be used by Relay 1. */
+  eventCategoryEdge?: Maybe<EventCategoriesEdge>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+};
+
+/** The output of our create `EventCategory` mutation. */
+export type CreateEventCategoryPayloadEventCategoryEdgeArgs = {
+  orderBy?: InputMaybe<Array<EventCategoriesOrderBy>>;
+};
+
+/** All input for the create `Event` mutation. */
+export type CreateEventInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
+  /** The `Event` to be created by this mutation. */
+  event: EventInput;
+};
+
+/** All input for the create `EventParticipant` mutation. */
+export type CreateEventParticipantInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
+  /** The `EventParticipant` to be created by this mutation. */
+  eventParticipant: EventParticipantInput;
+};
+
+/** The output of our create `EventParticipant` mutation. */
+export type CreateEventParticipantPayload = {
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars["String"]["output"]>;
+  /** Reads a single `Event` that is related to this `EventParticipant`. */
+  event?: Maybe<Event>;
+  /** The `EventParticipant` that was created by this mutation. */
+  eventParticipant?: Maybe<EventParticipant>;
+  /** An edge for our `EventParticipant`. May be used by Relay 1. */
+  eventParticipantEdge?: Maybe<EventParticipantsEdge>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `UserInfo` that is related to this `EventParticipant`. */
+  user?: Maybe<UserInfo>;
+};
+
+/** The output of our create `EventParticipant` mutation. */
+export type CreateEventParticipantPayloadEventParticipantEdgeArgs = {
+  orderBy?: InputMaybe<Array<EventParticipantsOrderBy>>;
+};
+
+/** The output of our create `Event` mutation. */
+export type CreateEventPayload = {
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars["String"]["output"]>;
+  /** The `Event` that was created by this mutation. */
+  event?: Maybe<Event>;
+  /** An edge for our `Event`. May be used by Relay 1. */
+  eventEdge?: Maybe<EventsEdge>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+};
+
+/** The output of our create `Event` mutation. */
+export type CreateEventPayloadEventEdgeArgs = {
+  orderBy?: InputMaybe<Array<EventsOrderBy>>;
 };
 
 /** All input for the create `Role` mutation. */
@@ -725,6 +1263,58 @@ export type DatetimeFilter = {
   notIn?: InputMaybe<Array<Scalars["Datetime"]["input"]>>;
 };
 
+/** All input for the `deleteCategoryByNodeId` mutation. */
+export type DeleteCategoryByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
+  /** The globally unique `ID` which will identify a single `Category` to be deleted. */
+  nodeId: Scalars["ID"]["input"];
+};
+
+/** All input for the `deleteCategoryByTitle` mutation. */
+export type DeleteCategoryByTitleInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
+  title: Scalars["String"]["input"];
+};
+
+/** All input for the `deleteCategory` mutation. */
+export type DeleteCategoryInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
+  id: Scalars["Int"]["input"];
+};
+
+/** The output of our delete `Category` mutation. */
+export type DeleteCategoryPayload = {
+  /** The `Category` that was deleted by this mutation. */
+  category?: Maybe<Category>;
+  /** An edge for our `Category`. May be used by Relay 1. */
+  categoryEdge?: Maybe<CategoriesEdge>;
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars["String"]["output"]>;
+  deletedCategoryNodeId?: Maybe<Scalars["ID"]["output"]>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+};
+
+/** The output of our delete `Category` mutation. */
+export type DeleteCategoryPayloadCategoryEdgeArgs = {
+  orderBy?: InputMaybe<Array<CategoriesOrderBy>>;
+};
+
 /** All input for the `deleteClassByNodeId` mutation. */
 export type DeleteClassByNodeIdInput = {
   /**
@@ -736,6 +1326,48 @@ export type DeleteClassByNodeIdInput = {
   nodeId: Scalars["ID"]["input"];
 };
 
+/** All input for the `deleteClassInfoByNodeId` mutation. */
+export type DeleteClassInfoByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
+  /** The globally unique `ID` which will identify a single `ClassInfo` to be deleted. */
+  nodeId: Scalars["ID"]["input"];
+};
+
+/** All input for the `deleteClassInfo` mutation. */
+export type DeleteClassInfoInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
+  id: Scalars["Int"]["input"];
+};
+
+/** The output of our delete `ClassInfo` mutation. */
+export type DeleteClassInfoPayload = {
+  /** The `ClassInfo` that was deleted by this mutation. */
+  classInfo?: Maybe<ClassInfo>;
+  /** An edge for our `ClassInfo`. May be used by Relay 1. */
+  classInfoEdge?: Maybe<ClassInfosEdge>;
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars["String"]["output"]>;
+  deletedClassInfoNodeId?: Maybe<Scalars["ID"]["output"]>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+};
+
+/** The output of our delete `ClassInfo` mutation. */
+export type DeleteClassInfoPayloadClassInfoEdgeArgs = {
+  orderBy?: InputMaybe<Array<ClassInfosOrderBy>>;
+};
+
 /** All input for the `deleteClass` mutation. */
 export type DeleteClassInput = {
   /**
@@ -744,6 +1376,58 @@ export type DeleteClassInput = {
    */
   clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
   id: Scalars["Int"]["input"];
+};
+
+/** All input for the `deleteClassLevelByName` mutation. */
+export type DeleteClassLevelByNameInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
+  name: Scalars["String"]["input"];
+};
+
+/** All input for the `deleteClassLevelByNodeId` mutation. */
+export type DeleteClassLevelByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
+  /** The globally unique `ID` which will identify a single `ClassLevel` to be deleted. */
+  nodeId: Scalars["ID"]["input"];
+};
+
+/** All input for the `deleteClassLevel` mutation. */
+export type DeleteClassLevelInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
+  id: Scalars["Int"]["input"];
+};
+
+/** The output of our delete `ClassLevel` mutation. */
+export type DeleteClassLevelPayload = {
+  /** The `ClassLevel` that was deleted by this mutation. */
+  classLevel?: Maybe<ClassLevel>;
+  /** An edge for our `ClassLevel`. May be used by Relay 1. */
+  classLevelEdge?: Maybe<ClassLevelsEdge>;
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars["String"]["output"]>;
+  deletedClassLevelNodeId?: Maybe<Scalars["ID"]["output"]>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+};
+
+/** The output of our delete `ClassLevel` mutation. */
+export type DeleteClassLevelPayloadClassLevelEdgeArgs = {
+  orderBy?: InputMaybe<Array<ClassLevelsOrderBy>>;
 };
 
 /** All input for the `deleteClassManagementByNodeId` mutation. */
@@ -799,8 +1483,6 @@ export type DeleteClassPayload = {
   class?: Maybe<Class>;
   /** An edge for our `Class`. May be used by Relay 1. */
   classEdge?: Maybe<ClassesEdge>;
-  /** Reads a single `ClassType` that is related to this `Class`. */
-  classType?: Maybe<ClassType>;
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
@@ -816,6 +1498,58 @@ export type DeleteClassPayload = {
 /** The output of our delete `Class` mutation. */
 export type DeleteClassPayloadClassEdgeArgs = {
   orderBy?: InputMaybe<Array<ClassesOrderBy>>;
+};
+
+/** All input for the `deleteClassStatusByName` mutation. */
+export type DeleteClassStatusByNameInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
+  name: Scalars["String"]["input"];
+};
+
+/** All input for the `deleteClassStatusByNodeId` mutation. */
+export type DeleteClassStatusByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
+  /** The globally unique `ID` which will identify a single `ClassStatus` to be deleted. */
+  nodeId: Scalars["ID"]["input"];
+};
+
+/** All input for the `deleteClassStatus` mutation. */
+export type DeleteClassStatusInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
+  id: Scalars["Int"]["input"];
+};
+
+/** The output of our delete `ClassStatus` mutation. */
+export type DeleteClassStatusPayload = {
+  /** The `ClassStatus` that was deleted by this mutation. */
+  classStatus?: Maybe<ClassStatus>;
+  /** An edge for our `ClassStatus`. May be used by Relay 1. */
+  classStatusEdge?: Maybe<ClassStatusesEdge>;
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars["String"]["output"]>;
+  deletedClassStatusNodeId?: Maybe<Scalars["ID"]["output"]>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+};
+
+/** The output of our delete `ClassStatus` mutation. */
+export type DeleteClassStatusPayloadClassStatusEdgeArgs = {
+  orderBy?: InputMaybe<Array<ClassStatusesOrderBy>>;
 };
 
 /** All input for the `deleteClassTypeByNodeId` mutation. */
@@ -858,6 +1592,142 @@ export type DeleteClassTypePayload = {
 /** The output of our delete `ClassType` mutation. */
 export type DeleteClassTypePayloadClassTypeEdgeArgs = {
   orderBy?: InputMaybe<Array<ClassTypesOrderBy>>;
+};
+
+/** All input for the `deleteEventByNodeId` mutation. */
+export type DeleteEventByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
+  /** The globally unique `ID` which will identify a single `Event` to be deleted. */
+  nodeId: Scalars["ID"]["input"];
+};
+
+/** All input for the `deleteEventCategoryByNodeId` mutation. */
+export type DeleteEventCategoryByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
+  /** The globally unique `ID` which will identify a single `EventCategory` to be deleted. */
+  nodeId: Scalars["ID"]["input"];
+};
+
+/** All input for the `deleteEventCategory` mutation. */
+export type DeleteEventCategoryInput = {
+  categoryId: Scalars["Int"]["input"];
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
+  eventId: Scalars["Int"]["input"];
+};
+
+/** The output of our delete `EventCategory` mutation. */
+export type DeleteEventCategoryPayload = {
+  /** Reads a single `Category` that is related to this `EventCategory`. */
+  category?: Maybe<Category>;
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars["String"]["output"]>;
+  deletedEventCategoryNodeId?: Maybe<Scalars["ID"]["output"]>;
+  /** Reads a single `Event` that is related to this `EventCategory`. */
+  event?: Maybe<Event>;
+  /** The `EventCategory` that was deleted by this mutation. */
+  eventCategory?: Maybe<EventCategory>;
+  /** An edge for our `EventCategory`. May be used by Relay 1. */
+  eventCategoryEdge?: Maybe<EventCategoriesEdge>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+};
+
+/** The output of our delete `EventCategory` mutation. */
+export type DeleteEventCategoryPayloadEventCategoryEdgeArgs = {
+  orderBy?: InputMaybe<Array<EventCategoriesOrderBy>>;
+};
+
+/** All input for the `deleteEvent` mutation. */
+export type DeleteEventInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
+  id: Scalars["Int"]["input"];
+};
+
+/** All input for the `deleteEventParticipantByNodeId` mutation. */
+export type DeleteEventParticipantByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
+  /** The globally unique `ID` which will identify a single `EventParticipant` to be deleted. */
+  nodeId: Scalars["ID"]["input"];
+};
+
+/** All input for the `deleteEventParticipant` mutation. */
+export type DeleteEventParticipantInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
+  eventId: Scalars["Int"]["input"];
+  userId: Scalars["Int"]["input"];
+};
+
+/** The output of our delete `EventParticipant` mutation. */
+export type DeleteEventParticipantPayload = {
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars["String"]["output"]>;
+  deletedEventParticipantNodeId?: Maybe<Scalars["ID"]["output"]>;
+  /** Reads a single `Event` that is related to this `EventParticipant`. */
+  event?: Maybe<Event>;
+  /** The `EventParticipant` that was deleted by this mutation. */
+  eventParticipant?: Maybe<EventParticipant>;
+  /** An edge for our `EventParticipant`. May be used by Relay 1. */
+  eventParticipantEdge?: Maybe<EventParticipantsEdge>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `UserInfo` that is related to this `EventParticipant`. */
+  user?: Maybe<UserInfo>;
+};
+
+/** The output of our delete `EventParticipant` mutation. */
+export type DeleteEventParticipantPayloadEventParticipantEdgeArgs = {
+  orderBy?: InputMaybe<Array<EventParticipantsOrderBy>>;
+};
+
+/** The output of our delete `Event` mutation. */
+export type DeleteEventPayload = {
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars["String"]["output"]>;
+  deletedEventNodeId?: Maybe<Scalars["ID"]["output"]>;
+  /** The `Event` that was deleted by this mutation. */
+  event?: Maybe<Event>;
+  /** An edge for our `Event`. May be used by Relay 1. */
+  eventEdge?: Maybe<EventsEdge>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+};
+
+/** The output of our delete `Event` mutation. */
+export type DeleteEventPayloadEventEdgeArgs = {
+  orderBy?: InputMaybe<Array<EventsOrderBy>>;
 };
 
 /** All input for the `deleteRoleByName` mutation. */
@@ -1082,6 +1952,426 @@ export type DeleteUserPayloadUserEdgeArgs = {
   orderBy?: InputMaybe<Array<UsersOrderBy>>;
 };
 
+/** All input for the `deleteUserRoleByNodeId` mutation. */
+export type DeleteUserRoleByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
+  /** The globally unique `ID` which will identify a single `UserRole` to be deleted. */
+  nodeId: Scalars["ID"]["input"];
+};
+
+/** All input for the `deleteUserRole` mutation. */
+export type DeleteUserRoleInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
+  roleId: Scalars["Int"]["input"];
+  userId: Scalars["Int"]["input"];
+};
+
+/** The output of our delete `UserRole` mutation. */
+export type DeleteUserRolePayload = {
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars["String"]["output"]>;
+  deletedUserRoleNodeId?: Maybe<Scalars["ID"]["output"]>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `Role` that is related to this `UserRole`. */
+  role?: Maybe<Role>;
+  /** Reads a single `UserInfo` that is related to this `UserRole`. */
+  user?: Maybe<UserInfo>;
+  /** The `UserRole` that was deleted by this mutation. */
+  userRole?: Maybe<UserRole>;
+  /** An edge for our `UserRole`. May be used by Relay 1. */
+  userRoleEdge?: Maybe<UserRolesEdge>;
+};
+
+/** The output of our delete `UserRole` mutation. */
+export type DeleteUserRolePayloadUserRoleEdgeArgs = {
+  orderBy?: InputMaybe<Array<UserRolesOrderBy>>;
+};
+
+export type Event = Node & {
+  /** Reads and enables pagination through a set of `Category`. */
+  categories: EventCategoriesManyToManyConnection;
+  color: Scalars["String"]["output"];
+  createdAt?: Maybe<Scalars["Datetime"]["output"]>;
+  description: Scalars["String"]["output"];
+  endDate: Scalars["Datetime"]["output"];
+  /** Reads and enables pagination through a set of `EventCategory`. */
+  eventCategories: EventCategoriesConnection;
+  /** Reads and enables pagination through a set of `EventParticipant`. */
+  eventParticipants: EventParticipantsConnection;
+  id: Scalars["Int"]["output"];
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars["ID"]["output"];
+  startDate: Scalars["Datetime"]["output"];
+  title: Scalars["String"]["output"];
+  updatedAt?: Maybe<Scalars["Datetime"]["output"]>;
+  /** Reads and enables pagination through a set of `UserInfo`. */
+  userInfos: EventUserInfosManyToManyConnection;
+};
+
+export type EventCategoriesArgs = {
+  after?: InputMaybe<Scalars["Cursor"]["input"]>;
+  before?: InputMaybe<Scalars["Cursor"]["input"]>;
+  condition?: InputMaybe<CategoryCondition>;
+  filter?: InputMaybe<CategoryFilter>;
+  first?: InputMaybe<Scalars["Int"]["input"]>;
+  last?: InputMaybe<Scalars["Int"]["input"]>;
+  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  orderBy?: InputMaybe<Array<CategoriesOrderBy>>;
+};
+
+export type EventEventCategoriesArgs = {
+  after?: InputMaybe<Scalars["Cursor"]["input"]>;
+  before?: InputMaybe<Scalars["Cursor"]["input"]>;
+  condition?: InputMaybe<EventCategoryCondition>;
+  filter?: InputMaybe<EventCategoryFilter>;
+  first?: InputMaybe<Scalars["Int"]["input"]>;
+  last?: InputMaybe<Scalars["Int"]["input"]>;
+  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  orderBy?: InputMaybe<Array<EventCategoriesOrderBy>>;
+};
+
+export type EventEventParticipantsArgs = {
+  after?: InputMaybe<Scalars["Cursor"]["input"]>;
+  before?: InputMaybe<Scalars["Cursor"]["input"]>;
+  condition?: InputMaybe<EventParticipantCondition>;
+  filter?: InputMaybe<EventParticipantFilter>;
+  first?: InputMaybe<Scalars["Int"]["input"]>;
+  last?: InputMaybe<Scalars["Int"]["input"]>;
+  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  orderBy?: InputMaybe<Array<EventParticipantsOrderBy>>;
+};
+
+export type EventUserInfosArgs = {
+  after?: InputMaybe<Scalars["Cursor"]["input"]>;
+  before?: InputMaybe<Scalars["Cursor"]["input"]>;
+  condition?: InputMaybe<UserInfoCondition>;
+  filter?: InputMaybe<UserInfoFilter>;
+  first?: InputMaybe<Scalars["Int"]["input"]>;
+  last?: InputMaybe<Scalars["Int"]["input"]>;
+  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  orderBy?: InputMaybe<Array<UserInfosOrderBy>>;
+};
+
+/** A connection to a list of `EventCategory` values. */
+export type EventCategoriesConnection = {
+  /** A list of edges which contains the `EventCategory` and cursor to aid in pagination. */
+  edges: Array<EventCategoriesEdge>;
+  /** A list of `EventCategory` objects. */
+  nodes: Array<EventCategory>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `EventCategory` you could get from the connection. */
+  totalCount: Scalars["Int"]["output"];
+};
+
+/** A `EventCategory` edge in the connection. */
+export type EventCategoriesEdge = {
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars["Cursor"]["output"]>;
+  /** The `EventCategory` at the end of the edge. */
+  node: EventCategory;
+};
+
+/** A connection to a list of `Category` values, with data from `EventCategory`. */
+export type EventCategoriesManyToManyConnection = {
+  /** A list of edges which contains the `Category`, info from the `EventCategory`, and the cursor to aid in pagination. */
+  edges: Array<EventCategoriesManyToManyEdge>;
+  /** A list of `Category` objects. */
+  nodes: Array<Category>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `Category` you could get from the connection. */
+  totalCount: Scalars["Int"]["output"];
+};
+
+/** A `Category` edge in the connection, with data from `EventCategory`. */
+export type EventCategoriesManyToManyEdge = {
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars["Cursor"]["output"]>;
+  /** The `Category` at the end of the edge. */
+  node: Category;
+};
+
+/** Methods to use when ordering `EventCategory`. */
+export type EventCategoriesOrderBy =
+  | "CATEGORY_ID_ASC"
+  | "CATEGORY_ID_DESC"
+  | "EVENT_ID_ASC"
+  | "EVENT_ID_DESC"
+  | "NATURAL"
+  | "PRIMARY_KEY_ASC"
+  | "PRIMARY_KEY_DESC";
+
+export type EventCategory = Node & {
+  /** Reads a single `Category` that is related to this `EventCategory`. */
+  category?: Maybe<Category>;
+  categoryId: Scalars["Int"]["output"];
+  /** Reads a single `Event` that is related to this `EventCategory`. */
+  event?: Maybe<Event>;
+  eventId: Scalars["Int"]["output"];
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars["ID"]["output"];
+};
+
+/**
+ * A condition to be used against `EventCategory` object types. All fields are
+ * tested for equality and combined with a logical ‘and.’
+ */
+export type EventCategoryCondition = {
+  /** Checks for equality with the object’s `categoryId` field. */
+  categoryId?: InputMaybe<Scalars["Int"]["input"]>;
+  /** Checks for equality with the object’s `eventId` field. */
+  eventId?: InputMaybe<Scalars["Int"]["input"]>;
+};
+
+/** A filter to be used against `EventCategory` object types. All fields are combined with a logical ‘and.’ */
+export type EventCategoryFilter = {
+  /** Checks for all expressions in this list. */
+  and?: InputMaybe<Array<EventCategoryFilter>>;
+  /** Filter by the object’s `categoryId` field. */
+  categoryId?: InputMaybe<IntFilter>;
+  /** Filter by the object’s `eventId` field. */
+  eventId?: InputMaybe<IntFilter>;
+  /** Negates the expression. */
+  not?: InputMaybe<EventCategoryFilter>;
+  /** Checks for any expressions in this list. */
+  or?: InputMaybe<Array<EventCategoryFilter>>;
+};
+
+/** An input for mutations affecting `EventCategory` */
+export type EventCategoryInput = {
+  categoryId: Scalars["Int"]["input"];
+  eventId: Scalars["Int"]["input"];
+};
+
+/** Represents an update to a `EventCategory`. Fields that are set will be updated. */
+export type EventCategoryPatch = {
+  categoryId?: InputMaybe<Scalars["Int"]["input"]>;
+  eventId?: InputMaybe<Scalars["Int"]["input"]>;
+};
+
+/** A condition to be used against `Event` object types. All fields are tested for equality and combined with a logical ‘and.’ */
+export type EventCondition = {
+  /** Checks for equality with the object’s `color` field. */
+  color?: InputMaybe<Scalars["String"]["input"]>;
+  /** Checks for equality with the object’s `createdAt` field. */
+  createdAt?: InputMaybe<Scalars["Datetime"]["input"]>;
+  /** Checks for equality with the object’s `description` field. */
+  description?: InputMaybe<Scalars["String"]["input"]>;
+  /** Checks for equality with the object’s `endDate` field. */
+  endDate?: InputMaybe<Scalars["Datetime"]["input"]>;
+  /** Checks for equality with the object’s `id` field. */
+  id?: InputMaybe<Scalars["Int"]["input"]>;
+  /** Checks for equality with the object’s `startDate` field. */
+  startDate?: InputMaybe<Scalars["Datetime"]["input"]>;
+  /** Checks for equality with the object’s `title` field. */
+  title?: InputMaybe<Scalars["String"]["input"]>;
+  /** Checks for equality with the object’s `updatedAt` field. */
+  updatedAt?: InputMaybe<Scalars["Datetime"]["input"]>;
+};
+
+/** A filter to be used against `Event` object types. All fields are combined with a logical ‘and.’ */
+export type EventFilter = {
+  /** Checks for all expressions in this list. */
+  and?: InputMaybe<Array<EventFilter>>;
+  /** Filter by the object’s `color` field. */
+  color?: InputMaybe<StringFilter>;
+  /** Filter by the object’s `createdAt` field. */
+  createdAt?: InputMaybe<DatetimeFilter>;
+  /** Filter by the object’s `description` field. */
+  description?: InputMaybe<StringFilter>;
+  /** Filter by the object’s `endDate` field. */
+  endDate?: InputMaybe<DatetimeFilter>;
+  /** Filter by the object’s `id` field. */
+  id?: InputMaybe<IntFilter>;
+  /** Negates the expression. */
+  not?: InputMaybe<EventFilter>;
+  /** Checks for any expressions in this list. */
+  or?: InputMaybe<Array<EventFilter>>;
+  /** Filter by the object’s `startDate` field. */
+  startDate?: InputMaybe<DatetimeFilter>;
+  /** Filter by the object’s `title` field. */
+  title?: InputMaybe<StringFilter>;
+  /** Filter by the object’s `updatedAt` field. */
+  updatedAt?: InputMaybe<DatetimeFilter>;
+};
+
+/** An input for mutations affecting `Event` */
+export type EventInput = {
+  color: Scalars["String"]["input"];
+  createdAt?: InputMaybe<Scalars["Datetime"]["input"]>;
+  description?: InputMaybe<Scalars["String"]["input"]>;
+  endDate?: InputMaybe<Scalars["Datetime"]["input"]>;
+  id?: InputMaybe<Scalars["Int"]["input"]>;
+  startDate?: InputMaybe<Scalars["Datetime"]["input"]>;
+  title: Scalars["String"]["input"];
+  updatedAt?: InputMaybe<Scalars["Datetime"]["input"]>;
+};
+
+export type EventParticipant = Node & {
+  /** Reads a single `Event` that is related to this `EventParticipant`. */
+  event?: Maybe<Event>;
+  eventId: Scalars["Int"]["output"];
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars["ID"]["output"];
+  /** Reads a single `UserInfo` that is related to this `EventParticipant`. */
+  user?: Maybe<UserInfo>;
+  userId: Scalars["Int"]["output"];
+};
+
+/**
+ * A condition to be used against `EventParticipant` object types. All fields are
+ * tested for equality and combined with a logical ‘and.’
+ */
+export type EventParticipantCondition = {
+  /** Checks for equality with the object’s `eventId` field. */
+  eventId?: InputMaybe<Scalars["Int"]["input"]>;
+  /** Checks for equality with the object’s `userId` field. */
+  userId?: InputMaybe<Scalars["Int"]["input"]>;
+};
+
+/** A filter to be used against `EventParticipant` object types. All fields are combined with a logical ‘and.’ */
+export type EventParticipantFilter = {
+  /** Checks for all expressions in this list. */
+  and?: InputMaybe<Array<EventParticipantFilter>>;
+  /** Filter by the object’s `eventId` field. */
+  eventId?: InputMaybe<IntFilter>;
+  /** Negates the expression. */
+  not?: InputMaybe<EventParticipantFilter>;
+  /** Checks for any expressions in this list. */
+  or?: InputMaybe<Array<EventParticipantFilter>>;
+  /** Filter by the object’s `userId` field. */
+  userId?: InputMaybe<IntFilter>;
+};
+
+/** An input for mutations affecting `EventParticipant` */
+export type EventParticipantInput = {
+  eventId: Scalars["Int"]["input"];
+  userId: Scalars["Int"]["input"];
+};
+
+/** Represents an update to a `EventParticipant`. Fields that are set will be updated. */
+export type EventParticipantPatch = {
+  eventId?: InputMaybe<Scalars["Int"]["input"]>;
+  userId?: InputMaybe<Scalars["Int"]["input"]>;
+};
+
+/** A connection to a list of `EventParticipant` values. */
+export type EventParticipantsConnection = {
+  /** A list of edges which contains the `EventParticipant` and cursor to aid in pagination. */
+  edges: Array<EventParticipantsEdge>;
+  /** A list of `EventParticipant` objects. */
+  nodes: Array<EventParticipant>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `EventParticipant` you could get from the connection. */
+  totalCount: Scalars["Int"]["output"];
+};
+
+/** A `EventParticipant` edge in the connection. */
+export type EventParticipantsEdge = {
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars["Cursor"]["output"]>;
+  /** The `EventParticipant` at the end of the edge. */
+  node: EventParticipant;
+};
+
+/** Methods to use when ordering `EventParticipant`. */
+export type EventParticipantsOrderBy =
+  | "EVENT_ID_ASC"
+  | "EVENT_ID_DESC"
+  | "NATURAL"
+  | "PRIMARY_KEY_ASC"
+  | "PRIMARY_KEY_DESC"
+  | "USER_ID_ASC"
+  | "USER_ID_DESC";
+
+/** Represents an update to a `Event`. Fields that are set will be updated. */
+export type EventPatch = {
+  color?: InputMaybe<Scalars["String"]["input"]>;
+  createdAt?: InputMaybe<Scalars["Datetime"]["input"]>;
+  description?: InputMaybe<Scalars["String"]["input"]>;
+  endDate?: InputMaybe<Scalars["Datetime"]["input"]>;
+  id?: InputMaybe<Scalars["Int"]["input"]>;
+  startDate?: InputMaybe<Scalars["Datetime"]["input"]>;
+  title?: InputMaybe<Scalars["String"]["input"]>;
+  updatedAt?: InputMaybe<Scalars["Datetime"]["input"]>;
+};
+
+/** A connection to a list of `UserInfo` values, with data from `EventParticipant`. */
+export type EventUserInfosManyToManyConnection = {
+  /** A list of edges which contains the `UserInfo`, info from the `EventParticipant`, and the cursor to aid in pagination. */
+  edges: Array<EventUserInfosManyToManyEdge>;
+  /** A list of `UserInfo` objects. */
+  nodes: Array<UserInfo>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `UserInfo` you could get from the connection. */
+  totalCount: Scalars["Int"]["output"];
+};
+
+/** A `UserInfo` edge in the connection, with data from `EventParticipant`. */
+export type EventUserInfosManyToManyEdge = {
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars["Cursor"]["output"]>;
+  /** The `UserInfo` at the end of the edge. */
+  node: UserInfo;
+};
+
+/** A connection to a list of `Event` values. */
+export type EventsConnection = {
+  /** A list of edges which contains the `Event` and cursor to aid in pagination. */
+  edges: Array<EventsEdge>;
+  /** A list of `Event` objects. */
+  nodes: Array<Event>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `Event` you could get from the connection. */
+  totalCount: Scalars["Int"]["output"];
+};
+
+/** A `Event` edge in the connection. */
+export type EventsEdge = {
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars["Cursor"]["output"]>;
+  /** The `Event` at the end of the edge. */
+  node: Event;
+};
+
+/** Methods to use when ordering `Event`. */
+export type EventsOrderBy =
+  | "COLOR_ASC"
+  | "COLOR_DESC"
+  | "CREATED_AT_ASC"
+  | "CREATED_AT_DESC"
+  | "DESCRIPTION_ASC"
+  | "DESCRIPTION_DESC"
+  | "END_DATE_ASC"
+  | "END_DATE_DESC"
+  | "ID_ASC"
+  | "ID_DESC"
+  | "NATURAL"
+  | "PRIMARY_KEY_ASC"
+  | "PRIMARY_KEY_DESC"
+  | "START_DATE_ASC"
+  | "START_DATE_DESC"
+  | "TITLE_ASC"
+  | "TITLE_DESC"
+  | "UPDATED_AT_ASC"
+  | "UPDATED_AT_DESC";
+
 /** A filter to be used against Int fields. All fields are combined with a logical ‘and.’ */
 export type IntFilter = {
   /** Not equal to the specified value, treating null like an ordinary value. */
@@ -1110,12 +2400,26 @@ export type IntFilter = {
 
 /** The root mutation type which contains root level fields which mutate data. */
 export type Mutation = {
+  /** Creates a single `Category`. */
+  createCategory?: Maybe<CreateCategoryPayload>;
   /** Creates a single `Class`. */
   createClass?: Maybe<CreateClassPayload>;
+  /** Creates a single `ClassInfo`. */
+  createClassInfo?: Maybe<CreateClassInfoPayload>;
+  /** Creates a single `ClassLevel`. */
+  createClassLevel?: Maybe<CreateClassLevelPayload>;
   /** Creates a single `ClassManagement`. */
   createClassManagement?: Maybe<CreateClassManagementPayload>;
+  /** Creates a single `ClassStatus`. */
+  createClassStatus?: Maybe<CreateClassStatusPayload>;
   /** Creates a single `ClassType`. */
   createClassType?: Maybe<CreateClassTypePayload>;
+  /** Creates a single `Event`. */
+  createEvent?: Maybe<CreateEventPayload>;
+  /** Creates a single `EventCategory`. */
+  createEventCategory?: Maybe<CreateEventCategoryPayload>;
+  /** Creates a single `EventParticipant`. */
+  createEventParticipant?: Maybe<CreateEventParticipantPayload>;
   /** Creates a single `Role`. */
   createRole?: Maybe<CreateRolePayload>;
   /** Creates a single `User`. */
@@ -1126,18 +2430,52 @@ export type Mutation = {
   createUserInfo?: Maybe<CreateUserInfoPayload>;
   /** Creates a single `UserRole`. */
   createUserRole?: Maybe<CreateUserRolePayload>;
+  /** Deletes a single `Category` using a unique key. */
+  deleteCategory?: Maybe<DeleteCategoryPayload>;
+  /** Deletes a single `Category` using its globally unique id. */
+  deleteCategoryByNodeId?: Maybe<DeleteCategoryPayload>;
+  /** Deletes a single `Category` using a unique key. */
+  deleteCategoryByTitle?: Maybe<DeleteCategoryPayload>;
   /** Deletes a single `Class` using a unique key. */
   deleteClass?: Maybe<DeleteClassPayload>;
   /** Deletes a single `Class` using its globally unique id. */
   deleteClassByNodeId?: Maybe<DeleteClassPayload>;
+  /** Deletes a single `ClassInfo` using a unique key. */
+  deleteClassInfo?: Maybe<DeleteClassInfoPayload>;
+  /** Deletes a single `ClassInfo` using its globally unique id. */
+  deleteClassInfoByNodeId?: Maybe<DeleteClassInfoPayload>;
+  /** Deletes a single `ClassLevel` using a unique key. */
+  deleteClassLevel?: Maybe<DeleteClassLevelPayload>;
+  /** Deletes a single `ClassLevel` using a unique key. */
+  deleteClassLevelByName?: Maybe<DeleteClassLevelPayload>;
+  /** Deletes a single `ClassLevel` using its globally unique id. */
+  deleteClassLevelByNodeId?: Maybe<DeleteClassLevelPayload>;
   /** Deletes a single `ClassManagement` using a unique key. */
   deleteClassManagement?: Maybe<DeleteClassManagementPayload>;
   /** Deletes a single `ClassManagement` using its globally unique id. */
   deleteClassManagementByNodeId?: Maybe<DeleteClassManagementPayload>;
+  /** Deletes a single `ClassStatus` using a unique key. */
+  deleteClassStatus?: Maybe<DeleteClassStatusPayload>;
+  /** Deletes a single `ClassStatus` using a unique key. */
+  deleteClassStatusByName?: Maybe<DeleteClassStatusPayload>;
+  /** Deletes a single `ClassStatus` using its globally unique id. */
+  deleteClassStatusByNodeId?: Maybe<DeleteClassStatusPayload>;
   /** Deletes a single `ClassType` using a unique key. */
   deleteClassType?: Maybe<DeleteClassTypePayload>;
   /** Deletes a single `ClassType` using its globally unique id. */
   deleteClassTypeByNodeId?: Maybe<DeleteClassTypePayload>;
+  /** Deletes a single `Event` using a unique key. */
+  deleteEvent?: Maybe<DeleteEventPayload>;
+  /** Deletes a single `Event` using its globally unique id. */
+  deleteEventByNodeId?: Maybe<DeleteEventPayload>;
+  /** Deletes a single `EventCategory` using a unique key. */
+  deleteEventCategory?: Maybe<DeleteEventCategoryPayload>;
+  /** Deletes a single `EventCategory` using its globally unique id. */
+  deleteEventCategoryByNodeId?: Maybe<DeleteEventCategoryPayload>;
+  /** Deletes a single `EventParticipant` using a unique key. */
+  deleteEventParticipant?: Maybe<DeleteEventParticipantPayload>;
+  /** Deletes a single `EventParticipant` using its globally unique id. */
+  deleteEventParticipantByNodeId?: Maybe<DeleteEventParticipantPayload>;
   /** Deletes a single `Role` using a unique key. */
   deleteRole?: Maybe<DeleteRolePayload>;
   /** Deletes a single `Role` using a unique key. */
@@ -1164,18 +2502,56 @@ export type Mutation = {
   deleteUserInfoByNodeId?: Maybe<DeleteUserInfoPayload>;
   /** Deletes a single `UserInfo` using a unique key. */
   deleteUserInfoByPhoneNumber?: Maybe<DeleteUserInfoPayload>;
+  /** Deletes a single `UserRole` using a unique key. */
+  deleteUserRole?: Maybe<DeleteUserRolePayload>;
+  /** Deletes a single `UserRole` using its globally unique id. */
+  deleteUserRoleByNodeId?: Maybe<DeleteUserRolePayload>;
+  /** Updates a single `Category` using a unique key and a patch. */
+  updateCategory?: Maybe<UpdateCategoryPayload>;
+  /** Updates a single `Category` using its globally unique id and a patch. */
+  updateCategoryByNodeId?: Maybe<UpdateCategoryPayload>;
+  /** Updates a single `Category` using a unique key and a patch. */
+  updateCategoryByTitle?: Maybe<UpdateCategoryPayload>;
   /** Updates a single `Class` using a unique key and a patch. */
   updateClass?: Maybe<UpdateClassPayload>;
   /** Updates a single `Class` using its globally unique id and a patch. */
   updateClassByNodeId?: Maybe<UpdateClassPayload>;
+  /** Updates a single `ClassInfo` using a unique key and a patch. */
+  updateClassInfo?: Maybe<UpdateClassInfoPayload>;
+  /** Updates a single `ClassInfo` using its globally unique id and a patch. */
+  updateClassInfoByNodeId?: Maybe<UpdateClassInfoPayload>;
+  /** Updates a single `ClassLevel` using a unique key and a patch. */
+  updateClassLevel?: Maybe<UpdateClassLevelPayload>;
+  /** Updates a single `ClassLevel` using a unique key and a patch. */
+  updateClassLevelByName?: Maybe<UpdateClassLevelPayload>;
+  /** Updates a single `ClassLevel` using its globally unique id and a patch. */
+  updateClassLevelByNodeId?: Maybe<UpdateClassLevelPayload>;
   /** Updates a single `ClassManagement` using a unique key and a patch. */
   updateClassManagement?: Maybe<UpdateClassManagementPayload>;
   /** Updates a single `ClassManagement` using its globally unique id and a patch. */
   updateClassManagementByNodeId?: Maybe<UpdateClassManagementPayload>;
+  /** Updates a single `ClassStatus` using a unique key and a patch. */
+  updateClassStatus?: Maybe<UpdateClassStatusPayload>;
+  /** Updates a single `ClassStatus` using a unique key and a patch. */
+  updateClassStatusByName?: Maybe<UpdateClassStatusPayload>;
+  /** Updates a single `ClassStatus` using its globally unique id and a patch. */
+  updateClassStatusByNodeId?: Maybe<UpdateClassStatusPayload>;
   /** Updates a single `ClassType` using a unique key and a patch. */
   updateClassType?: Maybe<UpdateClassTypePayload>;
   /** Updates a single `ClassType` using its globally unique id and a patch. */
   updateClassTypeByNodeId?: Maybe<UpdateClassTypePayload>;
+  /** Updates a single `Event` using a unique key and a patch. */
+  updateEvent?: Maybe<UpdateEventPayload>;
+  /** Updates a single `Event` using its globally unique id and a patch. */
+  updateEventByNodeId?: Maybe<UpdateEventPayload>;
+  /** Updates a single `EventCategory` using a unique key and a patch. */
+  updateEventCategory?: Maybe<UpdateEventCategoryPayload>;
+  /** Updates a single `EventCategory` using its globally unique id and a patch. */
+  updateEventCategoryByNodeId?: Maybe<UpdateEventCategoryPayload>;
+  /** Updates a single `EventParticipant` using a unique key and a patch. */
+  updateEventParticipant?: Maybe<UpdateEventParticipantPayload>;
+  /** Updates a single `EventParticipant` using its globally unique id and a patch. */
+  updateEventParticipantByNodeId?: Maybe<UpdateEventParticipantPayload>;
   /** Updates a single `Role` using a unique key and a patch. */
   updateRole?: Maybe<UpdateRolePayload>;
   /** Updates a single `Role` using a unique key and a patch. */
@@ -1202,6 +2578,15 @@ export type Mutation = {
   updateUserInfoByNodeId?: Maybe<UpdateUserInfoPayload>;
   /** Updates a single `UserInfo` using a unique key and a patch. */
   updateUserInfoByPhoneNumber?: Maybe<UpdateUserInfoPayload>;
+  /** Updates a single `UserRole` using a unique key and a patch. */
+  updateUserRole?: Maybe<UpdateUserRolePayload>;
+  /** Updates a single `UserRole` using its globally unique id and a patch. */
+  updateUserRoleByNodeId?: Maybe<UpdateUserRolePayload>;
+};
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationCreateCategoryArgs = {
+  input: CreateCategoryInput;
 };
 
 /** The root mutation type which contains root level fields which mutate data. */
@@ -1210,13 +2595,43 @@ export type MutationCreateClassArgs = {
 };
 
 /** The root mutation type which contains root level fields which mutate data. */
+export type MutationCreateClassInfoArgs = {
+  input: CreateClassInfoInput;
+};
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationCreateClassLevelArgs = {
+  input: CreateClassLevelInput;
+};
+
+/** The root mutation type which contains root level fields which mutate data. */
 export type MutationCreateClassManagementArgs = {
   input: CreateClassManagementInput;
 };
 
 /** The root mutation type which contains root level fields which mutate data. */
+export type MutationCreateClassStatusArgs = {
+  input: CreateClassStatusInput;
+};
+
+/** The root mutation type which contains root level fields which mutate data. */
 export type MutationCreateClassTypeArgs = {
   input: CreateClassTypeInput;
+};
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationCreateEventArgs = {
+  input: CreateEventInput;
+};
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationCreateEventCategoryArgs = {
+  input: CreateEventCategoryInput;
+};
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationCreateEventParticipantArgs = {
+  input: CreateEventParticipantInput;
 };
 
 /** The root mutation type which contains root level fields which mutate data. */
@@ -1245,6 +2660,21 @@ export type MutationCreateUserRoleArgs = {
 };
 
 /** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteCategoryArgs = {
+  input: DeleteCategoryInput;
+};
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteCategoryByNodeIdArgs = {
+  input: DeleteCategoryByNodeIdInput;
+};
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteCategoryByTitleArgs = {
+  input: DeleteCategoryByTitleInput;
+};
+
+/** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeleteClassArgs = {
   input: DeleteClassInput;
 };
@@ -1252,6 +2682,31 @@ export type MutationDeleteClassArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeleteClassByNodeIdArgs = {
   input: DeleteClassByNodeIdInput;
+};
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteClassInfoArgs = {
+  input: DeleteClassInfoInput;
+};
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteClassInfoByNodeIdArgs = {
+  input: DeleteClassInfoByNodeIdInput;
+};
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteClassLevelArgs = {
+  input: DeleteClassLevelInput;
+};
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteClassLevelByNameArgs = {
+  input: DeleteClassLevelByNameInput;
+};
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteClassLevelByNodeIdArgs = {
+  input: DeleteClassLevelByNodeIdInput;
 };
 
 /** The root mutation type which contains root level fields which mutate data. */
@@ -1265,6 +2720,21 @@ export type MutationDeleteClassManagementByNodeIdArgs = {
 };
 
 /** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteClassStatusArgs = {
+  input: DeleteClassStatusInput;
+};
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteClassStatusByNameArgs = {
+  input: DeleteClassStatusByNameInput;
+};
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteClassStatusByNodeIdArgs = {
+  input: DeleteClassStatusByNodeIdInput;
+};
+
+/** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeleteClassTypeArgs = {
   input: DeleteClassTypeInput;
 };
@@ -1272,6 +2742,36 @@ export type MutationDeleteClassTypeArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeleteClassTypeByNodeIdArgs = {
   input: DeleteClassTypeByNodeIdInput;
+};
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteEventArgs = {
+  input: DeleteEventInput;
+};
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteEventByNodeIdArgs = {
+  input: DeleteEventByNodeIdInput;
+};
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteEventCategoryArgs = {
+  input: DeleteEventCategoryInput;
+};
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteEventCategoryByNodeIdArgs = {
+  input: DeleteEventCategoryByNodeIdInput;
+};
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteEventParticipantArgs = {
+  input: DeleteEventParticipantInput;
+};
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteEventParticipantByNodeIdArgs = {
+  input: DeleteEventParticipantByNodeIdInput;
 };
 
 /** The root mutation type which contains root level fields which mutate data. */
@@ -1340,6 +2840,31 @@ export type MutationDeleteUserInfoByPhoneNumberArgs = {
 };
 
 /** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteUserRoleArgs = {
+  input: DeleteUserRoleInput;
+};
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteUserRoleByNodeIdArgs = {
+  input: DeleteUserRoleByNodeIdInput;
+};
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateCategoryArgs = {
+  input: UpdateCategoryInput;
+};
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateCategoryByNodeIdArgs = {
+  input: UpdateCategoryByNodeIdInput;
+};
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateCategoryByTitleArgs = {
+  input: UpdateCategoryByTitleInput;
+};
+
+/** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpdateClassArgs = {
   input: UpdateClassInput;
 };
@@ -1347,6 +2872,31 @@ export type MutationUpdateClassArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpdateClassByNodeIdArgs = {
   input: UpdateClassByNodeIdInput;
+};
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateClassInfoArgs = {
+  input: UpdateClassInfoInput;
+};
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateClassInfoByNodeIdArgs = {
+  input: UpdateClassInfoByNodeIdInput;
+};
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateClassLevelArgs = {
+  input: UpdateClassLevelInput;
+};
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateClassLevelByNameArgs = {
+  input: UpdateClassLevelByNameInput;
+};
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateClassLevelByNodeIdArgs = {
+  input: UpdateClassLevelByNodeIdInput;
 };
 
 /** The root mutation type which contains root level fields which mutate data. */
@@ -1360,6 +2910,21 @@ export type MutationUpdateClassManagementByNodeIdArgs = {
 };
 
 /** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateClassStatusArgs = {
+  input: UpdateClassStatusInput;
+};
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateClassStatusByNameArgs = {
+  input: UpdateClassStatusByNameInput;
+};
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateClassStatusByNodeIdArgs = {
+  input: UpdateClassStatusByNodeIdInput;
+};
+
+/** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpdateClassTypeArgs = {
   input: UpdateClassTypeInput;
 };
@@ -1367,6 +2932,36 @@ export type MutationUpdateClassTypeArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpdateClassTypeByNodeIdArgs = {
   input: UpdateClassTypeByNodeIdInput;
+};
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateEventArgs = {
+  input: UpdateEventInput;
+};
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateEventByNodeIdArgs = {
+  input: UpdateEventByNodeIdInput;
+};
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateEventCategoryArgs = {
+  input: UpdateEventCategoryInput;
+};
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateEventCategoryByNodeIdArgs = {
+  input: UpdateEventCategoryByNodeIdInput;
+};
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateEventParticipantArgs = {
+  input: UpdateEventParticipantInput;
+};
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateEventParticipantByNodeIdArgs = {
+  input: UpdateEventParticipantByNodeIdInput;
 };
 
 /** The root mutation type which contains root level fields which mutate data. */
@@ -1434,6 +3029,16 @@ export type MutationUpdateUserInfoByPhoneNumberArgs = {
   input: UpdateUserInfoByPhoneNumberInput;
 };
 
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateUserRoleArgs = {
+  input: UpdateUserRoleInput;
+};
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateUserRoleByNodeIdArgs = {
+  input: UpdateUserRoleByNodeIdInput;
+};
+
 /** An object with a globally unique `ID`. */
 export type Node = {
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
@@ -1454,14 +3059,37 @@ export type PageInfo = {
 
 /** The root query type which gives access points into the data universe. */
 export type Query = Node & {
+  /** Reads and enables pagination through a set of `Category`. */
+  categories?: Maybe<CategoriesConnection>;
+  category?: Maybe<Category>;
+  /** Reads a single `Category` using its globally unique `ID`. */
+  categoryByNodeId?: Maybe<Category>;
+  categoryByTitle?: Maybe<Category>;
   class?: Maybe<Class>;
   /** Reads a single `Class` using its globally unique `ID`. */
   classByNodeId?: Maybe<Class>;
+  classInfo?: Maybe<ClassInfo>;
+  /** Reads a single `ClassInfo` using its globally unique `ID`. */
+  classInfoByNodeId?: Maybe<ClassInfo>;
+  /** Reads and enables pagination through a set of `ClassInfo`. */
+  classInfos?: Maybe<ClassInfosConnection>;
+  classLevel?: Maybe<ClassLevel>;
+  classLevelByName?: Maybe<ClassLevel>;
+  /** Reads a single `ClassLevel` using its globally unique `ID`. */
+  classLevelByNodeId?: Maybe<ClassLevel>;
+  /** Reads and enables pagination through a set of `ClassLevel`. */
+  classLevels?: Maybe<ClassLevelsConnection>;
   classManagement?: Maybe<ClassManagement>;
   /** Reads a single `ClassManagement` using its globally unique `ID`. */
   classManagementByNodeId?: Maybe<ClassManagement>;
   /** Reads and enables pagination through a set of `ClassManagement`. */
   classManagements?: Maybe<ClassManagementsConnection>;
+  classStatus?: Maybe<ClassStatus>;
+  classStatusByName?: Maybe<ClassStatus>;
+  /** Reads a single `ClassStatus` using its globally unique `ID`. */
+  classStatusByNodeId?: Maybe<ClassStatus>;
+  /** Reads and enables pagination through a set of `ClassStatus`. */
+  classStatuses?: Maybe<ClassStatusesConnection>;
   classType?: Maybe<ClassType>;
   /** Reads a single `ClassType` using its globally unique `ID`. */
   classTypeByNodeId?: Maybe<ClassType>;
@@ -1469,6 +3097,21 @@ export type Query = Node & {
   classTypes?: Maybe<ClassTypesConnection>;
   /** Reads and enables pagination through a set of `Class`. */
   classes?: Maybe<ClassesConnection>;
+  event?: Maybe<Event>;
+  /** Reads a single `Event` using its globally unique `ID`. */
+  eventByNodeId?: Maybe<Event>;
+  /** Reads and enables pagination through a set of `EventCategory`. */
+  eventCategories?: Maybe<EventCategoriesConnection>;
+  eventCategory?: Maybe<EventCategory>;
+  /** Reads a single `EventCategory` using its globally unique `ID`. */
+  eventCategoryByNodeId?: Maybe<EventCategory>;
+  eventParticipant?: Maybe<EventParticipant>;
+  /** Reads a single `EventParticipant` using its globally unique `ID`. */
+  eventParticipantByNodeId?: Maybe<EventParticipant>;
+  /** Reads and enables pagination through a set of `EventParticipant`. */
+  eventParticipants?: Maybe<EventParticipantsConnection>;
+  /** Reads and enables pagination through a set of `Event`. */
+  events?: Maybe<EventsConnection>;
   /** Fetches an object given its globally unique `ID`. */
   node?: Maybe<Node>;
   /** The root query type must be a `Node` to work well with Relay 1 mutations. This just resolves to `query`. */
@@ -1501,10 +3144,40 @@ export type Query = Node & {
   userInfoByPhoneNumber?: Maybe<UserInfo>;
   /** Reads and enables pagination through a set of `UserInfo`. */
   userInfos?: Maybe<UserInfosConnection>;
+  userRole?: Maybe<UserRole>;
+  /** Reads a single `UserRole` using its globally unique `ID`. */
+  userRoleByNodeId?: Maybe<UserRole>;
   /** Reads and enables pagination through a set of `UserRole`. */
   userRoles?: Maybe<UserRolesConnection>;
   /** Reads and enables pagination through a set of `User`. */
   users?: Maybe<UsersConnection>;
+};
+
+/** The root query type which gives access points into the data universe. */
+export type QueryCategoriesArgs = {
+  after?: InputMaybe<Scalars["Cursor"]["input"]>;
+  before?: InputMaybe<Scalars["Cursor"]["input"]>;
+  condition?: InputMaybe<CategoryCondition>;
+  filter?: InputMaybe<CategoryFilter>;
+  first?: InputMaybe<Scalars["Int"]["input"]>;
+  last?: InputMaybe<Scalars["Int"]["input"]>;
+  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  orderBy?: InputMaybe<Array<CategoriesOrderBy>>;
+};
+
+/** The root query type which gives access points into the data universe. */
+export type QueryCategoryArgs = {
+  id: Scalars["Int"]["input"];
+};
+
+/** The root query type which gives access points into the data universe. */
+export type QueryCategoryByNodeIdArgs = {
+  nodeId: Scalars["ID"]["input"];
+};
+
+/** The root query type which gives access points into the data universe. */
+export type QueryCategoryByTitleArgs = {
+  title: Scalars["String"]["input"];
 };
 
 /** The root query type which gives access points into the data universe. */
@@ -1515,6 +3188,55 @@ export type QueryClassArgs = {
 /** The root query type which gives access points into the data universe. */
 export type QueryClassByNodeIdArgs = {
   nodeId: Scalars["ID"]["input"];
+};
+
+/** The root query type which gives access points into the data universe. */
+export type QueryClassInfoArgs = {
+  id: Scalars["Int"]["input"];
+};
+
+/** The root query type which gives access points into the data universe. */
+export type QueryClassInfoByNodeIdArgs = {
+  nodeId: Scalars["ID"]["input"];
+};
+
+/** The root query type which gives access points into the data universe. */
+export type QueryClassInfosArgs = {
+  after?: InputMaybe<Scalars["Cursor"]["input"]>;
+  before?: InputMaybe<Scalars["Cursor"]["input"]>;
+  condition?: InputMaybe<ClassInfoCondition>;
+  filter?: InputMaybe<ClassInfoFilter>;
+  first?: InputMaybe<Scalars["Int"]["input"]>;
+  last?: InputMaybe<Scalars["Int"]["input"]>;
+  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  orderBy?: InputMaybe<Array<ClassInfosOrderBy>>;
+};
+
+/** The root query type which gives access points into the data universe. */
+export type QueryClassLevelArgs = {
+  id: Scalars["Int"]["input"];
+};
+
+/** The root query type which gives access points into the data universe. */
+export type QueryClassLevelByNameArgs = {
+  name: Scalars["String"]["input"];
+};
+
+/** The root query type which gives access points into the data universe. */
+export type QueryClassLevelByNodeIdArgs = {
+  nodeId: Scalars["ID"]["input"];
+};
+
+/** The root query type which gives access points into the data universe. */
+export type QueryClassLevelsArgs = {
+  after?: InputMaybe<Scalars["Cursor"]["input"]>;
+  before?: InputMaybe<Scalars["Cursor"]["input"]>;
+  condition?: InputMaybe<ClassLevelCondition>;
+  filter?: InputMaybe<ClassLevelFilter>;
+  first?: InputMaybe<Scalars["Int"]["input"]>;
+  last?: InputMaybe<Scalars["Int"]["input"]>;
+  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  orderBy?: InputMaybe<Array<ClassLevelsOrderBy>>;
 };
 
 /** The root query type which gives access points into the data universe. */
@@ -1538,6 +3260,33 @@ export type QueryClassManagementsArgs = {
   last?: InputMaybe<Scalars["Int"]["input"]>;
   offset?: InputMaybe<Scalars["Int"]["input"]>;
   orderBy?: InputMaybe<Array<ClassManagementsOrderBy>>;
+};
+
+/** The root query type which gives access points into the data universe. */
+export type QueryClassStatusArgs = {
+  id: Scalars["Int"]["input"];
+};
+
+/** The root query type which gives access points into the data universe. */
+export type QueryClassStatusByNameArgs = {
+  name: Scalars["String"]["input"];
+};
+
+/** The root query type which gives access points into the data universe. */
+export type QueryClassStatusByNodeIdArgs = {
+  nodeId: Scalars["ID"]["input"];
+};
+
+/** The root query type which gives access points into the data universe. */
+export type QueryClassStatusesArgs = {
+  after?: InputMaybe<Scalars["Cursor"]["input"]>;
+  before?: InputMaybe<Scalars["Cursor"]["input"]>;
+  condition?: InputMaybe<ClassStatusCondition>;
+  filter?: InputMaybe<ClassStatusFilter>;
+  first?: InputMaybe<Scalars["Int"]["input"]>;
+  last?: InputMaybe<Scalars["Int"]["input"]>;
+  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  orderBy?: InputMaybe<Array<ClassStatusesOrderBy>>;
 };
 
 /** The root query type which gives access points into the data universe. */
@@ -1572,6 +3321,74 @@ export type QueryClassesArgs = {
   last?: InputMaybe<Scalars["Int"]["input"]>;
   offset?: InputMaybe<Scalars["Int"]["input"]>;
   orderBy?: InputMaybe<Array<ClassesOrderBy>>;
+};
+
+/** The root query type which gives access points into the data universe. */
+export type QueryEventArgs = {
+  id: Scalars["Int"]["input"];
+};
+
+/** The root query type which gives access points into the data universe. */
+export type QueryEventByNodeIdArgs = {
+  nodeId: Scalars["ID"]["input"];
+};
+
+/** The root query type which gives access points into the data universe. */
+export type QueryEventCategoriesArgs = {
+  after?: InputMaybe<Scalars["Cursor"]["input"]>;
+  before?: InputMaybe<Scalars["Cursor"]["input"]>;
+  condition?: InputMaybe<EventCategoryCondition>;
+  filter?: InputMaybe<EventCategoryFilter>;
+  first?: InputMaybe<Scalars["Int"]["input"]>;
+  last?: InputMaybe<Scalars["Int"]["input"]>;
+  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  orderBy?: InputMaybe<Array<EventCategoriesOrderBy>>;
+};
+
+/** The root query type which gives access points into the data universe. */
+export type QueryEventCategoryArgs = {
+  categoryId: Scalars["Int"]["input"];
+  eventId: Scalars["Int"]["input"];
+};
+
+/** The root query type which gives access points into the data universe. */
+export type QueryEventCategoryByNodeIdArgs = {
+  nodeId: Scalars["ID"]["input"];
+};
+
+/** The root query type which gives access points into the data universe. */
+export type QueryEventParticipantArgs = {
+  eventId: Scalars["Int"]["input"];
+  userId: Scalars["Int"]["input"];
+};
+
+/** The root query type which gives access points into the data universe. */
+export type QueryEventParticipantByNodeIdArgs = {
+  nodeId: Scalars["ID"]["input"];
+};
+
+/** The root query type which gives access points into the data universe. */
+export type QueryEventParticipantsArgs = {
+  after?: InputMaybe<Scalars["Cursor"]["input"]>;
+  before?: InputMaybe<Scalars["Cursor"]["input"]>;
+  condition?: InputMaybe<EventParticipantCondition>;
+  filter?: InputMaybe<EventParticipantFilter>;
+  first?: InputMaybe<Scalars["Int"]["input"]>;
+  last?: InputMaybe<Scalars["Int"]["input"]>;
+  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  orderBy?: InputMaybe<Array<EventParticipantsOrderBy>>;
+};
+
+/** The root query type which gives access points into the data universe. */
+export type QueryEventsArgs = {
+  after?: InputMaybe<Scalars["Cursor"]["input"]>;
+  before?: InputMaybe<Scalars["Cursor"]["input"]>;
+  condition?: InputMaybe<EventCondition>;
+  filter?: InputMaybe<EventFilter>;
+  first?: InputMaybe<Scalars["Int"]["input"]>;
+  last?: InputMaybe<Scalars["Int"]["input"]>;
+  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  orderBy?: InputMaybe<Array<EventsOrderBy>>;
 };
 
 /** The root query type which gives access points into the data universe. */
@@ -1681,6 +3498,17 @@ export type QueryUserInfosArgs = {
 };
 
 /** The root query type which gives access points into the data universe. */
+export type QueryUserRoleArgs = {
+  roleId: Scalars["Int"]["input"];
+  userId: Scalars["Int"]["input"];
+};
+
+/** The root query type which gives access points into the data universe. */
+export type QueryUserRoleByNodeIdArgs = {
+  nodeId: Scalars["ID"]["input"];
+};
+
+/** The root query type which gives access points into the data universe. */
 export type QueryUserRolesArgs = {
   after?: InputMaybe<Scalars["Cursor"]["input"]>;
   before?: InputMaybe<Scalars["Cursor"]["input"]>;
@@ -1711,12 +3539,12 @@ export type Role = Node & {
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
   nodeId: Scalars["ID"]["output"];
   /** Reads and enables pagination through a set of `UserInfo`. */
-  userInfosByUserRoleRoleIdAndUserId: RoleUserInfosByUserRoleRoleIdAndUserIdManyToManyConnection;
+  userInfos: RoleUserInfosManyToManyConnection;
   /** Reads and enables pagination through a set of `UserRole`. */
   userRoles: UserRolesConnection;
 };
 
-export type RoleUserInfosByUserRoleRoleIdAndUserIdArgs = {
+export type RoleUserInfosArgs = {
   after?: InputMaybe<Scalars["Cursor"]["input"]>;
   before?: InputMaybe<Scalars["Cursor"]["input"]>;
   condition?: InputMaybe<UserInfoCondition>;
@@ -1779,9 +3607,9 @@ export type RolePatch = {
 };
 
 /** A connection to a list of `UserInfo` values, with data from `UserRole`. */
-export type RoleUserInfosByUserRoleRoleIdAndUserIdManyToManyConnection = {
+export type RoleUserInfosManyToManyConnection = {
   /** A list of edges which contains the `UserInfo`, info from the `UserRole`, and the cursor to aid in pagination. */
-  edges: Array<RoleUserInfosByUserRoleRoleIdAndUserIdManyToManyEdge>;
+  edges: Array<RoleUserInfosManyToManyEdge>;
   /** A list of `UserInfo` objects. */
   nodes: Array<UserInfo>;
   /** Information to aid in pagination. */
@@ -1791,27 +3619,12 @@ export type RoleUserInfosByUserRoleRoleIdAndUserIdManyToManyConnection = {
 };
 
 /** A `UserInfo` edge in the connection, with data from `UserRole`. */
-export type RoleUserInfosByUserRoleRoleIdAndUserIdManyToManyEdge = {
+export type RoleUserInfosManyToManyEdge = {
   /** A cursor for use in pagination. */
   cursor?: Maybe<Scalars["Cursor"]["output"]>;
   /** The `UserInfo` at the end of the edge. */
   node: UserInfo;
-  /** Reads and enables pagination through a set of `UserRole`. */
-  userRolesByUserId: UserRolesConnection;
 };
-
-/** A `UserInfo` edge in the connection, with data from `UserRole`. */
-export type RoleUserInfosByUserRoleRoleIdAndUserIdManyToManyEdgeUserRolesByUserIdArgs =
-  {
-    after?: InputMaybe<Scalars["Cursor"]["input"]>;
-    before?: InputMaybe<Scalars["Cursor"]["input"]>;
-    condition?: InputMaybe<UserRoleCondition>;
-    filter?: InputMaybe<UserRoleFilter>;
-    first?: InputMaybe<Scalars["Int"]["input"]>;
-    last?: InputMaybe<Scalars["Int"]["input"]>;
-    offset?: InputMaybe<Scalars["Int"]["input"]>;
-    orderBy?: InputMaybe<Array<UserRolesOrderBy>>;
-  };
 
 /** A connection to a list of `Role` values. */
 export type RolesConnection = {
@@ -1923,6 +3736,63 @@ export type StringFilter = {
   startsWithInsensitive?: InputMaybe<Scalars["String"]["input"]>;
 };
 
+/** All input for the `updateCategoryByNodeId` mutation. */
+export type UpdateCategoryByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
+  /** The globally unique `ID` which will identify a single `Category` to be updated. */
+  nodeId: Scalars["ID"]["input"];
+  /** An object where the defined keys will be set on the `Category` being updated. */
+  patch: CategoryPatch;
+};
+
+/** All input for the `updateCategoryByTitle` mutation. */
+export type UpdateCategoryByTitleInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
+  /** An object where the defined keys will be set on the `Category` being updated. */
+  patch: CategoryPatch;
+  title: Scalars["String"]["input"];
+};
+
+/** All input for the `updateCategory` mutation. */
+export type UpdateCategoryInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
+  id: Scalars["Int"]["input"];
+  /** An object where the defined keys will be set on the `Category` being updated. */
+  patch: CategoryPatch;
+};
+
+/** The output of our update `Category` mutation. */
+export type UpdateCategoryPayload = {
+  /** The `Category` that was updated by this mutation. */
+  category?: Maybe<Category>;
+  /** An edge for our `Category`. May be used by Relay 1. */
+  categoryEdge?: Maybe<CategoriesEdge>;
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars["String"]["output"]>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+};
+
+/** The output of our update `Category` mutation. */
+export type UpdateCategoryPayloadCategoryEdgeArgs = {
+  orderBy?: InputMaybe<Array<CategoriesOrderBy>>;
+};
+
 /** All input for the `updateClassByNodeId` mutation. */
 export type UpdateClassByNodeIdInput = {
   /**
@@ -1936,6 +3806,51 @@ export type UpdateClassByNodeIdInput = {
   patch: ClassPatch;
 };
 
+/** All input for the `updateClassInfoByNodeId` mutation. */
+export type UpdateClassInfoByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
+  /** The globally unique `ID` which will identify a single `ClassInfo` to be updated. */
+  nodeId: Scalars["ID"]["input"];
+  /** An object where the defined keys will be set on the `ClassInfo` being updated. */
+  patch: ClassInfoPatch;
+};
+
+/** All input for the `updateClassInfo` mutation. */
+export type UpdateClassInfoInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
+  id: Scalars["Int"]["input"];
+  /** An object where the defined keys will be set on the `ClassInfo` being updated. */
+  patch: ClassInfoPatch;
+};
+
+/** The output of our update `ClassInfo` mutation. */
+export type UpdateClassInfoPayload = {
+  /** The `ClassInfo` that was updated by this mutation. */
+  classInfo?: Maybe<ClassInfo>;
+  /** An edge for our `ClassInfo`. May be used by Relay 1. */
+  classInfoEdge?: Maybe<ClassInfosEdge>;
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars["String"]["output"]>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+};
+
+/** The output of our update `ClassInfo` mutation. */
+export type UpdateClassInfoPayloadClassInfoEdgeArgs = {
+  orderBy?: InputMaybe<Array<ClassInfosOrderBy>>;
+};
+
 /** All input for the `updateClass` mutation. */
 export type UpdateClassInput = {
   /**
@@ -1946,6 +3861,63 @@ export type UpdateClassInput = {
   id: Scalars["Int"]["input"];
   /** An object where the defined keys will be set on the `Class` being updated. */
   patch: ClassPatch;
+};
+
+/** All input for the `updateClassLevelByName` mutation. */
+export type UpdateClassLevelByNameInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
+  name: Scalars["String"]["input"];
+  /** An object where the defined keys will be set on the `ClassLevel` being updated. */
+  patch: ClassLevelPatch;
+};
+
+/** All input for the `updateClassLevelByNodeId` mutation. */
+export type UpdateClassLevelByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
+  /** The globally unique `ID` which will identify a single `ClassLevel` to be updated. */
+  nodeId: Scalars["ID"]["input"];
+  /** An object where the defined keys will be set on the `ClassLevel` being updated. */
+  patch: ClassLevelPatch;
+};
+
+/** All input for the `updateClassLevel` mutation. */
+export type UpdateClassLevelInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
+  id: Scalars["Int"]["input"];
+  /** An object where the defined keys will be set on the `ClassLevel` being updated. */
+  patch: ClassLevelPatch;
+};
+
+/** The output of our update `ClassLevel` mutation. */
+export type UpdateClassLevelPayload = {
+  /** The `ClassLevel` that was updated by this mutation. */
+  classLevel?: Maybe<ClassLevel>;
+  /** An edge for our `ClassLevel`. May be used by Relay 1. */
+  classLevelEdge?: Maybe<ClassLevelsEdge>;
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars["String"]["output"]>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+};
+
+/** The output of our update `ClassLevel` mutation. */
+export type UpdateClassLevelPayloadClassLevelEdgeArgs = {
+  orderBy?: InputMaybe<Array<ClassLevelsOrderBy>>;
 };
 
 /** All input for the `updateClassManagementByNodeId` mutation. */
@@ -2004,8 +3976,6 @@ export type UpdateClassPayload = {
   class?: Maybe<Class>;
   /** An edge for our `Class`. May be used by Relay 1. */
   classEdge?: Maybe<ClassesEdge>;
-  /** Reads a single `ClassType` that is related to this `Class`. */
-  classType?: Maybe<ClassType>;
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
@@ -2020,6 +3990,63 @@ export type UpdateClassPayload = {
 /** The output of our update `Class` mutation. */
 export type UpdateClassPayloadClassEdgeArgs = {
   orderBy?: InputMaybe<Array<ClassesOrderBy>>;
+};
+
+/** All input for the `updateClassStatusByName` mutation. */
+export type UpdateClassStatusByNameInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
+  name: Scalars["String"]["input"];
+  /** An object where the defined keys will be set on the `ClassStatus` being updated. */
+  patch: ClassStatusPatch;
+};
+
+/** All input for the `updateClassStatusByNodeId` mutation. */
+export type UpdateClassStatusByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
+  /** The globally unique `ID` which will identify a single `ClassStatus` to be updated. */
+  nodeId: Scalars["ID"]["input"];
+  /** An object where the defined keys will be set on the `ClassStatus` being updated. */
+  patch: ClassStatusPatch;
+};
+
+/** All input for the `updateClassStatus` mutation. */
+export type UpdateClassStatusInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
+  id: Scalars["Int"]["input"];
+  /** An object where the defined keys will be set on the `ClassStatus` being updated. */
+  patch: ClassStatusPatch;
+};
+
+/** The output of our update `ClassStatus` mutation. */
+export type UpdateClassStatusPayload = {
+  /** The `ClassStatus` that was updated by this mutation. */
+  classStatus?: Maybe<ClassStatus>;
+  /** An edge for our `ClassStatus`. May be used by Relay 1. */
+  classStatusEdge?: Maybe<ClassStatusesEdge>;
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars["String"]["output"]>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+};
+
+/** The output of our update `ClassStatus` mutation. */
+export type UpdateClassStatusPayloadClassStatusEdgeArgs = {
+  orderBy?: InputMaybe<Array<ClassStatusesOrderBy>>;
 };
 
 /** All input for the `updateClassTypeByNodeId` mutation. */
@@ -2065,6 +4092,151 @@ export type UpdateClassTypePayload = {
 /** The output of our update `ClassType` mutation. */
 export type UpdateClassTypePayloadClassTypeEdgeArgs = {
   orderBy?: InputMaybe<Array<ClassTypesOrderBy>>;
+};
+
+/** All input for the `updateEventByNodeId` mutation. */
+export type UpdateEventByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
+  /** The globally unique `ID` which will identify a single `Event` to be updated. */
+  nodeId: Scalars["ID"]["input"];
+  /** An object where the defined keys will be set on the `Event` being updated. */
+  patch: EventPatch;
+};
+
+/** All input for the `updateEventCategoryByNodeId` mutation. */
+export type UpdateEventCategoryByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
+  /** The globally unique `ID` which will identify a single `EventCategory` to be updated. */
+  nodeId: Scalars["ID"]["input"];
+  /** An object where the defined keys will be set on the `EventCategory` being updated. */
+  patch: EventCategoryPatch;
+};
+
+/** All input for the `updateEventCategory` mutation. */
+export type UpdateEventCategoryInput = {
+  categoryId: Scalars["Int"]["input"];
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
+  eventId: Scalars["Int"]["input"];
+  /** An object where the defined keys will be set on the `EventCategory` being updated. */
+  patch: EventCategoryPatch;
+};
+
+/** The output of our update `EventCategory` mutation. */
+export type UpdateEventCategoryPayload = {
+  /** Reads a single `Category` that is related to this `EventCategory`. */
+  category?: Maybe<Category>;
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars["String"]["output"]>;
+  /** Reads a single `Event` that is related to this `EventCategory`. */
+  event?: Maybe<Event>;
+  /** The `EventCategory` that was updated by this mutation. */
+  eventCategory?: Maybe<EventCategory>;
+  /** An edge for our `EventCategory`. May be used by Relay 1. */
+  eventCategoryEdge?: Maybe<EventCategoriesEdge>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+};
+
+/** The output of our update `EventCategory` mutation. */
+export type UpdateEventCategoryPayloadEventCategoryEdgeArgs = {
+  orderBy?: InputMaybe<Array<EventCategoriesOrderBy>>;
+};
+
+/** All input for the `updateEvent` mutation. */
+export type UpdateEventInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
+  id: Scalars["Int"]["input"];
+  /** An object where the defined keys will be set on the `Event` being updated. */
+  patch: EventPatch;
+};
+
+/** All input for the `updateEventParticipantByNodeId` mutation. */
+export type UpdateEventParticipantByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
+  /** The globally unique `ID` which will identify a single `EventParticipant` to be updated. */
+  nodeId: Scalars["ID"]["input"];
+  /** An object where the defined keys will be set on the `EventParticipant` being updated. */
+  patch: EventParticipantPatch;
+};
+
+/** All input for the `updateEventParticipant` mutation. */
+export type UpdateEventParticipantInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
+  eventId: Scalars["Int"]["input"];
+  /** An object where the defined keys will be set on the `EventParticipant` being updated. */
+  patch: EventParticipantPatch;
+  userId: Scalars["Int"]["input"];
+};
+
+/** The output of our update `EventParticipant` mutation. */
+export type UpdateEventParticipantPayload = {
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars["String"]["output"]>;
+  /** Reads a single `Event` that is related to this `EventParticipant`. */
+  event?: Maybe<Event>;
+  /** The `EventParticipant` that was updated by this mutation. */
+  eventParticipant?: Maybe<EventParticipant>;
+  /** An edge for our `EventParticipant`. May be used by Relay 1. */
+  eventParticipantEdge?: Maybe<EventParticipantsEdge>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `UserInfo` that is related to this `EventParticipant`. */
+  user?: Maybe<UserInfo>;
+};
+
+/** The output of our update `EventParticipant` mutation. */
+export type UpdateEventParticipantPayloadEventParticipantEdgeArgs = {
+  orderBy?: InputMaybe<Array<EventParticipantsOrderBy>>;
+};
+
+/** The output of our update `Event` mutation. */
+export type UpdateEventPayload = {
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars["String"]["output"]>;
+  /** The `Event` that was updated by this mutation. */
+  event?: Maybe<Event>;
+  /** An edge for our `Event`. May be used by Relay 1. */
+  eventEdge?: Maybe<EventsEdge>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+};
+
+/** The output of our update `Event` mutation. */
+export type UpdateEventPayloadEventEdgeArgs = {
+  orderBy?: InputMaybe<Array<EventsOrderBy>>;
 };
 
 /** All input for the `updateRoleByName` mutation. */
@@ -2311,22 +4483,70 @@ export type UpdateUserPayloadUserEdgeArgs = {
   orderBy?: InputMaybe<Array<UsersOrderBy>>;
 };
 
+/** All input for the `updateUserRoleByNodeId` mutation. */
+export type UpdateUserRoleByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
+  /** The globally unique `ID` which will identify a single `UserRole` to be updated. */
+  nodeId: Scalars["ID"]["input"];
+  /** An object where the defined keys will be set on the `UserRole` being updated. */
+  patch: UserRolePatch;
+};
+
+/** All input for the `updateUserRole` mutation. */
+export type UpdateUserRoleInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
+  /** An object where the defined keys will be set on the `UserRole` being updated. */
+  patch: UserRolePatch;
+  roleId: Scalars["Int"]["input"];
+  userId: Scalars["Int"]["input"];
+};
+
+/** The output of our update `UserRole` mutation. */
+export type UpdateUserRolePayload = {
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars["String"]["output"]>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `Role` that is related to this `UserRole`. */
+  role?: Maybe<Role>;
+  /** Reads a single `UserInfo` that is related to this `UserRole`. */
+  user?: Maybe<UserInfo>;
+  /** The `UserRole` that was updated by this mutation. */
+  userRole?: Maybe<UserRole>;
+  /** An edge for our `UserRole`. May be used by Relay 1. */
+  userRoleEdge?: Maybe<UserRolesEdge>;
+};
+
+/** The output of our update `UserRole` mutation. */
+export type UpdateUserRolePayloadUserRoleEdgeArgs = {
+  orderBy?: InputMaybe<Array<UserRolesOrderBy>>;
+};
+
 export type User = Node & {
   /** Reads and enables pagination through a set of `ClassManagement`. */
   classManagements: ClassManagementsConnection;
-  /** Reads and enables pagination through a set of `ClassType`. */
-  classTypesByClassTeacherIdAndClassTypeId: UserClassTypesByClassTeacherIdAndClassTypeIdManyToManyConnection;
   /** Reads and enables pagination through a set of `Class`. */
-  classesByClassManagementUserIdAndClassId: UserClassesByClassManagementUserIdAndClassIdManyToManyConnection;
+  classes: UserClassesManyToManyConnection;
   /** Reads and enables pagination through a set of `Class`. */
   classesByTeacherId: ClassesConnection;
   createdAt?: Maybe<Scalars["Datetime"]["output"]>;
-  createdDate: Scalars["Datetime"]["output"];
+  createdDate?: Maybe<Scalars["Datetime"]["output"]>;
   id: Scalars["Int"]["output"];
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
   nodeId: Scalars["ID"]["output"];
   updatedAt?: Maybe<Scalars["Datetime"]["output"]>;
-  updatedDate: Scalars["Datetime"]["output"];
+  updatedDate?: Maybe<Scalars["Datetime"]["output"]>;
   /** Reads and enables pagination through a set of `UserAttribute`. */
   userAttributes: UserAttributesConnection;
   /** Reads a single `UserInfo` that is related to this `User`. */
@@ -2350,18 +4570,7 @@ export type UserClassManagementsArgs = {
   orderBy?: InputMaybe<Array<ClassManagementsOrderBy>>;
 };
 
-export type UserClassTypesByClassTeacherIdAndClassTypeIdArgs = {
-  after?: InputMaybe<Scalars["Cursor"]["input"]>;
-  before?: InputMaybe<Scalars["Cursor"]["input"]>;
-  condition?: InputMaybe<ClassTypeCondition>;
-  filter?: InputMaybe<ClassTypeFilter>;
-  first?: InputMaybe<Scalars["Int"]["input"]>;
-  last?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  orderBy?: InputMaybe<Array<ClassTypesOrderBy>>;
-};
-
-export type UserClassesByClassManagementUserIdAndClassIdArgs = {
+export type UserClassesArgs = {
   after?: InputMaybe<Scalars["Cursor"]["input"]>;
   before?: InputMaybe<Scalars["Cursor"]["input"]>;
   condition?: InputMaybe<ClassCondition>;
@@ -2499,45 +4708,10 @@ export type UserAttributesOrderBy =
   | "VALUE_ASC"
   | "VALUE_DESC";
 
-/** A connection to a list of `ClassType` values, with data from `Class`. */
-export type UserClassTypesByClassTeacherIdAndClassTypeIdManyToManyConnection = {
-  /** A list of edges which contains the `ClassType`, info from the `Class`, and the cursor to aid in pagination. */
-  edges: Array<UserClassTypesByClassTeacherIdAndClassTypeIdManyToManyEdge>;
-  /** A list of `ClassType` objects. */
-  nodes: Array<ClassType>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `ClassType` you could get from the connection. */
-  totalCount: Scalars["Int"]["output"];
-};
-
-/** A `ClassType` edge in the connection, with data from `Class`. */
-export type UserClassTypesByClassTeacherIdAndClassTypeIdManyToManyEdge = {
-  /** Reads and enables pagination through a set of `Class`. */
-  classes: ClassesConnection;
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars["Cursor"]["output"]>;
-  /** The `ClassType` at the end of the edge. */
-  node: ClassType;
-};
-
-/** A `ClassType` edge in the connection, with data from `Class`. */
-export type UserClassTypesByClassTeacherIdAndClassTypeIdManyToManyEdgeClassesArgs =
-  {
-    after?: InputMaybe<Scalars["Cursor"]["input"]>;
-    before?: InputMaybe<Scalars["Cursor"]["input"]>;
-    condition?: InputMaybe<ClassCondition>;
-    filter?: InputMaybe<ClassFilter>;
-    first?: InputMaybe<Scalars["Int"]["input"]>;
-    last?: InputMaybe<Scalars["Int"]["input"]>;
-    offset?: InputMaybe<Scalars["Int"]["input"]>;
-    orderBy?: InputMaybe<Array<ClassesOrderBy>>;
-  };
-
 /** A connection to a list of `Class` values, with data from `ClassManagement`. */
-export type UserClassesByClassManagementUserIdAndClassIdManyToManyConnection = {
+export type UserClassesManyToManyConnection = {
   /** A list of edges which contains the `Class`, info from the `ClassManagement`, and the cursor to aid in pagination. */
-  edges: Array<UserClassesByClassManagementUserIdAndClassIdManyToManyEdge>;
+  edges: Array<UserClassesManyToManyEdge>;
   /** A list of `Class` objects. */
   nodes: Array<Class>;
   /** Information to aid in pagination. */
@@ -2547,7 +4721,7 @@ export type UserClassesByClassManagementUserIdAndClassIdManyToManyConnection = {
 };
 
 /** A `Class` edge in the connection, with data from `ClassManagement`. */
-export type UserClassesByClassManagementUserIdAndClassIdManyToManyEdge = {
+export type UserClassesManyToManyEdge = {
   /** A cursor for use in pagination. */
   cursor?: Maybe<Scalars["Cursor"]["output"]>;
   /** The `Class` at the end of the edge. */
@@ -2593,24 +4767,50 @@ export type UserFilter = {
 };
 
 export type UserInfo = Node & {
-  avatarUrl: Scalars["String"]["output"];
+  avatarUrl?: Maybe<Scalars["String"]["output"]>;
   dateOfBirth?: Maybe<Scalars["Datetime"]["output"]>;
-  email: Scalars["String"]["output"];
-  firstName: Scalars["String"]["output"];
+  email?: Maybe<Scalars["String"]["output"]>;
+  /** Reads and enables pagination through a set of `EventParticipant`. */
+  eventParticipantsByUserId: EventParticipantsConnection;
+  /** Reads and enables pagination through a set of `Event`. */
+  events: UserInfoEventsManyToManyConnection;
+  firstName?: Maybe<Scalars["String"]["output"]>;
   id: Scalars["Int"]["output"];
-  lastName: Scalars["String"]["output"];
+  lastName?: Maybe<Scalars["String"]["output"]>;
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
   nodeId: Scalars["ID"]["output"];
-  phoneNumber: Scalars["String"]["output"];
+  phoneNumber?: Maybe<Scalars["String"]["output"]>;
   /** Reads and enables pagination through a set of `Role`. */
-  rolesByUserRoleUserIdAndRoleId: UserInfoRolesByUserRoleUserIdAndRoleIdManyToManyConnection;
+  roles: UserInfoRolesManyToManyConnection;
   /** Reads a single `User` that is related to this `UserInfo`. */
   userById?: Maybe<User>;
   /** Reads and enables pagination through a set of `UserRole`. */
   userRolesByUserId: UserRolesConnection;
 };
 
-export type UserInfoRolesByUserRoleUserIdAndRoleIdArgs = {
+export type UserInfoEventParticipantsByUserIdArgs = {
+  after?: InputMaybe<Scalars["Cursor"]["input"]>;
+  before?: InputMaybe<Scalars["Cursor"]["input"]>;
+  condition?: InputMaybe<EventParticipantCondition>;
+  filter?: InputMaybe<EventParticipantFilter>;
+  first?: InputMaybe<Scalars["Int"]["input"]>;
+  last?: InputMaybe<Scalars["Int"]["input"]>;
+  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  orderBy?: InputMaybe<Array<EventParticipantsOrderBy>>;
+};
+
+export type UserInfoEventsArgs = {
+  after?: InputMaybe<Scalars["Cursor"]["input"]>;
+  before?: InputMaybe<Scalars["Cursor"]["input"]>;
+  condition?: InputMaybe<EventCondition>;
+  filter?: InputMaybe<EventFilter>;
+  first?: InputMaybe<Scalars["Int"]["input"]>;
+  last?: InputMaybe<Scalars["Int"]["input"]>;
+  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  orderBy?: InputMaybe<Array<EventsOrderBy>>;
+};
+
+export type UserInfoRolesArgs = {
   after?: InputMaybe<Scalars["Cursor"]["input"]>;
   before?: InputMaybe<Scalars["Cursor"]["input"]>;
   condition?: InputMaybe<RoleCondition>;
@@ -2653,6 +4853,26 @@ export type UserInfoCondition = {
   phoneNumber?: InputMaybe<Scalars["String"]["input"]>;
 };
 
+/** A connection to a list of `Event` values, with data from `EventParticipant`. */
+export type UserInfoEventsManyToManyConnection = {
+  /** A list of edges which contains the `Event`, info from the `EventParticipant`, and the cursor to aid in pagination. */
+  edges: Array<UserInfoEventsManyToManyEdge>;
+  /** A list of `Event` objects. */
+  nodes: Array<Event>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `Event` you could get from the connection. */
+  totalCount: Scalars["Int"]["output"];
+};
+
+/** A `Event` edge in the connection, with data from `EventParticipant`. */
+export type UserInfoEventsManyToManyEdge = {
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars["Cursor"]["output"]>;
+  /** The `Event` at the end of the edge. */
+  node: Event;
+};
+
 /** A filter to be used against `UserInfo` object types. All fields are combined with a logical ‘and.’ */
 export type UserInfoFilter = {
   /** Checks for all expressions in this list. */
@@ -2679,13 +4899,13 @@ export type UserInfoFilter = {
 
 /** An input for mutations affecting `UserInfo` */
 export type UserInfoInput = {
-  avatarUrl: Scalars["String"]["input"];
+  avatarUrl?: InputMaybe<Scalars["String"]["input"]>;
   dateOfBirth?: InputMaybe<Scalars["Datetime"]["input"]>;
-  email: Scalars["String"]["input"];
-  firstName: Scalars["String"]["input"];
+  email?: InputMaybe<Scalars["String"]["input"]>;
+  firstName?: InputMaybe<Scalars["String"]["input"]>;
   id: Scalars["Int"]["input"];
-  lastName: Scalars["String"]["input"];
-  phoneNumber: Scalars["String"]["input"];
+  lastName?: InputMaybe<Scalars["String"]["input"]>;
+  phoneNumber?: InputMaybe<Scalars["String"]["input"]>;
 };
 
 /** Represents an update to a `UserInfo`. Fields that are set will be updated. */
@@ -2700,9 +4920,9 @@ export type UserInfoPatch = {
 };
 
 /** A connection to a list of `Role` values, with data from `UserRole`. */
-export type UserInfoRolesByUserRoleUserIdAndRoleIdManyToManyConnection = {
+export type UserInfoRolesManyToManyConnection = {
   /** A list of edges which contains the `Role`, info from the `UserRole`, and the cursor to aid in pagination. */
-  edges: Array<UserInfoRolesByUserRoleUserIdAndRoleIdManyToManyEdge>;
+  edges: Array<UserInfoRolesManyToManyEdge>;
   /** A list of `Role` objects. */
   nodes: Array<Role>;
   /** Information to aid in pagination. */
@@ -2712,27 +4932,12 @@ export type UserInfoRolesByUserRoleUserIdAndRoleIdManyToManyConnection = {
 };
 
 /** A `Role` edge in the connection, with data from `UserRole`. */
-export type UserInfoRolesByUserRoleUserIdAndRoleIdManyToManyEdge = {
+export type UserInfoRolesManyToManyEdge = {
   /** A cursor for use in pagination. */
   cursor?: Maybe<Scalars["Cursor"]["output"]>;
   /** The `Role` at the end of the edge. */
   node: Role;
-  /** Reads and enables pagination through a set of `UserRole`. */
-  userRoles: UserRolesConnection;
 };
-
-/** A `Role` edge in the connection, with data from `UserRole`. */
-export type UserInfoRolesByUserRoleUserIdAndRoleIdManyToManyEdgeUserRolesArgs =
-  {
-    after?: InputMaybe<Scalars["Cursor"]["input"]>;
-    before?: InputMaybe<Scalars["Cursor"]["input"]>;
-    condition?: InputMaybe<UserRoleCondition>;
-    filter?: InputMaybe<UserRoleFilter>;
-    first?: InputMaybe<Scalars["Int"]["input"]>;
-    last?: InputMaybe<Scalars["Int"]["input"]>;
-    offset?: InputMaybe<Scalars["Int"]["input"]>;
-    orderBy?: InputMaybe<Array<UserRolesOrderBy>>;
-  };
 
 /** A connection to a list of `UserInfo` values. */
 export type UserInfosConnection = {
@@ -2778,7 +4983,7 @@ export type UserInfosOrderBy =
 export type UserInput = {
   createdAt?: InputMaybe<Scalars["Datetime"]["input"]>;
   createdDate?: InputMaybe<Scalars["Datetime"]["input"]>;
-  id?: InputMaybe<Scalars["Int"]["input"]>;
+  id: Scalars["Int"]["input"];
   updatedAt?: InputMaybe<Scalars["Datetime"]["input"]>;
   updatedDate?: InputMaybe<Scalars["Datetime"]["input"]>;
   username: Scalars["String"]["input"];
@@ -2794,7 +4999,9 @@ export type UserPatch = {
   username?: InputMaybe<Scalars["String"]["input"]>;
 };
 
-export type UserRole = {
+export type UserRole = Node & {
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars["ID"]["output"];
   /** Reads a single `Role` that is related to this `UserRole`. */
   role?: Maybe<Role>;
   roleId: Scalars["Int"]["output"];
@@ -2834,6 +5041,12 @@ export type UserRoleInput = {
   userId: Scalars["Int"]["input"];
 };
 
+/** Represents an update to a `UserRole`. Fields that are set will be updated. */
+export type UserRolePatch = {
+  roleId?: InputMaybe<Scalars["Int"]["input"]>;
+  userId?: InputMaybe<Scalars["Int"]["input"]>;
+};
+
 /** A connection to a list of `UserRole` values. */
 export type UserRolesConnection = {
   /** A list of edges which contains the `UserRole` and cursor to aid in pagination. */
@@ -2857,6 +5070,8 @@ export type UserRolesEdge = {
 /** Methods to use when ordering `UserRole`. */
 export type UserRolesOrderBy =
   | "NATURAL"
+  | "PRIMARY_KEY_ASC"
+  | "PRIMARY_KEY_DESC"
   | "ROLE_ID_ASC"
   | "ROLE_ID_DESC"
   | "USER_ID_ASC"

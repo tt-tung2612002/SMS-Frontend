@@ -1,3 +1,5 @@
+import { EventCategoriesManyToManyConnection } from "./new/schema.types";
+
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = {
@@ -2210,6 +2212,8 @@ export type DeleteOneUserSubscriptionFilterInput = {
 };
 
 export type Event = {
+  categories: EventCategoriesManyToManyConnection;
+  nodeId: Scalars["ID"]["output"];
   category: EventCategory;
   color: Scalars["String"]["output"];
   createdAt: Scalars["DateTime"]["output"];

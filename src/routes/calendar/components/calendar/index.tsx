@@ -9,11 +9,11 @@ import { Button, Card, Grid, Radio } from "antd";
 import dayjs from "dayjs";
 
 import { Text } from "@/components";
-import { Event } from "@/graphql/schema.types";
-import { CalendarEventsQuery } from "@/graphql/types";
+import { Event } from "@/graphql/new/schema.types";
+import { CalendarEventsQuery } from "@/graphql/new/temp";
 
+import { NEW_CALENDAR_EVENTS_QUERY } from "./getEvents";
 import styles from "./index.module.css";
-import { CALENDAR_EVENTS_QUERY } from "./queries";
 
 const FullCalendarWrapper = lazy(() => import("./full-calendar"));
 
@@ -55,16 +55,17 @@ export const Calendar: React.FC<CalendarProps> = ({
     pagination: {
       mode: "off",
     },
-    filters: [
-      {
-        field: "category.id",
-        operator: "in",
-        value: categoryId?.length ? categoryId : undefined,
-      },
-    ],
+    // filters: [
+    //   {
+    //     field: "category.id",
+    //     operator: "in",
+    //     value: categoryId?.length ? categoryId : undefined,
+    //   },
+    // ],
     meta: {
-      gqlQuery: CALENDAR_EVENTS_QUERY,
+      gqlQuery: NEW_CALENDAR_EVENTS_QUERY,
     },
+    dataProviderName: "local"
   });
 
   const events = (data?.data ?? []).map(
