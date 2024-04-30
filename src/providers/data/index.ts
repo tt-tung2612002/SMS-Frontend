@@ -1,6 +1,7 @@
 import { BaseRecord, LogicalFilter } from "@refinedev/core";
 import { VariableOptions } from "@refinedev/core/dist/interfaces/metaData/variableOptions";
 import graphqlDataProvider, { GraphQLClient } from "@refinedev/nestjs-query";
+import dataProvider from "@refinedev/simple-rest";
 
 import camelcase from "camelcase";
 import * as gql from "gql-query-builder";
@@ -19,6 +20,7 @@ import {
 export const API_BASE_URL = "https://api.crm.refine.dev";
 export const API_URL = API_BASE_URL + "/graphql";
 export const LOCAL_URL = "http://localhost:5000" + "/graphql";
+export const REST_URL = "http://localhost:8080";
 // export const WS_URL = "ws://localhost:5000/graphql";
 
 export const client = new GraphQLClient(API_URL, {
@@ -74,7 +76,7 @@ export const localClient = new GraphQLClient(LOCAL_URL, {
 //   }),
 // });
 
-export const dataProvider = graphqlDataProvider(client);
+export const refineProvider = graphqlDataProvider(client);
 export const localDataProvider = (() => {
   const provider = graphqlDataProvider(localClient);
   provider.getList = async ({
@@ -284,3 +286,5 @@ export const localDataProvider = (() => {
 
   return provider;
 })();
+
+export const restProvider = dataProvider(REST_URL);

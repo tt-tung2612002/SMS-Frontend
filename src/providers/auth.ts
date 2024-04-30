@@ -3,7 +3,7 @@ import { AuthProvider } from "@refinedev/core";
 import type { User } from "@/graphql/schema.types";
 import { disableAutoLogin, enableAutoLogin } from "@/hooks";
 
-import { API_BASE_URL, API_URL, client, dataProvider } from "./data";
+import { API_BASE_URL, API_URL, client, refineProvider } from "./data";
 
 export const emails = [
   // "michael.scott@dundermifflin.com",
@@ -56,7 +56,7 @@ export const authProvider: AuthProvider = {
     }
 
     try {
-      const { data } = await dataProvider.custom({
+      const { data } = await refineProvider.custom({
         url: API_URL,
         method: "post",
         headers: {},
@@ -99,7 +99,7 @@ export const authProvider: AuthProvider = {
   },
   register: async ({ email, password }) => {
     try {
-      await dataProvider.custom({
+      await refineProvider.custom({
         url: API_URL,
         method: "post",
         headers: {},
@@ -160,7 +160,7 @@ export const authProvider: AuthProvider = {
   },
   check: async () => {
     try {
-      await dataProvider.custom({
+      await refineProvider.custom({
         url: API_URL,
         method: "post",
         headers: {},
@@ -198,7 +198,7 @@ export const authProvider: AuthProvider = {
   },
   getIdentity: async () => {
     try {
-      const { data } = await dataProvider.custom<{ me: User }>({
+      const { data } = await refineProvider.custom<{ me: User }>({
         url: API_URL,
         method: "post",
         headers: {},

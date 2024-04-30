@@ -1,39 +1,42 @@
+/* eslint-disable simple-import-sort/imports */
 import React from "react";
-import { useLocation, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 
-import { useModalForm } from "@refinedev/antd";
-import { HttpError, useGetToPath, useGo } from "@refinedev/core";
-import { GetFields, GetVariables } from "@refinedev/nestjs-query";
+import { getValueFromEvent, useFileUploadState, useModalForm } from "@refinedev/antd";
+import { HttpError, file2Base64, useApiUrl, useGetToPath, useGo } from "@refinedev/core";
+import { GetFields } from "@refinedev/nestjs-query";
 
 import { LeftOutlined } from "@ant-design/icons";
 import MDEditor from "@uiw/react-md-editor";
-import { Form, Input, Modal, Select } from "antd";
+import { Form, Input, Modal, Select, Upload } from "antd";
+import message from "antd/lib/message";
+import axios from "axios";
 
 import { SelectOptionWithAvatar } from "@/components";
 import {
   CreateClassMutation,
-  CreateClassMutationVariables,
 } from "@/graphql/new/types";
 import { useUsersSelect } from "@/hooks/useUsersSelect";
 
 import { CLASS_CREATE_MUTATION } from "./queries/createClass";
 
-type Class = GetFields<CreateClassMutation>;
+
+// type Class = GetFields<CreateClassMutation>;
 
 type Props = {
   isOverModal?: boolean;
 };
 
-type FormValues = GetVariables<CreateClassMutationVariables> & {
-  class: {
-    name: string;
-  }[];
-};
+// type FormValues = GetVariables<CreateClassMutationVariables> & {
+//   class: {
+//     name: string;
+//   }[];
+// };
 
 export const CompanyCreatePage = ({ isOverModal }: Props) => {
   const getToPath = useGetToPath();
   const [searchParams] = useSearchParams();
-  const { pathname } = useLocation();
+  // const { pathname } = useLocation();
   const go = useGo();
   const [value, setValue] = React.useState("");
   const { formProps, modalProps, close } = useModalForm<
@@ -55,6 +58,19 @@ export const CompanyCreatePage = ({ isOverModal }: Props) => {
 
   const { selectProps, queryResult } = useUsersSelect();
   const users = queryResult?.data?.data ?? [];
+  const {  onChange } = useFileUploadState();
+  const apiUrl = useApiUrl("rest");
+    const handleRemove = async (file: { name: string; }) => {
+        try {
+            // Make a DELETE request to remove the file on the server
+            await axios.delete(`${apiUrl}/files/${file.name}`);
+            message.success('File removed successfully');
+            return true; // Return true to remove the file from the list in UI
+        } catch (error) {
+            message.error('Failed to remove the file');
+            return false; // Return false to keep the file in the list in UI
+        }
+    };
 
   // const { mutateAsync: createManyMutateAsync } = useCreateMany();
   return (
@@ -86,6 +102,29 @@ export const CompanyCreatePage = ({ isOverModal }: Props) => {
       <Form
         {...formProps}
         layout="vertical"
+        onFinish={async (values) => {
+          const base64Files = []; 
+          const avatar = values.logoUrl;
+          const file = avatar[0];
+          let base64String = "";
+              if (file.originFileObj) {
+    //             console.log(file);
+                base64String = await file2Base64(file);
+
+    //             base64Files.push({
+    //               ...file,
+    //               base64String,
+    //             });
+    //           } else {
+    //             base64Files.push(file);
+              }
+
+          return formProps.onFinish?.({
+            ...values,
+            logoUrl: base64String,
+          });
+
+        }}
         // onFinish={async (values) => {
         //   try {
 
@@ -155,6 +194,47 @@ export const CompanyCreatePage = ({ isOverModal }: Props) => {
               })) ?? []
             }
           />
+        </Form.Item>
+         <Form.Item label="Logo">
+          <Form.Item
+            name="logoUrl"
+            valuePropName="fileList"
+            getValueFromEvent={getValueFromEvent}
+            noStyle
+            rules={[
+              {
+                required: false,
+              },
+            ]}
+          >
+            <Upload.Dragger
+              listType="picture"
+              multiple
+              beforeUpload={() => false}
+            >
+              <p className="ant-upload-text">Drag & drop a file in this area</p>
+            </Upload.Dragger>
+          </Form.Item>
+        </Form.Item>
+         <Form.Item label="Attachments">
+          <Form.Item
+            name="image"
+            valuePropName="fileList"
+            getValueFromEvent={getValueFromEvent}
+            noStyle
+          >
+            <Upload.Dragger
+              name="file"
+              action={`${apiUrl}/upload`}
+              listType="picture"
+              maxCount={5}
+              multiple
+              onChange={onChange}
+              onRemove={handleRemove}
+            >
+              <p className="ant-upload-text">Drag & drop a file in this area</p>
+            </Upload.Dragger>
+          </Form.Item>
         </Form.Item>
         {/* <Form.List name="contacts">
           {(fields, { add, remove }) => (

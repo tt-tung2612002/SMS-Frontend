@@ -47,7 +47,7 @@ export const ContactShowPage = () => {
   const currentClass = data?.data;
   // const currentClass = queryResult?.data?.data?.class;
   const loading = queryResult?.isLoading;
-  console.log(data);
+  // console.log(data);
 
   return (
     <Form {...formProps}>

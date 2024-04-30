@@ -187,6 +187,7 @@ export type Class = Node & {
   teacherId?: Maybe<Scalars["Int"]["output"]>;
   /** Reads and enables pagination through a set of `User`. */
   users: ClassUsersManyToManyConnection;
+  students: ClassUsersManyToManyConnection;
 };
 
 export type ClassClassManagementsArgs = {
@@ -4774,7 +4775,7 @@ export type UserInfo = Node & {
   eventParticipantsByUserId: EventParticipantsConnection;
   /** Reads and enables pagination through a set of `Event`. */
   events: UserInfoEventsManyToManyConnection;
-  firstName?: Maybe<Scalars["String"]["output"]>;
+  firstName: Scalars["String"]["output"];
   id: Scalars["Int"]["output"];
   lastName?: Maybe<Scalars["String"]["output"]>;
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
