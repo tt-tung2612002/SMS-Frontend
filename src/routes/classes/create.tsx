@@ -2,8 +2,18 @@
 import React from "react";
 import { useSearchParams } from "react-router-dom";
 
-import { getValueFromEvent, useFileUploadState, useModalForm } from "@refinedev/antd";
-import { HttpError, file2Base64, useApiUrl, useGetToPath, useGo } from "@refinedev/core";
+import {
+  getValueFromEvent,
+  useFileUploadState,
+  useModalForm,
+} from "@refinedev/antd";
+import {
+  HttpError,
+  file2Base64,
+  useApiUrl,
+  useGetToPath,
+  useGo,
+} from "@refinedev/core";
 import { GetFields } from "@refinedev/nestjs-query";
 
 import { LeftOutlined } from "@ant-design/icons";
@@ -13,13 +23,10 @@ import message from "antd/lib/message";
 import axios from "axios";
 
 import { SelectOptionWithAvatar } from "@/components";
-import {
-  CreateClassMutation,
-} from "@/graphql/new/types";
+import { CreateClassMutation } from "@/graphql/new/types";
 import { useUsersSelect } from "@/hooks/useUsersSelect";
 
 import { CLASS_CREATE_MUTATION } from "./queries/createClass";
-
 
 // type Class = GetFields<CreateClassMutation>;
 
@@ -42,7 +49,6 @@ export const CompanyCreatePage = ({ isOverModal }: Props) => {
   const { formProps, modalProps, close } = useModalForm<
     GetFields<CreateClassMutation>,
     HttpError
-    // FormValues
   >({
     action: "create",
     defaultVisible: true,
@@ -58,19 +64,19 @@ export const CompanyCreatePage = ({ isOverModal }: Props) => {
 
   const { selectProps, queryResult } = useUsersSelect();
   const users = queryResult?.data?.data ?? [];
-  const {  onChange } = useFileUploadState();
+  const { onChange } = useFileUploadState();
   const apiUrl = useApiUrl("rest");
-    const handleRemove = async (file: { name: string; }) => {
-        try {
-            // Make a DELETE request to remove the file on the server
-            await axios.delete(`${apiUrl}/files/${file.name}`);
-            message.success('File removed successfully');
-            return true; // Return true to remove the file from the list in UI
-        } catch (error) {
-            message.error('Failed to remove the file');
-            return false; // Return false to keep the file in the list in UI
-        }
-    };
+  const handleRemove = async (file: { name: string }) => {
+    try {
+      // Make a DELETE request to remove the file on the server
+      await axios.delete(`${apiUrl}/files/${file.name}`);
+      message.success("File removed successfully");
+      return true; // Return true to remove the file from the list in UI
+    } catch (error) {
+      message.error("Failed to remove the file");
+      return false; // Return false to keep the file in the list in UI
+    }
+  };
 
   // const { mutateAsync: createManyMutateAsync } = useCreateMany();
   return (
@@ -103,27 +109,25 @@ export const CompanyCreatePage = ({ isOverModal }: Props) => {
         {...formProps}
         layout="vertical"
         onFinish={async (values) => {
-          const base64Files = []; 
-          const avatar = values.logoUrl;
+          const base64Files = [];
           const file = avatar[0];
           let base64String = "";
-              if (file.originFileObj) {
-    //             console.log(file);
-                base64String = await file2Base64(file);
+          if (file.originFileObj) {
+            //             console.log(file);
+            base64String = await file2Base64(file);
 
-    //             base64Files.push({
-    //               ...file,
-    //               base64String,
-    //             });
-    //           } else {
-    //             base64Files.push(file);
-              }
+            //             base64Files.push({
+            //               ...file,
+            //               base64String,
+            //             });
+            //           } else {
+            //             base64Files.push(file);
+          }
 
           return formProps.onFinish?.({
             ...values,
             logoUrl: base64String,
           });
-
         }}
         // onFinish={async (values) => {
         //   try {
@@ -195,7 +199,7 @@ export const CompanyCreatePage = ({ isOverModal }: Props) => {
             }
           />
         </Form.Item>
-         <Form.Item label="Logo">
+        <Form.Item label="Logo">
           <Form.Item
             name="logoUrl"
             valuePropName="fileList"
@@ -216,7 +220,7 @@ export const CompanyCreatePage = ({ isOverModal }: Props) => {
             </Upload.Dragger>
           </Form.Item>
         </Form.Item>
-         <Form.Item label="Attachments">
+        <Form.Item label="Attachments">
           <Form.Item
             name="image"
             valuePropName="fileList"

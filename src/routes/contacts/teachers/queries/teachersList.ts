@@ -4,7 +4,7 @@ export const TEACHER_LIST_QUERY = gql`
   query StudentsList($filter: UserInfoFilter!) {
     roles(condition: { name: "teacher" }) {
       nodes {
-        teachers: userInfosByUserRoleRoleIdAndUserId(filter: $filter) {
+        teachers: userInfos(filter: $filter) {
           nodes {
             id
             firstName

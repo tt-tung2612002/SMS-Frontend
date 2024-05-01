@@ -1,139 +1,66 @@
-import { FC, useMemo } from "react";
+import { FC } from "react";
 import { useParams } from "react-router-dom";
 
-import {
-  FilterDropdown,
-  SaveButton,
-  ShowButton,
-  useTable,
-} from "@refinedev/antd";
-import { HttpError, useCreateMany, useOne } from "@refinedev/core";
-import { GetFields, GetFieldsFromList } from "@refinedev/nestjs-query";
+import { useTable } from "@refinedev/antd";
+import { HttpError } from "@refinedev/core";
+import { GetFieldsFromList } from "@refinedev/nestjs-query";
 
-import {
-  DeleteOutlined,
-  ExportOutlined,
-  MailOutlined,
-  PhoneOutlined,
-  PlusCircleOutlined,
-  SearchOutlined,
-  TeamOutlined,
-  UserOutlined,
-} from "@ant-design/icons";
-import {
-  Button,
-  Card,
-  Col,
-  Form,
-  Input,
-  Row,
-  Select,
-  Space,
-  Table,
-} from "antd";
+import { TeamOutlined } from "@ant-design/icons";
+import { Card, Space, Table } from "antd";
 
-import { ContactStatusTag, CustomAvatar, Text } from "@/components";
+import { CustomAvatar, Text } from "@/components";
+import { UserInfo } from "@/graphql/new/schema.types";
+import { StudentsListQuery } from "@/graphql/new/types";
 import { ContactCreateInput } from "@/graphql/schema.types";
-import {
-  CompanyContactsGetCompanyQuery,
-  CompanyContactsTableQuery,
-} from "@/graphql/types";
-
-import {
-  COMPANY_CONTACTS_GET_COMPANY_QUERY,
-  COMPANY_CONTACTS_TABLE_QUERY,
-} from "./queries";
+import { CompanyContactsTableQuery } from "@/graphql/types";
+import { STUDENTS_LIST_QUERY } from "@/routes/contacts/students/queries/studentsList";
 
 type Contact = GetFieldsFromList<CompanyContactsTableQuery>;
 
 export const CompanyContactsTable: FC = () => {
-  const params = useParams();
+  const { id } = useParams();
 
-  const { tableProps, filters, setFilters } = useTable<Contact>({
-    resource: "contacts",
-    syncWithLocation: false,
-    sorters: {
-      initial: [
-        {
-          field: "createdAt",
-          order: "desc",
-        },
-      ],
-    },
-    filters: {
-      initial: [
-        {
-          field: "jobTitle",
-          value: "",
-          operator: "contains",
-        },
-        {
-          field: "name",
-          value: "",
-          operator: "contains",
-        },
-        {
-          field: "status",
-          value: undefined,
-          operator: "in",
-        },
-      ],
-      permanent: [
-        {
-          field: "company.id",
-          operator: "eq",
-          value: params.id,
-        },
-      ],
-    },
-    meta: {
-      gqlQuery: COMPANY_CONTACTS_TABLE_QUERY,
-    },
-  });
 
-  const hasData = tableProps.loading
-    ? true
-    : tableProps?.dataSource?.length || 0 > 0;
 
-  const showResetFilters = useMemo(() => {
-    return filters?.filter((filter) => {
-      if ("field" in filter && filter.field === "company.id") {
-        return false;
-      }
+  // const showResetFilters = useMemo(() => {
+  //   return filters?.filter((filter) => {
+  //     if ("field" in filter && filter.field === "company.id") {
+  //       return false;
+  //     }
 
-      if (!filter.value) {
-        return false;
-      }
+  //     if (!filter.value) {
+  //       return false;
+  //     }
 
-      return true;
-    });
-  }, [filters]);
+  //     return true;
+  //   });
+  // }, [filters]);
 
   return (
     <Card
-      headStyle={{
-        borderBottom: "1px solid #D9D9D9",
-        marginBottom: "1px",
-      }}
-      bodyStyle={{ padding: 0 }}
+      // headStyle={{
+      //   borderBottom: "1px solid #D9D9D9",
+      //   marginBottom: "1px",
+      // }}
+      // bodyStyle={{ padding: 0 }}
       title={
         <Space size="middle">
           <TeamOutlined />
-          <Text>Contacts</Text>
+          <Text>Students</Text>
 
-          {showResetFilters?.length > 0 && (
+          {/* {showResetFilters?.length > 0 && (
             <Button size="small" onClick={() => setFilters([], "replace")}>
               Reset filters
             </Button>
-          )}
+          )} */}
         </Space>
       }
-      actions={[<ContactForm key="1" />]}
+      // actions={[<ContactForm key="1" />]}
       extra={
         <>
-          <Text className="tertiary">Total contacts: </Text>
+          <Text className="tertiary">Total students: </Text>
           <Text strong>
-            {tableProps?.pagination !== false && tableProps.pagination?.total}
+            {data}
           </Text>
         </>
       }
@@ -157,41 +84,29 @@ export const CompanyContactsTable: FC = () => {
             showSizeChanger: false,
           }}
         >
-          <Table.Column<Contact>
+          <Table.Column<UserInfo>
             title="Name"
-            dataIndex="name"
+            dataIndex="firstName"
             render={(_, record) => {
               return (
                 <Space>
-                  <CustomAvatar name={record.name} src={record.avatarUrl} />
+                  <CustomAvatar
+                    name={record.firstName}
+                    src={record.avatarUrl}
+                  />
                   <Text
                     style={{
                       whiteSpace: "nowrap",
                     }}
                   >
-                    {record.name}
+                    {record.firstName}
                   </Text>
                 </Space>
               );
             }}
-            filterIcon={<SearchOutlined />}
-            filterDropdown={(props) => (
-              <FilterDropdown {...props}>
-                <Input placeholder="Search Name" />
-              </FilterDropdown>
-            )}
           />
-          <Table.Column
-            title="Title"
-            dataIndex="jobTitle"
-            filterIcon={<SearchOutlined />}
-            filterDropdown={(props) => (
-              <FilterDropdown {...props}>
-                <Input placeholder="Search Title" />
-              </FilterDropdown>
-            )}
-          />
-          <Table.Column<Contact>
+          <Table.Column title="Email" dataIndex="email" />
+          {/* <Table.Column<Contact>
             title="Stage"
             dataIndex="status"
             render={(_, record) => {
@@ -234,7 +149,7 @@ export const CompanyContactsTable: FC = () => {
                 </Space>
               );
             }}
-          />
+          /> */}
         </Table>
       )}
     </Card>
@@ -245,168 +160,168 @@ type ContactFormValues = {
   contacts: ContactCreateInput[];
 };
 
-const ContactForm = () => {
-  const { id = "" } = useParams();
+// const ContactForm = () => {
+//   const { id } = useParams();
 
-  const { data } = useOne<GetFields<CompanyContactsGetCompanyQuery>>({
-    id,
-    resource: "companies",
-    meta: {
-      gqlQuery: COMPANY_CONTACTS_GET_COMPANY_QUERY,
-    },
-  });
+//   const { data } = useOne<GetFields<CompanyContactsGetCompanyQuery>>({
+//     id,
+//     resource: "companies",
+//     meta: {
+//       gqlQuery: COMPANY_CONTACTS_GET_COMPANY_QUERY,
+//     },
+//   });
 
-  const [form] = Form.useForm<ContactFormValues>();
-  const contacts = Form.useWatch("contacts", form);
+//   const [form] = Form.useForm<ContactFormValues>();
+//   const contacts = Form.useWatch("contacts", form);
 
-  const { mutateAsync } = useCreateMany<
-    Contact,
-    HttpError,
-    ContactCreateInput
-  >();
+//   const { mutateAsync } = useCreateMany<
+//     Contact,
+//     HttpError,
+//     ContactCreateInput
+//   >();
 
-  const handleOnFinish = async (args: ContactFormValues) => {
-    form.validateFields();
+//   const handleOnFinish = async (args: ContactFormValues) => {
+//     form.validateFields();
 
-    const contacts = args.contacts.map((contact) => ({
-      ...contact,
-      companyId: id,
-      salesOwnerId: data?.data.salesOwner?.id || "",
-    }));
+//     const contacts = args.contacts.map((contact) => ({
+//       ...contact,
+//       companyId: id,
+//       salesOwnerId: data?.data.salesOwner?.id || "",
+//     }));
 
-    await mutateAsync({
-      resource: "students",
-      values: contacts,
-      successNotification: false,
-    });
+//     await mutateAsync({
+//       resource: "students",
+//       values: contacts,
+//       successNotification: false,
+//     });
 
-    form.resetFields();
-  };
+//     form.resetFields();
+//   };
 
-  const { hasContacts } = useMemo(() => {
-    const hasContacts = contacts?.length > 0;
+//   const { hasContacts } = useMemo(() => {
+//     const hasContacts = contacts?.length > 0;
 
-    return {
-      hasContacts,
-    };
-  }, [contacts]);
+//     return {
+//       hasContacts,
+//     };
+//   }, [contacts]);
 
-  return (
-    <Form form={form} onFinish={handleOnFinish}>
-      <Form.List name="contacts">
-        {(fields, { add, remove }) => {
-          return (
-            <div
-              style={{
-                display: "flex",
-                alignItems: "flex-start ",
-                flexDirection: "column",
-                gap: "16px",
-                padding: "4px 16px",
-              }}
-            >
-              {fields.map(({ key, name, ...restField }) => {
-                return (
-                  <Row
-                    key={key}
-                    gutter={12}
-                    align="top"
-                    style={{
-                      width: "100%",
-                    }}
-                  >
-                    <Col span={11}>
-                      <Form.Item
-                        {...restField}
-                        style={{
-                          marginBottom: 0,
-                        }}
-                        rules={[
-                          {
-                            required: true,
-                            message: "Please enter contact name",
-                          },
-                        ]}
-                        name={[name, "name"]}
-                      >
-                        <Input
-                          addonBefore={<UserOutlined />}
-                          placeholder="Contact name"
-                        />
-                      </Form.Item>
-                    </Col>
-                    <Col span={11}>
-                      <Form.Item
-                        required
-                        style={{
-                          marginBottom: 0,
-                        }}
-                        rules={[
-                          {
-                            required: true,
-                            message: "Please enter contact e-mail",
-                          },
-                        ]}
-                        name={[name, "email"]}
-                      >
-                        <Input
-                          addonBefore={<MailOutlined />}
-                          placeholder="Contact email"
-                        />
-                      </Form.Item>
-                    </Col>
-                    <Col span={2}>
-                      <Button
-                        icon={<DeleteOutlined />}
-                        onClick={() => remove(name)}
-                      />
-                    </Col>
-                  </Row>
-                );
-              })}
-              <Button
-                type="link"
-                icon={<PlusCircleOutlined />}
-                onClick={() => add()}
-                style={{
-                  marginBottom: hasContacts ? 16 : 0,
-                }}
-              >
-                Add new contact
-              </Button>
-            </div>
-          );
-        }}
-      </Form.List>
-      {hasContacts && (
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "flex-end",
-            gap: "8px",
-            padding: "16px",
-            borderTop: "1px solid #D9D9D9",
-          }}
-        >
-          <Button
-            size="large"
-            type="default"
-            onClick={() => {
-              form.resetFields();
-            }}
-          >
-            Cancel
-          </Button>
-          <SaveButton
-            size="large"
-            icon={undefined}
-            onClick={() => form.submit()}
-          />
-        </div>
-      )}
-    </Form>
-  );
-};
+//   return (
+//     <Form form={form} onFinish={handleOnFinish}>
+//       <Form.List name="contacts">
+//         {(fields, { add, remove }) => {
+//           return (
+//             <div
+//               style={{
+//                 display: "flex",
+//                 alignItems: "flex-start ",
+//                 flexDirection: "column",
+//                 gap: "16px",
+//                 padding: "4px 16px",
+//               }}
+//             >
+//               {fields.map(({ key, name, ...restField }) => {
+//                 return (
+//                   <Row
+//                     key={key}
+//                     gutter={12}
+//                     align="top"
+//                     style={{
+//                       width: "100%",
+//                     }}
+//                   >
+//                     <Col span={11}>
+//                       <Form.Item
+//                         {...restField}
+//                         style={{
+//                           marginBottom: 0,
+//                         }}
+//                         rules={[
+//                           {
+//                             required: true,
+//                             message: "Please enter contact name",
+//                           },
+//                         ]}
+//                         name={[name, "name"]}
+//                       >
+//                         <Input
+//                           addonBefore={<UserOutlined />}
+//                           placeholder="Contact name"
+//                         />
+//                       </Form.Item>
+//                     </Col>
+//                     <Col span={11}>
+//                       <Form.Item
+//                         required
+//                         style={{
+//                           marginBottom: 0,
+//                         }}
+//                         rules={[
+//                           {
+//                             required: true,
+//                             message: "Please enter contact e-mail",
+//                           },
+//                         ]}
+//                         name={[name, "email"]}
+//                       >
+//                         <Input
+//                           addonBefore={<MailOutlined />}
+//                           placeholder="Contact email"
+//                         />
+//                       </Form.Item>
+//                     </Col>
+//                     <Col span={2}>
+//                       <Button
+//                         icon={<DeleteOutlined />}
+//                         onClick={() => remove(name)}
+//                       />
+//                     </Col>
+//                   </Row>
+//                 );
+//               })}
+//               <Button
+//                 type="link"
+//                 icon={<PlusCircleOutlined />}
+//                 onClick={() => add()}
+//                 style={{
+//                   marginBottom: hasContacts ? 16 : 0,
+//                 }}
+//               >
+//                 Add new contact
+//               </Button>
+//             </div>
+//           );
+//         }}
+//       </Form.List>
+//       {hasContacts && (
+//         <div
+//           style={{
+//             display: "flex",
+//             justifyContent: "flex-end",
+//             gap: "8px",
+//             padding: "16px",
+//             borderTop: "1px solid #D9D9D9",
+//           }}
+//         >
+//           <Button
+//             size="large"
+//             type="default"
+//             onClick={() => {
+//               form.resetFields();
+//             }}
+//           >
+//             Cancel
+//           </Button>
+//           <SaveButton
+//             size="large"
+//             icon={undefined}
+//             onClick={() => form.submit()}
+//           />
+//         </div>
+//       )}
+//     </Form>
+//   );
+// };
 
 const statusOptions: {
   label: string;

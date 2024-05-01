@@ -259,7 +259,7 @@ export const localDataProvider = (() => {
 
     const { query, variables: queryVariables } = gql.mutation({
       operation,
-      fields: meta?.fields || ["id"],
+      fields: meta?.fields || ["clientMutationId"],
       variables: {
         input: {
           type: `Update${camelcase(singular(resource), {

@@ -2011,7 +2011,7 @@ export type Event = Node & {
   eventCategories: EventCategoriesConnection;
   /** Reads and enables pagination through a set of `EventParticipant`. */
   eventParticipants: EventParticipantsConnection;
-  id: Scalars["Int"]["output"];
+  id: Scalars["ID"]["output"];
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
   nodeId: Scalars["ID"]["output"];
   startDate: Scalars["Datetime"]["output"];
@@ -4768,9 +4768,9 @@ export type UserFilter = {
 };
 
 export type UserInfo = Node & {
-  avatarUrl?: Maybe<Scalars["String"]["output"]>;
+  avatarUrl: Scalars["String"]["output"];
   dateOfBirth?: Maybe<Scalars["Datetime"]["output"]>;
-  email?: Maybe<Scalars["String"]["output"]>;
+  email: Scalars["String"]["output"];
   /** Reads and enables pagination through a set of `EventParticipant`. */
   eventParticipantsByUserId: EventParticipantsConnection;
   /** Reads and enables pagination through a set of `Event`. */

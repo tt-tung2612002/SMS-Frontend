@@ -32,7 +32,9 @@ const FullCalendarWrapper: FC<FullCalendarWrapperProps> = ({
         meridiem: false,
       }}
       eventClick={({ event }) => {
-        onClickEvent?.(events.find(({ id }) => id === event.id) as Event);
+        onClickEvent?.(
+          events.find(({ id }) => id?.toString() === event.id) as Event
+        );
       }}
       datesSet={({ view }) => {
         setTitle(view.title);

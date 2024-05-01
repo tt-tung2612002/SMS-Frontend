@@ -15,7 +15,7 @@ export const CLASSES_TABLE_QUERY = gql`
             avatarUrl
           }
         }
-        students {
+        students: users {
           nodes {
             id
             userInfoById {

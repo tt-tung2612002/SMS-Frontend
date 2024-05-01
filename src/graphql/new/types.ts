@@ -53,10 +53,7 @@ export type StudentsListQueryVariables = Types.Exact<{
 export type StudentsListQuery = {
   roles: {
     nodes: Array<{
-      students: Pick<
-        Types.RoleUserInfosByUserRoleRoleIdAndUserIdManyToManyConnection,
-        "totalCount"
-      > & {
+      students: Pick<Types.UserInfosConnection, "totalCount"> & {
         nodes: Array<
           Pick<
             Types.UserInfo,
@@ -76,10 +73,7 @@ export type StudentsListQuery = {
 export type TeachersListQuery = {
   roles: {
     nodes: Array<{
-      students: Pick<
-        Types.RoleUserInfosByUserRoleRoleIdAndUserIdManyToManyConnection,
-        "totalCount"
-      > & {
+      students: Pick<Types.UserInfosConnection, "totalCount"> & {
         nodes: Array<
           Pick<
             Types.UserInfo,

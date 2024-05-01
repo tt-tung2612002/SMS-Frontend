@@ -20,7 +20,7 @@ export const CompanyEditPage = () => {
         }}
       >
         <Col span={16}>
-          <CompanyContactsTable />
+          {/* <CompanyContactsTable /> */}
           <CompanyDealsTable
             style={{
               marginTop: 32,

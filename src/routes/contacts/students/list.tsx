@@ -28,8 +28,8 @@ export const StudentsListPage: FC<PropsWithChildren> = ({ children }) => {
     tableProps,
     tableQueryResult,
     searchFormProps,
-    filters,
-    sorters,
+    // filters,
+    // sorters,
     setFilters,
   } = useTable<
     GetFieldsFromList<StudentsListQuery>,

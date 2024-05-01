@@ -14,7 +14,7 @@ export const CalendarPageWrapper: React.FC<React.PropsWithChildren> = ({
 }) => {
   const { show } = useNavigation();
   const [selectedEventCategory, setSelectedEventCategory] = useState<string[]>(
-    [],
+    []
   );
 
   return (
@@ -44,8 +44,9 @@ export const CalendarPageWrapper: React.FC<React.PropsWithChildren> = ({
         </Col>
         <Col xs={24} xl={18}>
           <Calendar
-            onClickEvent={({ id }) => {
-              show("events", id);
+            onClickEvent={(event) => {
+              console.log(event);
+              show("events", event.id);
             }}
             categoryId={selectedEventCategory}
           />

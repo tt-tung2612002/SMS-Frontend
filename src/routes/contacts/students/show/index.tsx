@@ -1,204 +1,234 @@
-import { useState } from "react";
+import React from "react";
 import { useParams } from "react-router-dom";
 
-import { useForm } from "@refinedev/antd";
-import { HttpError, useOne } from "@refinedev/core";
-import { GetFields, GetVariables } from "@refinedev/nestjs-query";
+import { useDelete, useNavigation, useShow, useUpdate } from "@refinedev/core";
+import { GetFields } from "@refinedev/nestjs-query";
 
-import { EditOutlined } from "@ant-design/icons";
-import { Button, Form, Select, Skeleton, Space } from "antd";
-import type * as Types from "graphql/new/schema.types";
-
-import { CustomAvatar, SelectOptionWithAvatar, Text } from "@/components";
 import {
-  UpdateClassMutation,
-  UpdateClassMutationVariables,
-} from "@/graphql/new/types";
-import { useUsersSelect } from "@/hooks/useUsersSelect";
-import { CLASS_TITLE_QUERY } from "@/routes/classes/components/title-form/getClassForm";
-import { CLASS_UPDATE_MUTATION } from "@/routes/classes/queries/updateClass";
-import { getNameInitials } from "@/utilities";
+  CloseOutlined,
+  DeleteOutlined,
+  EditOutlined,
+  MailOutlined,
+  PhoneOutlined,
+} from "@ant-design/icons";
+import {
+  Button,
+  Card,
+  Drawer,
+  Input,
+  Popconfirm,
+  Spin,
+  Typography,
+} from "antd";
+import dayjs from "dayjs";
+import { now } from "lodash";
 
-export const ContactShowPage = () => {
-  const { formProps, onFinish, queryResult } = useForm<
-    GetFields<UpdateClassMutation>,
-    HttpError,
-    GetVariables<UpdateClassMutationVariables>
-  >({
-    resource: "classes",
-    redirect: false,
-    meta: {
-      gqlMutation: CLASS_UPDATE_MUTATION,
-      gqlQuery: CLASS_TITLE_QUERY,
-    },
-    dataProviderName: "local",
-  });
+import { CustomAvatar, SingleElementForm, Text, TextIcon } from "@/components";
+import { StudentShowQuery } from "@/graphql/new/customTypes";
+import { User } from "@/graphql/new/schema.types";
 
+import { ContactComment } from "../components";
+import styles from "./index.module.css";
+import { STUDENT_SHOW_QUERY } from "./showStudent";
+
+export const ContactShowPage: React.FC = () => {
+  // const [activeForm, setActiveForm] = useState<
+  //   "email" | "companyId" | "jobTitle" | "phone" | "timezone"
+  // >();
+  const { list } = useNavigation();
+  const { mutate } = useUpdate<User>();
+  const { mutate: deleteMutation } = useDelete<User>();
   const { id } = useParams();
-  const { data } = useOne<Types.Class, HttpError>({
-    resource: "classes",
+  const { queryResult } = useShow<GetFields<StudentShowQuery>>({
+    resource: "user",
     dataProviderName: "local",
+    liveMode: "auto",
     meta: {
-      gqlQuery: CLASS_TITLE_QUERY,
+      gqlQuery: STUDENT_SHOW_QUERY,
     },
-    id,
+    id: id,
   });
 
-  const currentClass = data?.data;
-  // const currentClass = queryResult?.data?.data?.class;
-  const loading = queryResult?.isLoading;
-  // console.log(data);
+  // const { selectProps: usersSelectProps, queryResult: usersSelectQueryResult } =
+  //   useUsersSelect();
 
-  return (
-    <Form {...formProps}>
-      <Space size={16}>
-        <CustomAvatar
-          size="large"
-          shape="square"
-          src={currentClass?.logoUrl}
-          name={getNameInitials("Do it Yourself")}
-          style={{
-            width: 96,
-            height: 96,
-            fontSize: 48,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            border: "none",
-          }}
-        />
-        <Space direction="vertical" size={0}>
-          <Form.Item name="name" required noStyle>
-            <TitleInput
-              loading={loading}
-              onChange={(value) => {
-                return onFinish?.({
-                  name: value,
-                });
-              }}
-            />
-          </Form.Item>
-          <SalesOwnerInput
-            teacher={currentClass?.teacher}
-            loading={loading}
-            onChange={(value) => {
-              onFinish?.({
-                teacherId: value,
-              });
-            }}
-          />
-        </Space>
-      </Space>
-    </Form>
-  );
-};
+  const closeModal = () => {
+    // setActiveForm(undefined);
+    list("students");
+  };
 
-const TitleInput = ({
-  value,
-  onChange,
-  loading,
-}: {
-  // value is set by <Form.Item />
-  value?: string;
-  onChange?: (value: string) => void;
-  loading?: boolean;
-}) => {
-  return (
-    <Text
-      size="xl"
-      strong
-      editable={{
-        onChange,
-        triggerType: ["text", "icon"],
-        icon: <EditOutlined />,
-      }}
-    >
-      {loading ? (
-        <Skeleton.Input size="small" style={{ width: 200 }} active />
-      ) : (
-        value
-      )}
-    </Text>
-  );
-};
+  const { data, isLoading, isError } = queryResult;
 
-const SalesOwnerInput = ({
-  teacher,
-  onChange,
-  loading,
-}: // loading,
-{
-  onChange?: (value: number) => void;
-  teacher: any;
-  loading?: boolean;
-}) => {
-  const [isEdit, setIsEdit] = useState(false);
+  if (isError) {
+    closeModal();
+    return null;
+  }
 
-  const { selectProps, queryResult } = useUsersSelect();
-
-  const users = queryResult?.data?.data ?? [];
-
-  return (
-    <div
-      role="button"
-      onClick={() => {
-        setIsEdit(true);
-      }}
-    >
-      <Text
-        type="secondary"
-        style={{
-          marginRight: 12,
+  if (isLoading) {
+    return (
+      <Drawer
+        open
+        width={756}
+        bodyStyle={{
+          background: "#f5f5f5",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
         }}
       >
-        Teacher:
-      </Text>
-      {loading && <Skeleton.Input size="small" style={{ width: 120 }} active />}
-      {!isEdit && (
-        <>
+        <Spin />
+      </Drawer>
+    );
+  }
+
+  const {
+    firstName: name,
+    email,
+    phoneNumber: phone,
+    avatarUrl,
+  } = data?.data?.info ?? {};
+
+  // let studentName = name;
+
+  return (
+    <Drawer
+      open
+      onClose={() => closeModal()}
+      width={756}
+      bodyStyle={{ background: "#f5f5f5", padding: 0 }}
+      headerStyle={{ display: "none" }}
+    >
+      <div className={styles.header}>
+        <Button
+          type="text"
+          icon={<CloseOutlined />}
+          onClick={() => closeModal()}
+        />
+      </div>
+      <div className={styles.container}>
+        <div className={styles.name}>
           <CustomAvatar
-            size="small"
-            src={teacher?.userInfoById?.avatarUrl}
             style={{
-              marginRight: 4,
+              marginRight: "1rem",
+              flexShrink: 0,
+              fontSize: "40px",
             }}
+            size={96}
+            src={avatarUrl}
+            name={name}
           />
-          <Text>{teacher?.userInfoById?.firstName}</Text>
-          <Button type="link" icon={<EditOutlined />} />
-        </>
-      )}
-      {isEdit && !loading && (
-        <Form.Item name={["teacher", "id"]} noStyle>
-          <Select
-            {...selectProps}
-            defaultOpen={true}
-            autoFocus
-            onDropdownVisibleChange={(open) => {
-              if (!open) {
-                setIsEdit(false);
-              }
+
+          <Typography.Title
+            level={3}
+            style={{ padding: 0, margin: 0, width: "100%" }}
+            className={styles.title}
+            editable={{
+              onChange(value) {
+                mutate({
+                  dataProviderName: "local",
+                  resource: "userInfo",
+                  id: parseInt(id ?? "", 10),
+                  values: {
+                    firstName: value,
+                  },
+                  successNotification: false,
+                });
+                // refresh
+              },
+              triggerType: ["text", "icon"],
+              icon: <EditOutlined className={styles.titleEditIcon} />,
             }}
-            onClick={(e) => {
-              e.stopPropagation();
+          >
+            {name}
+          </Typography.Title>
+        </div>
+
+        <div className={styles.form}>
+          <SingleElementForm
+            icon={<MailOutlined className="tertiary" />}
+            // state={
+            //   activeForm && activeForm === "email"
+            //     ? "form"
+            //     : email
+            //     ? "view"
+            //     : "empty"
+            // }
+            itemProps={{
+              name: "email",
+              label: "Email",
             }}
-            onChange={(value, option) => {
-              onChange?.(value as unknown as number);
-              selectProps.onChange?.(value, option);
+            view={<Text>{email}</Text>}
+            // onClick={() => setActiveForm("email")}
+            // onUpdate={() => setActiveForm(undefined)}
+            // onCancel={() => setActiveForm(undefined)}
+          >
+            <Input defaultValue={email} />
+          </SingleElementForm>
+
+          <SingleElementForm
+            icon={<PhoneOutlined className="tertiary" />}
+            // state={
+            //   activeForm && activeForm === "phone"
+            //     ? "form"
+            //     : phone
+            //     ? "view"
+            //     : "empty"
+            // }
+            itemProps={{
+              name: "phone",
+              label: "Phone",
             }}
-            options={
-              users.map(({ id, info }) => ({
-                value: id,
-                label: (
-                  <SelectOptionWithAvatar
-                    name={info?.name}
-                    avatarUrl={info?.avatarUrl ?? undefined}
-                  />
-                ),
-              })) ?? []
-            }
-          />
-        </Form.Item>
-      )}
-    </div>
+            view={<Text>{phone}</Text>}
+            // onClick={() => setActiveForm("phone")}
+            // onUpdate={() => setActiveForm(undefined)}
+            // onCancel={() => setActiveForm(undefined)}
+          >
+            <Input defaultValue={phone || ""} />
+          </SingleElementForm>
+        </div>
+
+        <Card
+          title={
+            <>
+              <TextIcon />
+              <Text style={{ marginLeft: ".8rem" }}>Notes</Text>
+            </>
+          }
+          bodyStyle={{
+            padding: 0,
+          }}
+        >
+          <ContactComment />
+        </Card>
+
+        <div className={styles.actions}>
+          <Text className="ant-text tertiary">
+            Created on: {dayjs(now()).format("MMMM DD, YYYY")}
+          </Text>
+
+          <Popconfirm
+            title="Delete the contact"
+            description="Are you sure to delete this contact?"
+            onConfirm={() => {
+              deleteMutation(
+                {
+                  id: parseInt(id ?? "", 10),
+                  resource: "user",
+                },
+                {
+                  onSuccess: () => closeModal(),
+                }
+              );
+            }}
+            okText="Yes"
+            cancelText="No"
+          >
+            <Button type="link" danger icon={<DeleteOutlined />}>
+              Delete Contact
+            </Button>
+          </Popconfirm>
+        </div>
+      </div>
+    </Drawer>
   );
 };
