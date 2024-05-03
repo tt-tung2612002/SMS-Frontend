@@ -13,7 +13,6 @@ import {
   FormProps,
   Input,
   Row,
-  Select,
   TimePicker,
 } from "antd";
 import dayjs from "dayjs";
@@ -40,7 +39,8 @@ export const CalendarForm: React.FC<CalendarFormProps> = ({
   const { selectProps: categorySelectProps } = useSelect<
     GetFieldsFromList<EventCategoriesQuery>
   >({
-    resource: "eventCategories",
+    resource: "categories",
+    dataProviderName: "local",
     meta: {
       gqlQuery: EVENT_CATEGORIES_QUERY,
     },
@@ -165,7 +165,7 @@ export const CalendarForm: React.FC<CalendarFormProps> = ({
         </div>
       </Form.Item>
       <Row gutter={[32, 32]}>
-        <Col span={12}>
+        {/* <Col span={12}>
           <Form.Item
             label="Category"
             name="categoryId"
@@ -177,7 +177,7 @@ export const CalendarForm: React.FC<CalendarFormProps> = ({
           >
             <Select {...categorySelectProps} />
           </Form.Item>
-        </Col>
+        </Col> */}
         <Col span={12}>
           <Form.Item
             label="Color"
@@ -212,8 +212,7 @@ export const CalendarForm: React.FC<CalendarFormProps> = ({
           </Form.Item>
         </Col>
       </Row>
-
-      <Form.Item
+      {/* <Form.Item
         label="Invite participants"
         name="participantIds"
         rules={[
@@ -223,7 +222,7 @@ export const CalendarForm: React.FC<CalendarFormProps> = ({
         ]}
       >
         <Select mode="multiple" allowClear {...userSelectProps} />
-      </Form.Item>
+      </Form.Item> */}
     </Form>
   );
 };

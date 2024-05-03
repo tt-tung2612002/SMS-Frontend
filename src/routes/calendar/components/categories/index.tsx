@@ -26,7 +26,8 @@ export const CalendarCategories: React.FC<CalendarCategoriesProps> = ({
   const { token } = theme.useToken();
   const { modalProps, show, close } = useModal();
   const { data, isLoading } = useList<GetFieldsFromList<EventCategoriesQuery>>({
-    resource: "eventCategories",
+    resource: "categories",
+    dataProviderName: "local",
     meta: {
       gqlQuery: EVENT_CATEGORIES_QUERY,
     },

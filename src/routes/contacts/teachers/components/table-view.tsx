@@ -51,8 +51,19 @@ export const TeachersTableView: React.FC<Props> = ({
                   whiteSpace: "nowrap",
                 }}
               >
-                {record.firstName}
+                {record.firstName + " " + record.lastName}
               </Text>
+            </Space>
+          );
+        }}
+      />
+
+      <Table.Column<UserInfo>
+        title="Phone Number"
+        render={(_, record) => {
+          return (
+            <Space>
+              <Text>{record.phoneNumber}</Text>
             </Space>
           );
         }}

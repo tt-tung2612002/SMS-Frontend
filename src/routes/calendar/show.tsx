@@ -1,4 +1,4 @@
-import { EditButton } from "@refinedev/antd";
+import { DeleteButton, EditButton } from "@refinedev/antd";
 import { useNavigation, useResource, useShow } from "@refinedev/core";
 
 import {
@@ -6,7 +6,6 @@ import {
   ClockCircleOutlined,
   CloseOutlined,
   EditOutlined,
-  FlagOutlined,
   InfoCircleOutlined,
   TeamOutlined,
 } from "@ant-design/icons";
@@ -14,7 +13,7 @@ import { Button, Drawer, Skeleton, Space, Tag } from "antd";
 import dayjs from "dayjs";
 
 import { Text, UserTag } from "@/components";
-import { Event } from "@/graphql/schema.types";
+import { Event } from "@/graphql/new/schema.types";
 
 import { CALENDAR_GET_EVENT_QUERY } from "./queries";
 
@@ -24,6 +23,7 @@ export const CalendarShowPage: React.FC = () => {
 
   const { queryResult } = useShow<Event>({
     id,
+    dataProviderName: "local",
     meta: {
       gqlQuery: CALENDAR_GET_EVENT_QUERY,
     },
@@ -36,7 +36,7 @@ export const CalendarShowPage: React.FC = () => {
     return null;
   }
 
-  const { description, startDate, endDate, category, participants } =
+  const { description, startDate, endDate, categories, participants } =
     data?.data ?? {};
 
   const utcStartDate = dayjs(startDate).utc();
@@ -79,6 +79,16 @@ export const CalendarShowPage: React.FC = () => {
             </Text>
           </div>
           <div style={{ display: "flex", gap: "4px" }}>
+            <DeleteButton
+              hideText
+              type="text"
+              // size="small"
+              dataProviderName="local"
+              recordItemId={parseInt(id?.toString() ?? "", 10)}
+              accessControl={{
+                hideIfUnauthorized: true,
+              }}
+            />
             <EditButton icon={<EditOutlined />} hideText type="text" />
             <Button
               icon={<CloseOutlined />}
@@ -117,7 +127,7 @@ export const CalendarShowPage: React.FC = () => {
             <div>
               <CalendarOutlined style={{ marginRight: ".5rem" }} />
               <Text>{`${dayjs(utcStartDate).format("MMMM D")} - ${dayjs(
-                utcEndDate,
+                utcEndDate
               ).format("MMMM D")}`}</Text>
               <Tag style={{ marginLeft: ".5rem" }} color="blue">
                 All Day
@@ -132,20 +142,20 @@ export const CalendarShowPage: React.FC = () => {
               <div>
                 <ClockCircleOutlined style={{ marginRight: ".5rem" }} />
                 <Text>{`${dayjs(utcStartDate).format("h:mma")} - ${dayjs(
-                  utcEndDate,
+                  utcEndDate
                 ).format("h:mma")}`}</Text>
               </div>
             </>
           )}
 
-          <div>
+          {/* <div>
             <FlagOutlined style={{ marginRight: ".5rem" }} />
             <Text>{category?.title}</Text>
-          </div>
+          </div> */}
           <div style={{ display: "flex", alignItems: "start" }}>
             <TeamOutlined style={{ marginRight: ".5rem" }} />
             <Space size={4} wrap style={{ marginTop: "-8px" }}>
-              {participants?.map((participant) => (
+              {participants?.nodes?.map((participant) => (
                 <UserTag key={participant.id} user={participant} />
               ))}
             </Space>

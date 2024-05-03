@@ -1,18 +1,18 @@
 import { Col, Row } from "antd";
 
 import {
-  CompanyContactsTable,
+  ClassStudentsTable,
+  ClassTitleForm,
   CompanyDealsTable,
   CompanyInfoForm,
   CompanyNotes,
   CompanyQuotesTable,
-  CompanyTitleForm,
 } from "./components";
 
 export const CompanyEditPage = () => {
   return (
     <div className="page-container">
-      <CompanyTitleForm />
+      <ClassTitleForm />
       <Row
         gutter={[32, 32]}
         style={{
@@ -20,7 +20,7 @@ export const CompanyEditPage = () => {
         }}
       >
         <Col span={16}>
-          {/* <CompanyContactsTable /> */}
+          <ClassStudentsTable />
           <CompanyDealsTable
             style={{
               marginTop: 32,
@@ -38,7 +38,8 @@ export const CompanyEditPage = () => {
           />
         </Col>
         <Col span={8}>
-          <CompanyInfoForm />
+          <CompanyInfoForm
+          />
         </Col>
       </Row>
     </div>

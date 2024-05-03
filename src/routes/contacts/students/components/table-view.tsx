@@ -50,17 +50,24 @@ export const StudentsTableView: React.FC<Props> = ({
                   whiteSpace: "nowrap",
                 }}
               >
-                {record.firstName}
+                {record.firstName + " " + record.lastName}
               </Text>
             </Space>
           );
         }}
       />
       <Table.Column<UserInfo>
-        // dataIndex={["teacherId"]}
-        // defaultFilteredValue={getDefaultFilter("teacherId", filters, "eq")}
+        title="Phone Number"
+        render={(_, record) => {
+          return (
+            <Space>
+              <Text>{record.phoneNumber}</Text>
+            </Space>
+          );
+        }}
+      />
+      <Table.Column<UserInfo>
         title="Email"
-        // sorter={(a, b) => a.name.localeCompare(b.name)}
         render={(_, record) => {
           return (
             <Space>

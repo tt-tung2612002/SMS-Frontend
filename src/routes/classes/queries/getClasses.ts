@@ -7,6 +7,8 @@ export const CLASSES_TABLE_QUERY = gql`
         id
         name
         logoUrl
+        startDate
+        endDate
         teacher {
           id
           userInfoById {

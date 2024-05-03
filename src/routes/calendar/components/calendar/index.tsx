@@ -65,7 +65,7 @@ export const Calendar: React.FC<CalendarProps> = ({
     meta: {
       gqlQuery: NEW_CALENDAR_EVENTS_QUERY,
     },
-    dataProviderName: "local"
+    dataProviderName: "local",
   });
 
   const events = (data?.data ?? []).map(
@@ -76,7 +76,7 @@ export const Calendar: React.FC<CalendarProps> = ({
       end: endDate,
       color: color,
       allDay: dayjs(endDate).utc().diff(dayjs(startDate).utc(), "hours") >= 23,
-    }),
+    })
   );
 
   return (

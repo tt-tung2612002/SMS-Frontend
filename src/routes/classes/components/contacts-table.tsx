@@ -8,19 +8,18 @@ import { GetFieldsFromList } from "@refinedev/nestjs-query";
 import { TeamOutlined } from "@ant-design/icons";
 import { Card, Space, Table } from "antd";
 
-import { CustomAvatar, Text } from "@/components";
-import { UserInfo } from "@/graphql/new/schema.types";
-import { StudentsListQuery } from "@/graphql/new/types";
+import { ContactStatusTag, CustomAvatar, Text } from "@/components";
+import { GetStudentsInClass2Query } from "@/graphql/new/customTypes";
+import { ClassManagement } from "@/graphql/new/schema.types";
 import { ContactCreateInput } from "@/graphql/schema.types";
 import { CompanyContactsTableQuery } from "@/graphql/types";
-import { STUDENTS_LIST_QUERY } from "@/routes/contacts/students/queries/studentsList";
+
+import { CLASS_STUDENTS_QUERY_2 } from "../queries/getOneClass";
 
 type Contact = GetFieldsFromList<CompanyContactsTableQuery>;
 
-export const CompanyContactsTable: FC = () => {
+export const ClassStudentsTable: FC = () => {
   const { id } = useParams();
-
-
 
   // const showResetFilters = useMemo(() => {
   //   return filters?.filter((filter) => {
@@ -35,14 +34,71 @@ export const CompanyContactsTable: FC = () => {
   //     return true;
   //   });
   // }, [filters]);
+  const {
+    tableProps,
+    tableQueryResult,
+    // searchFormProps,
+  } = useTable<
+    GetFieldsFromList<GetStudentsInClass2Query>,
+    HttpError,
+    { name: string }
+  >({
+    resource: "classManagements",
+    // sorters: {
+    //   mode: "off",
+    //   initial: [
+    //     {
+    //       field: "username",
+    //       order: "asc",
+    //     },
+    //   ],
+    // },
+    filters: {
+      mode: "server",
+      initial: [
+        {
+          field: "classId",
+          operator: "eq",
+          value: parseInt(id ?? "", 10),
+        },
+        {
+          field: "id",
+          operator: "eq",
+          value: undefined,
+        },
+      ],
+    },
+    pagination: {
+      pageSize: 8,
+      mode: "off",
+    },
+    dataProviderName: "local",
+    meta: {
+      gqlQuery: CLASS_STUDENTS_QUERY_2,
+    },
+  });
+
+  // const { data, isSuccess } = useOne<Class, HttpError>({
+  //   id: id,
+  //   resource: "class",
+  //   dataProviderName: "local",
+  //   meta: {
+  //     gqlQuery: CLASS_STUDENTS_QUERY,
+  //   },
+  // });
+
+  const studentCount = tableQueryResult.data?.total;
+
+  // const hasData = isSuccess && (students?.totalCount ?? 0) > 0;
+  const hasData = true;
 
   return (
     <Card
-      // headStyle={{
-      //   borderBottom: "1px solid #D9D9D9",
-      //   marginBottom: "1px",
-      // }}
-      // bodyStyle={{ padding: 0 }}
+      headStyle={{
+        borderBottom: "1px solid #D9D9D9",
+        marginBottom: "1px",
+      }}
+      bodyStyle={{ padding: 0 }}
       title={
         <Space size="middle">
           <TeamOutlined />
@@ -59,9 +115,7 @@ export const CompanyContactsTable: FC = () => {
       extra={
         <>
           <Text className="tertiary">Total students: </Text>
-          <Text strong>
-            {data}
-          </Text>
+          <Text strong>{studentCount}</Text>
         </>
       }
     >
@@ -78,34 +132,77 @@ export const CompanyContactsTable: FC = () => {
       {hasData && (
         <Table
           {...tableProps}
+          // showHeader={false}
           rowKey="id"
+          // dataSource={students?.nodes}
           pagination={{
-            ...tableProps.pagination,
+            pageSize: 8,
             showSizeChanger: false,
+            pageSizeOptions: ["6", "12", "24", "48"],
+            // total: students?.totalCount,
           }}
         >
-          <Table.Column<UserInfo>
+          <Table.Column<ClassManagement>
             title="Name"
             dataIndex="firstName"
             render={(_, record) => {
               return (
                 <Space>
                   <CustomAvatar
-                    name={record.firstName}
-                    src={record.avatarUrl}
+                    name={record?.user?.userInfoById?.firstName}
+                    src={record?.user?.userInfoById?.avatarUrl}
                   />
                   <Text
                     style={{
                       whiteSpace: "nowrap",
                     }}
                   >
-                    {record.firstName}
+                    {record?.user?.userInfoById?.firstName + " " + record?.user?.userInfoById?.lastName}
                   </Text>
                 </Space>
               );
             }}
           />
-          <Table.Column title="Email" dataIndex="email" />
+
+          <Table.Column<ClassManagement>
+            title="Phone Number"
+            render={(_, record) => {
+              return (
+                <Space>
+                  <Text
+                    style={{
+                      whiteSpace: "nowrap",
+                    }}
+                  >
+                    {record?.user?.userInfoById?.phoneNumber}
+                  </Text>
+                </Space>
+              );
+            }}
+          />
+          <Table.Column<ClassManagement>
+            title="Email"
+            render={(_, record) => {
+              return (
+                <Space>
+                  <Text
+                    style={{
+                      whiteSpace: "nowrap",
+                    }}
+                  >
+                    {record?.user?.userInfoById?.email}
+                  </Text>
+                </Space>
+              );
+            }}
+          />
+          <Table.Column
+            title="Status"
+            dataIndex="status"
+            render={(_) => {
+              return <ContactStatusTag status="ENROLLED" />;
+            }}
+          />
           {/* <Table.Column<Contact>
             title="Stage"
             dataIndex="status"

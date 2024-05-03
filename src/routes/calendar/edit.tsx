@@ -6,7 +6,7 @@ import { useNavigation, useResource } from "@refinedev/core";
 import { Modal } from "antd";
 import dayjs from "dayjs";
 
-import { Event } from "@/graphql/schema.types";
+import { Event } from "@/graphql/new/schema.types";
 
 import { CalendarForm } from "./components";
 import { CALENDAR_UPDATE_EVENT_MUTATION } from "./queries";
@@ -18,8 +18,9 @@ export const CalendarEditPage: React.FC = () => {
 
   const { formProps, saveButtonProps, form, onFinish, queryResult } =
     useForm<Event>({
+      id: id,
       action: "edit",
-      id,
+      dataProviderName: "local",
       queryOptions: {
         enabled: true,
       },
@@ -35,9 +36,9 @@ export const CalendarEditPage: React.FC = () => {
     const utcEndDate = dayjs(endDate).utc();
 
     form.setFieldsValue({
-      categoryId: queryResult?.data?.data.category.id,
-      participantIds: queryResult?.data?.data.participants.map(
-        (participant) => participant.id,
+      // categoryId: queryResult?.data?.data.category.id,
+      participantIds: queryResult?.data?.data.participants.nodes.map(
+        (participant) => participant.id
       ),
     });
 

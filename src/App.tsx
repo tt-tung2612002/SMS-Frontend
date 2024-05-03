@@ -11,18 +11,14 @@ import routerProvider, {
 import { App as AntdApp, ConfigProvider } from "antd";
 
 import { resources, themeConfig } from "@/config";
-import {
-  authProvider,
-  localDataProvider,
-  refineProvider,
-  restProvider,
-} from "@/providers";
+import { authProvider, localDataProvider, refineProvider, restProvider } from "@/providers";
 import { CompanyCreatePage } from "@/routes/classes/create";
 
 import { AlgoliaSearchWrapper, FullScreenLoading, Layout } from "./components";
 import { useAutoLoginForDemo } from "./hooks";
 import { AuditLogPage, SettingsPage } from "./routes/administration";
 import {
+  CalendarCreatePage,
   // CalendarCreatePage,
   CalendarEditPage,
   CalendarPageWrapper,
@@ -108,7 +104,7 @@ const App: React.FC = () => {
                     <Route index element={null} />
                     <Route path="show/:id" element={<CalendarShowPage />} />
                     <Route path="edit/:id" element={<CalendarEditPage />} />
-                    {/* <Route path="create" element={<CalendarCreatePage />} /> */}
+                    <Route path="create" element={<CalendarCreatePage />} />
                   </Route>
                   {/* <Route path="/scrumboard" element={<Outlet />}>
                     <Route

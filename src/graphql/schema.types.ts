@@ -1192,6 +1192,7 @@ export type ContactStatus =
   | "NEW"
   | "QUALIFIED"
   | "UNQUALIFIED"
+  | "ENROLLED"
   | "WON";
 
 export type ContactStatusFilterComparison = {

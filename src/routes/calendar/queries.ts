@@ -9,20 +9,26 @@ const EVENT_FRAGMENT = gql`
     endDate
     color
     createdAt
-    category {
-      id
-      title
+    categories {
+      nodes {
+        id
+        title
+      }
     }
-    participants {
-      id
-      name
+    participants: userInfos {
+      nodes {
+        id
+        name: firstName
+        lastName
+        avatarUrl
+      }
     }
   }
 `;
 
 export const CALENDAR_UPDATE_EVENT_MUTATION = gql`
-  mutation UpdateEvent($input: UpdateOneEventInput!) {
-    updateOneEvent(input: $input) {
+  mutation UpdateEvent($input: UpdateEventInput!) {
+    updateEvent(input: $input) {
       ...EventFragment
     }
   }
@@ -30,7 +36,7 @@ export const CALENDAR_UPDATE_EVENT_MUTATION = gql`
 `;
 
 export const CALENDAR_GET_EVENT_QUERY = gql`
-  query GetEvent($id: ID!) {
+  query GetEvent($id: Int!) {
     event(id: $id) {
       ...EventFragment
     }

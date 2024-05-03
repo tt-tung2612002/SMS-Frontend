@@ -21,7 +21,7 @@ import { CLASS_UPDATE_MUTATION } from "../../queries/updateClass";
 import { CLASS_TITLE_QUERY } from "./getClassForm";
 import styles from "./title-form.module.css";
 
-export const CompanyTitleForm = () => {
+export const ClassTitleForm = () => {
   const { formProps, onFinish, queryResult } = useForm<
     GetFields<UpdateClassMutation>,
     HttpError,
@@ -48,7 +48,6 @@ export const CompanyTitleForm = () => {
   
 
   const currentClass = data?.data;
-  // const currentClass = queryResult?.data?.data?.class;
   const loading = queryResult?.isLoading;
 
   return (

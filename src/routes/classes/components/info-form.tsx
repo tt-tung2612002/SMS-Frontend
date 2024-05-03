@@ -142,7 +142,7 @@ export const CompanyInfoForm = () => {
         state={getActiveForm({ formName: "industry" })}
         itemProps={{
           name: "industry",
-          label: "Industry",
+          label: "Status",
         }}
         view={<Text>{industry}</Text>}
         onClick={() => setActiveForm("industry")}
@@ -241,10 +241,6 @@ const companySizeOptions: {
   label: string;
   value: CompanySize;
 }[] = [
-  {
-    label: "Enterprise",
-    value: "ENTERPRISE",
-  },
   {
     label: "Large",
     value: "LARGE",

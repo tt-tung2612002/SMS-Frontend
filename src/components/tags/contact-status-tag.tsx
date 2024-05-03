@@ -36,6 +36,10 @@ export const ContactStatusTag: React.FC<{ status: ContactStatus }> = ({
       icon = <PlayCircleFilled />;
       color = "red";
       break;
+    case "ENROLLED":
+      icon = <CheckCircleOutlined />;
+      color = "green";
+      break;
     case "WON":
       icon = <CheckCircleOutlined />;
       color = "green";

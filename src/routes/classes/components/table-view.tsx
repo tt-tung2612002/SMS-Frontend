@@ -6,6 +6,7 @@ import { GetFieldsFromList } from "@refinedev/nestjs-query";
 
 import { EyeOutlined } from "@ant-design/icons";
 import { Select, Space, Table, TableProps } from "antd";
+import dayjs from "dayjs";
 
 import { CustomAvatar, PaginationTotal, Text } from "@/components";
 import { ClassesTableQuery } from "@/graphql/new/customTypes";
@@ -42,13 +43,6 @@ export const CompaniesTableView: FC<Props> = ({ tableProps, filters }) => {
         dataIndex="name"
         title="Class Name"
         sorter={(a, b) => a.name.localeCompare(b.name)}
-        // defaultFilteredValue={getDefaultFilter("name")}
-        // filterIcon={<SearchOutlined />}
-        // filterDropdown={(props) => (
-        //   <FilterDropdown {...props}>
-        //     <Input placeholder="Search Class" />
-        //   </FilterDropdown>
-        // )}
         render={(_, record) => {
           return (
             <Space>
@@ -69,32 +63,43 @@ export const CompaniesTableView: FC<Props> = ({ tableProps, filters }) => {
         }}
       />
       <Table.Column<Class>
+        dataIndex="startDate"
+        title="Start Date"
+        render={(_, record) => {
+          return (
+            <Space>
+              <Text
+                style={{
+                  whiteSpace: "nowrap",
+                }}
+              >
+                {dayjs(record.startDate).format("h:mm A MMMM D, YYYY dddd")}
+              </Text>
+            </Space>
+          );
+        }}
+      />
+      <Table.Column<Class>
+        dataIndex="endDate"
+        title="End Date"
+        render={(_, record) => {
+          return (
+            <Space>
+              <Text
+                style={{
+                  whiteSpace: "nowrap",
+                }}
+              >
+                {dayjs(record.endDate).format("h:mm A MMMM D, YYYY dddd")}
+              </Text>
+            </Space>
+          );
+        }}
+      />
+      <Table.Column<Class>
         dataIndex={["teacherId"]}
         defaultFilteredValue={getDefaultFilter("teacherId", filters, "eq")}
         title="Teacher"
-        // filters={
-        //   teacherNames
-        //     ? teacherNames.map((name) => {
-        //         console.log(name);
-        //         return {
-        //           text: name,
-        //           value: name,
-        //         };
-        //       })
-        //     : []
-        // }
-        // onFilter={(value, record) =>
-        //   record.teacher?.userInfoById?.name === value
-        // }
-        // filterDropdown={(props) => (
-        //   <FilterDropdown {...props}>
-        //     <Select
-        //       placeholder="Search Teacher"
-        //       style={{ width: 220 }}
-        //       {...selectPropsUsers}
-        //     />
-        //   </FilterDropdown>
-        // )}
         sorter={(a, b) => a.name.localeCompare(b.name)}
         render={(_, record) => {
           const teacher = record.teacher;

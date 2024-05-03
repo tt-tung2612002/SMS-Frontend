@@ -1,12 +1,8 @@
 import gql from "graphql-tag";
 
 export const CALENDAR_EVENTS_QUERY = gql`
-  query CalendarEvents(
-    $filter: EventFilter!
-    $sorting: [EventSort!]
-    $paging: OffsetPaging!
-  ) {
-    events(filter: $filter, sorting: $sorting, paging: $paging) {
+  query CalendarEvents($filter: EventFilter!) {
+    events(filter: $filter) {
       totalCount
       nodes {
         id
@@ -16,13 +12,11 @@ export const CALENDAR_EVENTS_QUERY = gql`
         endDate
         color
         createdAt
-        createdBy {
-          id
-          name
-        }
-        category {
-          id
-          title
+        categories {
+          nodes {
+            id
+            title
+          }
         }
       }
     }
