@@ -21,6 +21,7 @@ export const API_BASE_URL = "https://api.crm.refine.dev";
 export const API_URL = API_BASE_URL + "/graphql";
 export const LOCAL_URL = "http://localhost:5000" + "/graphql";
 export const REST_URL = "http://localhost:8080";
+export const LOGIN_URL = "http://localhost:8082";
 // export const WS_URL = "ws://localhost:5000/graphql";
 
 export const client = new GraphQLClient(API_URL, {
@@ -288,3 +289,4 @@ export const localDataProvider = (() => {
 })();
 
 export const restProvider = dataProvider(REST_URL);
+export const loginProvider = dataProvider(LOGIN_URL);

@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 
-import { authProvider, emails } from "@/providers";
+import { authProvider } from "@/providers";
 
 /**
  * This hook is used to automatically login the user.
@@ -10,7 +10,7 @@ export const useAutoLoginForDemo = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   const login = useCallback(async () => {
-    const email = localStorage.getItem("auto_login") || emails[0];
+    const email = localStorage.getItem("auto_login");
     try {
       await authProvider.login({
         email,

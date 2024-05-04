@@ -11,11 +11,15 @@ import routerProvider, {
 import { App as AntdApp, ConfigProvider } from "antd";
 
 import { resources, themeConfig } from "@/config";
-import { authProvider, localDataProvider, refineProvider, restProvider } from "@/providers";
+import {
+  authProvider,
+  localDataProvider,
+  loginProvider,
+  refineProvider,
+} from "@/providers";
 import { CompanyCreatePage } from "@/routes/classes/create";
 
-import { AlgoliaSearchWrapper, FullScreenLoading, Layout } from "./components";
-import { useAutoLoginForDemo } from "./hooks";
+import { AlgoliaSearchWrapper, Layout } from "./components";
 import { AuditLogPage, SettingsPage } from "./routes/administration";
 import {
   CalendarCreatePage,
@@ -30,12 +34,6 @@ import { TeachersListPage } from "./routes/contacts/teachers/list";
 import { DashboardPage } from "./routes/dashboard";
 import { ForgotPasswordPage } from "./routes/forgot-password";
 import { LoginPage } from "./routes/login";
-import {
-  QuotesCreatePage,
-  QuotesEditPage,
-  QuotesListPage,
-  QuotesShowPage,
-} from "./routes/quotes";
 import { RegisterPage } from "./routes/register";
 import { UpdatePasswordPage } from "./routes/update-password";
 
@@ -48,11 +46,11 @@ import "./utilities/init-dayjs";
 const App: React.FC = () => {
   // This hook is used to automatically login the user.
   // We use this hook to skip the login page and demonstrate the application more quickly.
-  const { loading } = useAutoLoginForDemo();
+  // const { loading } = useAutoLoginForDemo();
 
-  if (loading) {
-    return <FullScreenLoading />;
-  }
+  // if (loading) {
+  //   return <FullScreenLoading />;
+  // }
 
   return (
     <AlgoliaSearchWrapper>
@@ -66,7 +64,7 @@ const App: React.FC = () => {
               dataProvider={{
                 default: refineProvider,
                 local: localDataProvider,
-                rest: restProvider,
+                rest: loginProvider,
               }}
               // liveProvider={liveProvider}
               routerProvider={routerProvider}
@@ -106,62 +104,7 @@ const App: React.FC = () => {
                     <Route path="edit/:id" element={<CalendarEditPage />} />
                     <Route path="create" element={<CalendarCreatePage />} />
                   </Route>
-                  {/* <Route path="/scrumboard" element={<Outlet />}>
-                    <Route
-                      path="kanban"
-                      element={
-                        <KanbanPage>
-                          <Outlet />
-                        </KanbanPage>
-                      }
-                    >
-                      <Route path="create" element={<KanbanCreatePage />} />
-                      <Route path="edit/:id" element={<KanbanEditPage />} />
-                      <Route
-                        path="stages/create"
-                        element={<KanbanCreateStage />}
-                      />
-                      <Route
-                        path="stages/edit/:id"
-                        element={<KanbanEditStage />}
-                      />
-                    </Route>
-                    <Route
-                      path="sales"
-                      element={
-                        <SalesPage>
-                          <Outlet />
-                        </SalesPage>
-                      }
-                    >
-                      <Route
-                        path="create"
-                        element={
-                          <SalesCreatePage>
-                            <Outlet />
-                          </SalesCreatePage>
-                        }
-                      >
-                        {/* <Route
-                          path="company/create"
-                          element={<CompanyCreatePage isOverModal />}
-                        /> }
-                      </Route>
-                      <Route path="edit/:id" element={<SalesEditPage />} />
-                      <Route
-                        path="stages/create"
-                        element={<SalesCreateStage />}
-                      />
-                      <Route
-                        path="stages/edit/:id"
-                        element={<SalesEditStage />}
-                      />
-                      <Route
-                        path=":id/finalize"
-                        element={<SalesFinalizeDeal />}
-                      />
-                    </Route>
-                  </Route> */}
+
                   <Route
                     path="/classes"
                     element={
@@ -198,7 +141,6 @@ const App: React.FC = () => {
                       >
                       </Route> */}
                     </Route>
-                    {/* <Route path="teachers" element={<AuditLogPage />} /> */}
                     <Route
                       path="teachers"
                       element={
@@ -209,42 +151,6 @@ const App: React.FC = () => {
                     ></Route>
                   </Route>
 
-                  <Route
-                    path="/quotes"
-                    element={
-                      <QuotesListPage>
-                        <Outlet />
-                      </QuotesListPage>
-                    }
-                  >
-                    <Route
-                      path="create"
-                      element={
-                        <QuotesCreatePage>
-                          <Outlet />
-                        </QuotesCreatePage>
-                      }
-                    >
-                      {/* <Route
-                        path="company-create"
-                        element={<CompanyCreatePage isOverModal />}
-                      /> */}
-                    </Route>
-                    <Route
-                      path="edit/:id"
-                      element={
-                        <QuotesEditPage>
-                          <Outlet />
-                        </QuotesEditPage>
-                      }
-                    >
-                      {/* <Route
-                        path="company-create"
-                        element={<CompanyCreatePage isOverModal />}
-                      /> */}
-                    </Route>
-                  </Route>
-                  <Route path="/quotes/show/:id" element={<QuotesShowPage />} />
                   <Route path="/administration" element={<Outlet />}>
                     <Route path="settings" element={<SettingsPage />} />
                     <Route path="audit-log" element={<AuditLogPage />} />

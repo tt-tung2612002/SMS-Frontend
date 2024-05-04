@@ -1,6 +1,6 @@
 import { DeleteButton, ShowButton } from "@refinedev/antd";
 
-import { Space, Table, TableProps } from "antd";
+import { Space, Table, TableProps, Tabs } from "antd";
 
 import { CustomAvatar, PaginationTotal, Text } from "@/components";
 import { UserInfo } from "@/graphql/new/schema.types";
@@ -17,6 +17,8 @@ export const StudentsTableView: React.FC<Props> = ({
   // sorters,
 }) => {
   const newDataSource = tableProps.dataSource?.[0]?.students?.nodes;
+
+
   return (
     <Table
       {...tableProps}

@@ -1,11 +1,9 @@
 import { useState } from "react";
 
-import { useGetIdentity, useLogout } from "@refinedev/core";
+import { useLogout } from "@refinedev/core";
 
 import { LogoutOutlined, SettingOutlined } from "@ant-design/icons";
 import { Button, Popover } from "antd";
-
-import type { User } from "@/graphql/schema.types";
 
 import { CustomAvatar } from "../custom-avatar";
 import { Text } from "../text";
@@ -13,8 +11,15 @@ import { AccountSettings } from "./account-settings";
 
 export const CurrentUser: React.FC = () => {
   const [opened, setOpened] = useState(false);
-  const { data: user } = useGetIdentity<User>();
+  // const { data: user } = useGetIdentity<User>();
   const { mutate: logout } = useLogout();
+
+  const user = {
+    id: "1",
+    name: "William Tran",
+    avatarUrl:
+      "https://refine-crm.ams3.cdn.digitaloceanspaces.com/avatars/14.jpg",
+  };
 
   const content = (
     <div

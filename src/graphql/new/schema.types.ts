@@ -2772,27 +2772,6 @@ export type DeleteUserPayloadUserEdgeArgs = {
   orderBy?: InputMaybe<Array<UsersOrderBy>>;
 };
 
-export type Event = Node & {
-  /** Reads and enables pagination through a set of `Category`. */
-  categories: EventCategoriesManyToManyConnection;
-  color: Scalars["String"]["output"];
-  createdAt?: Maybe<Scalars["Datetime"]["output"]>;
-  description?: Maybe<Scalars["String"]["output"]>;
-  endDate?: Maybe<Scalars["Datetime"]["output"]>;
-  /** Reads and enables pagination through a set of `EventCategory`. */
-  eventCategories: EventCategoriesConnection;
-  /** Reads and enables pagination through a set of `EventParticipant`. */
-  eventParticipants: EventParticipantsConnection;
-  id: Scalars["ID"]["output"];
-  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  nodeId: Scalars["ID"]["output"];
-  startDate?: Maybe<Scalars["Datetime"]["output"]>;
-  title: Scalars["String"]["output"];
-  updatedAt?: Maybe<Scalars["Datetime"]["output"]>;
-  /** Reads and enables pagination through a set of `UserInfo`. */
-  userInfos: EventUserInfosManyToManyConnection;
-  participants: EventUserInfosManyToManyConnection;
-};
 
 export type EventCategoriesArgs = {
   after?: InputMaybe<Scalars["Cursor"]["input"]>;

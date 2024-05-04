@@ -1,44 +1,50 @@
 import { AuthProvider } from "@refinedev/core";
 
 import type { User } from "@/graphql/schema.types";
-import { disableAutoLogin, enableAutoLogin } from "@/hooks";
+import { enableAutoLogin } from "@/hooks";
 
-import { API_BASE_URL, API_URL, client, refineProvider } from "./data";
+import { API_URL, client, loginProvider, refineProvider } from "./data";
 
-export const emails = [
-  "michael.scott@dundermifflin.com",
-  "jim.halpert@dundermifflin.com",
-  "pam.beesly@dundermifflin.com",
-  "dwight.schrute@dundermifflin.com",
-  "angela.martin@dundermifflin.com",
-  "stanley.hudson@dundermifflin.com",
-  "phyllis.smith@dundermifflin.com",
-  "kevin.malone@dundermifflin.com",
-  "oscar.martinez@dundermifflin.com",
-  "creed.bratton@dundermifflin.com",
-  "meredith.palmer@dundermifflin.com",
-  "ryan.howard@dundermifflin.com",
-  "kelly.kapoor@dundermifflin.com",
-  "andy.bernard@dundermifflin.com",
-  "toby.flenderson@dundermifflin.com",
-];
+// export const emails = [
+//   "michael.scott@dundermifflin.com",
+//   "jim.halpert@dundermifflin.com",
+//   "pam.beesly@dundermifflin.com",
+//   "dwight.schrute@dundermifflin.com",
+//   "angela.martin@dundermifflin.com",
+//   "stanley.hudson@dundermifflin.com",
+//   "phyllis.smith@dundermifflin.com",
+//   "kevin.malone@dundermifflin.com",
+//   "oscar.martinez@dundermifflin.com",
+//   "creed.bratton@dundermifflin.com",
+//   "meredith.palmer@dundermifflin.com",
+//   "ryan.howard@dundermifflin.com",
+//   "kelly.kapoor@dundermifflin.com",
+//   "andy.bernard@dundermifflin.com",
+//   "toby.flenderson@dundermifflin.com",
+// ];
 
-const randomEmail = emails[Math.floor(Math.random() * emails.length)];
+// const randomEmail = emails[Math.floor(Math.random() * emails.length)];
 
-export const demoCredentials = {
-  email: randomEmail,
-  password: "demodemo",
-};
+// export const demoCredentials = {
+//   email: randomEmail,
+//   password: "demodemo",
+// };
 
 export const authProvider: AuthProvider = {
-  login: async ({ email, providerName, accessToken, refreshToken }) => {
-    if (accessToken && refreshToken) {
+  login: async ({
+    email,
+    password,
+    // providerName,
+    accessToken,
+    // refreshToken,
+  }) => {
+    if (accessToken) {
       client.setHeaders({
         Authorization: `Bearer ${accessToken}`,
       });
 
       localStorage.setItem("access_token", accessToken);
-      localStorage.setItem("refresh_token", refreshToken);
+      // localStorage.setItem("refresh_token", refreshToken);
 
       return {
         success: true,
@@ -46,41 +52,40 @@ export const authProvider: AuthProvider = {
       };
     }
 
-    if (providerName) {
-      window.location.href = `${API_BASE_URL}/auth/${providerName}`;
+    // if (providerName) {
+    //   window.location.href = `${API_BASE_URL}/auth/${providerName}`;
 
-      return {
-        success: true,
-      };
-    }
+    //   return {
+    //     success: true,
+    //   };
+    // }
 
     try {
-      const { data } = await refineProvider.custom({
-        url: API_URL,
+      const { data } = await loginProvider.custom({
+        url: "http://localhost:8085/" + "http://localhost:8082" + "/login",
         method: "post",
-        headers: {},
-        meta: {
-          variables: { email },
-          rawQuery: `
-                mutation Login($email: String!) {
-                    login(loginInput: {
-                      email: $email
-                    }) {
-                      accessToken,
-                      refreshToken
-                    }
-                  }
-                `,
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+          "Access-Control-Allow-Headers": "Content-Type, Authorization",
+          "Access-Control-Allow-Credentials": "true",
+        },
+        payload: {
+          username: email,
+          password,
         },
       });
 
+      console.log(data);
+
       client.setHeaders({
-        Authorization: `Bearer ${data.login.accessToken}`,
+        Authorization: `Bearer ${data.accessToken}`,
       });
 
-      enableAutoLogin(email);
-      localStorage.setItem("access_token", data.login.accessToken);
-      localStorage.setItem("refresh_token", data.login.refreshToken);
+      // enableAutoLogin(email);
+      localStorage.setItem("access_token", data.accessToken);
+      // localStorage.setItem("refresh_token", data.login.refreshToken);
 
       return {
         success: true,
@@ -139,7 +144,6 @@ export const authProvider: AuthProvider = {
       Authorization: "",
     });
 
-    disableAutoLogin();
     localStorage.removeItem("access_token");
     localStorage.removeItem("refresh_token");
 
@@ -149,39 +153,42 @@ export const authProvider: AuthProvider = {
     };
   },
   onError: async (error) => {
-    if (error?.statusCode === "UNAUTHENTICATED") {
-      return {
-        logout: true,
-      };
-    }
+    // if (error?.statusCode === "UNAUTHENTICATED") {
+    //   return {
+    //     logout: true,
+    //   };
+    // }
 
     return { error };
   },
   check: async () => {
-    try {
-      await refineProvider.custom({
-        url: API_URL,
-        method: "post",
-        headers: {},
-        meta: {
-          rawQuery: `
-                    query Me {
-                        me {
-                          name
-                        }
-                      }
-                `,
-        },
-      });
+    return {
+      authenticated: true,
+    };
+    // try {
+    //   await refineProvider.custom({
+    //     url: API_URL,
+    //     method: "post",
+    //     headers: {},
+    //     meta: {
+    //       rawQuery: `
+    //                 query Me {
+    //                     me {
+    //                       name
+    //                     }
+    //                   }
+    //             `,
+    //     },
+    //   });
 
-      return {
-        authenticated: true,
-      };
-    } catch (error) {
-      return {
-        authenticated: false,
-      };
-    }
+    //   return {
+    //     authenticated: true,
+    //   };
+    // } catch (error) {
+    //   return {
+    //     authenticated: false,
+    //   };
+    // }
   },
   forgotPassword: async () => {
     return {

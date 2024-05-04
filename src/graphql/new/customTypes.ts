@@ -1,3 +1,4 @@
+import type * as CustomTypes from "./customSchema";
 import type * as Types from "./schema.types";
 
 export type GetUsersQueryVariables = Types.Exact<{
@@ -100,7 +101,7 @@ export type CalendarEventsQuery = {
   events: Pick<Types.EventsConnection, "totalCount"> & {
     nodes: Array<
       Pick<
-        Types.Event,
+        CustomTypes.Event,
         "id" | "startDate" | "title" | "endDate" | "description" | "color"
       > & {
         participants: {
