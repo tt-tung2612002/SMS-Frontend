@@ -6,27 +6,16 @@ import { GetFields, GetVariables } from "@refinedev/nestjs-query";
 import {
   CloseOutlined,
   EditOutlined,
-  GlobalOutlined,
-  IdcardOutlined,
   MailOutlined,
   PhoneOutlined,
   SafetyCertificateOutlined,
   UserOutlined,
 } from "@ant-design/icons";
-import {
-  Button,
-  Card,
-  Drawer,
-  Input,
-  Select,
-  Space,
-  Spin,
-  Typography,
-} from "antd";
+import { Button, Card, Drawer, Input, Space, Spin, Typography } from "antd";
 
 import { TimezoneEnum } from "@/enums";
+import { UserInfo } from "@/graphql/new/schema.types";
 import {
-  AccountSettingsGetUserQuery,
   AccountSettingsUpdateUserMutation,
   AccountSettingsUpdateUserMutationVariables,
 } from "@/graphql/types";
@@ -48,7 +37,7 @@ const timezoneOptions = Object.keys(TimezoneEnum).map((key) => ({
 type Props = {
   opened: boolean;
   setOpened: (opened: boolean) => void;
-  userId: string;
+  userId: number;
 };
 
 type FormKeys = "email" | "jobTitle" | "phone" | "timezone";
@@ -56,10 +45,9 @@ type FormKeys = "email" | "jobTitle" | "phone" | "timezone";
 export const AccountSettings = ({ opened, setOpened, userId }: Props) => {
   const [activeForm, setActiveForm] = useState<FormKeys>();
 
-  const { data, isLoading, isError } = useOne<
-    GetFields<AccountSettingsGetUserQuery>
-  >({
-    resource: "users",
+  const { data, isLoading, isError } = useOne<UserInfo, HttpError>({
+    resource: "userInfo",
+    dataProviderName: "local",
     id: userId,
     queryOptions: {
       enabled: opened,
@@ -101,16 +89,16 @@ export const AccountSettings = ({ opened, setOpened, userId }: Props) => {
     );
   }
 
-  const { id, name, email, jobTitle, phone, timezone, avatarUrl } = data?.data;
+  const { id, name, email, phoneNumber, avatarUrl } = data?.data;
 
   const getActiveForm = (key: FormKeys) => {
     if (activeForm === key) {
       return "form";
     }
 
-    if (!data?.data[key]) {
-      return "empty";
-    }
+    // if (!data?.data[key]) {
+    //   return "empty";
+    // }
 
     return "view";
   };
@@ -179,7 +167,7 @@ export const AccountSettings = ({ opened, setOpened, userId }: Props) => {
           headStyle={{ padding: "0 12px" }}
           bodyStyle={{ padding: "0" }}
         >
-          <SingleElementForm
+          {/* <SingleElementForm
             useFormProps={{
               id,
               resource: "users",
@@ -200,7 +188,7 @@ export const AccountSettings = ({ opened, setOpened, userId }: Props) => {
             onCancel={() => setActiveForm(undefined)}
           >
             <Input />
-          </SingleElementForm>
+          </SingleElementForm> */}
           <SingleElementForm
             useFormProps={{
               id,
@@ -209,21 +197,21 @@ export const AccountSettings = ({ opened, setOpened, userId }: Props) => {
                 gqlMutation: ACCOUNT_SETTINGS_UPDATE_USER_MUTATION,
               },
             }}
-            formProps={{ initialValues: { phone } }}
+            formProps={{ initialValues: { phoneNumber } }}
             icon={<PhoneOutlined className="tertiary" />}
             state={getActiveForm("phone")}
             itemProps={{
               name: "phone",
               label: "Phone",
             }}
-            view={<Text>{phone}</Text>}
+            view={<Text>{phoneNumber}</Text>}
             onClick={() => setActiveForm("phone")}
             onUpdate={() => setActiveForm(undefined)}
             onCancel={() => setActiveForm(undefined)}
           >
             <Input />
           </SingleElementForm>
-          <SingleElementForm
+          {/* <SingleElementForm
             useFormProps={{
               id,
               resource: "users",
@@ -245,7 +233,7 @@ export const AccountSettings = ({ opened, setOpened, userId }: Props) => {
             onCancel={() => setActiveForm(undefined)}
           >
             <Select style={{ width: "100%" }} options={timezoneOptions} />
-          </SingleElementForm>
+          </SingleElementForm> */}
         </Card>
         <Card
           title={
