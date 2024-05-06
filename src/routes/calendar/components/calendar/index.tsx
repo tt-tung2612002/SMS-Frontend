@@ -9,7 +9,7 @@ import { Button, Card, Grid, Radio } from "antd";
 import dayjs from "dayjs";
 
 import { Text } from "@/components";
-import { Event } from "@/graphql/new/schema.types";
+import { Event } from "@/graphql/new/customSchema";
 import { CalendarEventsQuery } from "@/graphql/new/temp";
 
 import { NEW_CALENDAR_EVENTS_QUERY } from "./getEvents";

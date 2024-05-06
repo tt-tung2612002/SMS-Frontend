@@ -10,7 +10,6 @@ export const ADMINISTRATION_USERS_QUERY = gql`
             nodes {
                 id
                 name
-
                 jobTitle
                 role
                 avatarUrl

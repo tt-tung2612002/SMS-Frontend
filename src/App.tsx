@@ -1,7 +1,7 @@
 import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
 
 import { ErrorComponent, useNotificationProvider } from "@refinedev/antd";
-import { Authenticated, Refine } from "@refinedev/core";
+import { Authenticated, CanAccess, Refine } from "@refinedev/core";
 import routerProvider, {
   CatchAllNavigate,
   DocumentTitleHandler,
@@ -20,6 +20,7 @@ import {
 import { CompanyCreatePage } from "@/routes/classes/create";
 
 import { AlgoliaSearchWrapper, Layout } from "./components";
+import { accessControlProvider } from "./providers/accessControl";
 import { AuditLogPage, SettingsPage } from "./routes/administration";
 import {
   CalendarCreatePage,
@@ -67,6 +68,7 @@ const App: React.FC = () => {
                 rest: loginProvider,
               }}
               // liveProvider={liveProvider}
+              accessControlProvider={accessControlProvider}
               routerProvider={routerProvider}
               resources={resources}
               notificationProvider={useNotificationProvider}
@@ -90,7 +92,12 @@ const App: React.FC = () => {
                     </Authenticated>
                   }
                 >
-                  <Route index element={<DashboardPage />} />
+                  <Route
+                    index
+                    element={
+                        <DashboardPage />
+                    }
+                  />
                   <Route
                     path="/calendar"
                     element={

@@ -13,7 +13,7 @@ import { Button, Drawer, Skeleton, Space, Tag } from "antd";
 import dayjs from "dayjs";
 
 import { Text, UserTag } from "@/components";
-import { Event } from "@/graphql/new/schema.types";
+import { Event } from "@/graphql/new/customSchema";
 
 import { CALENDAR_GET_EVENT_QUERY } from "./queries";
 

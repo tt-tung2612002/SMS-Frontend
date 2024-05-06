@@ -17,9 +17,8 @@ import {
 } from "antd";
 import dayjs from "dayjs";
 
-import { EVENT_CATEGORIES_QUERY } from "@/graphql/queries";
-import { EventCategoriesQuery } from "@/graphql/types";
-import { oldUsersSelect } from "@/hooks/useOldUsersSelect";
+import { EventCategoriesQuery } from "@/graphql/new/temp";
+import { EVENT_CATEGORIES_QUERY } from "@/routes/calendar/components/categories/getCategories";
 
 type CalendarFormProps = {
   isAllDayEvent: boolean;
@@ -46,7 +45,7 @@ export const CalendarForm: React.FC<CalendarFormProps> = ({
     },
   });
 
-  const { selectProps: userSelectProps } = oldUsersSelect();
+  // const { selectProps: userSelectProps } = oldUsersSelect();
 
   const rangeDate = form.getFieldsValue().rangeDate;
   const date = form.getFieldsValue().date;

@@ -9,8 +9,8 @@ import { Button, Card, Checkbox, Skeleton, theme } from "antd";
 import type { CheckboxChangeEvent } from "antd/es/checkbox";
 
 import { Text } from "@/components";
-import { EVENT_CATEGORIES_QUERY } from "@/graphql/queries";
 import { EventCategoriesQuery } from "@/graphql/types";
+import { EVENT_CATEGORIES_QUERY } from "@/routes/calendar/components/categories/getCategories";
 
 import styles from "./index.module.css";
 import { CalendarManageCategories } from "./manage-categories";

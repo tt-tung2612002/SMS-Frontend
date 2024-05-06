@@ -5,7 +5,7 @@ import { GetFieldsFromList } from "@refinedev/nestjs-query";
 
 import { CalendarOutlined, RightCircleOutlined } from "@ant-design/icons";
 import type { CardProps } from "antd";
-import { Button, Card, Skeleton as AntdSkeleton } from "antd";
+import { Button, Card,Skeleton as AntdSkeleton } from "antd";
 import dayjs from "dayjs";
 
 import { UpcomingEventsQuery } from "@/graphql/types";
@@ -74,6 +74,7 @@ export const CalendarUpcomingEvents: React.FC<CalendarUpcomingEventsProps> = ({
 
   const { data, isLoading } = useList<GetFieldsFromList<UpcomingEventsQuery>>({
     resource: "events",
+    dataProviderName: "local",
     pagination: {
       pageSize: limit,
     },

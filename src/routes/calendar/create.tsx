@@ -7,7 +7,7 @@ import { Modal } from "antd";
 import { toHexFormat } from "antd/lib/color-picker/color";
 import dayjs from "dayjs";
 
-import { Event } from "@/graphql/new/schema.types";
+import { Event } from "@/graphql/new/customSchema";
 
 import { CalendarForm } from "./components";
 import { EVENT_CREATE_MUTATION } from "./queries/createEvent";

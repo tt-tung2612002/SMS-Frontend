@@ -6,10 +6,10 @@ import { useNavigation, useResource } from "@refinedev/core";
 import { Modal } from "antd";
 import dayjs from "dayjs";
 
-import { Event } from "@/graphql/new/schema.types";
+import { Event } from "@/graphql/new/customSchema";
 
 import { CalendarForm } from "./components";
-import { CALENDAR_UPDATE_EVENT_MUTATION } from "./queries";
+import { CALENDAR_GET_EVENT_QUERY, CALENDAR_UPDATE_EVENT_MUTATION } from "./queries";
 
 export const CalendarEditPage: React.FC = () => {
   const [isAllDayEvent, setIsAllDayEvent] = useState(false);
@@ -26,6 +26,7 @@ export const CalendarEditPage: React.FC = () => {
       },
       meta: {
         gqlMutation: CALENDAR_UPDATE_EVENT_MUTATION,
+        gqlQuery: CALENDAR_GET_EVENT_QUERY,
       },
     });
 
