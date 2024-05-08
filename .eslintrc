@@ -7,6 +7,7 @@
   "plugins": ["@typescript-eslint", "simple-import-sort", "import"],
   "extends": ["plugin:@typescript-eslint/recommended", "prettier"],
   "rules": {
+    "@typescript-eslint/no-explicit-any": ["off"],
     "simple-import-sort/imports": [
       "error",
       {

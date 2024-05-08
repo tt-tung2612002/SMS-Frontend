@@ -28,7 +28,7 @@ export const useUsersSelect = () => {
   return useSelect<GetFieldsFromList<GetUsersQuery>>({
     resource: "users",
     // optionLabel: (info) => `${info.firstName} ${info.lastName}`,
-    optionLabel: "info.name",
+    // optionLabel: "info.name",
     optionValue: "id",
     dataProviderName: "local",
     meta: {

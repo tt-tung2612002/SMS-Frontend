@@ -108,9 +108,9 @@ export const CompanyCreatePage = ({ isOverModal }: Props) => {
       <Form
         {...formProps}
         layout="vertical"
-        onFinish={async (values) => {
+        onFinish={async (values: any) => {
           const base64Files = [];
-          const file = avatar[0];
+          const file = values.logoUrl[0];
           let base64String = "";
           if (file.originFileObj) {
             //             console.log(file);

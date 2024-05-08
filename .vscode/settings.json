@@ -7,5 +7,10 @@
   "search.mode": "reuseEditor",
   "typescript.workspaceSymbols.scope": "currentProject",
   "search.useParentIgnoreFiles": true,
-  "workbench.editor.labelFormat": "default"
+  "workbench.editor.labelFormat": "default",
+  "eslint.options": {
+    "rules": {
+      "@typescript-eslint/no-explicit-any": "off"
+    }
+  }
 }

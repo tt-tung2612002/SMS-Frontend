@@ -1,29 +1,43 @@
 import React, { useEffect, useState } from "react";
 
 import { useForm } from "@refinedev/antd";
-import { useNavigation, useResource } from "@refinedev/core";
+import {
+  useGetToPath,
+  useGo,
+  useNavigation,
+  useResource,
+} from "@refinedev/core";
 
 import { Modal } from "antd";
 import dayjs from "dayjs";
 
 import { Event } from "@/graphql/new/customSchema";
 
+import { useSearchParams } from "react-router-dom";
 import { CalendarForm } from "./components";
-import { CALENDAR_GET_EVENT_QUERY, CALENDAR_UPDATE_EVENT_MUTATION } from "./queries";
+import {
+  CALENDAR_GET_EVENT_QUERY,
+  CALENDAR_UPDATE_EVENT_MUTATION,
+} from "./queries";
 
 export const CalendarEditPage: React.FC = () => {
   const [isAllDayEvent, setIsAllDayEvent] = useState(false);
   const { id } = useResource();
-  const { list } = useNavigation();
+  const { show, list } = useNavigation();
+  const go = useGo();
+  const getToPath = useGetToPath();
+  const [searchParams] = useSearchParams();
 
   const { formProps, saveButtonProps, form, onFinish, queryResult } =
     useForm<Event>({
+      // resource: "event",
       id: id,
       action: "edit",
+      // liveMode: "auto",
       dataProviderName: "local",
-      queryOptions: {
-        enabled: true,
-      },
+      // queryOptions: {
+      //   enabled: true,
+      // },
       meta: {
         gqlMutation: CALENDAR_UPDATE_EVENT_MUTATION,
         gqlQuery: CALENDAR_GET_EVENT_QUERY,
@@ -98,7 +112,7 @@ export const CalendarEditPage: React.FC = () => {
       okButtonProps={{
         ...saveButtonProps,
       }}
-      okText="Save"
+      destroyOnClose
       width={560}
     >
       <CalendarForm
@@ -113,3 +127,11 @@ export const CalendarEditPage: React.FC = () => {
     </Modal>
   );
 };
+function getToPath(arg0: {
+  action: string;
+}):
+  | string
+  | import("@refinedev/core/dist/hooks/router/use-go").Resource
+  | undefined {
+  throw new Error("Function not implemented.");
+}

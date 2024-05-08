@@ -22,11 +22,6 @@ import { useDealStagesSelect } from "@/hooks/useDealStagesSelect";
 import { oldUsersSelect } from "@/hooks/useOldUsersSelect";
 import { currencyNumber } from "@/utilities";
 
-import {
-  COMPANY_DEALS_TABLE_QUERY,
-  COMPANY_TOTAL_DEALS_AMOUNT_QUERY,
-} from "./queries";
-
 type Props = {
   style?: React.CSSProperties;
 };
@@ -42,35 +37,15 @@ export const CompanyDealsTable: FC<Props> = ({ style }) => {
     syncWithLocation: false,
     sorters: {
       initial: [
-        {
-          field: "updatedAt",
-          order: "desc",
-        },
+        // {
+        //   field: "updatedAt",
+        //   order: "desc",
+        // },
       ],
     },
-    filters: {
-      initial: [
-        {
-          field: "title",
-          value: "",
-          operator: "contains",
-        },
-        {
-          field: "stage.id",
-          value: "",
-          operator: "in",
-        },
-      ],
-      permanent: [
-        {
-          field: "company.id",
-          operator: "eq",
-          value: params.id,
-        },
-      ],
-    },
+    filters: {},
     meta: {
-      gqlQuery: COMPANY_DEALS_TABLE_QUERY,
+      // gqlQuery: COMPANY_DEALS_TABLE_QUERY,
     },
   });
 
@@ -80,7 +55,7 @@ export const CompanyDealsTable: FC<Props> = ({ style }) => {
     resource: "companies",
     id: params.id,
     meta: {
-      gqlQuery: COMPANY_TOTAL_DEALS_AMOUNT_QUERY,
+      // gqlQuery: COMPANY_TOTAL_DEALS_AMOUNT_QUERY,
     },
   });
 

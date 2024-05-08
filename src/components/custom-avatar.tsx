@@ -13,7 +13,7 @@ const CustomAvatarComponent: FC<Props> = ({ name = "", style, ...rest }) => {
   return (
     <AntdAvatar
       alt={name}
-      size="small"
+      size="default"
       style={{
         backgroundColor: rest?.src
           ? "transparent"
@@ -34,5 +34,5 @@ export const CustomAvatar = memo(
   CustomAvatarComponent,
   (prevProps, nextProps) => {
     return prevProps.name === nextProps.name && prevProps.src === nextProps.src;
-  },
+  }
 );

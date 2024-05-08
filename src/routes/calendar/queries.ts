@@ -50,10 +50,25 @@ export const CALENDAR_GET_EVENT_QUERY = gql`
           title
         }
       }
+      lesson: lessonById {
+        id
+        title
+        class {
+          teacher {
+            id
+            userInfoById {
+              avatarUrl
+              firstName
+            }
+          }
+        }
+      }
+
       participants: userInfos {
         nodes {
           id
           name: firstName
+          firstName
           lastName
           avatarUrl
         }

@@ -44,8 +44,6 @@ export const ClassTitleForm = () => {
     },
     id,
   });
-  
-  
 
   const currentClass = data?.data;
   const loading = queryResult?.isLoading;
@@ -94,7 +92,7 @@ export const ClassTitleForm = () => {
   );
 };
 
-const TitleInput = ({
+export const TitleInput = ({
   value,
   onChange,
   loading,

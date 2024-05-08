@@ -1,68 +1,20 @@
 import { AuthProvider } from "@refinedev/core";
 
-import type { User } from "@/graphql/schema.types";
-import { enableAutoLogin } from "@/hooks";
-
-import { API_URL, client, loginProvider, refineProvider } from "./data";
-
-// export const emails = [
-//   "michael.scott@dundermifflin.com",
-//   "jim.halpert@dundermifflin.com",
-//   "pam.beesly@dundermifflin.com",
-//   "dwight.schrute@dundermifflin.com",
-//   "angela.martin@dundermifflin.com",
-//   "stanley.hudson@dundermifflin.com",
-//   "phyllis.smith@dundermifflin.com",
-//   "kevin.malone@dundermifflin.com",
-//   "oscar.martinez@dundermifflin.com",
-//   "creed.bratton@dundermifflin.com",
-//   "meredith.palmer@dundermifflin.com",
-//   "ryan.howard@dundermifflin.com",
-//   "kelly.kapoor@dundermifflin.com",
-//   "andy.bernard@dundermifflin.com",
-//   "toby.flenderson@dundermifflin.com",
-// ];
-
-// const randomEmail = emails[Math.floor(Math.random() * emails.length)];
-
-// export const demoCredentials = {
-//   email: randomEmail,
-//   password: "demodemo",
-// };
+import { SECURITY_URL, loginProvider, refineProvider } from "./data";
 
 export const authProvider: AuthProvider = {
-  login: async ({
-    email,
-    password,
-    // providerName,
-    accessToken,
-    // refreshToken,
-  }) => {
+  login: async ({ email, password, accessToken, refreshToken, idToken }) => {
     if (accessToken) {
-      client.setHeaders({
-        Authorization: `Bearer ${accessToken}`,
-      });
-
-      localStorage.setItem("access_token", accessToken);
-      // localStorage.setItem("refresh_token", refreshToken);
-
+      console.log("No need to authenticate, access token is valid.");
       return {
         success: true,
         redirectTo: "/",
       };
     }
 
-    // if (providerName) {
-    //   window.location.href = `${API_BASE_URL}/auth/${providerName}`;
-
-    //   return {
-    //     success: true,
-    //   };
-    // }
-
     try {
       const { data } = await loginProvider.custom({
-        url: "http://localhost:8085/" + "http://localhost:8082" + "/login",
+        url: SECURITY_URL + "/login",
         method: "post",
         headers: {
           "Content-Type": "application/json",
@@ -77,15 +29,9 @@ export const authProvider: AuthProvider = {
         },
       });
 
-      console.log(data);
-
-      client.setHeaders({
-        Authorization: `Bearer ${data.accessToken}`,
-      });
-
-      // enableAutoLogin(email);
-      localStorage.setItem("access_token", data.accessToken);
-      // localStorage.setItem("refresh_token", data.login.refreshToken);
+      sessionStorage.setItem("access_token", data.accessToken);
+      sessionStorage.setItem("refresh_token", data.refreshToken);
+      sessionStorage.setItem("roles", data.roles);
 
       return {
         success: true,
@@ -104,26 +50,10 @@ export const authProvider: AuthProvider = {
   register: async ({ email, password }) => {
     try {
       await refineProvider.custom({
-        url: API_URL,
+        url: SECURITY_URL + "/register",
         method: "post",
         headers: {},
-        meta: {
-          variables: { email, password },
-          rawQuery: `
-                mutation register($email: String!, $password: String!) {
-                    register(registerInput: {
-                      email: $email
-                        password: $password
-                    }) {
-                        id
-                        email
-                    }
-                  }
-                `,
-        },
       });
-
-      enableAutoLogin(email);
 
       return {
         success: true,
@@ -140,18 +70,19 @@ export const authProvider: AuthProvider = {
     }
   },
   logout: async () => {
-    client.setHeaders({
-      Authorization: "",
-    });
+    // client.setHeaders({
+    //   Authorization: "",
+    // });
 
-    localStorage.removeItem("access_token");
-    localStorage.removeItem("refresh_token");
+    sessionStorage.removeItem("access_token");
+    sessionStorage.removeItem("refresh_token");
 
     return {
       success: true,
       redirectTo: "/login",
     };
   },
+
   onError: async (error) => {
     // if (error?.statusCode === "UNAUTHENTICATED") {
     //   return {
@@ -162,9 +93,17 @@ export const authProvider: AuthProvider = {
     return { error };
   },
   check: async () => {
-    return {
-      authenticated: true,
-    };
+    const accessToken = sessionStorage.getItem("access_token");
+    if (accessToken) {
+      return {
+        authenticated: true,
+      };
+    } else {
+      return {
+        authenticated: false,
+      };
+    }
+
     // try {
     //   await refineProvider.custom({
     //     url: API_URL,
@@ -204,28 +143,16 @@ export const authProvider: AuthProvider = {
   },
   getIdentity: async () => {
     try {
-      const { data } = await refineProvider.custom<{ me: User }>({
-        url: API_URL,
-        method: "post",
-        headers: {},
-        meta: {
-          rawQuery: `
-                    query Me {
-                        me {
-                            id,
-                            name,
-                            email,
-                            phone,
-                            jobTitle,
-                            timezone
-                            avatarUrl
-                        }
-                      }
-                `,
-        },
-      });
-
-      return data.me;
+      // parse bearer token and get username value
+      if (sessionStorage.getItem("access_token")) {
+        return {
+          id: "1",
+          email: "tt.tung261@gmail.com",
+          username: "tt.tung261",
+          phone: "+84 942694085",
+          avatarUrl: "https://avatars.githubusercontent.com/u/47231147?v=4",
+        };
+      }
     } catch (error) {
       return undefined;
     }

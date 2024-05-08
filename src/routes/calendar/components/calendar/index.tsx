@@ -10,9 +10,9 @@ import dayjs from "dayjs";
 
 import { Text } from "@/components";
 import { Event } from "@/graphql/new/customSchema";
-import { CalendarEventsQuery } from "@/graphql/new/temp";
+import { CalendarEventsQuery } from "@/graphql/new/customTypes";
 
-import { NEW_CALENDAR_EVENTS_QUERY } from "./getEvents";
+import { NEW_CALENDAR_EVENTS_QUERY as CALENDAR_EVENTS_QUERY } from "./getEvents";
 import styles from "./index.module.css";
 
 const FullCalendarWrapper = lazy(() => import("./full-calendar"));
@@ -52,18 +52,19 @@ export const Calendar: React.FC<CalendarProps> = ({
   }, [md]);
 
   const { data } = useList<GetFieldsFromList<CalendarEventsQuery>>({
+    resource: "events",
     pagination: {
       mode: "off",
     },
-    // filters: [
-    //   {
-    //     field: "category.id",
-    //     operator: "in",
-    //     value: categoryId?.length ? categoryId : undefined,
-    //   },
-    // ],
+    filters: [
+      {
+        field: "category.id",
+        operator: "in",
+        value: categoryId?.length ? categoryId : undefined,
+      },
+    ],
     meta: {
-      gqlQuery: NEW_CALENDAR_EVENTS_QUERY,
+      gqlQuery: CALENDAR_EVENTS_QUERY,
     },
     dataProviderName: "local",
   });

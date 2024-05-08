@@ -1,11 +1,21 @@
 import type * as Types from "./schema.types";
 
-export type EventCategoriesQueryVariables = Types.Exact<{
-  filter: Types.CategoryFilter;
+export type UpdateCategoryMutationVariables = Types.Exact<{
+  input: Types.UpdateCategoryInput;
 }>;
 
-export type EventCategoriesQuery = {
-  categories: Pick<Types.CategoriesConnection, "totalCount"> & {
-    nodes: Array<Pick<Types.Category, "id" | "title">>;
-  };
+export type UpdateCategoryMutation = {
+  updateCategory: Types.Maybe<
+    Pick<Types.UpdateCategoryPayload, "clientMutationId">
+  >;
+};
+
+export type CreateCategoryMutationVariables = Types.Exact<{
+  input: Types.CreateCategoryInput;
+}>;
+
+export type CreateCategoryMutation = {
+  createCategory: Types.Maybe<
+    Pick<Types.CreateCategoryPayload, "clientMutationId">
+  >;
 };

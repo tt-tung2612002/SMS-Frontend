@@ -89,7 +89,7 @@ export const AccountSettings = ({ opened, setOpened, userId }: Props) => {
     );
   }
 
-  const { id, name, email, phoneNumber, avatarUrl } = data?.data;
+  const { id, firstName: name, email, phoneNumber, avatarUrl } = data?.data;
 
   const getActiveForm = (key: FormKeys) => {
     if (activeForm === key) {

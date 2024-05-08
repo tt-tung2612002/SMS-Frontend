@@ -9,8 +9,8 @@ import { Select, Space, Table, TableProps } from "antd";
 import dayjs from "dayjs";
 
 import { CustomAvatar, PaginationTotal, Text } from "@/components";
+import { Class } from "@/graphql/new/customSchema";
 import { ClassesTableQuery } from "@/graphql/new/customTypes";
-import { Class } from "@/graphql/new/schema.types";
 
 import { AvatarGroup } from "./avatar-group";
 

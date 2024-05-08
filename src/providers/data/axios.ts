@@ -6,12 +6,15 @@ export const axiosInstance = axios.create({
   headers: {
     "Content-Type": "application/json, text/plain, */*",
     "Apollo-Require-Preflight": "true",
+    "X-Requested-With": "XMLHttpRequest",
+    "Access-Control-Allow-Origin": "http://localhost:5173",
   },
+  // withCredentials: true,
 });
 
 axiosInstance.interceptors.request.use(
   async (config) => {
-    const accessToken = localStorage.getItem("access_token");
+    const accessToken = sessionStorage.getItem("access_token");
     if (accessToken && config?.headers) {
       config.headers.Authorization = `Bearer ${accessToken}`;
     }
@@ -19,7 +22,7 @@ axiosInstance.interceptors.request.use(
   },
   (error) => {
     return Promise.reject(error);
-  },
+  }
 );
 
 axiosInstance.interceptors.response.use(
@@ -50,7 +53,7 @@ axiosInstance.interceptors.response.use(
   (error) => {
     SetResponseOk(error, false);
     return Promise.reject(error);
-  },
+  }
 );
 
 const convertAxiosToFetchResponse = (response: AxiosResponse) => {

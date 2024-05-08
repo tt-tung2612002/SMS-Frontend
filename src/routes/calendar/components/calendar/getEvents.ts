@@ -9,6 +9,19 @@ export const NEW_CALENDAR_EVENTS_QUERY = gql`
         startDate
         title
         endDate
+        lesson: lessonById {
+          id
+          title
+          class {
+            teacher {
+              id
+              userInfoById {
+                avatarUrl
+                firstName
+              }
+            }
+          }
+        }
         participants: userInfos {
           nodes {
             id

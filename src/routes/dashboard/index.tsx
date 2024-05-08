@@ -107,9 +107,9 @@ export const DashboardPage: React.FC = () => {
             height: "448px",
           }}
         >
-          <DashboardTasksChart />
+          {/* <DashboardTasksChart /> */}
         </Col>
-        <Col
+        {/* <Col
           xs={24}
           sm={24}
           xl={16}
@@ -118,7 +118,7 @@ export const DashboardPage: React.FC = () => {
           }}
         >
           <CompaniesMap />
-        </Col>
+        </Col> */}
       </Row>
     </div>
   );

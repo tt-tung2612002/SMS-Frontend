@@ -17,7 +17,7 @@ import {
 } from "antd";
 import dayjs from "dayjs";
 
-import { EventCategoriesQuery } from "@/graphql/new/temp";
+import { EventCategoriesQuery } from "@/graphql/new/customTypes";
 import { EVENT_CATEGORIES_QUERY } from "@/routes/calendar/components/categories/getCategories";
 
 type CalendarFormProps = {

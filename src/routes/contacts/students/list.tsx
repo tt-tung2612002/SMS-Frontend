@@ -1,7 +1,7 @@
 import { FC, PropsWithChildren, useState } from "react";
 
 import { List, useTable } from "@refinedev/antd";
-import { HttpError } from "@refinedev/core";
+import { HttpError, useCan } from "@refinedev/core";
 import { GetFieldsFromList } from "@refinedev/nestjs-query";
 
 import {
@@ -91,6 +91,7 @@ export const StudentsListPage: FC<PropsWithChildren> = ({ children }) => {
       name: e.target.value ?? "",
     });
   };
+  
 
   const debouncedOnChange = debounce(onSearch, 500);
   const tabs = [

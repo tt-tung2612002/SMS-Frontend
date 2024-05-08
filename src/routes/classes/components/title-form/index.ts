@@ -1,1 +1,1 @@
-export * from "./title-form";
+export * from "./class-title-form";

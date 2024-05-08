@@ -7,9 +7,8 @@ import {
   CloseOutlined,
   EditOutlined,
   InfoCircleOutlined,
-  TeamOutlined,
 } from "@ant-design/icons";
-import { Button, Drawer, Skeleton, Space, Tag } from "antd";
+import { Button, Modal, Skeleton, Space, Tag } from "antd";
 import dayjs from "dayjs";
 
 import { Text, UserTag } from "@/components";
@@ -23,6 +22,7 @@ export const CalendarShowPage: React.FC = () => {
 
   const { queryResult } = useShow<Event>({
     id,
+    resource: "event",
     dataProviderName: "local",
     meta: {
       gqlQuery: CALENDAR_GET_EVENT_QUERY,
@@ -36,8 +36,9 @@ export const CalendarShowPage: React.FC = () => {
     return null;
   }
 
-  const { description, startDate, endDate, categories, participants } =
+  const { description, startDate, endDate, participants, lesson } =
     data?.data ?? {};
+  const teacher = lesson?.class?.teacher;
 
   const utcStartDate = dayjs(startDate).utc();
   const utcEndDate = dayjs(endDate).utc();
@@ -54,7 +55,7 @@ export const CalendarShowPage: React.FC = () => {
   };
 
   return (
-    <Drawer
+    <Modal
       title={
         <div
           style={{
@@ -84,6 +85,9 @@ export const CalendarShowPage: React.FC = () => {
               type="text"
               // size="small"
               dataProviderName="local"
+              onSubmit={() => {
+                list("events");
+              }}
               recordItemId={parseInt(id?.toString() ?? "", 10)}
               accessControl={{
                 hideIfUnauthorized: true,
@@ -100,8 +104,8 @@ export const CalendarShowPage: React.FC = () => {
       }
       closeIcon={false}
       open
-      onClose={handleOnClose}
-      width={378}
+      onCancel={handleOnClose}
+      width={750}
     >
       {isLoading ? (
         <Skeleton
@@ -141,23 +145,31 @@ export const CalendarShowPage: React.FC = () => {
               </div>
               <div>
                 <ClockCircleOutlined style={{ marginRight: ".5rem" }} />
-                <Text>{`${dayjs(utcStartDate).format("h:mma")} - ${dayjs(
+                <Text>{`${dayjs(utcStartDate).format("h:mm A")} - ${dayjs(
                   utcEndDate
-                ).format("h:mma")}`}</Text>
+                ).format("h:mm A")}`}</Text>
               </div>
             </>
           )}
 
-          {/* <div>
-            <FlagOutlined style={{ marginRight: ".5rem" }} />
-            <Text>{category?.title}</Text>
-          </div> */}
           <div style={{ display: "flex", alignItems: "start" }}>
-            <TeamOutlined style={{ marginRight: ".5rem" }} />
-            <Space size={4} wrap style={{ marginTop: "-8px" }}>
+            <Text size="lg" style={{ display: "list-item" }}>
+              Students Attending: {"  "}
+            </Text>
+
+            <Space size={10} style={{ marginLeft: "10px" }}>
               {participants?.nodes?.map((participant) => (
                 <UserTag key={participant.id} user={participant} />
               ))}
+            </Space>
+          </div>
+          <div style={{ display: "flex", alignItems: "start" }}>
+            <Text size="lg" style={{ display: "list-item" }}>
+              Teacher: {"  "}
+            </Text>
+
+            <Space size={10} wrap style={{ marginLeft: "10px" }}>
+              <UserTag key={teacher?.id} user={teacher?.userInfoById ?? {}} />
             </Space>
           </div>
           <div style={{ display: "flex", alignItems: "start" }}>
@@ -171,6 +183,6 @@ export const CalendarShowPage: React.FC = () => {
           </div>
         </div>
       )}
-    </Drawer>
+    </Modal>
   );
 };

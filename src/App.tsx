@@ -1,7 +1,7 @@
 import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
 
 import { ErrorComponent, useNotificationProvider } from "@refinedev/antd";
-import { Authenticated, CanAccess, Refine } from "@refinedev/core";
+import { Authenticated, Refine } from "@refinedev/core";
 import routerProvider, {
   CatchAllNavigate,
   DocumentTitleHandler,
@@ -63,7 +63,8 @@ const App: React.FC = () => {
             <Refine
               authProvider={authProvider}
               dataProvider={{
-                default: refineProvider,
+                refine: refineProvider,
+                default: localDataProvider,
                 local: localDataProvider,
                 rest: loginProvider,
               }}
@@ -92,14 +93,9 @@ const App: React.FC = () => {
                     </Authenticated>
                   }
                 >
+                  <Route index element={<DashboardPage />} />
                   <Route
-                    index
-                    element={
-                        <DashboardPage />
-                    }
-                  />
-                  <Route
-                    path="/calendar"
+                    path="/events"
                     element={
                       <CalendarPageWrapper>
                         <Outlet />

@@ -2,6 +2,12 @@ import { AccessControlProvider } from "@refinedev/core";
 
 import { newEnforcer, newModel, StringAdapter } from "casbin";
 
+const enum Roles {
+  "admin" = 1,
+  "teacher" = 2,
+  "student" = 3,
+}
+
 export const model = newModel(`
 [request_definition]
 r = sub, obj, act
@@ -32,12 +38,35 @@ p, admin, people, (list)
 p, admin, students, (list)|(create)
 p, admin, students/*, (edit)|(delete)|(show)
 p, admin, students/*, field
+
 p, admin, teachers, (list)|(create)
 p, admin, teachers/*, (edit)|(delete)
 p, admin, teachers/*, field
 
+p, student, classes, (list)
+p, student, dashboard, (list)
+p, student, events, (list)
+p, student, events/*, (show)
 
 `);
+
+const userRoles = sessionStorage.getItem("roles") ?? "";
+let highestRole = "";
+
+for (const role of userRoles.split(",")) {
+  console.log("Current role is: " + role);
+  if (parseInt(role, 10) == Roles.admin) {
+    console.log("Current role is: ", parseInt(role, 10));
+    highestRole = "admin";
+    break;
+  } else if (parseInt(role, 10) == Roles.teacher) {
+    highestRole = "teacher";
+  } else if (parseInt(role, 10) == Roles.student) {
+    highestRole = "student";
+  }
+}
+
+console.log("Highest role: ", highestRole);
 
 export const accessControlProvider: AccessControlProvider = {
   can: async ({ action, params, resource }) => {
@@ -48,7 +77,7 @@ export const accessControlProvider: AccessControlProvider = {
 
       return Promise.resolve({
         can: await enforcer.enforce(
-          "admin",
+          highestRole,
           `${resource}/${params?.id}`,
           action
         ),
@@ -57,14 +86,14 @@ export const accessControlProvider: AccessControlProvider = {
     if (action === "field") {
       return Promise.resolve({
         can: await enforcer.enforce(
-          "admin",
+          highestRole,
           `${resource}/${params?.field}`,
           action
         ),
       });
     }
     return {
-      can: await enforcer.enforce("admin", resource, action),
+      can: await enforcer.enforce(highestRole, resource, action),
     };
   },
 };

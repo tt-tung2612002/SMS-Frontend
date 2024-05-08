@@ -1,7 +1,7 @@
 import React from "react";
 
 import { useModal } from "@refinedev/antd";
-import { useList } from "@refinedev/core";
+import { useInvalidate, useList } from "@refinedev/core";
 import { GetFieldsFromList } from "@refinedev/nestjs-query";
 
 import { FlagOutlined, SettingOutlined } from "@ant-design/icons";
@@ -32,6 +32,17 @@ export const CalendarCategories: React.FC<CalendarCategoriesProps> = ({
       gqlQuery: EVENT_CATEGORIES_QUERY,
     },
   });
+
+  const invalidate = useInvalidate();
+
+  const customClose = () => {
+    invalidate({
+      dataProviderName: "local",
+      resource: "categories",
+      invalidates: ["list", "many"],
+    });
+    close();
+  };
 
   return (
     <>
@@ -81,7 +92,10 @@ export const CalendarCategories: React.FC<CalendarCategoriesProps> = ({
         </div>
       </Card>
 
-      <CalendarManageCategories {...modalProps} saveSuccces={() => close()} />
+      <CalendarManageCategories
+        {...modalProps}
+        saveSuccces={() => customClose()}
+      />
     </>
   );
 };

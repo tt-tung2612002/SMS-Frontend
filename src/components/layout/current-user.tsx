@@ -88,7 +88,7 @@ export const CurrentUser: React.FC = () => {
         <AccountSettings
           opened={opened}
           setOpened={setOpened}
-          userId={user.id}
+          userId={parseInt(user.id.toString(), 10)}
         />
       )}
     </>

@@ -1,7 +1,7 @@
 import { FC, PropsWithChildren, useState } from "react";
 
 import { List, useTable } from "@refinedev/antd";
-import { HttpError } from "@refinedev/core";
+import { CanAccess, HttpError } from "@refinedev/core";
 import { GetFieldsFromList } from "@refinedev/nestjs-query";
 
 import {
@@ -124,20 +124,22 @@ export const CompanyListPage: FC<PropsWithChildren> = ({ children }) => {
                   />
                 </Form.Item>
               </Form>
-              {!screens.xs ? (
-                <Radio.Group
-                  size="large"
-                  value={view}
-                  onChange={(e) => onViewChange(e.target.value)}
-                >
-                  <Radio.Button value="table">
-                    <UnorderedListOutlined />
-                  </Radio.Button>
-                  <Radio.Button value="card">
-                    <AppstoreOutlined />
-                  </Radio.Button>
-                </Radio.Group>
-              ) : null}
+              <CanAccess>
+                {!screens.xs ? (
+                  <Radio.Group
+                    size="large"
+                    value={view}
+                    onChange={(e) => onViewChange(e.target.value)}
+                  >
+                    <Radio.Button value="table">
+                      <UnorderedListOutlined />
+                    </Radio.Button>
+                    <Radio.Button value="card">
+                      <AppstoreOutlined />
+                    </Radio.Button>
+                  </Radio.Group>
+                ) : null}
+              </CanAccess>
             </Space>
           );
         }}

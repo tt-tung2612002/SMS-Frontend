@@ -117,3 +117,21 @@ export type CalendarEventsQuery = {
     >;
   };
 };
+
+export type EventCategoriesQueryVariables = Types.Exact<{
+  filter: Types.CategoryFilter;
+}>;
+
+export type EventCategoriesQuery = {
+  categories: Pick<Types.CategoriesConnection, "totalCount"> & {
+    nodes: Array<Pick<Types.Category, "id" | "title">>;
+  };
+};
+
+export type UpdateCategoryMutationVariables = Types.Exact<{
+  input: Types.UpdateCategoryInput;
+}>;
+
+export type UpdateCategoryMutation = {
+  updateCategory: Pick<Types.UpdateCategoryPayload, "clientMutationId">;
+};

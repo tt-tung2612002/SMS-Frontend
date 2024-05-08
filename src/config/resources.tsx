@@ -19,10 +19,10 @@ export const resources: IResourceItem[] = [
   },
   {
     name: "events",
-    list: "/calendar",
-    create: "/calendar/create",
-    edit: "/calendar/edit/:id",
-    show: "/calendar/show/:id",
+    list: "/events",
+    create: "/events/create",
+    edit: "/events/edit/:id",
+    show: "/events/show/:id",
     meta: {
       label: "Calendar",
       icon: <CalendarOutlined />,

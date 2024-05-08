@@ -5,7 +5,6 @@ import { useDelete, useNavigation, useShow, useUpdate } from "@refinedev/core";
 import { GetFields } from "@refinedev/nestjs-query";
 
 import {
-  CloseOutlined,
   DeleteOutlined,
   EditOutlined,
   MailOutlined,
@@ -16,6 +15,7 @@ import {
   Card,
   Drawer,
   Input,
+  Modal,
   Popconfirm,
   Spin,
   Typography,
@@ -91,20 +91,21 @@ export const ContactShowPage: React.FC = () => {
   // let studentName = name;
 
   return (
-    <Drawer
+    <Modal
       open
-      onClose={() => closeModal()}
-      width={756}
-      bodyStyle={{ background: "#f5f5f5", padding: 0 }}
-      headerStyle={{ display: "none" }}
+      onCancel={() => closeModal()}
+      onOk={() => closeModal()}
+      width={728}
+      // bodyStyle={{ background: "#f5f5f5", padding: 0 }}
+      // headerStyle={{ display: "none" }}
     >
-      <div className={styles.header}>
+      {/* <div className={styles.header}>
         <Button
           type="text"
           icon={<CloseOutlined />}
           onClick={() => closeModal()}
         />
-      </div>
+      </div> */}
       <div className={styles.container}>
         <div className={styles.name}>
           <CustomAvatar
@@ -229,6 +230,6 @@ export const ContactShowPage: React.FC = () => {
           </Popconfirm>
         </div>
       </div>
-    </Drawer>
+    </Modal>
   );
 };
