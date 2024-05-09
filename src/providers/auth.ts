@@ -31,7 +31,25 @@ export const authProvider: AuthProvider = {
 
       sessionStorage.setItem("access_token", data.accessToken);
       sessionStorage.setItem("refresh_token", data.refreshToken);
-      sessionStorage.setItem("roles", data.roles);
+
+      const role = data.roles[0];
+
+      console.log(role);
+
+      const enum Roles {
+        "admin" = 1,
+        "teacher" = 2,
+        "student" = 3,
+      }
+
+      let highestRole = "student";
+      if (role == Roles.admin) {
+        highestRole = "admin";
+      } else if (role == Roles.teacher) {
+        highestRole = "teacher";
+      }
+
+      sessionStorage.setItem("highestRole", highestRole);
 
       return {
         success: true,
@@ -95,10 +113,12 @@ export const authProvider: AuthProvider = {
   check: async () => {
     const accessToken = sessionStorage.getItem("access_token");
     if (accessToken) {
+      console.log("No need to authenticate, access token is valid.");
       return {
         authenticated: true,
       };
     } else {
+      console.log("Required Login");
       return {
         authenticated: false,
       };

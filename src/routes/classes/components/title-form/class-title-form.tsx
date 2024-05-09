@@ -22,11 +22,14 @@ import { CLASS_TITLE_QUERY } from "./getClassForm";
 import styles from "./title-form.module.css";
 
 export const ClassTitleForm = () => {
+  const { id } = useParams();
+
   const { formProps, onFinish, queryResult } = useForm<
     GetFields<UpdateClassMutation>,
     HttpError,
     GetVariables<UpdateClassMutationVariables>
   >({
+    id: id,
     redirect: false,
     meta: {
       gqlMutation: CLASS_UPDATE_MUTATION,
@@ -35,14 +38,13 @@ export const ClassTitleForm = () => {
     dataProviderName: "local",
   });
 
-  const { id } = useParams();
   const { data } = useOne<Types.Class, HttpError>({
     resource: "classes",
     dataProviderName: "local",
     meta: {
       gqlQuery: CLASS_TITLE_QUERY,
     },
-    id,
+    id: id,
   });
 
   const currentClass = data?.data;

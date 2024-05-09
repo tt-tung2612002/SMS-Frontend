@@ -1,21 +1,23 @@
 import type * as Types from "./schema.types";
 
-export type UpdateCategoryMutationVariables = Types.Exact<{
-  input: Types.UpdateCategoryInput;
+export type GetLessonQueryVariables = Types.Exact<{
+  id: Types.Scalars["Int"]["input"];
 }>;
 
-export type UpdateCategoryMutation = {
-  updateCategory: Types.Maybe<
-    Pick<Types.UpdateCategoryPayload, "clientMutationId">
-  >;
-};
-
-export type CreateCategoryMutationVariables = Types.Exact<{
-  input: Types.CreateCategoryInput;
-}>;
-
-export type CreateCategoryMutation = {
-  createCategory: Types.Maybe<
-    Pick<Types.CreateCategoryPayload, "clientMutationId">
+export type GetLessonQuery = {
+  lesson: Types.Maybe<
+    Pick<Types.Lesson, "id" | "title" | "description"> & {
+      assignments: Pick<Types.AssignmentsConnection, "totalCount"> & {
+        nodes: Array<
+          Pick<Types.Assignment, "id" | "dueDate" | "description" | "title"> & {
+            attachments: {
+              nodes: Array<
+                Pick<Types.Attachment, "id" | "fileName" | "fileDownloadUrl">
+              >;
+            };
+          }
+        >;
+      };
+    }
   >;
 };

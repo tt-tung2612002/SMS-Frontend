@@ -1,7 +1,7 @@
 import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
 
 import { ErrorComponent, useNotificationProvider } from "@refinedev/antd";
-import { Authenticated, Refine } from "@refinedev/core";
+import { Authenticated, CanAccess, Refine } from "@refinedev/core";
 import routerProvider, {
   CatchAllNavigate,
   DocumentTitleHandler,
@@ -17,7 +17,7 @@ import {
   loginProvider,
   refineProvider,
 } from "@/providers";
-import { CompanyCreatePage } from "@/routes/classes/create";
+import { ClassCreatePage } from "@/routes/classes/create";
 
 import { AlgoliaSearchWrapper, Layout } from "./components";
 import { accessControlProvider } from "./providers/accessControl";
@@ -29,7 +29,7 @@ import {
   CalendarPageWrapper,
   CalendarShowPage,
 } from "./routes/calendar";
-import { CompanyEditPage, CompanyListPage } from "./routes/classes";
+import { ClassEditPage, CompanyListPage } from "./routes/classes";
 import { ContactShowPage, StudentsListPage } from "./routes/contacts/students";
 import { TeachersListPage } from "./routes/contacts/teachers/list";
 import { DashboardPage } from "./routes/dashboard";
@@ -88,7 +88,9 @@ const App: React.FC = () => {
                       fallback={<CatchAllNavigate to="/login" />}
                     >
                       <Layout>
-                        <Outlet />
+                        <CanAccess>
+                          <Outlet />
+                        </CanAccess>
                       </Layout>
                     </Authenticated>
                   }
@@ -116,12 +118,11 @@ const App: React.FC = () => {
                       </CompanyListPage>
                     }
                   >
-                    <Route path="create" element={<CompanyCreatePage />} />
+                    <Route path="create" element={<ClassCreatePage />} />
                   </Route>
-                  <Route
-                    path="/classes/edit/:id"
-                    element={<CompanyEditPage />}
-                  />
+                  <Route path="/classes/edit/:id" element={<ClassEditPage />}>
+                    {/* <Route path="lessons/:id" element={<LessonShowPage />} /> */}
+                  </Route>
 
                   <Route path="/people" element={<Outlet />}>
                     <Route

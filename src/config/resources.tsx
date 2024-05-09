@@ -34,16 +34,14 @@ export const resources: IResourceItem[] = [
     create: "/classes/create",
     edit: "/classes/edit/:id",
     meta: {
-      label: "Class Management",
+      label: "Classes",
       icon: <ShopOutlined />,
     },
   },
-  // {
-  //   name: "companies",
-  //   identifier: "sales-companies",
-  //   create: "/scrumboard/sales/create/company/create",
-  //   meta: {},
-  // },
+  {
+    name: "lessons",
+    show: "/classes/edit/:id/lessons/:id",
+  },
   {
     name: "people",
     meta: {

@@ -10,16 +10,7 @@ import {
   MailOutlined,
   PhoneOutlined,
 } from "@ant-design/icons";
-import {
-  Button,
-  Card,
-  Drawer,
-  Input,
-  Modal,
-  Popconfirm,
-  Spin,
-  Typography,
-} from "antd";
+import { Button, Card, Input, Modal, Popconfirm, Spin, Typography } from "antd";
 import dayjs from "dayjs";
 import { now } from "lodash";
 
@@ -66,7 +57,7 @@ export const ContactShowPage: React.FC = () => {
 
   if (isLoading) {
     return (
-      <Drawer
+      <Modal
         open
         width={756}
         bodyStyle={{
@@ -77,7 +68,7 @@ export const ContactShowPage: React.FC = () => {
         }}
       >
         <Spin />
-      </Drawer>
+      </Modal>
     );
   }
 

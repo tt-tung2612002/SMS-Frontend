@@ -31,12 +31,46 @@ export type Scalars = {
 };
 
 export type Assignment = Node & {
+  /** Reads and enables pagination through a set of `Attachment`. */
+  attachments: AttachmentsConnection;
   description?: Maybe<Scalars["String"]["output"]>;
   dueDate?: Maybe<Scalars["Datetime"]["output"]>;
   id: Scalars["Int"]["output"];
+  /** Reads a single `Lesson` that is related to this `Assignment`. */
+  lesson?: Maybe<Lesson>;
+  /** Reads a single `LessonAssignment` that is related to this `Assignment`. */
+  lessonAssignmentByAssignmentsId?: Maybe<LessonAssignment>;
+  /**
+   * Reads and enables pagination through a set of `LessonAssignment`.
+   * @deprecated Please use lessonAssignmentByAssignmentsId instead
+   */
+  lessonAssignmentsByAssignmentsId: LessonAssignmentsConnection;
+  lessonId: Scalars["Int"]["output"];
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
   nodeId: Scalars["ID"]["output"];
   title?: Maybe<Scalars["String"]["output"]>;
+};
+
+export type AssignmentAttachmentsArgs = {
+  after?: InputMaybe<Scalars["Cursor"]["input"]>;
+  before?: InputMaybe<Scalars["Cursor"]["input"]>;
+  condition?: InputMaybe<AttachmentCondition>;
+  filter?: InputMaybe<AttachmentFilter>;
+  first?: InputMaybe<Scalars["Int"]["input"]>;
+  last?: InputMaybe<Scalars["Int"]["input"]>;
+  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  orderBy?: InputMaybe<Array<AttachmentsOrderBy>>;
+};
+
+export type AssignmentLessonAssignmentsByAssignmentsIdArgs = {
+  after?: InputMaybe<Scalars["Cursor"]["input"]>;
+  before?: InputMaybe<Scalars["Cursor"]["input"]>;
+  condition?: InputMaybe<LessonAssignmentCondition>;
+  filter?: InputMaybe<LessonAssignmentFilter>;
+  first?: InputMaybe<Scalars["Int"]["input"]>;
+  last?: InputMaybe<Scalars["Int"]["input"]>;
+  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  orderBy?: InputMaybe<Array<LessonAssignmentsOrderBy>>;
 };
 
 /**
@@ -50,6 +84,8 @@ export type AssignmentCondition = {
   dueDate?: InputMaybe<Scalars["Datetime"]["input"]>;
   /** Checks for equality with the object’s `id` field. */
   id?: InputMaybe<Scalars["Int"]["input"]>;
+  /** Checks for equality with the object’s `lessonId` field. */
+  lessonId?: InputMaybe<Scalars["Int"]["input"]>;
   /** Checks for equality with the object’s `title` field. */
   title?: InputMaybe<Scalars["String"]["input"]>;
 };
@@ -64,6 +100,8 @@ export type AssignmentFilter = {
   dueDate?: InputMaybe<DatetimeFilter>;
   /** Filter by the object’s `id` field. */
   id?: InputMaybe<IntFilter>;
+  /** Filter by the object’s `lessonId` field. */
+  lessonId?: InputMaybe<IntFilter>;
   /** Negates the expression. */
   not?: InputMaybe<AssignmentFilter>;
   /** Checks for any expressions in this list. */
@@ -77,6 +115,7 @@ export type AssignmentInput = {
   description?: InputMaybe<Scalars["String"]["input"]>;
   dueDate?: InputMaybe<Scalars["Datetime"]["input"]>;
   id?: InputMaybe<Scalars["Int"]["input"]>;
+  lessonId?: InputMaybe<Scalars["Int"]["input"]>;
   title?: InputMaybe<Scalars["String"]["input"]>;
 };
 
@@ -85,6 +124,7 @@ export type AssignmentPatch = {
   description?: InputMaybe<Scalars["String"]["input"]>;
   dueDate?: InputMaybe<Scalars["Datetime"]["input"]>;
   id?: InputMaybe<Scalars["Int"]["input"]>;
+  lessonId?: InputMaybe<Scalars["Int"]["input"]>;
   title?: InputMaybe<Scalars["String"]["input"]>;
 };
 
@@ -116,6 +156,8 @@ export type AssignmentsOrderBy =
   | "DUE_DATE_DESC"
   | "ID_ASC"
   | "ID_DESC"
+  | "LESSON_ID_ASC"
+  | "LESSON_ID_DESC"
   | "NATURAL"
   | "PRIMARY_KEY_ASC"
   | "PRIMARY_KEY_DESC"
@@ -123,14 +165,14 @@ export type AssignmentsOrderBy =
   | "TITLE_DESC";
 
 export type Attachment = {
+  /** Reads a single `Assignment` that is related to this `Attachment`. */
+  assignment?: Maybe<Assignment>;
+  assignmentId: Scalars["Int"]["output"];
   fileDownloadUrl?: Maybe<Scalars["String"]["output"]>;
   fileName?: Maybe<Scalars["String"]["output"]>;
   fileSize?: Maybe<Scalars["BigInt"]["output"]>;
   fileType?: Maybe<Scalars["String"]["output"]>;
   id: Scalars["Int"]["output"];
-  /** Reads a single `Owner` that is related to this `Attachment`. */
-  owner?: Maybe<Owner>;
-  ownerId?: Maybe<Scalars["Int"]["output"]>;
 };
 
 /**
@@ -138,6 +180,8 @@ export type Attachment = {
  * for equality and combined with a logical ‘and.’
  */
 export type AttachmentCondition = {
+  /** Checks for equality with the object’s `assignmentId` field. */
+  assignmentId?: InputMaybe<Scalars["Int"]["input"]>;
   /** Checks for equality with the object’s `fileDownloadUrl` field. */
   fileDownloadUrl?: InputMaybe<Scalars["String"]["input"]>;
   /** Checks for equality with the object’s `fileName` field. */
@@ -148,14 +192,14 @@ export type AttachmentCondition = {
   fileType?: InputMaybe<Scalars["String"]["input"]>;
   /** Checks for equality with the object’s `id` field. */
   id?: InputMaybe<Scalars["Int"]["input"]>;
-  /** Checks for equality with the object’s `ownerId` field. */
-  ownerId?: InputMaybe<Scalars["Int"]["input"]>;
 };
 
 /** A filter to be used against `Attachment` object types. All fields are combined with a logical ‘and.’ */
 export type AttachmentFilter = {
   /** Checks for all expressions in this list. */
   and?: InputMaybe<Array<AttachmentFilter>>;
+  /** Filter by the object’s `assignmentId` field. */
+  assignmentId?: InputMaybe<IntFilter>;
   /** Filter by the object’s `fileDownloadUrl` field. */
   fileDownloadUrl?: InputMaybe<StringFilter>;
   /** Filter by the object’s `fileName` field. */
@@ -170,18 +214,16 @@ export type AttachmentFilter = {
   not?: InputMaybe<AttachmentFilter>;
   /** Checks for any expressions in this list. */
   or?: InputMaybe<Array<AttachmentFilter>>;
-  /** Filter by the object’s `ownerId` field. */
-  ownerId?: InputMaybe<IntFilter>;
 };
 
 /** An input for mutations affecting `Attachment` */
 export type AttachmentInput = {
+  assignmentId?: InputMaybe<Scalars["Int"]["input"]>;
   fileDownloadUrl?: InputMaybe<Scalars["String"]["input"]>;
   fileName?: InputMaybe<Scalars["String"]["input"]>;
   fileSize?: InputMaybe<Scalars["BigInt"]["input"]>;
   fileType?: InputMaybe<Scalars["String"]["input"]>;
   id?: InputMaybe<Scalars["Int"]["input"]>;
-  ownerId?: InputMaybe<Scalars["Int"]["input"]>;
 };
 
 /** A connection to a list of `Attachment` values. */
@@ -206,6 +248,8 @@ export type AttachmentsEdge = {
 
 /** Methods to use when ordering `Attachment`. */
 export type AttachmentsOrderBy =
+  | "ASSIGNMENT_ID_ASC"
+  | "ASSIGNMENT_ID_DESC"
   | "FILE_DOWNLOAD_URL_ASC"
   | "FILE_DOWNLOAD_URL_DESC"
   | "FILE_NAME_ASC"
@@ -216,9 +260,7 @@ export type AttachmentsOrderBy =
   | "FILE_TYPE_DESC"
   | "ID_ASC"
   | "ID_DESC"
-  | "NATURAL"
-  | "OWNER_ID_ASC"
-  | "OWNER_ID_DESC";
+  | "NATURAL";
 
 export type Attendance = Node & {
   id: Scalars["Int"]["output"];
@@ -1557,6 +1599,8 @@ export type CreateAssignmentPayload = {
    * unchanged and unused. May be used by a client to track mutations.
    */
   clientMutationId?: Maybe<Scalars["String"]["output"]>;
+  /** Reads a single `Lesson` that is related to this `Assignment`. */
+  lesson?: Maybe<Lesson>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
 };
@@ -1579,6 +1623,8 @@ export type CreateAttachmentInput = {
 
 /** The output of our create `Attachment` mutation. */
 export type CreateAttachmentPayload = {
+  /** Reads a single `Assignment` that is related to this `Attachment`. */
+  assignment?: Maybe<Assignment>;
   /** The `Attachment` that was created by this mutation. */
   attachment?: Maybe<Attachment>;
   /** An edge for our `Attachment`. May be used by Relay 1. */
@@ -1588,8 +1634,6 @@ export type CreateAttachmentPayload = {
    * unchanged and unused. May be used by a client to track mutations.
    */
   clientMutationId?: Maybe<Scalars["String"]["output"]>;
-  /** Reads a single `Owner` that is related to this `Attachment`. */
-  owner?: Maybe<Owner>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
 };
@@ -1966,6 +2010,41 @@ export type CreateEventPayloadEventEdgeArgs = {
   orderBy?: InputMaybe<Array<EventsOrderBy>>;
 };
 
+/** All input for the create `LessonAssignment` mutation. */
+export type CreateLessonAssignmentInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
+  /** The `LessonAssignment` to be created by this mutation. */
+  lessonAssignment: LessonAssignmentInput;
+};
+
+/** The output of our create `LessonAssignment` mutation. */
+export type CreateLessonAssignmentPayload = {
+  /** Reads a single `Assignment` that is related to this `LessonAssignment`. */
+  assignments?: Maybe<Assignment>;
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars["String"]["output"]>;
+  /** Reads a single `Lesson` that is related to this `LessonAssignment`. */
+  lesson?: Maybe<Lesson>;
+  /** The `LessonAssignment` that was created by this mutation. */
+  lessonAssignment?: Maybe<LessonAssignment>;
+  /** An edge for our `LessonAssignment`. May be used by Relay 1. */
+  lessonAssignmentEdge?: Maybe<LessonAssignmentsEdge>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+};
+
+/** The output of our create `LessonAssignment` mutation. */
+export type CreateLessonAssignmentPayloadLessonAssignmentEdgeArgs = {
+  orderBy?: InputMaybe<Array<LessonAssignmentsOrderBy>>;
+};
+
 /** All input for the create `Lesson` mutation. */
 export type CreateLessonInput = {
   /**
@@ -2252,6 +2331,8 @@ export type DeleteAssignmentPayload = {
    */
   clientMutationId?: Maybe<Scalars["String"]["output"]>;
   deletedAssignmentNodeId?: Maybe<Scalars["ID"]["output"]>;
+  /** Reads a single `Lesson` that is related to this `Assignment`. */
+  lesson?: Maybe<Lesson>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
 };
@@ -2780,6 +2861,63 @@ export type DeleteEventPayload = {
 /** The output of our delete `Event` mutation. */
 export type DeleteEventPayloadEventEdgeArgs = {
   orderBy?: InputMaybe<Array<EventsOrderBy>>;
+};
+
+/** All input for the `deleteLessonAssignmentByAssignmentsId` mutation. */
+export type DeleteLessonAssignmentByAssignmentsIdInput = {
+  assignmentsId: Scalars["Int"]["input"];
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
+};
+
+/** All input for the `deleteLessonAssignmentByNodeId` mutation. */
+export type DeleteLessonAssignmentByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
+  /** The globally unique `ID` which will identify a single `LessonAssignment` to be deleted. */
+  nodeId: Scalars["ID"]["input"];
+};
+
+/** All input for the `deleteLessonAssignment` mutation. */
+export type DeleteLessonAssignmentInput = {
+  assignmentsId: Scalars["Int"]["input"];
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
+  lessonId: Scalars["Int"]["input"];
+};
+
+/** The output of our delete `LessonAssignment` mutation. */
+export type DeleteLessonAssignmentPayload = {
+  /** Reads a single `Assignment` that is related to this `LessonAssignment`. */
+  assignments?: Maybe<Assignment>;
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars["String"]["output"]>;
+  deletedLessonAssignmentNodeId?: Maybe<Scalars["ID"]["output"]>;
+  /** Reads a single `Lesson` that is related to this `LessonAssignment`. */
+  lesson?: Maybe<Lesson>;
+  /** The `LessonAssignment` that was deleted by this mutation. */
+  lessonAssignment?: Maybe<LessonAssignment>;
+  /** An edge for our `LessonAssignment`. May be used by Relay 1. */
+  lessonAssignmentEdge?: Maybe<LessonAssignmentsEdge>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+};
+
+/** The output of our delete `LessonAssignment` mutation. */
+export type DeleteLessonAssignmentPayloadLessonAssignmentEdgeArgs = {
+  orderBy?: InputMaybe<Array<LessonAssignmentsOrderBy>>;
 };
 
 /** All input for the `deleteLessonByNodeId` mutation. */
@@ -3492,6 +3630,8 @@ export type IntFilter = {
 };
 
 export type Lesson = Node & {
+  /** Reads and enables pagination through a set of `Assignment`. */
+  assignments: AssignmentsConnection;
   /** Reads and enables pagination through a set of `Attendance`. */
   attendances: AttendancesConnection;
   /** Reads a single `Class` that is related to this `Lesson`. */
@@ -3506,11 +3646,24 @@ export type Lesson = Node & {
    */
   eventsById: EventsConnection;
   id: Scalars["Int"]["output"];
+  /** Reads and enables pagination through a set of `LessonAssignment`. */
+  lessonAssignments: LessonAssignmentsConnection;
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
   nodeId: Scalars["ID"]["output"];
   title: Scalars["String"]["output"];
   /** Reads and enables pagination through a set of `UserInfo`. */
   userInfos: LessonUserInfosManyToManyConnection;
+};
+
+export type LessonAssignmentsArgs = {
+  after?: InputMaybe<Scalars["Cursor"]["input"]>;
+  before?: InputMaybe<Scalars["Cursor"]["input"]>;
+  condition?: InputMaybe<AssignmentCondition>;
+  filter?: InputMaybe<AssignmentFilter>;
+  first?: InputMaybe<Scalars["Int"]["input"]>;
+  last?: InputMaybe<Scalars["Int"]["input"]>;
+  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  orderBy?: InputMaybe<Array<AssignmentsOrderBy>>;
 };
 
 export type LessonAttendancesArgs = {
@@ -3535,6 +3688,17 @@ export type LessonEventsByIdArgs = {
   orderBy?: InputMaybe<Array<EventsOrderBy>>;
 };
 
+export type LessonLessonAssignmentsArgs = {
+  after?: InputMaybe<Scalars["Cursor"]["input"]>;
+  before?: InputMaybe<Scalars["Cursor"]["input"]>;
+  condition?: InputMaybe<LessonAssignmentCondition>;
+  filter?: InputMaybe<LessonAssignmentFilter>;
+  first?: InputMaybe<Scalars["Int"]["input"]>;
+  last?: InputMaybe<Scalars["Int"]["input"]>;
+  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  orderBy?: InputMaybe<Array<LessonAssignmentsOrderBy>>;
+};
+
 export type LessonUserInfosArgs = {
   after?: InputMaybe<Scalars["Cursor"]["input"]>;
   before?: InputMaybe<Scalars["Cursor"]["input"]>;
@@ -3545,6 +3709,84 @@ export type LessonUserInfosArgs = {
   offset?: InputMaybe<Scalars["Int"]["input"]>;
   orderBy?: InputMaybe<Array<UserInfosOrderBy>>;
 };
+
+export type LessonAssignment = Node & {
+  /** Reads a single `Assignment` that is related to this `LessonAssignment`. */
+  assignments?: Maybe<Assignment>;
+  assignmentsId: Scalars["Int"]["output"];
+  /** Reads a single `Lesson` that is related to this `LessonAssignment`. */
+  lesson?: Maybe<Lesson>;
+  lessonId: Scalars["Int"]["output"];
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars["ID"]["output"];
+};
+
+/**
+ * A condition to be used against `LessonAssignment` object types. All fields are
+ * tested for equality and combined with a logical ‘and.’
+ */
+export type LessonAssignmentCondition = {
+  /** Checks for equality with the object’s `assignmentsId` field. */
+  assignmentsId?: InputMaybe<Scalars["Int"]["input"]>;
+  /** Checks for equality with the object’s `lessonId` field. */
+  lessonId?: InputMaybe<Scalars["Int"]["input"]>;
+};
+
+/** A filter to be used against `LessonAssignment` object types. All fields are combined with a logical ‘and.’ */
+export type LessonAssignmentFilter = {
+  /** Checks for all expressions in this list. */
+  and?: InputMaybe<Array<LessonAssignmentFilter>>;
+  /** Filter by the object’s `assignmentsId` field. */
+  assignmentsId?: InputMaybe<IntFilter>;
+  /** Filter by the object’s `lessonId` field. */
+  lessonId?: InputMaybe<IntFilter>;
+  /** Negates the expression. */
+  not?: InputMaybe<LessonAssignmentFilter>;
+  /** Checks for any expressions in this list. */
+  or?: InputMaybe<Array<LessonAssignmentFilter>>;
+};
+
+/** An input for mutations affecting `LessonAssignment` */
+export type LessonAssignmentInput = {
+  assignmentsId?: InputMaybe<Scalars["Int"]["input"]>;
+  lessonId?: InputMaybe<Scalars["Int"]["input"]>;
+};
+
+/** Represents an update to a `LessonAssignment`. Fields that are set will be updated. */
+export type LessonAssignmentPatch = {
+  assignmentsId?: InputMaybe<Scalars["Int"]["input"]>;
+  lessonId?: InputMaybe<Scalars["Int"]["input"]>;
+};
+
+/** A connection to a list of `LessonAssignment` values. */
+export type LessonAssignmentsConnection = {
+  /** A list of edges which contains the `LessonAssignment` and cursor to aid in pagination. */
+  edges: Array<LessonAssignmentsEdge>;
+  /** A list of `LessonAssignment` objects. */
+  nodes: Array<LessonAssignment>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `LessonAssignment` you could get from the connection. */
+  totalCount: Scalars["Int"]["output"];
+};
+
+/** A `LessonAssignment` edge in the connection. */
+export type LessonAssignmentsEdge = {
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars["Cursor"]["output"]>;
+  /** The `LessonAssignment` at the end of the edge. */
+  node: LessonAssignment;
+};
+
+/** Methods to use when ordering `LessonAssignment`. */
+export type LessonAssignmentsOrderBy =
+  | "ASSIGNMENTS_ID_ASC"
+  | "ASSIGNMENTS_ID_DESC"
+  | "LESSON_ID_ASC"
+  | "LESSON_ID_DESC"
+  | "NATURAL"
+  | "PRIMARY_KEY_ASC"
+  | "PRIMARY_KEY_DESC";
 
 /** A condition to be used against `Lesson` object types. All fields are tested for equality and combined with a logical ‘and.’ */
 export type LessonCondition = {
@@ -3690,6 +3932,8 @@ export type Mutation = {
   createEventParticipant?: Maybe<CreateEventParticipantPayload>;
   /** Creates a single `Lesson`. */
   createLesson?: Maybe<CreateLessonPayload>;
+  /** Creates a single `LessonAssignment`. */
+  createLessonAssignment?: Maybe<CreateLessonAssignmentPayload>;
   /** Creates a single `Owner`. */
   createOwner?: Maybe<CreateOwnerPayload>;
   /** Creates a single `Role`. */
@@ -3758,6 +4002,12 @@ export type Mutation = {
   deleteEventParticipantByNodeId?: Maybe<DeleteEventParticipantPayload>;
   /** Deletes a single `Lesson` using a unique key. */
   deleteLesson?: Maybe<DeleteLessonPayload>;
+  /** Deletes a single `LessonAssignment` using a unique key. */
+  deleteLessonAssignment?: Maybe<DeleteLessonAssignmentPayload>;
+  /** Deletes a single `LessonAssignment` using a unique key. */
+  deleteLessonAssignmentByAssignmentsId?: Maybe<DeleteLessonAssignmentPayload>;
+  /** Deletes a single `LessonAssignment` using its globally unique id. */
+  deleteLessonAssignmentByNodeId?: Maybe<DeleteLessonAssignmentPayload>;
   /** Deletes a single `Lesson` using its globally unique id. */
   deleteLessonByNodeId?: Maybe<DeleteLessonPayload>;
   /** Deletes a single `Owner` using a unique key. */
@@ -3846,6 +4096,12 @@ export type Mutation = {
   updateEventParticipantByNodeId?: Maybe<UpdateEventParticipantPayload>;
   /** Updates a single `Lesson` using a unique key and a patch. */
   updateLesson?: Maybe<UpdateLessonPayload>;
+  /** Updates a single `LessonAssignment` using a unique key and a patch. */
+  updateLessonAssignment?: Maybe<UpdateLessonAssignmentPayload>;
+  /** Updates a single `LessonAssignment` using a unique key and a patch. */
+  updateLessonAssignmentByAssignmentsId?: Maybe<UpdateLessonAssignmentPayload>;
+  /** Updates a single `LessonAssignment` using its globally unique id and a patch. */
+  updateLessonAssignmentByNodeId?: Maybe<UpdateLessonAssignmentPayload>;
   /** Updates a single `Lesson` using its globally unique id and a patch. */
   updateLessonByNodeId?: Maybe<UpdateLessonPayload>;
   /** Updates a single `Owner` using a unique key and a patch. */
@@ -3948,6 +4204,11 @@ export type MutationCreateEventParticipantArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationCreateLessonArgs = {
   input: CreateLessonInput;
+};
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationCreateLessonAssignmentArgs = {
+  input: CreateLessonAssignmentInput;
 };
 
 /** The root mutation type which contains root level fields which mutate data. */
@@ -4118,6 +4379,21 @@ export type MutationDeleteEventParticipantByNodeIdArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeleteLessonArgs = {
   input: DeleteLessonInput;
+};
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteLessonAssignmentArgs = {
+  input: DeleteLessonAssignmentInput;
+};
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteLessonAssignmentByAssignmentsIdArgs = {
+  input: DeleteLessonAssignmentByAssignmentsIdInput;
+};
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteLessonAssignmentByNodeIdArgs = {
+  input: DeleteLessonAssignmentByNodeIdInput;
 };
 
 /** The root mutation type which contains root level fields which mutate data. */
@@ -4341,6 +4617,21 @@ export type MutationUpdateLessonArgs = {
 };
 
 /** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateLessonAssignmentArgs = {
+  input: UpdateLessonAssignmentInput;
+};
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateLessonAssignmentByAssignmentsIdArgs = {
+  input: UpdateLessonAssignmentByAssignmentsIdInput;
+};
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateLessonAssignmentByNodeIdArgs = {
+  input: UpdateLessonAssignmentByNodeIdInput;
+};
+
+/** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpdateLessonByNodeIdArgs = {
   input: UpdateLessonByNodeIdInput;
 };
@@ -4427,23 +4718,10 @@ export type Node = {
 };
 
 export type Owner = Node & {
-  /** Reads and enables pagination through a set of `Attachment`. */
-  attachments: AttachmentsConnection;
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
   nodeId: Scalars["ID"]["output"];
   ownerId: Scalars["Int"]["output"];
   tableName?: Maybe<Scalars["String"]["output"]>;
-};
-
-export type OwnerAttachmentsArgs = {
-  after?: InputMaybe<Scalars["Cursor"]["input"]>;
-  before?: InputMaybe<Scalars["Cursor"]["input"]>;
-  condition?: InputMaybe<AttachmentCondition>;
-  filter?: InputMaybe<AttachmentFilter>;
-  first?: InputMaybe<Scalars["Int"]["input"]>;
-  last?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  orderBy?: InputMaybe<Array<AttachmentsOrderBy>>;
 };
 
 /** A condition to be used against `Owner` object types. All fields are tested for equality and combined with a logical ‘and.’ */
@@ -4590,6 +4868,12 @@ export type Query = Node & {
   /** Reads and enables pagination through a set of `Event`. */
   events?: Maybe<EventsConnection>;
   lesson?: Maybe<Lesson>;
+  lessonAssignment?: Maybe<LessonAssignment>;
+  lessonAssignmentByAssignmentsId?: Maybe<LessonAssignment>;
+  /** Reads a single `LessonAssignment` using its globally unique `ID`. */
+  lessonAssignmentByNodeId?: Maybe<LessonAssignment>;
+  /** Reads and enables pagination through a set of `LessonAssignment`. */
+  lessonAssignments?: Maybe<LessonAssignmentsConnection>;
   /** Reads a single `Lesson` using its globally unique `ID`. */
   lessonByNodeId?: Maybe<Lesson>;
   /** Reads and enables pagination through a set of `Lesson`. */
@@ -4934,6 +5218,34 @@ export type QueryEventsArgs = {
 /** The root query type which gives access points into the data universe. */
 export type QueryLessonArgs = {
   id: Scalars["Int"]["input"];
+};
+
+/** The root query type which gives access points into the data universe. */
+export type QueryLessonAssignmentArgs = {
+  assignmentsId: Scalars["Int"]["input"];
+  lessonId: Scalars["Int"]["input"];
+};
+
+/** The root query type which gives access points into the data universe. */
+export type QueryLessonAssignmentByAssignmentsIdArgs = {
+  assignmentsId: Scalars["Int"]["input"];
+};
+
+/** The root query type which gives access points into the data universe. */
+export type QueryLessonAssignmentByNodeIdArgs = {
+  nodeId: Scalars["ID"]["input"];
+};
+
+/** The root query type which gives access points into the data universe. */
+export type QueryLessonAssignmentsArgs = {
+  after?: InputMaybe<Scalars["Cursor"]["input"]>;
+  before?: InputMaybe<Scalars["Cursor"]["input"]>;
+  condition?: InputMaybe<LessonAssignmentCondition>;
+  filter?: InputMaybe<LessonAssignmentFilter>;
+  first?: InputMaybe<Scalars["Int"]["input"]>;
+  last?: InputMaybe<Scalars["Int"]["input"]>;
+  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  orderBy?: InputMaybe<Array<LessonAssignmentsOrderBy>>;
 };
 
 /** The root query type which gives access points into the data universe. */
@@ -5359,6 +5671,8 @@ export type UpdateAssignmentPayload = {
    * unchanged and unused. May be used by a client to track mutations.
    */
   clientMutationId?: Maybe<Scalars["String"]["output"]>;
+  /** Reads a single `Lesson` that is related to this `Assignment`. */
+  lesson?: Maybe<Lesson>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
 };
@@ -5928,6 +6242,68 @@ export type UpdateEventPayloadEventEdgeArgs = {
   orderBy?: InputMaybe<Array<EventsOrderBy>>;
 };
 
+/** All input for the `updateLessonAssignmentByAssignmentsId` mutation. */
+export type UpdateLessonAssignmentByAssignmentsIdInput = {
+  assignmentsId: Scalars["Int"]["input"];
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
+  /** An object where the defined keys will be set on the `LessonAssignment` being updated. */
+  patch: LessonAssignmentPatch;
+};
+
+/** All input for the `updateLessonAssignmentByNodeId` mutation. */
+export type UpdateLessonAssignmentByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
+  /** The globally unique `ID` which will identify a single `LessonAssignment` to be updated. */
+  nodeId: Scalars["ID"]["input"];
+  /** An object where the defined keys will be set on the `LessonAssignment` being updated. */
+  patch: LessonAssignmentPatch;
+};
+
+/** All input for the `updateLessonAssignment` mutation. */
+export type UpdateLessonAssignmentInput = {
+  assignmentsId: Scalars["Int"]["input"];
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
+  lessonId: Scalars["Int"]["input"];
+  /** An object where the defined keys will be set on the `LessonAssignment` being updated. */
+  patch: LessonAssignmentPatch;
+};
+
+/** The output of our update `LessonAssignment` mutation. */
+export type UpdateLessonAssignmentPayload = {
+  /** Reads a single `Assignment` that is related to this `LessonAssignment`. */
+  assignments?: Maybe<Assignment>;
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars["String"]["output"]>;
+  /** Reads a single `Lesson` that is related to this `LessonAssignment`. */
+  lesson?: Maybe<Lesson>;
+  /** The `LessonAssignment` that was updated by this mutation. */
+  lessonAssignment?: Maybe<LessonAssignment>;
+  /** An edge for our `LessonAssignment`. May be used by Relay 1. */
+  lessonAssignmentEdge?: Maybe<LessonAssignmentsEdge>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+};
+
+/** The output of our update `LessonAssignment` mutation. */
+export type UpdateLessonAssignmentPayloadLessonAssignmentEdgeArgs = {
+  orderBy?: InputMaybe<Array<LessonAssignmentsOrderBy>>;
+};
+
 /** All input for the `updateLessonByNodeId` mutation. */
 export type UpdateLessonByNodeIdInput = {
   /**
@@ -6285,7 +6661,7 @@ export type User = Node & {
   /** Reads and enables pagination through a set of `UserAttribute`. */
   userAttributes: UserAttributesConnection;
   /** Reads a single `UserInfo` that is related to this `User`. */
-  userInfoById: UserInfo;
+  userInfoById?: Maybe<UserInfo>;
   /**
    * Reads and enables pagination through a set of `UserInfo`.
    * @deprecated Please use userInfoById instead

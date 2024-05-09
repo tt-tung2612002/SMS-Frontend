@@ -7,14 +7,7 @@ import { Col, Row } from "antd";
 import { CalendarUpcomingEvents } from "@/components";
 import { DashboardTotalCountsQuery } from "@/graphql/new/types";
 
-import {
-  CompaniesMap,
-  DashboardDealsChart,
-  DashboardLatestActivities,
-  DashboardTasksChart,
-  DashboardTotalCountCard,
-  DashboardTotalRevenueChart,
-} from "./components";
+import { DashboardTotalCountCard } from "./components";
 import { DASHBOARD_TOTAL_COUNTS_QUERY } from "./dashboardGetTotalCount";
 
 export const DashboardPage: React.FC = () => {
@@ -85,9 +78,9 @@ export const DashboardPage: React.FC = () => {
           marginTop: "32px",
         }}
       >
-        <Col xs={24} sm={24} xl={14} xxl={16}>
+        {/* <Col xs={24} sm={24} xl={14} xxl={16}>
           <DashboardLatestActivities />
-        </Col>
+        </Col> */}
         <Col xs={24} sm={24} xl={10} xxl={8}>
           <CalendarUpcomingEvents showGoToListButton />
         </Col>

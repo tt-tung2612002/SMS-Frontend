@@ -1,14 +1,13 @@
 import gql from "graphql-tag";
 
 export const CLASS_LESSONS_TABLE_QUERY = gql`
-  query CompanyContactsTable(
-    $filter: LessonFilter!
-  ) {
+  query ClassGetLessons($filter: LessonFilter!) {
     lessons(filter: $filter) {
       nodes {
         id
+        title
       }
       totalCount
-   }
+    }
   }
 `;

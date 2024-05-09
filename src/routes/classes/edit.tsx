@@ -1,15 +1,9 @@
 import { Col, Row } from "antd";
 
-import {
-  ClassStudentsTable,
-  ClassTitleForm,
-  CompanyDealsTable,
-  CompanyInfoForm,
-  CompanyNotes,
-  CompanyQuotesTable,
-} from "./components";
+import { ClassStudentsTable, ClassTitleForm } from "./components";
+import LessonsManager from "./components/lessons/lesson-manager";
 
-export const CompanyEditPage = () => {
+export const ClassEditPage = () => {
   return (
     <div className="page-container">
       <ClassTitleForm />
@@ -21,26 +15,21 @@ export const CompanyEditPage = () => {
       >
         <Col span={16}>
           <ClassStudentsTable />
-          <CompanyDealsTable
+          <LessonsManager />
+          {/* <CompanyQuotesTable
             style={{
               marginTop: 32,
             }}
-          />
-          <CompanyQuotesTable
+          /> */}
+          {/* <CompanyNotes
             style={{
               marginTop: 32,
             }}
-          />
-          <CompanyNotes
-            style={{
-              marginTop: 32,
-            }}
-          />
+          /> */}
         </Col>
-        <Col span={8}>
-          <CompanyInfoForm
-          />
-        </Col>
+        {/* <Col span={8}>
+          <CompanyInfoForm />
+        </Col> */}
       </Row>
     </div>
   );

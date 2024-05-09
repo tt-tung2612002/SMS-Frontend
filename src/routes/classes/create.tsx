@@ -40,7 +40,7 @@ type Props = {
 //   }[];
 // };
 
-export const CompanyCreatePage = ({ isOverModal }: Props) => {
+export const ClassCreatePage = ({ isOverModal }: Props) => {
   const getToPath = useGetToPath();
   const [searchParams] = useSearchParams();
   // const { pathname } = useLocation();

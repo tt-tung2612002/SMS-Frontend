@@ -1,7 +1,7 @@
 import { FC, PropsWithChildren, useState } from "react";
 
 import { List, useTable } from "@refinedev/antd";
-import { CanAccess, HttpError } from "@refinedev/core";
+import { CanAccess, CrudFilter, HttpError } from "@refinedev/core";
 import { GetFieldsFromList } from "@refinedev/nestjs-query";
 
 import {
@@ -23,6 +23,14 @@ type View = "card" | "table";
 export const CompanyListPage: FC<PropsWithChildren> = ({ children }) => {
   const [view, setView] = useState<View>("table");
   const screens = Grid.useBreakpoint();
+
+  const role = sessionStorage.getItem("highestRole") ?? "";
+  let teacher_restricted_filters: CrudFilter[];
+  let teacherId = undefined;
+
+  if (role === "teacher") {
+    teacherId = 1;
+  }
 
   const {
     tableProps,
@@ -60,16 +68,18 @@ export const CompanyListPage: FC<PropsWithChildren> = ({ children }) => {
     },
     filters: {
       mode: "server",
+      permanent: [
+        {
+          field: "teacherId",
+          operator: "eq",
+          value: teacherId,
+        },
+      ],
       initial: [
         {
           field: "name",
           operator: "contains",
           value: "",
-        },
-        {
-          field: "teacherId",
-          operator: "eq",
-          value: undefined,
         },
       ],
     },
