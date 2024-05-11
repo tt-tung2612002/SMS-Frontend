@@ -1,7 +1,7 @@
 import { FC, PropsWithChildren, useState } from "react";
 
 import { List, useTable } from "@refinedev/antd";
-import { HttpError, useCan } from "@refinedev/core";
+import { HttpError } from "@refinedev/core";
 import { GetFieldsFromList } from "@refinedev/nestjs-query";
 
 import {
@@ -91,7 +91,6 @@ export const StudentsListPage: FC<PropsWithChildren> = ({ children }) => {
       name: e.target.value ?? "",
     });
   };
-  
 
   const debouncedOnChange = debounce(onSearch, 500);
   const tabs = [
@@ -106,79 +105,9 @@ export const StudentsListPage: FC<PropsWithChildren> = ({ children }) => {
     {
       key: "3",
       label: "Inactive",
-      children: (
-        <List
-          breadcrumb={false}
-          headerButtons={() => {
-            return (
-              <Space
-                style={{
-                  marginTop: screens.xs ? "1.6rem" : undefined,
-                }}
-              >
-                <Form {...searchFormProps} layout="inline">
-                  <Form.Item name="firstName" noStyle>
-                    <Input
-                      size="large"
-                      prefix={<SearchOutlined className="anticon tertiary" />}
-                      suffix={
-                        <Spin
-                          size="small"
-                          spinning={tableQueryResult.isFetching}
-                        />
-                      }
-                      placeholder="Search by name"
-                      onChange={debouncedOnChange}
-                    />
-                  </Form.Item>
-                </Form>
-                {!screens.xs ? (
-                  <Radio.Group
-                    size="large"
-                    value={view}
-                    onChange={(e) => onViewChange(e.target.value)}
-                  >
-                    <Radio.Button value="table">
-                      <UnorderedListOutlined />
-                    </Radio.Button>
-                    <Radio.Button value="card">
-                      <AppstoreOutlined />
-                    </Radio.Button>
-                  </Radio.Group>
-                ) : null}
-              </Space>
-            );
-          }}
-          contentProps={{
-            style: {
-              marginTop: "28px",
-            },
-          }}
-          title={
-            <ListTitleButton toPath="students" buttonText="Add new students" />
-          }
-        >
-          {view === "table" ? (
-            <StudentsTableView
-              tableProps={tableProps}
-              // filters={filters}
-              // sorters={sorters}
-            />
-          ) : (
-            <StudentsTableView
-              tableProps={tableProps}
-              // setPageSize={setPageSize}
-              // setCurrent={setCurrent}
-              // filters={filters}
-              // sorters={sorters}
-            />
-          )}
-        </List>
-      ),
+      children: <List breadcrumb={false}>{}</List>,
     },
   ];
-;
-
   return (
     <div className="page-container">
       <Tabs defaultActiveKey="1" items={tabs}></Tabs>

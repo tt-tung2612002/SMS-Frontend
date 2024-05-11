@@ -1,7 +1,7 @@
 import { FC, memo } from "react";
 
 import type { AvatarProps } from "antd";
-import { Avatar as AntdAvatar } from "antd";
+import { Avatar as AntdAvatar, Typography } from "antd";
 
 import { getNameInitials, getRandomColorFromString } from "@/utilities";
 
@@ -13,7 +13,7 @@ const CustomAvatarComponent: FC<Props> = ({ name = "", style, ...rest }) => {
   return (
     <AntdAvatar
       alt={name}
-      size="default"
+      size="small"
       style={{
         backgroundColor: rest?.src
           ? "transparent"
@@ -25,7 +25,7 @@ const CustomAvatarComponent: FC<Props> = ({ name = "", style, ...rest }) => {
       }}
       {...rest}
     >
-      {getNameInitials(name)}
+      <Typography>{getNameInitials(name)}</Typography>
     </AntdAvatar>
   );
 };

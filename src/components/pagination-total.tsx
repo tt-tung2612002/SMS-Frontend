@@ -1,3 +1,4 @@
+import { Space, Typography } from "antd";
 import { FC } from "react";
 
 type PaginationTotalProps = {
@@ -10,12 +11,28 @@ export const PaginationTotal: FC<PaginationTotalProps> = ({
   entityName,
 }) => {
   return (
-    <span
+    <Space
       style={{
-        marginLeft: "16px",
+        paddingLeft: "5px",
       }}
     >
-      <span className="ant-text secondary">{total}</span> {entityName} in total
-    </span>
+      <Typography
+        style={{
+          marginTop: "1px",
+          color: "#fff",
+          textEmphasis: "bold",
+          fontSize: "15px",
+        }}
+      >
+        {total}
+      </Typography>{" "}
+      <Typography
+        style={{
+          fontSize: "14px",
+        }}
+      >
+        {entityName} in total
+      </Typography>{" "}
+    </Space>
   );
 };

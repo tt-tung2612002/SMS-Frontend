@@ -1,6 +1,6 @@
 import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
 
-import { ErrorComponent, useNotificationProvider } from "@refinedev/antd";
+import { useNotificationProvider } from "@refinedev/antd";
 import { Authenticated, CanAccess, Refine } from "@refinedev/core";
 import routerProvider, {
   CatchAllNavigate,
@@ -10,7 +10,7 @@ import routerProvider, {
 
 import { App as AntdApp, ConfigProvider } from "antd";
 
-import { resources, themeConfig } from "@/config";
+import { resources } from "@/config";
 import {
   authProvider,
   localDataProvider,
@@ -19,9 +19,10 @@ import {
 } from "@/providers";
 import { ClassCreatePage } from "@/routes/classes/create";
 
-import { AlgoliaSearchWrapper, Layout } from "./components";
+import { ThemeProvider } from "@mui/material/styles";
+import { ErrorComponent, ThemedLayoutV2, ThemedTitleV2 } from "@refinedev/mui";
 import { accessControlProvider } from "./providers/accessControl";
-import { AuditLogPage, SettingsPage } from "./routes/administration";
+import { AuditLogPage } from "./routes/administration";
 import {
   CalendarCreatePage,
   // CalendarCreatePage,
@@ -37,27 +38,24 @@ import { ForgotPasswordPage } from "./routes/forgot-password";
 import { LoginPage } from "./routes/login";
 import { RegisterPage } from "./routes/register";
 import { UpdatePasswordPage } from "./routes/update-password";
+import { CustomConfig, MaterialUIDarkTheme } from "./styles/dark";
 
 import "@refinedev/antd/dist/reset.css";
-import "./styles/antd.css";
-import "./styles/fc.css";
-import "./styles/index.css";
+import "./styles";
 import "./utilities/init-dayjs";
 
-const App: React.FC = () => {
-  // This hook is used to automatically login the user.
-  // We use this hook to skip the login page and demonstrate the application more quickly.
-  // const { loading } = useAutoLoginForDemo();
+import { Logo } from "./components";
+import { Header } from "./components/layout/header";
+import { MUISider } from "./components/layout/customSider";
 
-  // if (loading) {
-  //   return <FullScreenLoading />;
-  // }
+const App: React.FC = () => {
+  // const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
 
   return (
-    <AlgoliaSearchWrapper>
+    // <AlgoliaSearchWrapper>
+    <ThemeProvider theme={MaterialUIDarkTheme}>
       <BrowserRouter>
-        <ConfigProvider theme={themeConfig}>
-          {/* <ConfigProvider theme={ RefineThemes.Red}> */}
+        <ConfigProvider theme={CustomConfig}>
           <AntdApp>
             {/* <DevtoolsProvider> */}
             <Refine
@@ -87,11 +85,21 @@ const App: React.FC = () => {
                       key="authenticated-layout"
                       fallback={<CatchAllNavigate to="/login" />}
                     >
-                      <Layout>
+                      <ThemedLayoutV2
+                        Sider={MUISider}
+                        Header={Header}
+                        Title={({ collapsed }) => (
+                          <ThemedTitleV2
+                            collapsed={false}
+                            icon={collapsed ? <Logo /> : <Logo />}
+                            text="Student Management System"
+                          />
+                        )}
+                      >
                         <CanAccess>
                           <Outlet />
                         </CanAccess>
-                      </Layout>
+                      </ThemedLayoutV2>
                     </Authenticated>
                   }
                 >
@@ -156,7 +164,7 @@ const App: React.FC = () => {
                   </Route>
 
                   <Route path="/administration" element={<Outlet />}>
-                    <Route path="settings" element={<SettingsPage />} />
+                    <Route path="settings" element={null} />
                     <Route path="audit-log" element={<AuditLogPage />} />
                   </Route>
                   <Route path="*" element={<ErrorComponent />} />
@@ -191,7 +199,8 @@ const App: React.FC = () => {
           </AntdApp>
         </ConfigProvider>
       </BrowserRouter>
-    </AlgoliaSearchWrapper>
+    </ThemeProvider>
+    // </AlgoliaSearchWrapper>
   );
 };
 

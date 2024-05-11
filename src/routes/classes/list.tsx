@@ -1,7 +1,7 @@
 import { FC, PropsWithChildren, useState } from "react";
 
 import { List, useTable } from "@refinedev/antd";
-import { CanAccess, CrudFilter, HttpError } from "@refinedev/core";
+import { CanAccess, HttpError } from "@refinedev/core";
 import { GetFieldsFromList } from "@refinedev/nestjs-query";
 
 import {
@@ -25,7 +25,6 @@ export const CompanyListPage: FC<PropsWithChildren> = ({ children }) => {
   const screens = Grid.useBreakpoint();
 
   const role = sessionStorage.getItem("highestRole") ?? "";
-  let teacher_restricted_filters: CrudFilter[];
   let teacherId = undefined;
 
   if (role === "teacher") {
@@ -139,6 +138,7 @@ export const CompanyListPage: FC<PropsWithChildren> = ({ children }) => {
                   <Radio.Group
                     size="large"
                     value={view}
+                    buttonStyle="solid"
                     onChange={(e) => onViewChange(e.target.value)}
                   >
                     <Radio.Button value="table">
@@ -155,7 +155,7 @@ export const CompanyListPage: FC<PropsWithChildren> = ({ children }) => {
         }}
         contentProps={{
           style: {
-            marginTop: "28px",
+            marginTop: "40px",
           },
         }}
         title={<ListTitleButton toPath="classes" buttonText="Add new class" />}

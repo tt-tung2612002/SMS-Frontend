@@ -4,9 +4,15 @@ import {
   CalendarOutlined,
   CrownOutlined,
   DashboardOutlined,
+  SettingOutlined,
   ShopOutlined,
+  SolutionOutlined,
   TeamOutlined,
 } from "@ant-design/icons";
+
+const globalStyleIcon = {
+  fontSize: "18px",
+};
 
 export const resources: IResourceItem[] = [
   {
@@ -14,7 +20,7 @@ export const resources: IResourceItem[] = [
     list: "/",
     meta: {
       label: "Dashboard",
-      icon: <DashboardOutlined />,
+      icon: <DashboardOutlined style={globalStyleIcon} />,
     },
   },
   {
@@ -25,7 +31,7 @@ export const resources: IResourceItem[] = [
     show: "/events/show/:id",
     meta: {
       label: "Calendar",
-      icon: <CalendarOutlined />,
+      icon: <CalendarOutlined style={globalStyleIcon} />,
     },
   },
   {
@@ -35,7 +41,7 @@ export const resources: IResourceItem[] = [
     edit: "/classes/edit/:id",
     meta: {
       label: "Classes",
-      icon: <ShopOutlined />,
+      icon: <ShopOutlined style={globalStyleIcon} />,
     },
   },
   {
@@ -46,7 +52,7 @@ export const resources: IResourceItem[] = [
     name: "people",
     meta: {
       label: "Human Resources",
-      icon: <CrownOutlined />,
+      icon: <SolutionOutlined style={globalStyleIcon} />,
     },
   },
   {
@@ -57,7 +63,7 @@ export const resources: IResourceItem[] = [
     show: "/people/students/show/:id",
     meta: {
       label: "Students",
-      icon: <TeamOutlined />,
+      icon: <TeamOutlined style={globalStyleIcon} />,
       parent: "people",
     },
   },
@@ -70,14 +76,14 @@ export const resources: IResourceItem[] = [
     meta: {
       parent: "people",
       label: "Teacher",
-      icon: <TeamOutlined />,
+      icon: <TeamOutlined style={globalStyleIcon} />,
     },
   },
   {
     name: "administration",
     meta: {
       label: "Administration",
-      icon: <CrownOutlined />,
+      icon: <CrownOutlined style={globalStyleIcon} />,
     },
   },
   {
@@ -86,6 +92,7 @@ export const resources: IResourceItem[] = [
     meta: {
       label: "Settings",
       parent: "administration",
+      icon: <SettingOutlined style={globalStyleIcon} />,
     },
   },
   {

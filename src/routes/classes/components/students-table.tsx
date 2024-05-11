@@ -94,11 +94,15 @@ export const ClassStudentsTable: FC = () => {
 
   return (
     <Card
-      headStyle={{
-        borderBottom: "1px solid #D9D9D9",
-        marginBottom: "1px",
+      styles={{
+        header: {
+          borderBottom: "1px solid #D9D9D9",
+          marginBottom: "1px",
+        },
+        body: {
+          padding: 0,
+        },
       }}
-      bodyStyle={{ padding: 0 }}
       title={
         <Space size="middle">
           <TeamOutlined />
@@ -120,14 +124,14 @@ export const ClassStudentsTable: FC = () => {
       }
     >
       {!hasData && (
-        <div
+        <Space
           style={{
             padding: 16,
             borderBottom: "1px solid #D9D9D9",
           }}
         >
           <Text>No contacts yet</Text>
-        </div>
+        </Space>
       )}
       {hasData && (
         <Table
@@ -157,7 +161,9 @@ export const ClassStudentsTable: FC = () => {
                       whiteSpace: "nowrap",
                     }}
                   >
-                    {record?.user?.userInfoById?.firstName + " " + record?.user?.userInfoById?.lastName}
+                    {record?.user?.userInfoById?.firstName +
+                      " " +
+                      record?.user?.userInfoById?.lastName}
                   </Text>
                 </Space>
               );

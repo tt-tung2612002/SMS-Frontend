@@ -41,12 +41,13 @@ export const ListTitleButton: FC<ListTitleButtonProps> = ({
       size={screens.xs ? "middle" : "large"}
       style={{
         marginTop: screens.xs ? "1.6rem" : "0.3rem",
+        fontSize: "14px",
       }}
     >
       <Text
         style={{
           color: "#fff",
-          fontSize: "16px",
+          fontSize: "14px",
           fontWeight: 400,
         }}
       >

@@ -14,7 +14,7 @@ export const Header: React.FC = () => {
   const { token } = useToken();
 
   const headerStyles: React.CSSProperties = {
-    backgroundColor: token.colorBgElevated,
+    backgroundColor: "#1e1e1e",
     display: "flex",
     justifyContent: !!searchClient ? "space-between" : "flex-end",
     alignItems: "center",

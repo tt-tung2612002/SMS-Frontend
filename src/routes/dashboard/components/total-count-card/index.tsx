@@ -2,7 +2,7 @@ import React, { FC, PropsWithChildren, Suspense } from "react";
 
 import { AuditOutlined, ShopOutlined, TeamOutlined } from "@ant-design/icons";
 import { AreaConfig } from "@ant-design/plots";
-import { Card, Skeleton } from "antd";
+import { Card, Skeleton, Space } from "antd";
 
 import { Text } from "@/components";
 
@@ -59,13 +59,15 @@ export const DashboardTotalCountCard: React.FC<{
 
   return (
     <Card
-      style={{ height: "96px", padding: 0 }}
-      bodyStyle={{
-        padding: "8px 8px 8px 12px",
+      styles={{
+        body: {
+          padding: "8px 8px 8px 12px",
+        },
       }}
+      style={{ height: "96px", padding: 0 }}
       size="small"
     >
-      <div
+      <Space
         style={{
           display: "flex",
           alignItems: "center",
@@ -74,11 +76,15 @@ export const DashboardTotalCountCard: React.FC<{
         }}
       >
         {icon}
-        <Text size="md" className="secondary" style={{ marginLeft: "8px" }}>
+        <Text
+          size="md"
+          className="secondary"
+          style={{ marginLeft: "8px", color: "white" }}
+        >
           {title}
         </Text>
-      </div>
-      <div
+      </Space>
+      <Space
         style={{
           display: "flex",
           justifyContent: "space-between",
@@ -89,6 +95,7 @@ export const DashboardTotalCountCard: React.FC<{
           strong
           style={{
             textAlign: "start",
+            fontSize: "32px",
             marginLeft: "48px",
             fontVariantNumeric: "tabular-nums",
           }}
@@ -107,7 +114,7 @@ export const DashboardTotalCountCard: React.FC<{
         <Suspense>
           <Area {...config} />
         </Suspense>
-      </div>
+      </Space>
     </Card>
   );
 };
@@ -117,7 +124,7 @@ const IconWrapper: FC<PropsWithChildren<{ color: string }>> = ({
   children,
 }) => {
   return (
-    <div
+    <Space
       style={{
         display: "flex",
         alignItems: "center",
@@ -129,7 +136,7 @@ const IconWrapper: FC<PropsWithChildren<{ color: string }>> = ({
       }}
     >
       {children}
-    </div>
+    </Space>
   );
 };
 
@@ -181,14 +188,14 @@ const variants: {
   },
 
   students: {
-    primaryColor: "#52C41A",
-    secondaryColor: "#D9F7BE",
+    primaryColor: "white",
+    secondaryColor: "white",
     icon: (
-      <IconWrapper color="#F6FFED">
+      <IconWrapper color="#c3a0e8">
         <TeamOutlined
           className="md"
           style={{
-            color: "#52C41A",
+            color: "white",
           }}
         />
       </IconWrapper>

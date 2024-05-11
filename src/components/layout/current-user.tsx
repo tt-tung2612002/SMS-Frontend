@@ -73,6 +73,7 @@ export const CurrentUser: React.FC = () => {
       <Popover
         placement="bottomRight"
         content={content}
+        style={{ backgroundColor: "black" }}
         trigger="click"
         overlayInnerStyle={{ padding: 0 }}
         overlayStyle={{ zIndex: 999 }}

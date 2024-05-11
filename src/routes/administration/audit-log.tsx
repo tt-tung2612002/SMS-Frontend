@@ -16,7 +16,6 @@ import { Audit } from "@/graphql/schema.types";
 import { AdministrationAuditLogsQuery } from "@/graphql/types";
 
 import { ActionCell } from "./components";
-import { ADMINISTRATION_AUDIT_LOGS_QUERY } from "./queries";
 
 const getActionColor = (action: string): TagProps["color"] => {
   switch (action) {
@@ -36,7 +35,7 @@ export const AuditLogPage = () => {
     GetFieldsFromList<AdministrationAuditLogsQuery>
   >({
     meta: {
-      gqlQuery: ADMINISTRATION_AUDIT_LOGS_QUERY,
+      // gqlQuery: ADMINISTRATION_AUDIT_LOGS_QUERY,
     },
     filters: {
       initial: [
@@ -102,7 +101,7 @@ export const AuditLogPage = () => {
             defaultFilteredValue={getDefaultFilter(
               "user.name",
               filters,
-              "contains",
+              "contains"
             )}
           />
           <Table.Column
@@ -156,7 +155,7 @@ export const AuditLogPage = () => {
             defaultFilteredValue={getDefaultFilter(
               "createdAt",
               filters,
-              "between",
+              "between"
             )}
             defaultSortOrder={getDefaultSortOrder("createdAt", sorters)}
           />

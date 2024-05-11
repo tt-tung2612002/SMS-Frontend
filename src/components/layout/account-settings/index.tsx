@@ -1,7 +1,6 @@
 import { useState } from "react";
 
 import { HttpError, useOne, useUpdate } from "@refinedev/core";
-import { GetFields, GetVariables } from "@refinedev/nestjs-query";
 
 import {
   CloseOutlined,
@@ -15,10 +14,6 @@ import { Button, Card, Drawer, Input, Space, Spin, Typography } from "antd";
 
 import { TimezoneEnum } from "@/enums";
 import { UserInfo } from "@/graphql/new/schema.types";
-import {
-  AccountSettingsUpdateUserMutation,
-  AccountSettingsUpdateUserMutationVariables,
-} from "@/graphql/types";
 
 import { CustomAvatar } from "../../custom-avatar";
 import { SingleElementForm } from "../../single-element-form";
@@ -48,6 +43,7 @@ export const AccountSettings = ({ opened, setOpened, userId }: Props) => {
   const { data, isLoading, isError } = useOne<UserInfo, HttpError>({
     resource: "userInfo",
     dataProviderName: "local",
+    liveMode: "auto",
     id: userId,
     queryOptions: {
       enabled: opened,
@@ -57,11 +53,7 @@ export const AccountSettings = ({ opened, setOpened, userId }: Props) => {
     },
   });
 
-  const { mutate: updateMutation } = useUpdate<
-    GetFields<AccountSettingsUpdateUserMutation>,
-    HttpError,
-    GetVariables<AccountSettingsUpdateUserMutationVariables>
-  >();
+  const { mutate: updateMutation } = useUpdate<UserInfo>();
 
   const closeModal = () => {
     setOpened(false);
@@ -77,8 +69,8 @@ export const AccountSettings = ({ opened, setOpened, userId }: Props) => {
       <Drawer
         open={opened}
         width={756}
-        bodyStyle={{
-          background: "#f5f5f5",
+        style={{
+          background: "#1e1e1e",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
@@ -91,14 +83,15 @@ export const AccountSettings = ({ opened, setOpened, userId }: Props) => {
 
   const { id, firstName: name, email, phoneNumber, avatarUrl } = data?.data;
 
+  // const [nameUpdate, setNameUpdate] = useState("");
+  // setNameUpdate(name);
+
+  // console.log("My name is", nameUpdate);
+
   const getActiveForm = (key: FormKeys) => {
     if (activeForm === key) {
       return "form";
     }
-
-    // if (!data?.data[key]) {
-    //   return "empty";
-    // }
 
     return "view";
   };
@@ -109,12 +102,20 @@ export const AccountSettings = ({ opened, setOpened, userId }: Props) => {
       open={opened}
       width={756}
       styles={{
-        body: { background: "#f5f5f5", padding: 0 },
-        header: { display: "none" },
+        body: {
+          background: "#1e1e1e",
+          padding: 0,
+        },
+        header: {
+          display: "none !important",
+          background: "#1e1e1e",
+        },
       }}
     >
       <div className={styles.header}>
-        <Text strong>Account Settings</Text>
+        <Text strong size="xl">
+          Account Settings
+        </Text>
         <Button
           type="text"
           icon={<CloseOutlined />}
@@ -127,23 +128,24 @@ export const AccountSettings = ({ opened, setOpened, userId }: Props) => {
             style={{
               marginRight: "1rem",
               flexShrink: 0,
-              fontSize: "40px",
+              fontSize: "30px",
             }}
-            size={96}
+            size={64}
             src={avatarUrl}
             name={name}
           />
           <Typography.Title
             level={3}
             style={{ padding: 0, margin: 0, width: "100%" }}
-            className={styles.title}
+            // className={styles.title}
             editable={{
               onChange(value) {
                 updateMutation({
-                  resource: "users",
+                  resource: "userInfo",
                   id,
-                  values: { name: value },
+                  values: { firstName: value },
                   mutationMode: "optimistic",
+                  invalidates: ["all"],
                   successNotification: false,
                   meta: {
                     gqlMutation: ACCOUNT_SETTINGS_UPDATE_USER_MUTATION,
@@ -164,8 +166,6 @@ export const AccountSettings = ({ opened, setOpened, userId }: Props) => {
               <Text size="sm">User profile</Text>
             </Space>
           }
-          headStyle={{ padding: "0 12px" }}
-          bodyStyle={{ padding: "0" }}
         >
           {/* <SingleElementForm
             useFormProps={{

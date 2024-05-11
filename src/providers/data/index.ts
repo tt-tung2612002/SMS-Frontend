@@ -17,8 +17,8 @@ import {
   isMutation,
 } from "./utils/camel";
 
-const CORS_URL = "https://cors.share.zrok.io/";
-// const CORS_URL = "http://localhost:10000/";
+// const CORS_URL = "https://cors.share.zrok.io/";
+const CORS_URL = "https://localhost:10000/";
 export const API_BASE_URL = "https://api.crm.refine.dev";
 export const API_URL = API_BASE_URL + "/graphql";
 

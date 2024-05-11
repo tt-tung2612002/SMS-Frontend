@@ -2,7 +2,7 @@ import React from "react";
 
 import { ThemedLayoutContextProvider } from "@refinedev/antd";
 
-import { Grid,Layout as AntdLayout } from "antd";
+import { Layout as AntdLayout, Grid } from "antd";
 
 import { Header } from "./header";
 import { Sider } from "./sider";

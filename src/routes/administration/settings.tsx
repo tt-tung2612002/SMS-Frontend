@@ -91,33 +91,12 @@ const UsersTable = () => {
   const { tableProps, filters } = useTable<
     GetFieldsFromList<AdministrationUsersQuery>
   >({
-    resource: "users",
+    resource: "userInfos",
     sorters: {
-      initial: [
-        {
-          field: "createdAt",
-          order: "desc",
-        },
-      ],
+      initial: [],
     },
     filters: {
-      initial: [
-        {
-          field: "jobTitle",
-          value: "",
-          operator: "contains",
-        },
-        {
-          field: "name",
-          value: "",
-          operator: "contains",
-        },
-        {
-          field: "status",
-          value: undefined,
-          operator: "in",
-        },
-      ],
+      initial: [],
     },
     meta: {
       gqlQuery: ADMINISTRATION_USERS_QUERY,
@@ -126,8 +105,14 @@ const UsersTable = () => {
 
   return (
     <Card
-      bodyStyle={{ padding: 0 }}
-      headStyle={{
+      style={{
+        padding: 0,
+        height: 96,
+        fontSize: 48,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        border: "none",
         borderBottom: "1px solid #D9D9D9",
         marginBottom: "1px",
       }}
@@ -159,7 +144,8 @@ const UsersTable = () => {
           )}
           render={(_, record) => {
             return (
-              <div
+              <Space
+                size={4}
                 style={{
                   display: "flex",
                   alignItems: "center",
@@ -168,7 +154,7 @@ const UsersTable = () => {
               >
                 <CustomAvatar src={record.avatarUrl} name={record.name} />
                 <Text>{record.name}</Text>
-              </div>
+              </Space>
             );
           }}
         />
@@ -178,7 +164,7 @@ const UsersTable = () => {
           defaultFilteredValue={getDefaultFilter(
             "jobTitle",
             filters,
-            "contains",
+            "contains"
           )}
           filterIcon={<SearchOutlined />}
           filterDropdown={(props) => (
@@ -242,11 +228,13 @@ export const CompanyInfo = () => {
           <Text>Company info</Text>
         </Space>
       }
-      headStyle={{
-        padding: "1rem",
+      styles={{
+        header: {
+          padding: "1rem",
+        },
       }}
-      bodyStyle={{
-        padding: "0",
+      style={{
+        padding: 0,
       }}
     >
       <div className={styles.list}>

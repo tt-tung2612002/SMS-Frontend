@@ -1,14 +1,15 @@
 import type { ThemeConfig } from "antd";
 
 export const themeConfig: ThemeConfig = {
+  // theme: "dark",
   token: {
     colorPrimaryText: "rgba(0, 0, 0, 0.85)",
     colorTextSecondary: "rgba(0, 0, 0, 0.65)",
     colorTextTertiary: "rgba(0, 0, 0, 0.45)",
     colorPrimary: "#1677FF",
-    colorBgContainer: "#F7F8F9",
-    colorBgLayout: "#F0F2F5",
-    colorBorderBg: "#E8E9EA",
+    colorBgContainer: "red",
+    colorBgLayout: "red",
+    colorBorderBg: "red",
     fontFamily:
       "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', 'Arial', 'Noto Sans', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'",
   },
@@ -18,6 +19,13 @@ export const themeConfig: ThemeConfig = {
       colorTextDescription: "rgba(0, 0, 0, 0.65)",
       colorTextDisabled: "rgba(0, 0, 0, 0.45)",
     },
+    Modal: {
+      colorBgBase: "red",
+      colorBorderBg: "red",
+    },
+    Form: {
+      colorBgBase: "red",
+    },
     Card: {
       colorBgContainer: "#FFFFFF",
       headerBg: "#FAFAFA",
@@ -25,22 +33,22 @@ export const themeConfig: ThemeConfig = {
         "0px 1px 2px 0px #00000008,0px 1px 6px -1px #000000050px,2px 4px 0px #00000005",
     },
     Table: {
-      colorBgContainer: "#fff",
+      // colorBgContainer: "#fff",
     },
     Input: {
-      colorBgContainer: "#fff",
+      // colorBgContainer: "#fff",
     },
     InputNumber: {
-      colorBgContainer: "#fff",
+      // colorBgContainer: "#fff",
     },
     Calendar: {
-      colorBgContainer: "#FFFFFF",
+      // colorBgContainer: "#FFFFFF",
     },
     Radio: {
-      colorBgContainer: "#fff",
+      // colorBgContainer: "#fff",
     },
     Select: {
-      colorBgContainer: "#fff",
+      // colorBgContainer: "#fff",
     },
   },
 };

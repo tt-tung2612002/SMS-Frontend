@@ -20,6 +20,7 @@ import { Button, Drawer, Grid, Layout, Menu, theme } from "antd";
 import { Title } from "./title";
 
 const drawerButtonStyles: CSSProperties = {
+  textDecorationColor: "transparent",
   borderTopLeftRadius: 0,
   borderBottomLeftRadius: 0,
   position: "fixed",
@@ -146,7 +147,7 @@ export const Sider: React.FC = () => {
           placement="left"
           closable={false}
           width={256}
-          bodyStyle={{
+          style={{
             padding: 0,
           }}
           maskClosable={true}
@@ -223,7 +224,8 @@ export const Sider: React.FC = () => {
               borderRadius: 0,
               height: "100%",
               width: "100%",
-              backgroundColor: token.colorBgElevated,
+              // backgroundColor: token.colorBgElevated,
+              backgroundColor: "#BB86FC",
               borderRight: `1px solid ${token.colorBorderBg}`,
             }}
           >

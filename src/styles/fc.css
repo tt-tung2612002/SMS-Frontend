@@ -1,58 +1,138 @@
 :root {
-    --fc-today-bg-color: rgba(230, 244, 255, 1);
+  --fc-today-bg-color: #75549f;
 }
 
-.fc-daygrid-day-number,
+.fc-h-event .fc-event-title {
+  color: #fff !important;
+}
+
+.fc .fc-daygrid-day.fc-day-today {
+  .fc-event-title {
+    color: #fff !important;
+    text-wrap: pretty !important;
+  }
+  .fc-event-time {
+    color: #fff !important;
+  }
+}
+
 .fc-col-header-cell-cushion {
-    color: rgba(0, 0, 0, 0.75) !important;
-    font-weight: 400;
+  color: #fff !important;
+  font-weight: 400;
+}
+
+.fc-daygrid-day-number {
+  color: #bebebe;
 }
 
 .fc-event::after {
-    background-color: unset !important;
+  background-color: unset !important;
 }
 
 .fc-event:hover,
 .fc-event:focus {
-    background-color: unset;
-    box-shadow: unset;
+  background-color: unset;
+  box-shadow: unset;
 }
 
 .fc-event {
-    .fc-event-title,
-    .fc-event-time {
-        color: rgba(0, 0, 0, 0.65);
-        font-weight: 400 !important;
-        font-size: 12px;
-    }
+  .fc-event-title {
+    text-wrap: pretty !important;
+    color: #ffffffd8;
+    font-weight: 400 !important;
+    font-size: 12px;
+  }
+  .fc-event-time {
+    color: #ffffffd8;
+    font-weight: 400 !important;
+    font-size: 12px;
+  }
 }
 
 .fc-daygrid-block-event,
 .fc-timegrid-event {
-    cursor: pointer;
-    .fc-event-time {
-        width: 35px;
-    }
-    .fc-event-title,
-    .fc-event-time {
-        color: #fff;
-        font-weight: 400 !important;
-        font-size: 12px;
-    }
+  cursor: pointer;
+  .fc-event-time {
+    width: 35px;
+  }
+  .fc-event-title,
+  .fc-event-time {
+    font-weight: 400 !important;
+    font-size: 12px;
+  }
+}
+.fc-daygrid-day-events {
+  text-wrap: pretty !important;
 }
 
 .fc-timegrid-slot-label-cushion,
 .fc-list-day-text,
 .fc-list-day-side-text {
-    color: rgba(0, 0, 0, 0.75);
+  color: #ffffffba !important;
+  font-weight: 500;
 }
 
 .fc-list-day {
-    position: relative;
-    z-index: 1;
+  border: none !important;
+  border-bottom: none !important;
+  border-collapse: collapse !important;
+  position: relative;
+  z-index: 1;
 }
 
 .fc-event-title-container {
-    padding-left: 8px;
-    padding-right: 8px;
+  padding-left: 8px;
+  padding-right: 8px;
+}
+.fc-col-header-cell .fc-day {
+  text-align: center !important;
+}
+
+.fc-theme-standard td,
+.fc-theme-standard tr,
+.fc-day .fc-day-tue .fc-day-past .fc-day-other .fc-daygrid-day,
+.fc .fc-list-table td {
+  border-left: none !important;
+  border-top: none !important;
+  border-bottom: 0.1px solid #bebebea0;
+  border-right: 0.1px solid #bebebea0;
+  border-collapse: collapse !important;
+}
+
+.fc-timegrid-event .fc-event-title,
+.fc-event-title .fc-sticky,
+.fc-list-event-time,
+.fc-list-event-title {
+  font-size: 14px !important;
+  font-weight: 400 !important;
+  color: #fff !important;
+}
+.fc-v-event .fc-event-main-frame {
+  flex-direction: row !important;
+}
+
+.fc-timegrid-event-harness > .fc-timegrid-event {
+  position: relative !important;
+}
+
+.fc-event-title-container,
+.fc-event-title .fc-sticky {
+  color: #fff !important;
+}
+
+.fc-theme-standard td,
+.fc-theme-standard th,
+.fc-theme-standard .fc-list-day-cushion {
+  background-color: transparent !important;
+}
+
+.fc .fc-timegrid-divider {
+  display: none;
+}
+
+.fc-direction-ltr .fc-list-table .fc-list-event-graphic,
+.fc-list-table .fc-list-event-graphic {
+  /* border: none !important; */
+  /* border-bottom: none !important; */
+  border-right: none !important;
 }

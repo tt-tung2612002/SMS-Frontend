@@ -57,15 +57,16 @@ export const CalendarShowPage: React.FC = () => {
   return (
     <Modal
       title={
-        <div
+        <Space
           style={{
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
+            marginBottom: "50px",
           }}
         >
-          <div style={{ display: "flex", gap: "8px" }}>
-            <div
+          <Space style={{ display: "flex", gap: "8px" }}>
+            <Space
               style={{
                 backgroundColor: data?.data.color,
                 flexShrink: 0,
@@ -75,16 +76,14 @@ export const CalendarShowPage: React.FC = () => {
                 marginTop: "8px",
               }}
             />
-            <Text strong size="md">
+            <Text strong size="xl">
               {data?.data.title}
             </Text>
-          </div>
-          <div style={{ display: "flex", gap: "4px" }}>
+          </Space>
+          <Space style={{ display: "flex", gap: "4px" }}>
             <DeleteButton
               hideText
               type="text"
-              // size="small"
-              dataProviderName="local"
               onSubmit={() => {
                 list("events");
               }}
@@ -99,8 +98,8 @@ export const CalendarShowPage: React.FC = () => {
               type="text"
               onClick={handleOnClose}
             />
-          </div>
-        </div>
+          </Space>
+        </Space>
       }
       closeIcon={false}
       open
@@ -141,13 +140,15 @@ export const CalendarShowPage: React.FC = () => {
             <>
               <div>
                 <CalendarOutlined style={{ marginRight: ".5rem" }} />
-                <Text>{dayjs(utcStartDate).format("MMMM D, YYYY dddd")}</Text>
+                <Text size="lg">
+                  {dayjs(utcStartDate).format("MMMM D, YYYY dddd")}
+                </Text>
               </div>
               <div>
                 <ClockCircleOutlined style={{ marginRight: ".5rem" }} />
-                <Text>{`${dayjs(utcStartDate).format("h:mm A")} - ${dayjs(
-                  utcEndDate
-                ).format("h:mm A")}`}</Text>
+                <Text size="lg">{`${dayjs(utcStartDate).format(
+                  "h:mm A"
+                )} - ${dayjs(utcEndDate).format("h:mm A")}`}</Text>
               </div>
             </>
           )}

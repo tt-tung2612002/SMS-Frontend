@@ -5,7 +5,7 @@ import { GetFieldsFromList } from "@refinedev/nestjs-query";
 
 import { CalendarOutlined, RightCircleOutlined } from "@ant-design/icons";
 import type { CardProps } from "antd";
-import { Button, Card,Skeleton as AntdSkeleton } from "antd";
+import { Skeleton as AntdSkeleton, Button, Card, Space } from "antd";
 import dayjs from "dayjs";
 
 import { UpcomingEventsQuery } from "@/graphql/types";
@@ -22,7 +22,7 @@ type CalendarUpcomingEventsProps = {
 };
 
 const NoEvent: React.FC = () => (
-  <span
+  <Space
     style={{
       display: "flex",
       justifyContent: "center",
@@ -31,13 +31,13 @@ const NoEvent: React.FC = () => (
     }}
   >
     No Upcoming Event
-  </span>
+  </Space>
 );
 
 const Skeleton: React.FC = () => {
   return (
     <div className={styles.item}>
-      <div
+      <Space
         style={{
           display: "flex",
           flexDirection: "column",
@@ -60,7 +60,7 @@ const Skeleton: React.FC = () => {
             height: "16px",
           }}
         />
-      </div>
+      </Space>
     </div>
   );
 };
@@ -98,12 +98,16 @@ export const CalendarUpcomingEvents: React.FC<CalendarUpcomingEventsProps> = ({
 
   return (
     <Card
-      headStyle={{ padding: "8px 16px" }}
-      bodyStyle={{
-        padding: "0 1rem",
+      styles={{
+        header: {
+          padding: "8px 16px",
+        },
+        body: {
+          padding: "0 1rem",
+        },
       }}
       title={
-        <div
+        <Space
           style={{
             display: "flex",
             alignItems: "center",
@@ -111,10 +115,10 @@ export const CalendarUpcomingEvents: React.FC<CalendarUpcomingEventsProps> = ({
           }}
         >
           <CalendarOutlined />
-          <Text size="sm" style={{ marginLeft: ".7rem" }}>
+          <Text size="md" style={{ marginLeft: ".7rem" }}>
             Upcoming events
           </Text>
-        </div>
+        </Space>
       }
       extra={
         showGoToListButton && (

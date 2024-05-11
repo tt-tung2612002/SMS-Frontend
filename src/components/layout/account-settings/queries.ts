@@ -4,7 +4,7 @@ export const ACCOUNT_SETTINGS_GET_USER_QUERY = gql`
   query AccountSettingsGetUser($id: Int!) {
     userInfo(id: $id) {
       id
-      name: firstName
+      firstName
       email
       avatarUrl
       phoneNumber
