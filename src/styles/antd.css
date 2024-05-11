@@ -112,7 +112,8 @@ td.ant-table-column-sort {
 }
 .ant-table-column-sorter-up,
 .ant-table-column-sorter-down {
-  font-size: 5px !important;
+  font-size: 13px !important;
+  color: #bebebe;
 }
 
 .ant-table-tbody > tr:first-child > td {
