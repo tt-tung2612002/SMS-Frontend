@@ -20,6 +20,17 @@ import {
   CALENDAR_UPDATE_EVENT_MUTATION,
 } from "./queries";
 
+const tabs = [
+  {
+    key: "1",
+    label: "Class Details",
+  },
+  {
+    key: "2",
+    label: "Attendance Management",
+  },
+];
+
 export const CalendarEditPage: React.FC = () => {
   const [isAllDayEvent, setIsAllDayEvent] = useState(false);
   const { id } = useResource();
@@ -127,11 +138,3 @@ export const CalendarEditPage: React.FC = () => {
     </Modal>
   );
 };
-function getToPath(arg0: {
-  action: string;
-}):
-  | string
-  | import("@refinedev/core/dist/hooks/router/use-go").Resource
-  | undefined {
-  throw new Error("Function not implemented.");
-}

@@ -59,9 +59,8 @@ export const LessonAssignmentsModal: FC<Props> = ({ lessonId, onClose }) => {
     return (
       <Modal
         open
-        width={756}
-        bodyStyle={{
-          background: "#f5f5f5",
+        width={512}
+        style={{
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
@@ -88,7 +87,15 @@ export const LessonAssignmentsModal: FC<Props> = ({ lessonId, onClose }) => {
       destroyOnClose={true}
       maskClosable={true}
       width={1024}
-      // bodyStyle={{ background: "#f5f5f5", padding: 0 }}
+      styles={{
+        header: {
+          display: "none",
+          background: "#1e1e1e",
+        },
+        body: {
+          background: "#1e1e1e",
+        },
+      }}
       // headerStyle={{ display: "none" }}
     >
       {/* <div className={styles.header}>
@@ -101,7 +108,7 @@ export const LessonAssignmentsModal: FC<Props> = ({ lessonId, onClose }) => {
       <div className={styles.container}>
         <div className={styles.name}>
           <Typography.Title
-            level={3}
+            level={1}
             style={{ padding: 0, margin: 0, width: "100%" }}
             className={styles.title}
             editable={{
@@ -126,7 +133,7 @@ export const LessonAssignmentsModal: FC<Props> = ({ lessonId, onClose }) => {
 
         <div className={styles.form}>
           <SingleElementForm
-            icon={<InfoOutlined className="tertiary" />}
+            icon={<InfoOutlined size={24} />}
             itemProps={{
               name: "description",
               label: "Description",

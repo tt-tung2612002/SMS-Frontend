@@ -1,6 +1,6 @@
 import { FC } from "react";
 
-import { Space, Tag } from "antd";
+import { Button, Popover, Space, Tag } from "antd";
 
 import { UserInfo } from "@/graphql/new/schema.types";
 
@@ -9,32 +9,65 @@ import { CustomAvatar } from "../custom-avatar";
 
 type Props = {
   user: Partial<UserInfo>;
+  onClick?: any;
+  onHover?: any;
 };
 
-export const UserTag: FC<Props> = ({ user }) => {
+// const { mutate } = useUpdate<Attendance>();
+export const UserTag: FC<Props> = ({ user, onClick, onHover }) => {
   const { show } = useNavigation();
+
+  if (onClick == undefined) {
+    onClick = () => show("students", user.id ?? 1);
+  }
+
+  const popOverContent = (
+    <div style={{ display: "flex", flexDirection: "column" }}>
+      <Button type="primary" onClick={() => handleAttendanceUpdate("present")}>
+        Present
+      </Button>
+      <Button type="text" onClick={() => handleAttendanceUpdate("absent")}>
+        Absent
+      </Button>
+      <Button type="text" onClick={() => handleAttendanceUpdate("late")}>
+        Late
+      </Button>
+    </div>
+  );
 
   return (
     <Tag
-      onClick={() => show("students", user.id ?? 1)}
+      onClick={onClick}
       key={user.id}
       style={{
-        fontSize: 15,
-        padding: 2,
-        paddingRight: 10,
+        fontSize: 14,
+        padding: 1,
+        // paddingRight: 10,
+        // paddingTop: 100,
         borderRadius: 24,
         lineHeight: "unset",
         marginRight: "unset",
       }}
     >
-      <Space size={4}>
-        <CustomAvatar
-          src={user.avatarUrl}
-          name={user.firstName}
-          style={{ display: "inline-flex" }}
-        />
+      <Space size={10}>
+        <Popover content={popOverContent} trigger="hover">
+          <CustomAvatar
+            src={user.avatarUrl}
+            name={user.firstName}
+            style={{ display: "inline-flex", cursor: "pointer" }}
+          />
+        </Popover>
         {user.firstName}
       </Space>
     </Tag>
   );
 };
+function handleAttendanceUpdate(status: String) {
+  // mutate({
+  //   resource: "attendance",
+  //   id: 1,
+  //   values: {
+  //     status: status,
+  //   },
+  // });
+}

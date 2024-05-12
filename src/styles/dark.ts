@@ -119,6 +119,9 @@ export const MaterialUIDarkTheme = createTheme({
     },
     MuiTypography: {
       styleOverrides: {
+        h1: {
+          fontWeight: 800,
+        },
         h5: {
           fontWeight: 800,
           lineHeight: "2rem",

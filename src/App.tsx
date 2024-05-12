@@ -45,8 +45,8 @@ import "./styles";
 import "./utilities/init-dayjs";
 
 import { Logo } from "./components";
-import { Header } from "./components/layout/header";
 import { MUISider } from "./components/layout/customSider";
+import { Header } from "./components/layout/header";
 
 const App: React.FC = () => {
   // const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
