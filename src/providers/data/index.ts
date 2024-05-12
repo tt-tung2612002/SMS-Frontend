@@ -17,14 +17,13 @@ import {
   isMutation,
 } from "./utils/camel";
 
-// const CORS_URL = "https://cors.share.zrok.io/";
-const CORS_URL = "https://localhost:10000/";
+const CORS_URL = "https://thanhtung.tail8950c.ts.net/";
 export const API_BASE_URL = "https://api.crm.refine.dev";
 export const API_URL = API_BASE_URL + "/graphql";
 
-export const LOCAL_URL = CORS_URL + "http://100.107.247.85:5000" + "/graphql";
-export const REST_URL = CORS_URL + "http://100.107.247.85:8080";
-export const SECURITY_URL = CORS_URL + "http://100.107.247.85:8082";
+export const LOCAL_URL = CORS_URL + "http://localhost:5000" + "/graphql";
+export const REST_URL = CORS_URL + "http://localhost:8080";
+export const SECURITY_URL = CORS_URL + "http://localhost:8082";
 
 export const client = new GraphQLClient(API_URL, {
   fetch: async (url: string, options: any) => {
