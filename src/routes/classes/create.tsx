@@ -172,7 +172,7 @@ export const ClassCreatePage = ({ isOverModal }: Props) => {
           rules={[{ required: false }]}
         >
           <MDEditor
-            data-color-mode="light"
+            data-color-mode="dark"
             value={value ?? ""}
             onChange={(value) => setValue(value ?? "")}
             preview="edit"

@@ -108,6 +108,7 @@ export const StudentsListPage: FC<PropsWithChildren> = ({ children }) => {
       children: <List breadcrumb={false}>{}</List>,
     },
   ];
+
   return (
     <div className="page-container">
       <Tabs defaultActiveKey="1" items={tabs}></Tabs>

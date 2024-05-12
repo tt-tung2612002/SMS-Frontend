@@ -96,7 +96,7 @@ export const ClassStudentsTable: FC = () => {
     <Card
       styles={{
         header: {
-          borderBottom: "1px solid #D9D9D9",
+          // borderBottom: "1px solid #D9D9D9",
           marginBottom: "1px",
         },
         body: {

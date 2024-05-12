@@ -5,11 +5,11 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "type": "msedge",
+      "type": "pwa-msedge",
       "request": "attach",
       "name": "Attach MSEdge Debug Session",
       "port": 9222,
-      "url": "https://studentms.thanhtung.tech/login",
+      "url": "http://localhost:5173/login",
       "webRoot": "${workspaceFolder}"
     }
   ]

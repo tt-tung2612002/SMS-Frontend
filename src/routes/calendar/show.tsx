@@ -54,6 +54,17 @@ export const CalendarShowPage: React.FC = () => {
     list("events");
   };
 
+  const tabs = [
+    {
+      key: "1",
+      label: "Class Details",
+    },
+    {
+      key: "2",
+      label: "Attendance Management",
+    },
+  ];
+
   return (
     <Modal
       title={
@@ -76,7 +87,7 @@ export const CalendarShowPage: React.FC = () => {
                 marginTop: "8px",
               }}
             />
-            <Text strong size="xl">
+            <Text strong size="xxl" style={{ fontSize: "28px" }}>
               {data?.data.title}
             </Text>
           </Space>
