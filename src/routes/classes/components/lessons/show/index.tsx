@@ -77,8 +77,6 @@ export const LessonAssignmentsModal: FC<Props> = ({ lessonId, onClose }) => {
 
   const assignments = assignmentList?.nodes ?? [];
 
-  console.log(assignments);
-
   return (
     <Modal
       open

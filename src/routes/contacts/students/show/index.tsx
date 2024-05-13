@@ -117,7 +117,6 @@ export const ContactShowPage: React.FC = () => {
             editable={{
               onChange(value) {
                 mutate({
-                  dataProviderName: "local",
                   resource: "userInfo",
                   id: parseInt(id ?? "", 10),
                   values: {
