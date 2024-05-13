@@ -33,7 +33,6 @@ export const ClassEditPage = () => {
   return (
     <div className="page-container">
       <Tabs defaultActiveKey="1" items={tabs}></Tabs>
-      Hello
     </div>
   );
 };

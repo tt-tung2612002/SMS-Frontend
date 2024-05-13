@@ -106,17 +106,6 @@ export const CompanyListPage: FC<PropsWithChildren> = ({ children }) => {
 
   const debouncedOnChange = debounce(onSearch, 500);
 
-  const tabs = [
-    {
-      key: "1",
-      label: "Class Details",
-    },
-    {
-      key: "2",
-      label: "Attendance Management",
-    },
-  ];
-
   return (
     <div className="page-container">
       <List

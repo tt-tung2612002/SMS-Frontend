@@ -29,7 +29,7 @@ export const StyleWrapper = styled.div`
   }
 
   .fc tr {
-    height: 5px;
+    height: 10px;
   }
 
   .fc .fc-list-event:hover td {
@@ -40,7 +40,6 @@ export const StyleWrapper = styled.div`
   .fc-list-event-time,
   .fc-list-event-title,
   .fc-event .fc-event-time {
-    color: #bebebe !important;
     font-size: 14px;
   }
 

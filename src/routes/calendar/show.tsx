@@ -54,17 +54,6 @@ export const CalendarShowPage: React.FC = () => {
     list("events");
   };
 
-  const tabs = [
-    {
-      key: "1",
-      label: "Class Details",
-    },
-    {
-      key: "2",
-      label: "Attendance Management",
-    },
-  ];
-
   return (
     <Modal
       title={
