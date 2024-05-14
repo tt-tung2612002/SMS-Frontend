@@ -15,7 +15,7 @@ import { debounce } from "lodash";
 import { ListTitleButton } from "@/components";
 import { ClassesTableQuery } from "@/graphql/new/customTypes";
 
-import { CompaniesCardView, CompaniesTableView } from "./components";
+import { ClassesCardView, ClassesTableView } from "./components";
 import { CLASSES_TABLE_QUERY } from "./queries/getClasses";
 
 type View = "card" | "table";
@@ -161,13 +161,13 @@ export const CompanyListPage: FC<PropsWithChildren> = ({ children }) => {
         title={<ListTitleButton toPath="classes" buttonText="Add new class" />}
       >
         {view === "table" ? (
-          <CompaniesTableView
+          <ClassesTableView
             tableProps={tableProps}
             filters={filters}
             sorters={sorters}
           />
         ) : (
-          <CompaniesCardView
+          <ClassesCardView
             tableProps={tableProps}
             setPageSize={setPageSize}
             setCurrent={setCurrent}

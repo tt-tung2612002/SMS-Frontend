@@ -173,6 +173,7 @@ export type Attachment = {
   fileSize?: Maybe<Scalars["BigInt"]["output"]>;
   fileType?: Maybe<Scalars["String"]["output"]>;
   id: Scalars["Int"]["output"];
+  ownerId?: Maybe<Scalars["Int"]["output"]>;
 };
 
 /**
@@ -192,6 +193,8 @@ export type AttachmentCondition = {
   fileType?: InputMaybe<Scalars["String"]["input"]>;
   /** Checks for equality with the object’s `id` field. */
   id?: InputMaybe<Scalars["Int"]["input"]>;
+  /** Checks for equality with the object’s `ownerId` field. */
+  ownerId?: InputMaybe<Scalars["Int"]["input"]>;
 };
 
 /** A filter to be used against `Attachment` object types. All fields are combined with a logical ‘and.’ */
@@ -214,6 +217,8 @@ export type AttachmentFilter = {
   not?: InputMaybe<AttachmentFilter>;
   /** Checks for any expressions in this list. */
   or?: InputMaybe<Array<AttachmentFilter>>;
+  /** Filter by the object’s `ownerId` field. */
+  ownerId?: InputMaybe<IntFilter>;
 };
 
 /** An input for mutations affecting `Attachment` */
@@ -224,6 +229,7 @@ export type AttachmentInput = {
   fileSize?: InputMaybe<Scalars["BigInt"]["input"]>;
   fileType?: InputMaybe<Scalars["String"]["input"]>;
   id?: InputMaybe<Scalars["Int"]["input"]>;
+  ownerId?: InputMaybe<Scalars["Int"]["input"]>;
 };
 
 /** A connection to a list of `Attachment` values. */
@@ -260,9 +266,12 @@ export type AttachmentsOrderBy =
   | "FILE_TYPE_DESC"
   | "ID_ASC"
   | "ID_DESC"
-  | "NATURAL";
+  | "NATURAL"
+  | "OWNER_ID_ASC"
+  | "OWNER_ID_DESC";
 
 export type Attendance = Node & {
+  createdAt?: Maybe<Scalars["Datetime"]["output"]>;
   id: Scalars["Int"]["output"];
   /** Reads a single `Lesson` that is related to this `Attendance`. */
   lesson?: Maybe<Lesson>;
@@ -273,6 +282,7 @@ export type Attendance = Node & {
   /** Reads a single `UserInfo` that is related to this `Attendance`. */
   student?: Maybe<UserInfo>;
   studentId?: Maybe<Scalars["Int"]["output"]>;
+  updatedAt?: Maybe<Scalars["Datetime"]["output"]>;
 };
 
 /**
@@ -280,6 +290,8 @@ export type Attendance = Node & {
  * for equality and combined with a logical ‘and.’
  */
 export type AttendanceCondition = {
+  /** Checks for equality with the object’s `createdAt` field. */
+  createdAt?: InputMaybe<Scalars["Datetime"]["input"]>;
   /** Checks for equality with the object’s `id` field. */
   id?: InputMaybe<Scalars["Int"]["input"]>;
   /** Checks for equality with the object’s `lessonId` field. */
@@ -288,12 +300,16 @@ export type AttendanceCondition = {
   status?: InputMaybe<Scalars["String"]["input"]>;
   /** Checks for equality with the object’s `studentId` field. */
   studentId?: InputMaybe<Scalars["Int"]["input"]>;
+  /** Checks for equality with the object’s `updatedAt` field. */
+  updatedAt?: InputMaybe<Scalars["Datetime"]["input"]>;
 };
 
 /** A filter to be used against `Attendance` object types. All fields are combined with a logical ‘and.’ */
 export type AttendanceFilter = {
   /** Checks for all expressions in this list. */
   and?: InputMaybe<Array<AttendanceFilter>>;
+  /** Filter by the object’s `createdAt` field. */
+  createdAt?: InputMaybe<DatetimeFilter>;
   /** Filter by the object’s `id` field. */
   id?: InputMaybe<IntFilter>;
   /** Filter by the object’s `lessonId` field. */
@@ -306,22 +322,28 @@ export type AttendanceFilter = {
   status?: InputMaybe<StringFilter>;
   /** Filter by the object’s `studentId` field. */
   studentId?: InputMaybe<IntFilter>;
+  /** Filter by the object’s `updatedAt` field. */
+  updatedAt?: InputMaybe<DatetimeFilter>;
 };
 
 /** An input for mutations affecting `Attendance` */
 export type AttendanceInput = {
+  createdAt?: InputMaybe<Scalars["Datetime"]["input"]>;
   id?: InputMaybe<Scalars["Int"]["input"]>;
   lessonId?: InputMaybe<Scalars["Int"]["input"]>;
   status: Scalars["String"]["input"];
   studentId?: InputMaybe<Scalars["Int"]["input"]>;
+  updatedAt?: InputMaybe<Scalars["Datetime"]["input"]>;
 };
 
 /** Represents an update to a `Attendance`. Fields that are set will be updated. */
 export type AttendancePatch = {
+  createdAt?: InputMaybe<Scalars["Datetime"]["input"]>;
   id?: InputMaybe<Scalars["Int"]["input"]>;
   lessonId?: InputMaybe<Scalars["Int"]["input"]>;
   status?: InputMaybe<Scalars["String"]["input"]>;
   studentId?: InputMaybe<Scalars["Int"]["input"]>;
+  updatedAt?: InputMaybe<Scalars["Datetime"]["input"]>;
 };
 
 /** A connection to a list of `Attendance` values. */
@@ -346,6 +368,8 @@ export type AttendancesEdge = {
 
 /** Methods to use when ordering `Attendance`. */
 export type AttendancesOrderBy =
+  | "CREATED_AT_ASC"
+  | "CREATED_AT_DESC"
   | "ID_ASC"
   | "ID_DESC"
   | "LESSON_ID_ASC"
@@ -356,7 +380,9 @@ export type AttendancesOrderBy =
   | "STATUS_ASC"
   | "STATUS_DESC"
   | "STUDENT_ID_ASC"
-  | "STUDENT_ID_DESC";
+  | "STUDENT_ID_DESC"
+  | "UPDATED_AT_ASC"
+  | "UPDATED_AT_DESC";
 
 /** A filter to be used against BigInt fields. All fields are combined with a logical ‘and.’ */
 export type BigIntFilter = {
@@ -4718,6 +4744,7 @@ export type Node = {
 };
 
 export type Owner = Node & {
+  id: Scalars["Int"]["output"];
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
   nodeId: Scalars["ID"]["output"];
   ownerId: Scalars["Int"]["output"];
@@ -4726,6 +4753,8 @@ export type Owner = Node & {
 
 /** A condition to be used against `Owner` object types. All fields are tested for equality and combined with a logical ‘and.’ */
 export type OwnerCondition = {
+  /** Checks for equality with the object’s `id` field. */
+  id?: InputMaybe<Scalars["Int"]["input"]>;
   /** Checks for equality with the object’s `ownerId` field. */
   ownerId?: InputMaybe<Scalars["Int"]["input"]>;
   /** Checks for equality with the object’s `tableName` field. */
@@ -4736,6 +4765,8 @@ export type OwnerCondition = {
 export type OwnerFilter = {
   /** Checks for all expressions in this list. */
   and?: InputMaybe<Array<OwnerFilter>>;
+  /** Filter by the object’s `id` field. */
+  id?: InputMaybe<IntFilter>;
   /** Negates the expression. */
   not?: InputMaybe<OwnerFilter>;
   /** Checks for any expressions in this list. */
@@ -4748,12 +4779,14 @@ export type OwnerFilter = {
 
 /** An input for mutations affecting `Owner` */
 export type OwnerInput = {
+  id?: InputMaybe<Scalars["Int"]["input"]>;
   ownerId: Scalars["Int"]["input"];
   tableName?: InputMaybe<Scalars["String"]["input"]>;
 };
 
 /** Represents an update to a `Owner`. Fields that are set will be updated. */
 export type OwnerPatch = {
+  id?: InputMaybe<Scalars["Int"]["input"]>;
   ownerId?: InputMaybe<Scalars["Int"]["input"]>;
   tableName?: InputMaybe<Scalars["String"]["input"]>;
 };
@@ -4780,6 +4813,8 @@ export type OwnersEdge = {
 
 /** Methods to use when ordering `Owner`. */
 export type OwnersOrderBy =
+  | "ID_ASC"
+  | "ID_DESC"
   | "NATURAL"
   | "OWNER_ID_ASC"
   | "OWNER_ID_DESC"

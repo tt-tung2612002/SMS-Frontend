@@ -8,9 +8,7 @@ import {
 } from "@ant-design/icons";
 import { Tag, TagProps } from "antd";
 
-import { ContactStatus } from "@/graphql/schema.types";
-
-export const ContactStatusTag: React.FC<{ status: ContactStatus }> = ({
+export const ContactStatusTag: React.FC<{ status: String; id?: number }> = ({
   status,
 }) => {
   let icon: React.ReactNode = null;

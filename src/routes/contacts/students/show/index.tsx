@@ -40,11 +40,7 @@ export const ContactShowPage: React.FC = () => {
     id: id,
   });
 
-  // const { selectProps: usersSelectProps, queryResult: usersSelectQueryResult } =
-  //   useUsersSelect();
-
   const closeModal = () => {
-    // setActiveForm(undefined);
     list("students");
   };
 
@@ -60,11 +56,12 @@ export const ContactShowPage: React.FC = () => {
       <Modal
         open
         width={756}
-        bodyStyle={{
-          background: "#f5f5f5",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
+        styles={{
+          body: {
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          },
         }}
       >
         <Spin />
@@ -185,8 +182,10 @@ export const ContactShowPage: React.FC = () => {
               <Text style={{ marginLeft: ".8rem" }}>Notes</Text>
             </>
           }
-          bodyStyle={{
-            padding: 0,
+          styles={{
+            body: {
+              padding: 0,
+            },
           }}
         >
           <ContactComment />

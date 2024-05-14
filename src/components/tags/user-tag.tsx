@@ -11,6 +11,7 @@ type Props = {
   user: Partial<UserInfo>;
   onClick?: any;
   onHover?: any;
+  lessonId?: number;
 };
 
 // const { mutate } = useUpdate<Attendance>();
@@ -62,6 +63,7 @@ export const UserTag: FC<Props> = ({ user, onClick, onHover }) => {
     </Tag>
   );
 };
+
 function handleAttendanceUpdate(status: String) {
   // mutate({
   //   resource: "attendance",

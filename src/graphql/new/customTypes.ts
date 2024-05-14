@@ -155,3 +155,54 @@ export type GetLessonQuery = {
     };
   };
 };
+
+export type AttendanceTableQueryVariables = Types.Exact<{
+  filter: Types.AttendanceFilter;
+}>;
+
+export type AttendanceTableQuery = {
+  attendances: Pick<Types.AttendancesConnection, "totalCount"> & {
+    nodes: Array<
+      Pick<Types.Attendance, "id" | "status" | "createdAt" | "updatedAt"> & {
+        student: Types.Maybe<
+          Pick<Types.UserInfo, "id" | "lastName" | "avatarUrl"> & {
+            name: Types.UserInfo["firstName"];
+          }
+        >;
+      }
+    >;
+  };
+};
+
+export type StudentGetEventsQueryVariables = Types.Exact<{
+  id: Types.Scalars["Int"]["input"];
+}>;
+
+export type StudentGetEventsQuery = {
+  userInfo: {
+    events: {
+      nodes: Array<
+        Pick<
+          Types.Event,
+          "id" | "title" | "startDate" | "endDate" | "color" | "description"
+        > & {
+          lessonById: Types.Maybe<
+            Pick<Types.Lesson, "id" | "title"> & {
+              class: Types.Maybe<Pick<Types.Class, "name">>;
+            }
+          >;
+        }
+      >;
+    };
+  };
+};
+
+export type ClassGetLessonsQueryVariables = Types.Exact<{
+  filter: Types.LessonFilter;
+}>;
+
+export type ClassGetLessonsQuery = {
+  lessons: Pick<Types.LessonsConnection, "totalCount"> & {
+    nodes: Array<Pick<Types.Lesson, "id" | "title">>;
+  };
+};

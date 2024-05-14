@@ -90,3 +90,28 @@
 .auth-page .ant-card-head {
   background-color: unset;
 }
+
+[data-color-mode*="dark"] .wmde-markdown,
+[data-color-mode*="dark"] .wmde-markdown-var,
+.w-md-editor-toolbar,
+.wmde-markdown-var[data-color-mode*="dark"],
+.wmde-markdown[data-color-mode*="dark"],
+body[data-color-mode*="dark"] {
+  font-family: "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji",
+    "Segoe UI Emoji";
+  font-size: 16px;
+  line-height: 1.5;
+  word-wrap: break-word;
+  color: #bebebe;
+  background-color: #1e1e1e;
+}
+
+.ant-input-outlined {
+  ::placeholder {
+    color: #bebebe94;
+  }
+  background: #393939;
+  border-width: 1px;
+  border-style: solid;
+  border-color: transparent;
+}

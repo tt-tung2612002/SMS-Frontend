@@ -3,39 +3,62 @@ import { FC } from "react";
 import { CrudFilters, CrudSorting } from "@refinedev/core";
 import { GetFieldsFromList } from "@refinedev/nestjs-query";
 
-import { Space, Table, TableProps } from "antd";
+import { Select, Space, Table, TableProps } from "antd";
 
-import { PaginationTotal, Text } from "@/components";
-import { ClassesTableQuery } from "@/graphql/new/customTypes";
-import { Attendance } from "@/graphql/new/schema.types";
+import { Text } from "@/components";
+import { AttendanceStatusTag } from "@/components/tags/attendance-tag";
+import { Attendance } from "@/graphql/new/customSchema";
+import { AttendanceTableQuery } from "@/graphql/new/customTypes";
+import { useLessonsSelect } from "@/hooks/useLessonsSelect";
+import { FilterDropdown } from "@refinedev/antd";
+import dayjs from "dayjs";
+import { useParams } from "react-router-dom";
 
 type Props = {
-  tableProps: TableProps<GetFieldsFromList<ClassesTableQuery>>;
+  tableProps: TableProps<GetFieldsFromList<AttendanceTableQuery>>;
   filters: CrudFilters;
   sorters: CrudSorting;
+  classId?: number;
 };
 
 export const AttendanceTableView: FC<Props> = ({ tableProps, filters }) => {
+  const { id } = useParams();
+
+  const lessonFilters: CrudFilters = [
+    {
+      field: "classId",
+      operator: "eq",
+      value: parseInt(id ?? ""),
+    },
+  ];
+
+  const { selectProps: selectLessonsProps } = useLessonsSelect(lessonFilters);
+
   return (
     <Table
       {...tableProps}
       pagination={{
-        defaultPageSize: 10,
-        showSizeChanger: true,
-        // pageSizeOptions: ["10", "20", "30"],
+        defaultPageSize: 30,
+        showSizeChanger: false,
         ...tableProps.pagination,
         pageSizeOptions: ["6", "12", "48", "96"],
-        showTotal: (total) => (
-          <PaginationTotal total={total} entityName="classes" />
-        ),
       }}
       rowKey="id"
       dataSource={tableProps.dataSource}
     >
       <Table.Column<Attendance>
-        dataIndex="name"
-        title="Class Name"
-        // sorter={(a, b) => a.name.localeCompare(b.name)}
+        dataIndex="lessonId"
+        width={250}
+        title="Lesson"
+        filterDropdown={(props) => (
+          <FilterDropdown {...props}>
+            <Select
+              mode="multiple"
+              style={{ minWidth: 150 }}
+              {...selectLessonsProps}
+            />
+          </FilterDropdown>
+        )}
         render={(_, record) => {
           return (
             <Space>
@@ -44,15 +67,18 @@ export const AttendanceTableView: FC<Props> = ({ tableProps, filters }) => {
                   whiteSpace: "nowrap",
                 }}
               >
-                {/* {record.name} */}
+                {record.lesson?.title}
               </Text>
             </Space>
           );
         }}
       />
       <Table.Column<Attendance>
-        dataIndex="startDate"
-        title="Start Date"
+        dataIndex="studentId"
+        title="Student Name"
+        sorter={(a, b) =>
+          a.student?.name?.localeCompare(b.student?.name ?? "") ?? 0
+        }
         render={(_, record) => {
           return (
             <Space>
@@ -61,15 +87,21 @@ export const AttendanceTableView: FC<Props> = ({ tableProps, filters }) => {
                   whiteSpace: "nowrap",
                 }}
               >
-                {/* {dayjs(record.startDate).format("h:mm A MMMM D, YYYY dddd")} */}
+                {record.student?.name + " " + record.student?.lastName}
               </Text>
             </Space>
           );
         }}
       />
       <Table.Column<Attendance>
-        dataIndex="endDate"
-        title="End Date"
+        title="Status"
+        render={(_, record) => {
+          return <AttendanceStatusTag status={record.status} id={record.id} />;
+        }}
+      />
+      <Table.Column<Attendance>
+        dataIndex="createdAt"
+        title="Created At"
         render={(_, record) => {
           return (
             <Space>
@@ -78,17 +110,15 @@ export const AttendanceTableView: FC<Props> = ({ tableProps, filters }) => {
                   whiteSpace: "nowrap",
                 }}
               >
-                {/* {dayjs(record.endDate).format("h:mm A MMMM D, YYYY dddd")} */}
+                {dayjs(record.createdAt).format("h:mm:ss A MMMM D, YYYY")}
               </Text>
             </Space>
           );
         }}
       />
       <Table.Column<Attendance>
-        dataIndex={["teacherId"]}
-        // defaultFilteredValue={getDefaultFilter("teacherId", filters, "eq")}
-        title="Teacher"
-        // sorter={(a, b) => a.name.localeCompare(b.name)}
+        dataIndex="updatedAt"
+        title="Updated At"
         render={(_, record) => {
           return (
             <Space>
@@ -97,18 +127,12 @@ export const AttendanceTableView: FC<Props> = ({ tableProps, filters }) => {
                   whiteSpace: "nowrap",
                 }}
               >
-                {/* {teacher?.userInfoById?.firstName} */}
+                {dayjs(record.updatedAt).format("h:mm:ss A MMMM D, YYYY")}
               </Text>
             </Space>
           );
         }}
       />
-      {
-        <Table.Column<Attendance>
-          dataIndex={["students", "id"]}
-          title="Students"
-        />
-      }
     </Table>
   );
 };

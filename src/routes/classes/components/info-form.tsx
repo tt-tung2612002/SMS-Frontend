@@ -71,12 +71,12 @@ export const CompanyInfoForm = () => {
           <Text>Class info</Text>
         </Space>
       }
-      headStyle={{
-        padding: "1rem",
-      }}
-      bodyStyle={{
-        padding: "0",
-      }}
+      // headStyle={{
+      //   padding: "1rem",
+      // }}
+      // bodyStyle={{
+      //   padding: "0",
+      // }}
       style={{
         maxWidth: "500px",
       }}

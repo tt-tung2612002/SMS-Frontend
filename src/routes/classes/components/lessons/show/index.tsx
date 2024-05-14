@@ -18,12 +18,12 @@ import dayjs from "dayjs";
 import { now } from "lodash";
 
 import { SingleElementForm, Text } from "@/components";
-import { GetLessonQuery } from "@/graphql/new/customTypes";
 import { Lesson } from "@/graphql/new/schema.types";
 
 import { LESSON_SHOW_QUERY } from "../queries/getOneLesson";
 import styles from "./index.module.css";
 
+import { GetLessonQuery } from "@/graphql/new/customTypes";
 import Markdown from "marked-react";
 
 type Props = {
@@ -45,9 +45,6 @@ export const LessonAssignmentsModal: FC<Props> = ({ lessonId, onClose }) => {
     },
     id: lessonId,
   });
-
-  // const { selectProps: usersSelectProps, queryResult: usersSelectQueryResult } =
-  //   useUsersSelect();
 
   const { data, isLoading, isError } = queryResult;
 
@@ -85,16 +82,7 @@ export const LessonAssignmentsModal: FC<Props> = ({ lessonId, onClose }) => {
       destroyOnClose={true}
       maskClosable={true}
       width={1024}
-      styles={{
-        header: {
-          display: "none",
-          background: "#1e1e1e",
-        },
-        body: {
-          background: "#1e1e1e",
-        },
-      }}
-      // headerStyle={{ display: "none" }}
+      styles={{}}
     >
       {/* <div className={styles.header}>
         <Button
@@ -170,8 +158,8 @@ export const LessonAssignmentsModal: FC<Props> = ({ lessonId, onClose }) => {
                           );
                         }}
                       >
-                        <LinkOutlined style={{ color: "#1c5ab8" }} />
-                        <Button style={{ color: "#1c5ab8" }} type="link">
+                        <LinkOutlined style={{ color: "#8fbbff" }} />
+                        <Button style={{ color: "#8fbbff" }} type="link">
                           {attachment.fileName}
                         </Button>
                       </List.Item>

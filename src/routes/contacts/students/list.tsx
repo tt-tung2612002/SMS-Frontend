@@ -75,7 +75,6 @@ export const StudentsListPage: FC<PropsWithChildren> = ({ children }) => {
       pageSize: 8,
       mode: "off",
     },
-    dataProviderName: "local",
     meta: {
       gqlQuery: STUDENTS_LIST_QUERY,
     },
@@ -141,6 +140,7 @@ export const StudentsListPage: FC<PropsWithChildren> = ({ children }) => {
                 <Radio.Group
                   size="large"
                   value={view}
+                  buttonStyle="solid"
                   onChange={(e) => onViewChange(e.target.value)}
                 >
                   <Radio.Button value="table">

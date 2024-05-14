@@ -1,51 +1,19 @@
-import { FC, PropsWithChildren } from "react";
-
 import { List, useTable } from "@refinedev/antd";
 import { HttpError } from "@refinedev/core";
 import { GetFieldsFromList } from "@refinedev/nestjs-query";
 
-import { Grid } from "antd";
-import { debounce } from "lodash";
-
-import { ClassesTableQuery } from "@/graphql/new/customTypes";
-import { View } from "@react-pdf/renderer";
+import { AttendanceTableQuery } from "@/graphql/new/customTypes";
 import { AttendanceTableView } from ".";
+import { ATTENDANCE_TABLE_QUERY } from "./getAttendancesLesson";
 
-export const AttendanceListPage: FC<PropsWithChildren> = ({ children }) => {
-  const screens = Grid.useBreakpoint();
-
-  const role = sessionStorage.getItem("highestRole") ?? "";
-  let teacherId = undefined;
-
-  if (role === "teacher") {
-    teacherId = 1;
-  }
-
-  const {
-    tableProps,
-    tableQueryResult,
-    searchFormProps,
-    filters,
-    sorters,
-    setCurrent,
-    setPageSize,
-    setFilters,
-  } = useTable<
-    GetFieldsFromList<ClassesTableQuery>,
+export const AttendanceListPage = () => {
+  const { tableProps, filters, sorters } = useTable<
+    GetFieldsFromList<AttendanceTableQuery>,
     HttpError,
     { name: string }
   >({
-    resource: "classes",
+    resource: "attendances",
 
-    onSearch: (values) => {
-      return [
-        {
-          field: "name",
-          operator: "contains",
-          value: values.name,
-        },
-      ];
-    },
     sorters: {
       mode: "off",
       initial: [
@@ -57,51 +25,29 @@ export const AttendanceListPage: FC<PropsWithChildren> = ({ children }) => {
     },
     filters: {
       mode: "server",
-      permanent: [
-        {
-          field: "teacherId",
-          operator: "eq",
-          value: teacherId,
-        },
-      ],
-      initial: [
-        {
-          field: "name",
-          operator: "contains",
-          value: "",
-        },
-      ],
+      initial: [],
     },
     pagination: {
       pageSize: 8,
       mode: "client",
     },
-    dataProviderName: "local",
     meta: {
-      //   gqlQuery: CLASSES_TABLE_QUERY,
+      gqlQuery: ATTENDANCE_TABLE_QUERY,
     },
   });
-
-  const onViewChange = (value: View) => {
-    setFilters([], "replace");
-    searchFormProps.form?.resetFields();
-  };
-
-  const onSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    searchFormProps?.onFinish?.({
-      name: e.target.value ?? "",
-    });
-  };
-
-  const debouncedOnChange = debounce(onSearch, 500);
 
   return (
     <div className="page-container">
       <List
         breadcrumb={false}
+        headerButtons={[]}
+        title=""
+        headerProps={{
+          style: {},
+        }}
         contentProps={{
           style: {
-            marginTop: "40px",
+            marginTop: "0px",
           },
         }}
       >
@@ -113,7 +59,6 @@ export const AttendanceListPage: FC<PropsWithChildren> = ({ children }) => {
           />
         }
       </List>
-      {children}
     </div>
   );
 };

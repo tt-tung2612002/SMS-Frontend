@@ -14,52 +14,26 @@ import { ClassManagement } from "@/graphql/new/schema.types";
 import { ContactCreateInput } from "@/graphql/schema.types";
 import { CompanyContactsTableQuery } from "@/graphql/types";
 
-import { CLASS_STUDENTS_QUERY_2 } from "../queries/getOneClass";
+import { CLASS_STUDENTS_QUERY } from "../queries/getOneClass";
 
 type Contact = GetFieldsFromList<CompanyContactsTableQuery>;
 
 export const ClassStudentsTable: FC = () => {
   const { id } = useParams();
 
-  // const showResetFilters = useMemo(() => {
-  //   return filters?.filter((filter) => {
-  //     if ("field" in filter && filter.field === "company.id") {
-  //       return false;
-  //     }
-
-  //     if (!filter.value) {
-  //       return false;
-  //     }
-
-  //     return true;
-  //   });
-  // }, [filters]);
-  const {
-    tableProps,
-    tableQueryResult,
-    // searchFormProps,
-  } = useTable<
+  const { tableProps, tableQueryResult } = useTable<
     GetFieldsFromList<GetStudentsInClass2Query>,
     HttpError,
     { name: string }
   >({
     resource: "classManagements",
-    // sorters: {
-    //   mode: "off",
-    //   initial: [
-    //     {
-    //       field: "username",
-    //       order: "asc",
-    //     },
-    //   ],
-    // },
     filters: {
       mode: "server",
       initial: [
         {
           field: "classId",
           operator: "eq",
-          value: parseInt(id ?? "", 10),
+          value: parseInt(id ?? ""),
         },
         {
           field: "id",
@@ -72,24 +46,13 @@ export const ClassStudentsTable: FC = () => {
       pageSize: 8,
       mode: "off",
     },
-    dataProviderName: "local",
     meta: {
-      gqlQuery: CLASS_STUDENTS_QUERY_2,
+      gqlQuery: CLASS_STUDENTS_QUERY,
     },
   });
 
-  // const { data, isSuccess } = useOne<Class, HttpError>({
-  //   id: id,
-  //   resource: "class",
-  //   dataProviderName: "local",
-  //   meta: {
-  //     gqlQuery: CLASS_STUDENTS_QUERY,
-  //   },
-  // });
-
   const studentCount = tableQueryResult.data?.total;
 
-  // const hasData = isSuccess && (students?.totalCount ?? 0) > 0;
   const hasData = true;
 
   return (
@@ -137,7 +100,7 @@ export const ClassStudentsTable: FC = () => {
         <Table
           {...tableProps}
           // showHeader={false}
-          rowKey="id"
+          rowKey="user.id"
           // dataSource={students?.nodes}
           pagination={{
             pageSize: 8,

@@ -37,12 +37,12 @@ type CompanyNote = GetFieldsFromList<CompanyCompanyNotesQuery>;
 export const CompanyNotes: FC<Props> = ({ style }) => {
   return (
     <Card
-      bodyStyle={{
-        padding: "0",
-      }}
-      headStyle={{
-        borderBottom: "1px solid #D9D9D9",
-      }}
+      // bodyStyle={{
+      //   padding: "0",
+      // }}
+      // headStyle={{
+      //   borderBottom: "1px solid #D9D9D9",
+      // }}
       title={
         <Space size={16}>
           <TextIcon

@@ -89,11 +89,11 @@ export const CompanyQuotesTable: FC<Props> = ({ style }) => {
   return (
     <Card
       style={style}
-      headStyle={{
-        borderBottom: "1px solid #D9D9D9",
-        marginBottom: "1px",
-      }}
-      bodyStyle={{ padding: 0 }}
+      // headStyle={{
+      //   borderBottom: "1px solid #D9D9D9",
+      //   marginBottom: "1px",
+      // }}
+      // bodyStyle={{ padding: 0 }}
       title={
         <Space size="middle">
           <ContainerOutlined />

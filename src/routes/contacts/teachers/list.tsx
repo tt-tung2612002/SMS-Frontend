@@ -125,6 +125,7 @@ export const TeachersListPage: FC<PropsWithChildren> = ({ children }) => {
                 <Radio.Group
                   size="large"
                   value={view}
+                  buttonStyle="solid"
                   onChange={(e) => onViewChange(e.target.value)}
                 >
                   <Radio.Button value="table">

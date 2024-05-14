@@ -5,7 +5,7 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "type": "pwa-msedge",
+      "type": "msedge",
       "request": "attach",
       "name": "Attach MSEdge Debug Session",
       "port": 9222,

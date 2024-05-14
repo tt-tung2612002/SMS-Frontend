@@ -130,3 +130,116 @@ td.ant-table-column-sort {
 .ant-radio-button-wrapper {
   font-size: 14px !important;
 }
+
+.ant-form-item .ant-form-item-label > label {
+  font-size: 16px;
+}
+
+body .w-md-editor-text-pre > code,
+body .w-md-editor-text-input {
+  font-size: 20px !important;
+  line-height: 24px !important;
+}
+
+.w-md-editor-toolbar li > button {
+  svg {
+    width: 14px;
+    height: 14px;
+  }
+}
+
+.ant-select-single .ant-select-selector .ant-select-selection-placeholder {
+  font-size: 14px;
+  color: #bebebe87;
+}
+
+.ant-select-selector {
+  height: 35px !important;
+  border: 1px solid #d9d9d9;
+}
+
+[class*=" ant-select"] {
+  background-color: #1e1e1e !important;
+  font-size: 20px !important;
+  border-bottom: 0.5px solid #bebebe4b !important;
+}
+
+.ant-select-selection-search-input {
+  background-color: #1e1e1e !important;
+}
+
+.ant-form-item-control-input-content {
+  .ant-input::placeholder {
+    font-size: 14px;
+    color: #bebebe87;
+  }
+  .ant-input-outlined {
+    background-color: #1b1b1bcc;
+  }
+}
+
+.w-md-editor-toolbar-divider {
+  height: 16px !important;
+  width: 1.5px !important;
+  /* margin: 0 !important; */
+  vertical-align: middle !important;
+  background-color: #838181ce;
+}
+
+.ant-table-tbody .ant-table-cell {
+  border: 0.01px solid #adadad2e !important;
+  background-color: rgba(24, 24, 24, 0.558);
+}
+
+.ant-table-thead .ant-table-cell {
+  border: 0.01px solid #adadad2e !important;
+  background-color: rgba(35, 35, 35, 0.853) !important;
+}
+
+.ant-card-head-wrapper {
+  background-color: rgba(26, 26, 26, 0.751) !important;
+  padding-bottom: 5px;
+  padding-top: 5px;
+  font-size: 20px !important;
+}
+
+.ant-card {
+  font-size: 16px !important;
+}
+
+.auth-page {
+  background-color: #19191963 !important;
+
+  .ant-card-head {
+    background-color: rgb(96, 96, 96) !important;
+  }
+}
+
+.ant-tag {
+  font-size: 13px !important;
+}
+
+.ant-tabs .ant-tabs-tab {
+  font-size: 16px !important;
+}
+
+.ant-card-body {
+  background-color: rgba(22, 22, 22, 0.914) !important;
+}
+
+.ant-popover .ant-popover-inner {
+  background-color: #1f1f1ff3 !important;
+}
+
+.ant-select .ant-select-arrow > * {
+  line-height: 1;
+  font-size: 12px !important;
+}
+
+.ant-select-item-option-content {
+  font-size: 14px !important;
+}
+
+.ant-select-multiple .ant-select-selection-item-content {
+  font-size: 14px !important;
+}

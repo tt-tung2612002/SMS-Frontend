@@ -19,7 +19,7 @@ const config: IGraphQLConfig = {
         "src/graphql/new/temp.ts": {
           preset: "import-types",
 
-          documents: ["src/**/getOneLesson.{ts,tsx}"],
+          documents: ["src/**/getLessons.{ts,tsx}"],
 
           plugins: ["typescript-operations"],
           config: {

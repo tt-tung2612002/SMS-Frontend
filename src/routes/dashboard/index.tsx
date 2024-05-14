@@ -9,6 +9,7 @@ import { DashboardTotalCountsQuery } from "@/graphql/new/types";
 
 import { DashboardTotalCountCard } from "./components";
 import { DASHBOARD_TOTAL_COUNTS_QUERY } from "./dashboardGetTotalCount";
+import { StudentUpcomingEvents } from "./test";
 
 export const DashboardPage: React.FC = () => {
   const { data, isLoading } = useCustom<DashboardTotalCountsQuery>({
@@ -43,75 +44,25 @@ export const DashboardPage: React.FC = () => {
           />
         </Col>
       </Row>
-
-      {/* <Row
-        gutter={[32, 32]}
-        style={{
-          marginTop: "32px",
-        }}
-      >
-        <Col
-          xs={24}
-          sm={24}
-          xl={8}
-          style={{
-            height: "432px",
-          }}
-        >
-          <DashboardTotalRevenueChart />
-        </Col>
-        <Col
-          xs={24}
-          sm={24}
-          xl={16}
-          style={{
-            height: "432px",
-          }}
-        >
-          <DashboardDealsChart />
-        </Col>
-      </Row> */}
-
       <Row
         gutter={[32, 32]}
         style={{
           marginTop: "32px",
         }}
       >
-        {/* <Col xs={24} sm={24} xl={14} xxl={16}>
-          <DashboardLatestActivities />
-        </Col> */}
         <Col xs={24} sm={24} xl={10} xxl={8}>
           <CalendarUpcomingEvents showGoToListButton />
         </Col>
       </Row>
 
       <Row
-        gutter={[32, 32]}
         style={{
           marginTop: "32px",
         }}
       >
-        <Col
-          xs={24}
-          sm={24}
-          xl={8}
-          style={{
-            height: "448px",
-          }}
-        >
-          {/* <DashboardTasksChart /> */}
+        <Col span={24} xs={24} sm={24}>
+          <StudentUpcomingEvents />
         </Col>
-        {/* <Col
-          xs={24}
-          sm={24}
-          xl={16}
-          style={{
-            height: "448px",
-          }}
-        >
-          <CompaniesMap />
-        </Col> */}
       </Row>
     </div>
   );

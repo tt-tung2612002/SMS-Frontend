@@ -5,8 +5,8 @@ import { Text } from "@/components";
 import { useTable } from "@refinedev/antd";
 
 import { Lesson } from "@/graphql/new/schema.types";
-import { AuditOutlined, EyeFilled } from "@ant-design/icons";
-import { Button, Card, Space, Table } from "antd";
+import { AuditOutlined } from "@ant-design/icons";
+import { Card, Space, Table } from "antd";
 import { CLASS_LESSONS_TABLE_QUERY } from "./queries/getLessons";
 
 type Props = {
@@ -46,11 +46,16 @@ export const ClassLessonsTable: FC<Props> = ({
   return (
     <Card
       style={style}
-      headStyle={{
-        borderBottom: "1px solid #D9D9D9",
-        marginBottom: "1px",
+      styles={{
+        header: {
+          borderBottom: "0.1px solid #bebebe",
+          marginBottom: "10px",
+        },
+        body: {
+          padding: 10,
+          // backgroundColor: "black",
+        },
       }}
-      bodyStyle={{ padding: 0 }}
       title={
         <Space size="middle">
           <AuditOutlined />
@@ -73,29 +78,29 @@ export const ClassLessonsTable: FC<Props> = ({
             showSizeChanger: false,
           }}
         >
-          <Table.Column<Lesson> title="Subject" dataIndex="title" />
+          <Table.Column<Lesson>
+            title="Subject"
+            dataIndex="title"
+            onCell={(record) => {
+              return {
+                onClick: () => {
+                  onLessonClick(record.id);
+                },
+              };
+            }}
+          />
           <Table.Column<Lesson>
             // title="Deal amount"
             // dataIndex="value"
             render={(_, record) => {
               return <Text>{}</Text>;
             }}
-          />
-          <Table.Column<Lesson>
-            dataIndex="id"
-            width={112}
-            render={(value, record) => {
-              return (
-                <Space>
-                  <Button
-                    size="small"
-                    icon={<EyeFilled />}
-                    onClick={() => {
-                      onLessonClick(value);
-                    }}
-                  />
-                </Space>
-              );
+            onCell={(record) => {
+              return {
+                onClick: () => {
+                  onLessonClick(record.id);
+                },
+              };
             }}
           />
         </Table>

@@ -20,8 +20,7 @@ type Props = {
   sorters: CrudSorting;
 };
 
-export const CompaniesTableView: FC<Props> = ({ tableProps, filters }) => {
-  // console.log(tableProps.pagination);
+export const ClassesTableView: FC<Props> = ({ tableProps, filters }) => {
   return (
     <Table
       {...tableProps}

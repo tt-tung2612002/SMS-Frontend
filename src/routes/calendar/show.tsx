@@ -1,5 +1,5 @@
 import { DeleteButton, EditButton } from "@refinedev/antd";
-import { useNavigation, useResource, useShow } from "@refinedev/core";
+import { useNavigation, useResourceParams, useShow } from "@refinedev/core";
 
 import {
   CalendarOutlined,
@@ -17,7 +17,7 @@ import { Event } from "@/graphql/new/customSchema";
 import { CALENDAR_GET_EVENT_QUERY } from "./queries";
 
 export const CalendarShowPage: React.FC = () => {
-  const { id } = useResource();
+  const { id } = useResourceParams();
   const { list } = useNavigation();
 
   const { queryResult } = useShow<Event>({

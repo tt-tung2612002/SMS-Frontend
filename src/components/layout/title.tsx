@@ -9,7 +9,7 @@ import { Logo } from "./logo";
 
 const { useToken } = theme;
 
-const name = "PTE Master";
+const name = "Study Corner";
 
 export const Title: React.FC<RefineLayoutThemedTitleProps> = ({
   collapsed,
@@ -36,8 +36,8 @@ export const Title: React.FC<RefineLayoutThemedTitleProps> = ({
       >
         <div
           style={{
-            height: "24px",
-            width: "24px",
+            height: "36px",
+            width: "36px",
             color: token.colorPrimary,
           }}
         >

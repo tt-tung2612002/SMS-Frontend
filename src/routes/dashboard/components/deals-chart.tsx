@@ -60,7 +60,7 @@ export const DashboardDealsChart: React.FC = () => {
       });
 
     return [...(won || []), ...(lost || [])].sort(
-      (a, b) => a.timeUnix - b.timeUnix,
+      (a, b) => a.timeUnix - b.timeUnix
     );
   }, [data]);
 
@@ -105,8 +105,8 @@ export const DashboardDealsChart: React.FC = () => {
   return (
     <Card
       style={{ height: "100%" }}
-      headStyle={{ padding: "8px 16px" }}
-      bodyStyle={{ padding: "24px 24px 0px 24px" }}
+      // headStyle={{ padding: "8px 16px" }}
+      // bodyStyle={{ padding: "24px 24px 0px 24px" }}
       title={
         <div
           style={{

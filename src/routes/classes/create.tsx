@@ -17,7 +17,6 @@ import {
 import { GetFields } from "@refinedev/nestjs-query";
 
 import { LeftOutlined } from "@ant-design/icons";
-import MDEditor from "@uiw/react-md-editor";
 import { Form, Input, Modal, Select, Upload } from "antd";
 import message from "antd/lib/message";
 import axios from "axios";
@@ -26,6 +25,7 @@ import { SelectOptionWithAvatar } from "@/components";
 import { CreateClassMutation } from "@/graphql/new/types";
 import { useUsersSelect } from "@/hooks/useUsersSelect";
 
+import { Markdown } from "@/components/markdown";
 import { CLASS_CREATE_MUTATION } from "./queries/createClass";
 
 // type Class = GetFields<CreateClassMutation>;
@@ -34,16 +34,9 @@ type Props = {
   isOverModal?: boolean;
 };
 
-// type FormValues = GetVariables<CreateClassMutationVariables> & {
-//   class: {
-//     name: string;
-//   }[];
-// };
-
 export const ClassCreatePage = ({ isOverModal }: Props) => {
   const getToPath = useGetToPath();
   const [searchParams] = useSearchParams();
-  // const { pathname } = useLocation();
   const go = useGo();
   const [value, setValue] = React.useState("");
   const { formProps, modalProps, close } = useModalForm<
@@ -78,7 +71,6 @@ export const ClassCreatePage = ({ isOverModal }: Props) => {
     }
   };
 
-  // const { mutateAsync: createManyMutateAsync } = useCreateMany();
   return (
     <Modal
       {...modalProps}
@@ -113,15 +105,7 @@ export const ClassCreatePage = ({ isOverModal }: Props) => {
           const file = values.logoUrl[0];
           let base64String = "";
           if (file.originFileObj) {
-            //             console.log(file);
             base64String = await file2Base64(file);
-
-            //             base64Files.push({
-            //               ...file,
-            //               base64String,
-            //             });
-            //           } else {
-            //             base64Files.push(file);
           }
 
           return formProps.onFinish?.({
@@ -129,39 +113,6 @@ export const ClassCreatePage = ({ isOverModal }: Props) => {
             logoUrl: base64String,
           });
         }}
-        // onFinish={async (values) => {
-        //   try {
-
-        //     // const createdClass = (data as CreateResponse<Class>)?.data;
-
-        //     // if ((values.contacts ?? [])?.length > 0) {
-        //     //   await createManyMutateAsync({
-        //     //     resource: "contacts",
-        //     //     values:
-        //     //       values.contacts?.map((contact) => ({
-        //     //         ...contact,
-        //     //         companyId: createdCompany.id,
-        //     //         salesOwnerId: createdCompany.salesOwner.id,
-        //     //       })) ?? [],
-        //     //     successNotification: false,
-        //     //   });
-        //     // }
-
-        //     go({
-        //       to: searchParams.get("to") ?? pathname,
-        //       query: {
-        //         // companyId: createdCompany.id,
-        //         to: undefined,
-        //       },
-        //       options: {
-        //         keepQuery: true,
-        //       },
-        //       type: "replace",
-        //     });
-        //   } catch (error) {
-        //     Promise.reject(error);
-        //   }
-        // }}
       >
         <Form.Item label="Class name" name="name" rules={[{ required: true }]}>
           <Input placeholder="Please enter class name" />
@@ -171,12 +122,7 @@ export const ClassCreatePage = ({ isOverModal }: Props) => {
           name="description"
           rules={[{ required: false }]}
         >
-          <MDEditor
-            data-color-mode="dark"
-            value={value ?? ""}
-            onChange={(value) => setValue(value ?? "")}
-            preview="edit"
-          />
+          <Markdown value={value} setValue={setValue} />
         </Form.Item>
         <Form.Item
           label="Teacher"
@@ -216,7 +162,9 @@ export const ClassCreatePage = ({ isOverModal }: Props) => {
               multiple
               beforeUpload={() => false}
             >
-              <p className="ant-upload-text">Drag & drop a file in this area</p>
+              <p className="ant-upload-text">
+                Choose your avatar & drop in this area
+              </p>
             </Upload.Dragger>
           </Form.Item>
         </Form.Item>
@@ -231,6 +179,11 @@ export const ClassCreatePage = ({ isOverModal }: Props) => {
               name="file"
               action={`${apiUrl}/upload`}
               listType="picture"
+              headers={{
+                Authorization: `Bearer ${sessionStorage.getItem(
+                  "access_token"
+                )}`,
+              }}
               maxCount={5}
               multiple
               onChange={onChange}
@@ -240,41 +193,6 @@ export const ClassCreatePage = ({ isOverModal }: Props) => {
             </Upload.Dragger>
           </Form.Item>
         </Form.Item>
-        {/* <Form.List name="contacts">
-          {(fields, { add, remove }) => (
-            <Space direction="vertical">
-              {fields.map(({ key, name, ...restField }) => (
-                <Row key={key} gutter={12} align="middle">
-                  <Col span={11}>
-                    <Form.Item noStyle {...restField} name={[name, "name"]}>
-                      <Input
-                        addonBefore={<UserOutlined />}
-                        placeholder="Contact name"
-                      />
-                    </Form.Item>
-                  </Col>
-                  <Col span={11}>
-                    <Form.Item noStyle name={[name, "email"]}>
-                      <Input
-                        addonBefore={<MailOutlined />}
-                        placeholder="Contact email"
-                      />
-                    </Form.Item>
-                  </Col>
-                  <Col span={2}>
-                    <Button
-                      icon={<DeleteOutlined />}
-                      onClick={() => remove(name)}
-                    />
-                  </Col>
-                </Row>
-              ))}
-              <Typography.Link onClick={() => add()}>
-                <PlusCircleOutlined /> Add new contacts
-              </Typography.Link>
-            </Space>
-          )}
-        </Form.List> */}
       </Form>
     </Modal>
   );

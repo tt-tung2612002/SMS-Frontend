@@ -90,9 +90,9 @@ const App: React.FC = () => {
                         Header={Header}
                         Title={({ collapsed }) => (
                           <ThemedTitleV2
-                            collapsed={false}
-                            icon={collapsed ? <Logo /> : <Logo />}
-                            text="Student Management System"
+                            collapsed={collapsed}
+                            icon={<Logo />}
+                            text="Study Corner"
                           />
                         )}
                       >

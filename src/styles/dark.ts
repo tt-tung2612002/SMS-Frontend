@@ -187,6 +187,11 @@ export const CustomConfig: ThemeConfig = {
       contentBg: "#1e1e1e",
       headerBg: "#1e1e1e",
       borderRadius: 0,
+      colorBgContainer: "white",
+    },
+
+    Card: {
+      colorBorderBg: "white",
     },
 
     Table: {
@@ -198,12 +203,12 @@ export const CustomConfig: ThemeConfig = {
       // cellFontSizeSM: 14,
       // cellFontSizeMD: 16,
       // fontSizeIcon: 12,
-      colorBorder: "transparent",
-      colorBorderSecondary: "transparent",
-      colorBgElevated: "#9d9d9e",
-      colorBgTextActive: "transparent",
-      rowHoverBg: "#424242",
-      rowSelectedHoverBg: "#424242",
+      // colorBorder: "transparent",
+      // colorBorderSecondary: "transparent",
+      // colorBgElevated: "#9d9d9e",
+      // colorBgTextActive: "transparent",
+      // rowHoverBg: "#424242",
+      // rowSelectedHoverBg: "#424242",
     },
 
     Radio: {
@@ -217,10 +222,11 @@ export const CustomConfig: ThemeConfig = {
 
     Input: {
       colorBgBase: "#1e1e1e",
-      colorBorder: "transparent",
-      activeBorderColor: "#9d9d9e",
-      hoverBorderColor: "#9d9d9e",
-      colorBgElevated: "#9d9d9e",
+      activeBg: "#1e1e1e",
+      // colorBorder: "transparent",
+      // activeBorderColor: "#9d9d9e",
+      // hoverBorderColor: "#9d9d9e",
+      // colorBgElevated: "#9d9d9e",
       // colorPrimaryBorderHover: "red",
       // colorBgSpotlight: "red",
       // colorFillContentHover: "red",

@@ -74,7 +74,6 @@ export const CalendarUpcomingEvents: React.FC<CalendarUpcomingEventsProps> = ({
 
   const { data, isLoading } = useList<GetFieldsFromList<UpcomingEventsQuery>>({
     resource: "events",
-    dataProviderName: "local",
     pagination: {
       pageSize: limit,
     },
