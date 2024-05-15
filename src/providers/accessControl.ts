@@ -1,6 +1,6 @@
 import { AccessControlProvider } from "@refinedev/core";
 
-import { newEnforcer, newModel, StringAdapter } from "casbin";
+import { Enforcer, newEnforcer, newModel, StringAdapter } from "casbin";
 
 export const model = newModel(`
 [request_definition]
@@ -108,4 +108,22 @@ export const accessControlProvider: AccessControlProvider = {
       can: await enforcer.enforce(highestRole, resource, action),
     };
   },
+};
+
+let enforcer: Enforcer;
+
+const getEnforcer = async () => {
+  if (!enforcer) {
+    enforcer = await newEnforcer(model, adapter);
+  }
+  return enforcer;
+};
+
+export const canAccess = async (
+  role: string,
+  resource: string,
+  action: string
+) => {
+  const enforcer = await getEnforcer();
+  return enforcer.enforce(role, resource, action);
 };

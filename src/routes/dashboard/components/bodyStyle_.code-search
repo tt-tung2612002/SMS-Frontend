@@ -1,9 +1,0 @@
-# Query: headerStyle={
-# ContextLines: 1
-
-1 result - 1 file
-
-src\routes\contacts\students\show\index.tsx:
-  87        // bodyStyle={{ background: "#f5f5f5", padding: 0 }}
-  88:       // headerStyle={{ display: "none" }}
-  89      >

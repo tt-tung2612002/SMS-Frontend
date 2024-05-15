@@ -20,13 +20,11 @@ export const CalendarUpcomingEvent: React.FC<CalendarUpcomingEventProps> = ({
 }) => {
   const { show } = useNavigation();
   const { id, title, startDate, endDate, color } = item;
-  const isToday = dayjs(startDate).utc().isSame(dayjs.utc(), "day");
-  const isTomorrow = dayjs(startDate)
-    .utc()
-    .isSame(dayjs.utc().add(1, "day"), "day");
+  const isToday = dayjs(startDate).isSame(dayjs(), "day");
+  const isTomorrow = dayjs(startDate).isSame(dayjs().add(1, "day"), "day");
   const isAllDayEvent =
-    dayjs(startDate).utc().startOf("day").isSame(startDate) &&
-    dayjs(endDate).utc().endOf("day").isSame(endDate);
+    dayjs(startDate).startOf("day").isSame(startDate) &&
+    dayjs(endDate).endOf("day").isSame(endDate);
 
   const renderDate = () => {
     if (isToday) {
@@ -37,7 +35,7 @@ export const CalendarUpcomingEvent: React.FC<CalendarUpcomingEventProps> = ({
       return `Tomorrow`;
     }
 
-    return dayjs(startDate).utc().format("MMM DD");
+    return dayjs(startDate).format("MMM DD");
   };
 
   const renderTime = () => {
@@ -45,9 +43,9 @@ export const CalendarUpcomingEvent: React.FC<CalendarUpcomingEventProps> = ({
       return "All day";
     }
 
-    return `${dayjs(startDate).utc().format("HH:mm")} - ${dayjs(endDate)
-      .utc()
-      .format("HH:mm")}`;
+    return `${dayjs(startDate).format("HH:mm A")} - ${dayjs(endDate).format(
+      "HH:mm A"
+    )}`;
   };
 
   return (
@@ -63,7 +61,7 @@ export const CalendarUpcomingEvent: React.FC<CalendarUpcomingEventProps> = ({
         <Text size="md">{`${renderDate()}, ${renderTime()}`}</Text>
       </div>
       <Text
-        size="md"
+        size="huge"
         ellipsis={{ tooltip: true }}
         strong
         className={styles.title}

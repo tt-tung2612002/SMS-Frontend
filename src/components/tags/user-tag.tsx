@@ -1,11 +1,15 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 
 import { Button, Popover, Space, Tag } from "antd";
 
 import { UserInfo } from "@/graphql/new/schema.types";
 
-import { useNavigation } from "@refinedev/core";
+import { Attendance } from "@/graphql/new/customSchema";
+import { PlayCircleFilled } from "@ant-design/icons";
+import { useNavigation, useUpdate } from "@refinedev/core";
+import dayjs from "dayjs";
 import { CustomAvatar } from "../custom-avatar";
+import { Text } from "../text";
 
 type Props = {
   user: Partial<UserInfo>;
@@ -14,7 +18,6 @@ type Props = {
   lessonId?: number;
 };
 
-// const { mutate } = useUpdate<Attendance>();
 export const UserTag: FC<Props> = ({ user, onClick, onHover }) => {
   const { show } = useNavigation();
 
@@ -22,15 +25,60 @@ export const UserTag: FC<Props> = ({ user, onClick, onHover }) => {
     onClick = () => show("students", user.id ?? 1);
   }
 
-  const popOverContent = (
-    <div style={{ display: "flex", flexDirection: "column" }}>
-      <Button type="primary" onClick={() => handleAttendanceUpdate("present")}>
+  const { mutate } = useUpdate<Attendance>();
+  const [userId, setUserId] = useState<number>(0);
+
+  const handleStatusChange = (newStatus: String, id: number) => {
+    mutate({
+      resource: "attendance",
+      id: id,
+      values: {
+        status: newStatus,
+        updatedAt: dayjs().utc().utcOffset(7).format("YYYY-MM-DD HH:mm:ss"),
+      },
+      invalidates: ["all", "resourceAll"],
+    });
+  };
+
+  const content = (
+    <div>
+      <Button
+        type="text"
+        onClick={() => handleStatusChange("PRESENT", user.id ?? 0)}
+        icon={<PlayCircleFilled />}
+        style={{
+          color: "#6abe39",
+          background: "#162312",
+          borderColor: "#274916",
+          textTransform: "capitalize",
+        }}
+      >
         Present
       </Button>
-      <Button type="text" onClick={() => handleAttendanceUpdate("absent")}>
+      <Button
+        type="text"
+        onClick={() => handleStatusChange("ABSENT", user.id ?? 0)}
+        icon={<PlayCircleFilled />}
+        style={{
+          color: "#e84749",
+          background: "#29181a",
+          borderColor: "#58181c",
+          textTransform: "capitalize",
+        }}
+      >
         Absent
       </Button>
-      <Button type="text" onClick={() => handleAttendanceUpdate("late")}>
+      <Button
+        type="text"
+        onClick={() => handleStatusChange("LATE", user.id ?? 0)}
+        icon={<PlayCircleFilled />}
+        style={{
+          color: "#f5a623",
+          background: "#2a1e12",
+          borderColor: "#5a3a1c",
+          textTransform: "capitalize",
+        }}
+      >
         Late
       </Button>
     </div>
@@ -43,33 +91,28 @@ export const UserTag: FC<Props> = ({ user, onClick, onHover }) => {
       style={{
         fontSize: 14,
         padding: 1,
-        // paddingRight: 10,
-        // paddingTop: 100,
         borderRadius: 24,
         lineHeight: "unset",
         marginRight: "unset",
       }}
     >
-      <Space size={10}>
-        <Popover content={popOverContent} trigger="hover">
+      <Space size={15} wrap>
+        <Popover content={content} trigger="hover">
           <CustomAvatar
             src={user.avatarUrl}
             name={user.firstName}
-            style={{ display: "inline-flex", cursor: "pointer" }}
+            style={{
+              display: "inline-flex",
+              cursor: "pointer",
+              marginLeft: 10,
+              marginRight: 50,
+            }}
           />
+          <Text size="md" style={{ cursor: "pointer", marginRight: 5 }}>
+            {user.firstName}
+          </Text>
         </Popover>
-        {user.firstName}
       </Space>
     </Tag>
   );
 };
-
-function handleAttendanceUpdate(status: String) {
-  // mutate({
-  //   resource: "attendance",
-  //   id: 1,
-  //   values: {
-  //     status: status,
-  //   },
-  // });
-}

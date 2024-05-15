@@ -11,14 +11,14 @@ import {
 import { Button, Modal, Skeleton, Space, Tag } from "antd";
 import dayjs from "dayjs";
 
-import { Text, UserTag } from "@/components";
+import { CustomAvatar, Text, UserTag } from "@/components";
 import { Event } from "@/graphql/new/customSchema";
 
 import { CALENDAR_GET_EVENT_QUERY } from "./queries";
 
 export const CalendarShowPage: React.FC = () => {
   const { id } = useResourceParams();
-  const { list } = useNavigation();
+  const { list, show } = useNavigation();
 
   const { queryResult } = useShow<Event>({
     id,
@@ -40,13 +40,13 @@ export const CalendarShowPage: React.FC = () => {
     data?.data ?? {};
   const teacher = lesson?.class?.teacher;
 
-  const utcStartDate = dayjs(startDate).utc();
-  const utcEndDate = dayjs(endDate).utc();
+  const localStartDate = dayjs(startDate);
+  const localEndDate = dayjs(endDate);
 
   // if the event is more than one day, don't show the time
   let allDay = false;
   // check if more then 23 hours
-  if (utcEndDate.diff(utcStartDate, "hours") >= 23) {
+  if (localEndDate.diff(localStartDate, "hours") >= 23) {
     allDay = true;
   }
 
@@ -129,8 +129,8 @@ export const CalendarShowPage: React.FC = () => {
           {allDay ? (
             <div>
               <CalendarOutlined style={{ marginRight: ".5rem" }} />
-              <Text>{`${dayjs(utcStartDate).format("MMMM D")} - ${dayjs(
-                utcEndDate
+              <Text>{`${dayjs(localStartDate).format("MMMM D")} - ${dayjs(
+                localEndDate
               ).format("MMMM D")}`}</Text>
               <Tag style={{ marginLeft: ".5rem" }} color="blue">
                 All Day
@@ -141,14 +141,14 @@ export const CalendarShowPage: React.FC = () => {
               <div>
                 <CalendarOutlined style={{ marginRight: ".5rem" }} />
                 <Text size="lg">
-                  {dayjs(utcStartDate).format("MMMM D, YYYY dddd")}
+                  {dayjs(localStartDate).format("MMMM D, YYYY dddd")}
                 </Text>
               </div>
               <div>
                 <ClockCircleOutlined style={{ marginRight: ".5rem" }} />
-                <Text size="lg">{`${dayjs(utcStartDate).format(
+                <Text size="lg">{`${dayjs(localStartDate).format(
                   "h:mm A"
-                )} - ${dayjs(utcEndDate).format("h:mm A")}`}</Text>
+                )} - ${dayjs(localEndDate).format("h:mm A")}`}</Text>
               </div>
             </>
           )}
@@ -169,9 +169,35 @@ export const CalendarShowPage: React.FC = () => {
               Teacher: {"  "}
             </Text>
 
-            <Space size={10} wrap style={{ marginLeft: "10px" }}>
-              <UserTag key={teacher?.id} user={teacher?.userInfoById ?? {}} />
-            </Space>
+            <Tag
+              onClick={() => {
+                show("teachers", teacher?.id ?? 0);
+              }}
+              key={teacher?.id}
+              style={{
+                fontSize: 14,
+                padding: 1,
+                borderRadius: 24,
+                lineHeight: "unset",
+                marginRight: "unset",
+              }}
+            >
+              <Space size={10} wrap style={{ marginLeft: "10px" }}>
+                <CustomAvatar
+                  src={teacher?.userInfoById?.avatarUrl}
+                  name={teacher?.userInfoById?.firstName}
+                  style={{
+                    display: "inline-flex",
+                    cursor: "pointer",
+                    marginLeft: 10,
+                    marginRight: 50,
+                  }}
+                />
+                <Text size="md" style={{ cursor: "pointer", marginRight: 5 }}>
+                  {teacher?.userInfoById?.firstName}
+                </Text>
+              </Space>
+            </Tag>
           </div>
           <div style={{ display: "flex", alignItems: "start" }}>
             <InfoCircleOutlined

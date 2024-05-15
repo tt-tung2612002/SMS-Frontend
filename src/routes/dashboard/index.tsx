@@ -1,15 +1,16 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
-import { useCan, useCustom } from "@refinedev/core";
+import { useCustom } from "@refinedev/core";
 
 import { Col, Row } from "antd";
 
 import { CalendarUpcomingEvents } from "@/components";
 import { DashboardTotalCountsQuery } from "@/graphql/new/types";
 
+import { canAccess } from "@/providers/accessControl";
+import { StudentUpcomingEvents } from "./StudentUpcomingEvents";
 import { DashboardTotalCountCard } from "./components";
 import { DASHBOARD_TOTAL_COUNTS_QUERY } from "./dashboardGetTotalCount";
-import { StudentUpcomingEvents } from "./StudentUpcomingEvents";
 
 export const DashboardPage: React.FC = () => {
   const { data, isLoading } = useCustom<DashboardTotalCountsQuery>({
@@ -19,18 +20,23 @@ export const DashboardPage: React.FC = () => {
     meta: { gqlQuery: DASHBOARD_TOTAL_COUNTS_QUERY },
   });
 
-  const { data: student } = useCan({
-    resource: "dashboard/studentUpcomingEvents",
-    action: "show",
-  });
+  const [studentViewUpcomingEvents, setStudentViewUpcomingEvents] =
+    useState(false);
+  const [teacherViewUpcomingEvents, setTeacherViewUpcomingEvents] =
+    useState(false);
 
-  const { data: teacherViewUpcomingEvents } = useCan({
-    resource: "dashboard/teacherUpcomingEvents",
-    action: "show",
-  });
-
-  console.log("Student View Upcoming Events", student);
-  console.log("Teacher View Upcoming Events", teacherViewUpcomingEvents?.can);
+  useEffect(() => {
+    const checkPermissions = async () => {
+      const role = sessionStorage.getItem("highestRole") || "student";
+      setStudentViewUpcomingEvents(
+        await canAccess(role, "dashboard/studentUpcomingEvents", "show")
+      );
+      setTeacherViewUpcomingEvents(
+        await canAccess(role, "dashboard/teacherUpcomingEvents", "show")
+      );
+    };
+    checkPermissions();
+  }, []);
 
   return (
     <div className="page-container">
@@ -57,7 +63,7 @@ export const DashboardPage: React.FC = () => {
           />
         </Col>
       </Row>
-      {teacherViewUpcomingEvents?.can && (
+      {teacherViewUpcomingEvents && (
         <Row
           gutter={[32, 32]}
           style={{
@@ -69,7 +75,7 @@ export const DashboardPage: React.FC = () => {
           </Col>
         </Row>
       )}
-      {student?.can && (
+      {studentViewUpcomingEvents && (
         <Row
           style={{
             marginTop: "32px",

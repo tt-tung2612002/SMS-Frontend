@@ -104,7 +104,6 @@ export const StudentsListPage: FC<PropsWithChildren> = ({ children }) => {
     {
       key: "3",
       label: "Inactive",
-      children: <List breadcrumb={false}>{}</List>,
     },
   ];
 

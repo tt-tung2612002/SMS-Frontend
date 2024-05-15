@@ -1,9 +1,10 @@
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 
 import { DeleteButton, EditButton, FilterDropdown } from "@refinedev/antd";
 import { CrudFilters, CrudSorting, getDefaultFilter } from "@refinedev/core";
 import { GetFieldsFromList } from "@refinedev/nestjs-query";
 
+import { canAccess } from "@/providers/accessControl";
 import { EyeOutlined } from "@ant-design/icons";
 import { Select, Space, Table, TableProps } from "antd";
 import dayjs from "dayjs";
@@ -21,6 +22,21 @@ type Props = {
 };
 
 export const ClassesTableView: FC<Props> = ({ tableProps, filters }) => {
+  const [isStudent, setStudentView] = useState(false);
+
+  useEffect(() => {
+    const checkPermissions = async () => {
+      const role = sessionStorage.getItem("highestRole") || "student";
+      setStudentView(
+        await canAccess(role, "dashboard/studentUpcomingEvents", "show")
+      );
+      setStudentView(
+        await canAccess(role, "dashboard/teacherUpcomingEvents", "show")
+      );
+    };
+    checkPermissions();
+  }, []);
+
   return (
     <Table
       {...tableProps}

@@ -131,6 +131,9 @@ td.ant-table-column-sort {
   font-size: 14px !important;
 }
 
+.ant-form {
+  background-color: #1e1e1e;
+}
 .ant-form-item .ant-form-item-label > label {
   font-size: 16px;
 }
@@ -197,21 +200,51 @@ body .w-md-editor-text-input {
 }
 
 .ant-card-head-wrapper {
-  background-color: rgba(26, 26, 26, 0.751) !important;
   padding-bottom: 5px;
   padding-top: 5px;
   font-size: 20px !important;
 }
 
-.ant-card {
-  font-size: 16px !important;
+.ant-layout {
+  background-color: rgb(35, 35, 35);
 }
-
 .auth-page {
-  background-color: #19191963 !important;
+  background-color: #151515af !important;
 
+  .ant-form-item .ant-form-item-label > label {
+    font-size: 14px;
+  }
+
+  .ant-form {
+    background-color: unset;
+  }
+
+  .ant-card-body {
+    background-color: uset !important;
+  }
   .ant-card-head {
-    background-color: rgb(72, 72, 72) !important;
+    background-color: uset !important;
+  }
+  .ant-form-item-control-input {
+    border-width: 0.01rem;
+    border-radius: 8px;
+    border-style: solid;
+    border-color: #d9d9d95b !important;
+  }
+  .ant-input-lg {
+    padding: 7px 11px;
+    font-size: 16px;
+    line-height: 1.5;
+    border-radius: 8px;
+  }
+  .ant-form-item-label {
+    background: unset !important;
+  }
+  .ant-row .ant-form-item-row {
+    background: unset !important;
+  }
+  .ant-form-item-control-input-content {
+    background: unset !important;
   }
 }
 
@@ -221,10 +254,6 @@ body .w-md-editor-text-input {
 
 .ant-tabs .ant-tabs-tab {
   font-size: 16px !important;
-}
-
-.ant-card-body {
-  background-color: rgba(22, 22, 22, 0.914) !important;
 }
 
 .ant-popover .ant-popover-inner {
@@ -250,4 +279,14 @@ body .w-md-editor-text-input {
 
 .ant-tooltip-inner {
   background-color: #1f1f1ff3 !important;
+}
+
+.ant-avatar {
+  margin-right: 8px !important;
+}
+
+/* CARD */
+
+.ant-card {
+  font-size: 16px !important;
 }

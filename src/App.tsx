@@ -31,7 +31,7 @@ import {
   CalendarShowPage,
 } from "./routes/calendar";
 import { ClassEditPage, CompanyListPage } from "./routes/classes";
-import { ContactShowPage, StudentsListPage } from "./routes/contacts/students";
+import { StudentsListPage, TeacherShowPage } from "./routes/contacts/students";
 import { TeachersListPage } from "./routes/contacts/teachers/list";
 import { DashboardPage } from "./routes/dashboard";
 import { ForgotPasswordPage } from "./routes/forgot-password";
@@ -142,7 +142,7 @@ const App: React.FC = () => {
                       }
                     >
                       <Route index element={null} />
-                      <Route path="show/:id" element={<ContactShowPage />} />
+                      <Route path="show/:id" element={<TeacherShowPage />} />
                       {/* <Route
                         path="create"
                         element={

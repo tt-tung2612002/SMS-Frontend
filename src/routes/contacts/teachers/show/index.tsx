@@ -37,7 +37,7 @@ export const TeacherShowPage: React.FC = () => {
   });
 
   const closeModal = () => {
-    list("students");
+    list("teachers");
   };
 
   const { data, isLoading, isError } = queryResult;
