@@ -211,7 +211,7 @@ body .w-md-editor-text-input {
   background-color: #19191963 !important;
 
   .ant-card-head {
-    background-color: rgb(96, 96, 96) !important;
+    background-color: rgb(72, 72, 72) !important;
   }
 }
 
@@ -242,4 +242,12 @@ body .w-md-editor-text-input {
 
 .ant-select-multiple .ant-select-selection-item-content {
   font-size: 14px !important;
+}
+
+.ant-drawer-header-title {
+  display: none !important;
+}
+
+.ant-tooltip-inner {
+  background-color: #1f1f1ff3 !important;
 }

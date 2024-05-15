@@ -84,8 +84,14 @@ export const AvatarGroup: FC<Props> = ({
       {hasRemainingAvatars && (
         <Tooltip
           destroyTooltipOnHide
+          style={{ backgroundColor: "#1e1e1e" }}
           title={
-            <Space direction="vertical">
+            <Space
+              direction="vertical"
+              style={{
+                backgroundColor: "#1e1e1e",
+              }}
+            >
               {remainingAvatars.map((avatar, index) => {
                 return (
                   <Space key={index}>
@@ -96,7 +102,7 @@ export const AvatarGroup: FC<Props> = ({
                     />
                     <Text
                       style={{
-                        color: "#fff",
+                        backgroundColor: "#1e1e1e",
                       }}
                       key={avatar.name}
                     >
@@ -127,7 +133,8 @@ export const AvatarGroup: FC<Props> = ({
                 ? `translateX(-${visibleAvatars.length * 8}px)`
                 : undefined,
               zIndex: shouldOverlap ? visibleAvatars.length : 1,
-              backgroundColor: "#D9D9D9",
+              backgroundColor: "#bebebe",
+              color: "black",
               border: overlap ? "2px solid #fff" : "none",
             }}
           >

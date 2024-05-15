@@ -4,7 +4,7 @@ import { useList } from "@refinedev/core";
 import { GetFieldsFromList } from "@refinedev/nestjs-query";
 
 import { UnorderedListOutlined } from "@ant-design/icons";
-import { Card, Skeleton as AntdSkeleton } from "antd";
+import { Skeleton as AntdSkeleton, Card } from "antd";
 import dayjs from "dayjs";
 
 import { CustomAvatar, Text } from "@/components";
@@ -72,10 +72,10 @@ export const DashboardLatestActivities: React.FC<{ limit?: number }> = ({
 
   return (
     <Card
-      headStyle={{ padding: "16px" }}
-      bodyStyle={{
-        padding: "0 1rem",
-      }}
+      // headStyle={{ padding: "16px" }}
+      // bodyStyle={{
+      //   padding: "0 1rem",
+      // }}
       title={
         <div
           style={{

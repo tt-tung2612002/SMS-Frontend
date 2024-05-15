@@ -25,11 +25,11 @@ export const CompanyListPage: FC<PropsWithChildren> = ({ children }) => {
   const screens = Grid.useBreakpoint();
 
   const role = sessionStorage.getItem("highestRole") ?? "";
-  let teacherId = undefined;
 
-  if (role === "teacher") {
-    teacherId = 1;
-  }
+  const teacherId =
+    role === "teacher"
+      ? parseInt(sessionStorage.getItem("userId") ?? "")
+      : null;
 
   const {
     tableProps,

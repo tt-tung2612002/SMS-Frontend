@@ -1,25 +1,21 @@
 import { useState } from "react";
 
-import { useLogout } from "@refinedev/core";
+import { useGetIdentity, useLogout } from "@refinedev/core";
 
 import { LogoutOutlined, SettingOutlined } from "@ant-design/icons";
 import { Button, Popover } from "antd";
 
+import { User } from "@/graphql/new/customSchema";
 import { CustomAvatar } from "../custom-avatar";
 import { Text } from "../text";
 import { AccountSettings } from "./account-settings";
 
 export const CurrentUser: React.FC = () => {
   const [opened, setOpened] = useState(false);
-  // const { data: user } = useGetIdentity<User>();
+  const { data: user } = useGetIdentity<User>();
   const { mutate: logout } = useLogout();
 
-  const user = {
-    id: "1",
-    name: "William Tran",
-    avatarUrl:
-      "https://refine-crm.ams3.cdn.digitaloceanspaces.com/avatars/14.jpg",
-  };
+  console.log("user", user);
 
   const content = (
     <div
@@ -34,7 +30,7 @@ export const CurrentUser: React.FC = () => {
           padding: "12px 20px",
         }}
       >
-        {user?.name}
+        {user?.userInfo?.firstName}
       </Text>
       <div
         style={{
@@ -79,8 +75,8 @@ export const CurrentUser: React.FC = () => {
         overlayStyle={{ zIndex: 999 }}
       >
         <CustomAvatar
-          name={user?.name}
-          src={user?.avatarUrl}
+          name={user?.userInfo?.firstName}
+          src={user?.userInfo?.avatarUrl}
           size="default"
           style={{ cursor: "pointer" }}
         />

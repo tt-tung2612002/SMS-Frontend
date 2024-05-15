@@ -11,26 +11,6 @@ import { STUDENT_GET_EVENTS } from "../calendar/queries/getEventsForStudent";
 
 const { Title, Text } = Typography;
 
-const sample = [
-  {
-    date: "Today",
-    time: "12:00",
-    duration: "1 hr 15 mins",
-    subject: "English",
-    location: "Computer Lab",
-    tasks: [
-      "Need to discuss with student",
-      "Today we made some great progress. Thanks to all for dedication and attention.",
-    ],
-    teacher: "Donna Swanson",
-    status: {
-      completed: 2,
-      pending: 1,
-      missed: 2,
-    },
-  },
-];
-
 export const StudentUpcomingEvents: React.FC = () => {
   const { list } = useNavigation();
 

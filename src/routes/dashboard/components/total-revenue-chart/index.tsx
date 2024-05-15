@@ -60,18 +60,18 @@ export const DashboardTotalRevenueChart: React.FC = () => {
     console.error(
       "Error fetching dashboard data",
       expectedRevenueError,
-      realizedRevenueError,
+      realizedRevenueError
     );
     return null;
   }
 
   const totalRealizationRevenue = (realizedRevenueData?.data || []).map(
-    (item) => item.dealsAggregate?.[0]?.sum?.value,
+    (item) => item.dealsAggregate?.[0]?.sum?.value
   )[0];
 
   const totalExpectedRevenue = (expectedRevenueData?.data || []).reduce(
     (prev, curr) => prev + (curr?.dealsAggregate?.[0]?.sum?.value ?? 0),
-    0,
+    0
   );
 
   const realizationPercentageOfExpected =
@@ -136,14 +136,6 @@ export const DashboardTotalRevenueChart: React.FC = () => {
   return (
     <Card
       style={{ height: "100%" }}
-      bodyStyle={{
-        padding: "0 32px 32px 32px",
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-      headStyle={{ padding: "16px" }}
       title={
         <div
           style={{

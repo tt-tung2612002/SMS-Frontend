@@ -23,7 +23,6 @@
 
 .fc-event .fc-event-title,
 .fc-event .fc-event-time {
-  color: rgba(247, 60, 60, 0.84) !important;
   font-weight: 400 !important;
   font-size: 12px;
 }

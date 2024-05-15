@@ -1,4 +1,4 @@
-import { Col, Row, Tabs } from "antd";
+import { Tabs } from "antd";
 import { ClassStudentsTable, ClassTitleForm } from "./components";
 import { AttendanceListPage } from "./components/attendance/list";
 import LessonsManager from "./components/lessons/lesson-manager";
@@ -9,17 +9,17 @@ const tabs = [
     label: "Class Details",
     children: (
       <div>
-        <Row
+        {/* <Row
           gutter={[32, 32]}
           style={{
             marginTop: 32,
           }}
         >
-          <Col span={32}>
-            <ClassStudentsTable />
-            <LessonsManager />
-          </Col>
-        </Row>
+          <Col span={32}> */}
+        <ClassStudentsTable />
+        <LessonsManager />
+        {/* </Col>
+        </Row> */}
       </div>
     ),
   },

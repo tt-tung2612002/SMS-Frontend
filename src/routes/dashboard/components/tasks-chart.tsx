@@ -44,7 +44,7 @@ export const DashboardTasksChart: React.FC = () => {
       }))
       .filter(
         (stage) =>
-          stage.value !== null && stage.value !== undefined && stage.value > 0,
+          stage.value !== null && stage.value !== undefined && stage.value > 0
       )
       .sort((a, b) => (b.value ?? 0) - (a.value ?? 0));
   }, [data?.data]);
@@ -83,10 +83,10 @@ export const DashboardTasksChart: React.FC = () => {
   return (
     <Card
       style={{ height: "100%" }}
-      headStyle={{ padding: "8px 16px" }}
-      bodyStyle={{
-        padding: "32px",
-      }}
+      // headStyle={{ padding: "8px 16px" }}
+      // bodyStyle={{
+      //   padding: "32px",
+      // }}
       title={
         <div
           style={{

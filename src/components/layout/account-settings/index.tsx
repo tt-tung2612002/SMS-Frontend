@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 import { HttpError, useOne, useUpdate } from "@refinedev/core";
 
 import {
@@ -35,14 +33,9 @@ type Props = {
   userId: number;
 };
 
-type FormKeys = "email" | "jobTitle" | "phone" | "timezone";
-
 export const AccountSettings = ({ opened, setOpened, userId }: Props) => {
-  const [activeForm, setActiveForm] = useState<FormKeys>();
-
   const { data, isLoading, isError } = useOne<UserInfo, HttpError>({
     resource: "userInfo",
-    dataProviderName: "local",
     liveMode: "auto",
     id: userId,
     queryOptions: {
@@ -83,19 +76,6 @@ export const AccountSettings = ({ opened, setOpened, userId }: Props) => {
 
   const { id, firstName: name, email, phoneNumber, avatarUrl } = data?.data;
 
-  // const [nameUpdate, setNameUpdate] = useState("");
-  // setNameUpdate(name);
-
-  // console.log("My name is", nameUpdate);
-
-  const getActiveForm = (key: FormKeys) => {
-    if (activeForm === key) {
-      return "form";
-    }
-
-    return "view";
-  };
-
   return (
     <Drawer
       onClose={closeModal}
@@ -113,9 +93,7 @@ export const AccountSettings = ({ opened, setOpened, userId }: Props) => {
       }}
     >
       <div className={styles.header}>
-        <Text strong size="xl">
-          Account Settings
-        </Text>
+        <Text strong>Account Settings</Text>
         <Button
           type="text"
           icon={<CloseOutlined />}
@@ -137,7 +115,6 @@ export const AccountSettings = ({ opened, setOpened, userId }: Props) => {
           <Typography.Title
             level={3}
             style={{ padding: 0, margin: 0, width: "100%" }}
-            // className={styles.title}
             editable={{
               onChange(value) {
                 updateMutation({
@@ -167,28 +144,6 @@ export const AccountSettings = ({ opened, setOpened, userId }: Props) => {
             </Space>
           }
         >
-          {/* <SingleElementForm
-            useFormProps={{
-              id,
-              resource: "users",
-              meta: {
-                gqlMutation: ACCOUNT_SETTINGS_UPDATE_USER_MUTATION,
-              },
-            }}
-            formProps={{ initialValues: { jobTitle } }}
-            icon={<IdcardOutlined className="tertiary" />}
-            state={getActiveForm("jobTitle")}
-            itemProps={{
-              name: "jobTitle",
-              label: "Title",
-            }}
-            view={<Text>{jobTitle}</Text>}
-            onClick={() => setActiveForm("jobTitle")}
-            onUpdate={() => setActiveForm(undefined)}
-            onCancel={() => setActiveForm(undefined)}
-          >
-            <Input />
-          </SingleElementForm> */}
           <SingleElementForm
             useFormProps={{
               id,
@@ -199,41 +154,14 @@ export const AccountSettings = ({ opened, setOpened, userId }: Props) => {
             }}
             formProps={{ initialValues: { phoneNumber } }}
             icon={<PhoneOutlined className="tertiary" />}
-            state={getActiveForm("phone")}
             itemProps={{
               name: "phone",
               label: "Phone",
             }}
             view={<Text>{phoneNumber}</Text>}
-            onClick={() => setActiveForm("phone")}
-            onUpdate={() => setActiveForm(undefined)}
-            onCancel={() => setActiveForm(undefined)}
           >
             <Input />
           </SingleElementForm>
-          {/* <SingleElementForm
-            useFormProps={{
-              id,
-              resource: "users",
-              meta: {
-                gqlMutation: ACCOUNT_SETTINGS_UPDATE_USER_MUTATION,
-              },
-            }}
-            formProps={{ initialValues: { timezone } }}
-            style={{ borderBottom: "none" }}
-            icon={<GlobalOutlined className="tertiary" />}
-            state={getActiveForm("timezone")}
-            itemProps={{
-              name: "timezone",
-              label: "TimezoneEnum",
-            }}
-            view={<Text>{timezone}</Text>}
-            onClick={() => setActiveForm("timezone")}
-            onUpdate={() => setActiveForm(undefined)}
-            onCancel={() => setActiveForm(undefined)}
-          >
-            <Select style={{ width: "100%" }} options={timezoneOptions} />
-          </SingleElementForm> */}
         </Card>
         <Card
           title={
@@ -242,8 +170,14 @@ export const AccountSettings = ({ opened, setOpened, userId }: Props) => {
               <Text size="sm">Security</Text>
             </Space>
           }
-          headStyle={{ padding: "0 12px" }}
-          bodyStyle={{ padding: "0" }}
+          styles={{
+            header: {
+              padding: "0 12px",
+            },
+            body: {
+              padding: 0,
+            },
+          }}
         >
           <SingleElementForm
             useFormProps={{
@@ -255,15 +189,11 @@ export const AccountSettings = ({ opened, setOpened, userId }: Props) => {
             }}
             formProps={{ initialValues: { email } }}
             icon={<MailOutlined className="tertiary" />}
-            state={getActiveForm("email")}
             itemProps={{
               name: "email",
               label: "Email",
             }}
             view={<Text>{email}</Text>}
-            onClick={() => setActiveForm("email")}
-            onUpdate={() => setActiveForm(undefined)}
-            onCancel={() => setActiveForm(undefined)}
           >
             <Input />
           </SingleElementForm>

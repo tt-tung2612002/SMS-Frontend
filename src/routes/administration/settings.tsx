@@ -132,7 +132,7 @@ const UsersTable = () => {
       }
     >
       <Table {...tableProps}>
-        <Table.Column<User>
+        {/* <Table.Column<User>
           dataIndex="name"
           title="Name"
           defaultFilteredValue={getDefaultFilter("name", filters, "contains")}
@@ -157,7 +157,7 @@ const UsersTable = () => {
               </Space>
             );
           }}
-        />
+        /> */}
         <Table.Column
           dataIndex="jobTitle"
           title="Title"

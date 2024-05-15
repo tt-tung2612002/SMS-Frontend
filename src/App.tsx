@@ -15,7 +15,7 @@ import {
   authProvider,
   localDataProvider,
   loginProvider,
-  refineProvider,
+  securityGraphqlProvider,
 } from "@/providers";
 import { ClassCreatePage } from "@/routes/classes/create";
 
@@ -61,10 +61,10 @@ const App: React.FC = () => {
             <Refine
               authProvider={authProvider}
               dataProvider={{
-                refine: refineProvider,
                 default: localDataProvider,
                 local: localDataProvider,
                 rest: loginProvider,
+                security: securityGraphqlProvider,
               }}
               // liveProvider={liveProvider}
               accessControlProvider={accessControlProvider}

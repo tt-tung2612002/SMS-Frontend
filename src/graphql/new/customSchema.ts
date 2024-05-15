@@ -1,5 +1,35 @@
 import * as Types from "./schema.types";
-
+export type Maybe<T> = T | null;
+export type InputMaybe<T> = Maybe<T>;
+export type Exact<T extends { [key: string]: unknown }> = {
+  [K in keyof T]: T[K];
+};
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
+  [SubKey in K]?: Maybe<T[SubKey]>;
+};
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
+  [SubKey in K]: Maybe<T[SubKey]>;
+};
+export type MakeEmpty<
+  T extends { [key: string]: unknown },
+  K extends keyof T
+> = { [_ in K]?: never };
+export type Incremental<T> =
+  | T
+  | {
+      [P in keyof T]?: P extends " $fragmentName" | "__typename" ? T[P] : never;
+    };
+/** All built-in and custom scalars, mapped to their actual values */
+export type Scalars = {
+  ID: { input: string; output: string };
+  String: { input: string; output: string };
+  Boolean: { input: boolean; output: boolean };
+  Int: { input: number; output: number };
+  Float: { input: number; output: number };
+  BigInt: { input: any; output: any };
+  Cursor: { input: any; output: any };
+  Datetime: { input: any; output: any };
+};
 export type Event = Node & {
   /** Reads and enables pagination through a set of `Category`. */
   categories: Types.EventCategoriesManyToManyConnection;
@@ -92,4 +122,39 @@ export type UserInfo = Node & {
   userRolesByUserId: Types.UserRolesConnection;
 };
 
+export type User = Node & {
+  /** Reads and enables pagination through a set of `ClassLevel`. */
+  classLevels: Types.UserClassLevelsManyToManyConnection;
+  /** Reads and enables pagination through a set of `ClassManagement`. */
+  classManagements: Types.ClassManagementsConnection;
+  /** Reads and enables pagination through a set of `ClassStatus`. */
+  classStatuses: Types.UserClassStatusesManyToManyConnection;
+  /** Reads and enables pagination through a set of `ClassType`. */
+  classTypes: Types.UserClassTypesManyToManyConnection;
+  /** Reads and enables pagination through a set of `Class`. */
+  classes: Types.UserClassesManyToManyConnection;
+  /** Reads and enables pagination through a set of `Class`. */
+  classesByTeacherId: Types.ClassesConnection;
+  createdAt?: Types.Maybe<Types.Scalars["Datetime"]["output"]>;
+  id: Types.Scalars["Int"]["output"];
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Types.Scalars["ID"]["output"];
+  updatedAt?: Types.Maybe<Types.Scalars["Datetime"]["output"]>;
+  /** Reads and enables pagination through a set of `UserAttribute`. */
+  userAttributes: Types.UserAttributesConnection;
+  /** Reads a single `UserInfo` that is related to this `User`. */
+  userInfoById?: Types.Maybe<Types.UserInfo>;
+  /**
+   * Reads and enables pagination through a set of `UserInfo`.
+   * @deprecated Please use userInfoById instead
+   */
+  userInfosById: Types.UserInfosConnection;
+  userInfo?: Types.Maybe<Types.UserInfo>;
+  username: Types.Scalars["String"]["output"];
+};
+
 export type AttendanceStatus = "ABSENT" | "PRESENT" | "LATE";
+
+export type Query = Node & {
+  me: User;
+};

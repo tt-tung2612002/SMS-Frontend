@@ -42,9 +42,6 @@ export const AttendanceListPage = () => {
         breadcrumb={false}
         headerButtons={[]}
         title=""
-        headerProps={{
-          style: {},
-        }}
         contentProps={{
           style: {
             marginTop: "0px",

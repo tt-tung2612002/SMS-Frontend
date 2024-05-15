@@ -49,7 +49,11 @@ export const CalendarManageCategories: React.FC<
       title="Manage Categories"
       okText="Save"
       destroyOnClose
-      bodyStyle={{ paddingTop: "1rem" }}
+      styles={{
+        body: {
+          paddingTop: "1rem",
+        },
+      }}
       okButtonProps={{
         onClick: () => {
           form.submit();

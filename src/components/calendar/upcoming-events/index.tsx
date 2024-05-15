@@ -87,7 +87,7 @@ export const CalendarUpcomingEvents: React.FC<CalendarUpcomingEventsProps> = ({
       {
         field: "startDate",
         operator: "gte",
-        value: dayjs().format("YYYY-MM-DD"),
+        value: dayjs().utc().format("YYYY-MM-DD"),
       },
     ],
     meta: {

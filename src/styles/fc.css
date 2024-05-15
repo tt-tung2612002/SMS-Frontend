@@ -37,7 +37,7 @@
 
 .fc-event {
   .fc-event-title {
-    text-wrap: pretty !important;
+    /* text-wrap: pretty !important; */
     color: #fff;
     font-weight: 400 !important;
     font-size: 12px;
@@ -120,15 +120,15 @@
       flex-direction: row !important;
       font-size: 16px !important;
       /* font-weight: 600 !important; */
-      color: rgb(255, 255, 255) !important;
+      /* color: rgb(255, 255, 255) !important; */
     }
   }
 
   .fc-event-time {
-    flex-direction: row !important;
+    /* flex-direction: row !important; */
     font-size: 15px !important;
     /* font-weight: 600 !important; */
-    color: rgb(255, 255, 255) !important;
+    /* color: rgb(255, 255, 255) !important; */
   }
 }
 
@@ -156,4 +156,45 @@
   /* border: none !important; */
   /* border-bottom: none !important; */
   border-right: none !important;
+}
+
+.fc-col-header-cell-cushion {
+  /* float: left; */
+  font-size: 16px;
+}
+
+.fc-direction-ltr .fc-list-day-text,
+.fc-direction-rtl .fc-list-day-side-text {
+  color: white;
+  font-size: 16px;
+  line-height: 2em;
+}
+
+.fc tr {
+  height: 10px;
+}
+
+.fc .fc-list-event:hover td {
+  background-color: #8161a4a0 !important;
+}
+
+.fc-event .fc-event-title,
+.fc-list-event-time,
+.fc-list-event-title,
+.fc-event .fc-event-time {
+  font-size: 14px;
+}
+
+.fc-theme-standard td,
+.fc-theme-standard th,
+.fc-theme-standard .fc-list-day-cushion {
+  background-color: #232323b4 !important;
+}
+
+.fc .fc-list-empty {
+  align-items: center;
+  background-color: #1e1e1e !important;
+  display: flex;
+  height: 100%;
+  justify-content: center;
 }
