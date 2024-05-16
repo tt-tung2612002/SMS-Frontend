@@ -17,11 +17,10 @@ import {
   isMutation,
 } from "./utils/camel";
 
-const CORS_URL = "https://thanhtung.tail8950c.ts.net/";
 
-export const LOCAL_URL = CORS_URL + "http://localhost:5000" + "/graphql";
-export const REST_URL = CORS_URL + "http://localhost:8080";
-export const SECURITY_URL = CORS_URL + "http://localhost:8082";
+export const LOCAL_URL =  "https://graphql.sms.thanhtung.tech/graphql" 
+export const REST_URL =  "http://localhost:8080";
+export const SECURITY_URL ="https://auth.sms.thanhtung.tech";
 
 // export const client = new GraphQLClient(API_URL, {
 //   fetch: async (url: string, options: any) => {

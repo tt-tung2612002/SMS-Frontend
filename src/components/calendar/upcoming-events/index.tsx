@@ -115,7 +115,7 @@ export const CalendarUpcomingEvents: React.FC<CalendarUpcomingEventsProps> = ({
         >
           <CalendarOutlined />
           <Text size="md" style={{ marginLeft: ".7rem" }}>
-            Upcoming events
+            Teacher Upcoming Events 
           </Text>
         </Space>
       }

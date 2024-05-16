@@ -45,7 +45,7 @@ export const StudentUpcomingEvents: React.FC = () => {
           }}
         >
           <CalendarOutlined />
-          <Text>Upcoming events</Text>
+          <Text>Student Upcoming Lessons</Text>
         </Space>
       }
       extra={
