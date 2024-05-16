@@ -14,13 +14,16 @@ import {
   generatePaging,
   generateSorting,
   getOperationFields,
-  isMutation,
+  isMutation
 } from "./utils/camel";
 
 
-export const LOCAL_URL =  "https://graphql.sms.thanhtung.tech/graphql" 
-export const REST_URL =  "http://localhost:8080";
-export const SECURITY_URL ="https://auth.sms.thanhtung.tech";
+const CORS_URL = process.env.NODE_ENV === "development" ? "http://localhost:10000/" : ""
+
+// export const GRAPHQL_URL = CORS_URL + "https://graphql.sms.thanhtung.tech/graphql"
+export const GRAPHQL_URL = CORS_URL + "https://auth.sms.thanhtung.tech/forwardGraphql"
+export const SECURITY_URL = CORS_URL + "https://auth.sms.thanhtung.tech";
+export const UPLOAD_URL = CORS_URL + process.env.NODE_ENV === "development" ? "http://localhost:8080" : "https://upload.sms.thanhtung.tech";
 
 // export const client = new GraphQLClient(API_URL, {
 //   fetch: async (url: string, options: any) => {
@@ -65,7 +68,7 @@ const securityGraphQLClient = new GraphQLClient(SECURITY_URL + "/graphql", {
   },
 });
 
-export const localClient = new GraphQLClient(LOCAL_URL, {
+export const localClient = new GraphQLClient(GRAPHQL_URL, {
   fetch: async (url: string, options: any) => {
     try {
       const response = await axiosInstance.request({
@@ -211,8 +214,8 @@ export const localDataProvider = (() => {
 
         query = gqlTag`
                         query Get${camelcase(singular(resource), {
-                          pascalCase: true,
-                        })}($id: Int!) {
+          pascalCase: true,
+        })}($id: Int!) {
                             ${operation}(id: $id) {
                             ${stringFields}
                             }
@@ -421,8 +424,8 @@ export const securityGraphqlProvider = (() => {
 
         query = gqlTag`
                         query Get${camelcase(singular(resource), {
-                          pascalCase: true,
-                        })}($id: Int!) {
+          pascalCase: true,
+        })}($id: Int!) {
                             ${operation}(id: $id) {
                             ${stringFields}
                             }
@@ -507,5 +510,5 @@ export const securityGraphqlProvider = (() => {
   return provider;
 })();
 
-export const restProvider = dataProvider(REST_URL);
 export const loginProvider = dataProvider(SECURITY_URL);
+export const uploadProvider = dataProvider(UPLOAD_URL);

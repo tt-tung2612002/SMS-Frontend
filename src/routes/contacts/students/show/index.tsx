@@ -21,7 +21,7 @@ import { User } from "@/graphql/new/schema.types";
 import styles from "./index.module.css";
 import { STUDENT_SHOW_QUERY } from "./showStudent";
 
-export const TeacherShowPage: React.FC = () => {
+export const StudentShowPage: React.FC = () => {
   const { list } = useNavigation();
   const { mutate } = useUpdate<User>();
   const { mutate: deleteMutation } = useDelete<User>();

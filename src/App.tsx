@@ -16,13 +16,13 @@ import {
   localDataProvider,
   loginProvider,
   securityGraphqlProvider,
+  uploadProvider,
 } from "@/providers";
 import { ClassCreatePage } from "@/routes/classes/create";
 
 import { ThemeProvider } from "@mui/material/styles";
 import { ErrorComponent, ThemedLayoutV2, ThemedTitleV2 } from "@refinedev/mui";
 import { accessControlProvider } from "./providers/accessControl";
-import { AuditLogPage } from "./routes/administration";
 import {
   CalendarCreatePage,
   // CalendarCreatePage,
@@ -31,7 +31,7 @@ import {
   CalendarShowPage,
 } from "./routes/calendar";
 import { ClassEditPage, CompanyListPage } from "./routes/classes";
-import { StudentsListPage, TeacherShowPage } from "./routes/contacts/students";
+import { StudentShowPage, StudentsListPage } from "./routes/contacts/students";
 import { TeachersListPage } from "./routes/contacts/teachers/list";
 import { DashboardPage } from "./routes/dashboard";
 import { ForgotPasswordPage } from "./routes/forgot-password";
@@ -47,6 +47,7 @@ import "./utilities/init-dayjs";
 import { Logo } from "./components";
 import { MUISider } from "./components/layout/customSider";
 import { Header } from "./components/layout/header";
+import { TeacherShowPage } from "./routes/contacts/teachers/show";
 
 const App: React.FC = () => {
   // const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
@@ -64,6 +65,7 @@ const App: React.FC = () => {
                 default: localDataProvider,
                 local: localDataProvider,
                 rest: loginProvider,
+                upload: uploadProvider,
                 security: securityGraphqlProvider,
               }}
               // liveProvider={liveProvider}
@@ -142,7 +144,7 @@ const App: React.FC = () => {
                       }
                     >
                       <Route index element={null} />
-                      <Route path="show/:id" element={<TeacherShowPage />} />
+                      <Route path="show/:id" element={<StudentShowPage />} />
                       {/* <Route
                         path="create"
                         element={
@@ -159,13 +161,16 @@ const App: React.FC = () => {
                         <TeachersListPage>
                           <Outlet />
                         </TeachersListPage>
+
                       }
-                    ></Route>
+                    >
+                      <Route path="show/:id" element={<TeacherShowPage />} />
+                    </Route>
                   </Route>
 
                   <Route path="/administration" element={<Outlet />}>
                     <Route path="settings" element={null} />
-                    <Route path="audit-log" element={<AuditLogPage />} />
+                    <Route path="audit-log" element={null} />
                   </Route>
                   <Route path="*" element={<ErrorComponent />} />
                 </Route>

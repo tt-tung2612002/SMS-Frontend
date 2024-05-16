@@ -19,13 +19,13 @@ import { GetFields } from "@refinedev/nestjs-query";
 import { LeftOutlined } from "@ant-design/icons";
 import { Form, Input, Modal, Select, Upload } from "antd";
 import message from "antd/lib/message";
-import axios from "axios";
 
 import { SelectOptionWithAvatar } from "@/components";
 import { CreateClassMutation } from "@/graphql/new/types";
 import { useUsersSelect } from "@/hooks/useUsersSelect";
 
 import { Markdown } from "@/components/markdown";
+import { UPLOAD_URL, uploadProvider } from "@/providers/data";
 import { CLASS_CREATE_MUTATION } from "./queries/createClass";
 
 // type Class = GetFields<CreateClassMutation>;
@@ -58,11 +58,24 @@ export const ClassCreatePage = ({ isOverModal }: Props) => {
   const { selectProps, queryResult } = useUsersSelect();
   const users = queryResult?.data?.data ?? [];
   const { onChange } = useFileUploadState();
-  const apiUrl = useApiUrl("rest");
+  const apiUrl = useApiUrl("upload");
   const handleRemove = async (file: { name: string }) => {
     try {
-      // Make a DELETE request to remove the file on the server
-      await axios.delete(`${apiUrl}/files/${file.name}`);
+      const { data } = await uploadProvider.custom({
+        url: UPLOAD_URL + "/upload",
+        method: "post",
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+          "Access-Control-Allow-Headers": "Content-Type, Authorization",
+          "Access-Control-Allow-Credentials": "true",
+        },
+        payload: {
+          fileName: file.name
+        },
+      });
+
       message.success("File removed successfully");
       return true; // Return true to remove the file from the list in UI
     } catch (error) {
