@@ -93,6 +93,7 @@ export type GetStudentsInClass2Query = {
     }>;
   };
 };
+
 export type CalendarEventsQueryVariables = Types.Exact<{
   filter: Types.EventFilter;
 }>;
@@ -205,4 +206,12 @@ export type ClassGetLessonsQuery = {
   lessons: Pick<Types.LessonsConnection, "totalCount"> & {
     nodes: Array<Pick<Types.Lesson, "id" | "title">>;
   };
+};
+
+export type CreateLessonMutationVariables = Types.Exact<{
+  input: Types.CreateLessonInput;
+}>;
+
+export type CreateLessonMutation = {
+  createLesson: { lesson: Pick<Types.Lesson, "id"> };
 };

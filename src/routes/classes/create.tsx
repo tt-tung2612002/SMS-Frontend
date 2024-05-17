@@ -28,8 +28,6 @@ import { Markdown } from "@/components/markdown";
 import { UPLOAD_URL, uploadProvider } from "@/providers/data";
 import { CLASS_CREATE_MUTATION } from "./queries/createClass";
 
-// type Class = GetFields<CreateClassMutation>;
-
 type Props = {
   isOverModal?: boolean;
 };
@@ -61,7 +59,7 @@ export const ClassCreatePage = ({ isOverModal }: Props) => {
   const apiUrl = useApiUrl("upload");
   const handleRemove = async (file: { name: string }) => {
     try {
-      const { data } = await uploadProvider.custom({
+      await uploadProvider.custom({
         url: UPLOAD_URL + "/upload",
         method: "post",
         headers: {
@@ -72,7 +70,7 @@ export const ClassCreatePage = ({ isOverModal }: Props) => {
           "Access-Control-Allow-Credentials": "true",
         },
         payload: {
-          fileName: file.name
+          fileName: file.name,
         },
       });
 
@@ -199,6 +197,9 @@ export const ClassCreatePage = ({ isOverModal }: Props) => {
               }}
               maxCount={5}
               multiple
+              // data={{
+              //   assignmentId: 1,
+              // }}
               onChange={onChange}
               onRemove={handleRemove}
             >

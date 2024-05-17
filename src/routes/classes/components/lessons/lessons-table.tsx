@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 
 import { Text } from "@/components";
 import { useTable } from "@refinedev/antd";
+import dayjs from "dayjs";
 
 import { Lesson } from "@/graphql/new/schema.types";
 import { AuditOutlined } from "@ant-design/icons";
@@ -90,10 +91,42 @@ export const ClassLessonsTable: FC<Props> = ({
             }}
           />
           <Table.Column<Lesson>
-            // title="Deal amount"
-            // dataIndex="value"
+            title="Start Date"
             render={(_, record) => {
-              return <Text>{}</Text>;
+              return (
+                <Space>
+                  <Text
+                    style={{
+                      whiteSpace: "nowrap",
+                    }}
+                  >
+                    {dayjs(record.startDate).format("h:mm A MMMM D, YYYY dddd")}
+                  </Text>
+                </Space>
+              );
+            }}
+            onCell={(record) => {
+              return {
+                onClick: () => {
+                  onLessonClick(record.id);
+                },
+              };
+            }}
+          />
+          <Table.Column<Lesson>
+            title="End Date"
+            render={(_, record) => {
+              return (
+                <Space>
+                  <Text
+                    style={{
+                      whiteSpace: "nowrap",
+                    }}
+                  >
+                    {dayjs(record.endDate).format("h:mm A MMMM D, YYYY dddd")}
+                  </Text>
+                </Space>
+              );
             }}
             onCell={(record) => {
               return {

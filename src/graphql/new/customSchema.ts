@@ -17,8 +17,8 @@ export type MakeEmpty<
 export type Incremental<T> =
   | T
   | {
-      [P in keyof T]?: P extends " $fragmentName" | "__typename" ? T[P] : never;
-    };
+    [P in keyof T]?: P extends " $fragmentName" | "__typename" ? T[P] : never;
+  };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: { input: string; output: string };
@@ -55,6 +55,7 @@ export type Event = Node & {
 };
 export type Class = Node & {
   /** Reads a single `ClassLevel` that is related to this `Class`. */
+  lessons: Types.LessonsConnection;
   classLevel?: Types.Maybe<Types.ClassLevel>;
   classLevelId?: Types.Maybe<Types.Scalars["Int"]["output"]>;
   /** Reads and enables pagination through a set of `ClassManagement`. */

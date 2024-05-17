@@ -1,8 +1,9 @@
-import { FC, useState } from "react";
+import { FC } from "react";
 
 import { Button, Popover, Space, Tag } from "antd";
 
 import { UserInfo } from "@/graphql/new/schema.types";
+import useRoleCheck from "@/hooks/useRoleCheck";
 
 import { Attendance } from "@/graphql/new/customSchema";
 import { PlayCircleFilled } from "@ant-design/icons";
@@ -15,20 +16,19 @@ type Props = {
   user: Partial<UserInfo>;
   onClick?: any;
   onHover?: any;
-  lessonId?: number;
 };
 
 export const UserTag: FC<Props> = ({ user, onClick, onHover }) => {
   const { show } = useNavigation();
+  const { isStudent } = useRoleCheck();
 
   if (onClick == undefined) {
     onClick = () => show("students", user.id ?? 1);
   }
 
   const { mutate } = useUpdate<Attendance>();
-  const [userId, setUserId] = useState<number>(0);
 
-  const handleStatusChange = (newStatus: String, id: number) => {
+  const handleStatusChange = (newStatus: string, id: number) => {
     mutate({
       resource: "attendance",
       id: id,
@@ -89,29 +89,46 @@ export const UserTag: FC<Props> = ({ user, onClick, onHover }) => {
       onClick={onClick}
       key={user.id}
       style={{
+        backgroundColor: "#131313bb",
         fontSize: 14,
-        padding: 1,
-        borderRadius: 24,
-        lineHeight: "unset",
+        borderRadius: 20,
+        // lineHeight: "unset",
         marginRight: "unset",
       }}
     >
-      <Space size={15} wrap>
-        <Popover content={content} trigger="hover">
-          <CustomAvatar
-            src={user.avatarUrl}
-            name={user.firstName}
-            style={{
-              display: "inline-flex",
-              cursor: "pointer",
-              marginLeft: 10,
-              marginRight: 50,
-            }}
-          />
-          <Text size="md" style={{ cursor: "pointer", marginRight: 5 }}>
-            {user.firstName}
-          </Text>
-        </Popover>
+      <Space size={1} wrap>
+        {!isStudent ? (
+          <Popover content={content} trigger="hover">
+            <CustomAvatar
+              src={user.avatarUrl}
+              name={user.firstName}
+              style={{
+                display: "inline-flex",
+                cursor: "pointer",
+                // marginLeft: 10,
+                // marginRight: 50,
+              }}
+            />
+            <Text size="md" style={{ cursor: "pointer", marginRight: 0 }}>
+              {user.firstName}
+            </Text>
+          </Popover>
+        ) : (
+          <>
+            <CustomAvatar
+              src={user.avatarUrl}
+              name={user.firstName}
+              style={{
+                display: "inline-flex",
+                // marginLeft: 10,
+                // marginRight: 50,
+              }}
+            />
+            <Text size="md" style={{ cursor: "pointer", marginRight: 0 }}>
+              {user.firstName}
+            </Text>
+          </>
+        )}
       </Space>
     </Tag>
   );

@@ -1,6 +1,6 @@
 import React from "react";
 
-import { useList, useNavigation } from "@refinedev/core";
+import { CrudFilter, useList, useNavigation, useOne } from "@refinedev/core";
 import { GetFieldsFromList } from "@refinedev/nestjs-query";
 
 import { CalendarOutlined, RightCircleOutlined } from "@ant-design/icons";
@@ -10,6 +10,12 @@ import dayjs from "dayjs";
 
 import { UpcomingEventsQuery } from "@/graphql/types";
 
+import { User } from "@/graphql/new/customSchema";
+import useRoleCheck from "@/hooks/useRoleCheck";
+import {
+  GET_ACTIVE_STUDENT_FOR_EVENTS,
+  GET_ACTIVE_TEACHER_FOR_EVENTS,
+} from "@/routes/classes/queries/getOneUser";
 import { Text } from "../../text";
 import { CalendarUpcomingEvent } from "./event";
 import styles from "./index.module.css";
@@ -71,6 +77,57 @@ export const CalendarUpcomingEvents: React.FC<CalendarUpcomingEventsProps> = ({
   showGoToListButton,
 }) => {
   const { list } = useNavigation();
+  const { isStudent, isTeacher } = useRoleCheck();
+  const userId = sessionStorage.getItem("userId");
+  const filters: CrudFilter[] = [
+    {
+      field: "startDate",
+      operator: "gte",
+      value: dayjs().utc().format("YYYY-MM-DD"),
+    },
+  ];
+
+  const { data: lessonsQueryStudent } = useOne<User>({
+    resource: "user",
+    liveMode: "auto",
+    meta: {
+      gqlQuery: GET_ACTIVE_STUDENT_FOR_EVENTS,
+    },
+    id: parseInt(userId ?? ""),
+  });
+
+  const { data: lessonsQueryTeacher } = useOne<User>({
+    resource: "user",
+    liveMode: "auto",
+    meta: {
+      gqlQuery: GET_ACTIVE_TEACHER_FOR_EVENTS,
+    },
+    id: parseInt(userId ?? ""),
+  });
+
+  const studentLessonIds =
+    lessonsQueryStudent?.data?.classes?.nodes
+      .flatMap((classNode) => classNode.lessons.nodes)
+      .map((lessonNode) => lessonNode.id) ?? [];
+
+  const teacherLessonIds =
+    lessonsQueryTeacher?.data?.classesByTeacherId?.nodes
+      .flatMap((classNode) => classNode.lessons.nodes)
+      .map((lessonNode) => lessonNode.id) ?? [];
+
+  if (isStudent) {
+    filters.push({
+      field: "id",
+      operator: "in",
+      value: studentLessonIds,
+    });
+  } else if (isTeacher) {
+    filters.push({
+      field: "id",
+      operator: "in",
+      value: teacherLessonIds,
+    });
+  }
 
   const { data, isLoading } = useList<GetFieldsFromList<UpcomingEventsQuery>>({
     resource: "events",
@@ -83,13 +140,7 @@ export const CalendarUpcomingEvents: React.FC<CalendarUpcomingEventsProps> = ({
         order: "asc",
       },
     ],
-    filters: [
-      {
-        field: "startDate",
-        operator: "gte",
-        value: dayjs().utc().format("YYYY-MM-DD"),
-      },
-    ],
+    filters: filters,
     meta: {
       gqlQuery: CALENDAR_UPCOMING_EVENTS_QUERY,
     },
@@ -115,7 +166,7 @@ export const CalendarUpcomingEvents: React.FC<CalendarUpcomingEventsProps> = ({
         >
           <CalendarOutlined />
           <Text size="md" style={{ marginLeft: ".7rem" }}>
-            Teacher Upcoming Events 
+            Upcoming Events
           </Text>
         </Space>
       }

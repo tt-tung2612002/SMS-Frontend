@@ -1,11 +1,9 @@
 import type * as Types from "./schema.types";
 
-export type ClassGetLessonsQueryVariables = Types.Exact<{
-  filter: Types.LessonFilter;
+export type CreateLessonMutationVariables = Types.Exact<{
+  input: Types.CreateLessonInput;
 }>;
 
-export type ClassGetLessonsQuery = {
-  lessons: Pick<Types.LessonsConnection, "totalCount"> & {
-    nodes: Array<Pick<Types.Lesson, "id" | "title">>;
-  };
+export type CreateLessonMutation = {
+  createLesson: Types.Maybe<{ lesson: Types.Maybe<Pick<Types.Lesson, "id">> }>;
 };

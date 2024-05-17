@@ -7,7 +7,7 @@ import {
   SettingOutlined,
   ShopOutlined,
   SolutionOutlined,
-  TeamOutlined,
+  TeamOutlined
 } from "@ant-design/icons";
 
 const globalStyleIcon = {
@@ -38,15 +38,12 @@ export const resources: IResourceItem[] = [
     name: "classes",
     list: "/classes",
     create: "/classes/create",
+    show: "/classes/show/:id",
     edit: "/classes/edit/:id",
     meta: {
       label: "Classes",
       icon: <ShopOutlined style={globalStyleIcon} />,
     },
-  },
-  {
-    name: "lessons",
-    show: "/classes/edit/:id/lessons/:id",
   },
   {
     name: "people",

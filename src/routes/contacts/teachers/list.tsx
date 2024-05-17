@@ -145,7 +145,7 @@ export const TeachersListPage: FC<PropsWithChildren> = ({ children }) => {
           },
         }}
         title={
-          <ListTitleButton toPath="students" buttonText="Add new students" />
+          <ListTitleButton toPath="students" buttonText="Add new teacher" />
         }
       >
         {view === "table" ? (

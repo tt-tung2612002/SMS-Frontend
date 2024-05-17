@@ -1,4 +1,7 @@
 {
+  "ts-node": {
+    "swc": true
+  },
   "compilerOptions": {
     "target": "ESNext",
     "useDefineForClassFields": true,
@@ -16,6 +19,7 @@
     "noEmit": true,
     "jsx": "react-jsx",
     "baseUrl": "./src",
+    "types": [],
     "paths": {
       "@/*": ["./*"]
     }

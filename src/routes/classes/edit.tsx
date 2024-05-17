@@ -16,6 +16,7 @@ const tabs = [
           }}
         >
           <Col span={32}> */}
+
         <ClassStudentsTable />
         <LessonsManager />
         {/* </Col>

@@ -1,7 +1,7 @@
 import { FC, PropsWithChildren, useState } from "react";
 
 import { List, useTable } from "@refinedev/antd";
-import { CanAccess, HttpError } from "@refinedev/core";
+import { CanAccess, HttpError, useOne } from "@refinedev/core";
 import { GetFieldsFromList } from "@refinedev/nestjs-query";
 
 import {
@@ -15,8 +15,11 @@ import { debounce } from "lodash";
 import { ListTitleButton } from "@/components";
 import { ClassesTableQuery } from "@/graphql/new/customTypes";
 
+import { User } from "@/graphql/new/customSchema";
+import useRoleCheck from "@/hooks/useRoleCheck";
 import { ClassesCardView, ClassesTableView } from "./components";
 import { CLASSES_TABLE_QUERY } from "./queries/getClasses";
+import { GET_ACTIVE_STUDENT_FOR_CLASSES } from "./queries/getOneUser";
 
 type View = "card" | "table";
 
@@ -24,12 +27,19 @@ export const CompanyListPage: FC<PropsWithChildren> = ({ children }) => {
   const [view, setView] = useState<View>("table");
   const screens = Grid.useBreakpoint();
 
-  const role = sessionStorage.getItem("highestRole") ?? "";
+  const { isStudent, isTeacher } = useRoleCheck();
 
-  const teacherId =
-    role === "teacher"
-      ? parseInt(sessionStorage.getItem("userId") ?? "")
-      : null;
+  const userId = sessionStorage.getItem("userId");
+  const { data } = useOne<User>({
+    resource: "user",
+    liveMode: "auto",
+    meta: {
+      gqlQuery: GET_ACTIVE_STUDENT_FOR_CLASSES,
+    },
+    id: parseInt(userId ?? ""),
+  });
+
+  let classesId: number[] = data?.data?.classes.nodes.map((c) => c.id) ?? [];
 
   const {
     tableProps,
@@ -71,7 +81,14 @@ export const CompanyListPage: FC<PropsWithChildren> = ({ children }) => {
         {
           field: "teacherId",
           operator: "eq",
-          value: teacherId,
+          value: isTeacher
+            ? parseInt(sessionStorage.getItem("userId") ?? "")
+            : undefined,
+        },
+        {
+          field: "id",
+          operator: "in",
+          value: isStudent ? classesId : undefined,
         },
       ],
       initial: [
@@ -171,8 +188,6 @@ export const CompanyListPage: FC<PropsWithChildren> = ({ children }) => {
             tableProps={tableProps}
             setPageSize={setPageSize}
             setCurrent={setCurrent}
-            // filters={filters}
-            // sorters={sorters}
           />
         )}
       </List>

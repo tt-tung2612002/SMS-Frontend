@@ -12,5 +12,6 @@
     "rules": {
       "@typescript-eslint/no-explicit-any": "off"
     }
-  }
+  },
+  "typescript.tsdk": "node_modules\\typescript\\lib"
 }

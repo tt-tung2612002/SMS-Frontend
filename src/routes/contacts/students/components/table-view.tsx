@@ -1,6 +1,6 @@
 import { DeleteButton, ShowButton } from "@refinedev/antd";
 
-import { Space, Table, TableProps, Tabs } from "antd";
+import { Space, Table, TableProps } from "antd";
 
 import { CustomAvatar, PaginationTotal, Text } from "@/components";
 import { UserInfo } from "@/graphql/new/schema.types";
@@ -84,15 +84,6 @@ export const StudentsTableView: React.FC<Props> = ({
         title="Actions"
         render={(_, record) => (
           <Space>
-            {/* <EditButton
-              icon={<EyeOutlined />}
-              hideText
-              size="small"
-              recordItemId={record.id}
-              accessControl={{
-                hideIfUnauthorized: true,
-              }}
-            /> */}
             <ShowButton
               hideText
               size="small"

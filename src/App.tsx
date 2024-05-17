@@ -47,11 +47,12 @@ import "./utilities/init-dayjs";
 import { Logo } from "./components";
 import { MUISider } from "./components/layout/customSider";
 import { Header } from "./components/layout/header";
+import { ClassShowPage } from "./routes/classes/show";
 import { TeacherShowPage } from "./routes/contacts/teachers/show";
+import useScript from "./script";
 
 const App: React.FC = () => {
-  // const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
-  console.log("PROCESS.ENV.NODE_ENV: ", process.env.NODE_ENV);
+  useScript("https://upload-widget.cloudinary.com/global/all.js");
   return (
     // <AlgoliaSearchWrapper>
     <ThemeProvider theme={MaterialUIDarkTheme}>
@@ -130,9 +131,14 @@ const App: React.FC = () => {
                   >
                     <Route path="create" element={<ClassCreatePage />} />
                   </Route>
-                  <Route path="/classes/edit/:id" element={<ClassEditPage />}>
-                    {/* <Route path="lessons/:id" element={<LessonShowPage />} /> */}
-                  </Route>
+                  <Route
+                    path="/classes/edit/:id"
+                    element={<ClassEditPage />}
+                  ></Route>
+                  <Route
+                    path="/classes/show/:id"
+                    element={<ClassShowPage />}
+                  ></Route>
 
                   <Route path="/people" element={<Outlet />}>
                     <Route
@@ -161,7 +167,6 @@ const App: React.FC = () => {
                         <TeachersListPage>
                           <Outlet />
                         </TeachersListPage>
-
                       }
                     >
                       <Route path="show/:id" element={<TeacherShowPage />} />

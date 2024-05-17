@@ -1,6 +1,6 @@
 import React, { lazy, Suspense, useEffect, useRef, useState } from "react";
 
-import { useList } from "@refinedev/core";
+import { CrudFilter, useList, useOne } from "@refinedev/core";
 import { GetFieldsFromList } from "@refinedev/nestjs-query";
 
 import { LeftOutlined, RightOutlined } from "@ant-design/icons";
@@ -9,9 +9,14 @@ import { Button, Card, Grid, Radio } from "antd";
 import dayjs from "dayjs";
 
 import { Text } from "@/components";
-import { Event } from "@/graphql/new/customSchema";
+import { Event, User } from "@/graphql/new/customSchema";
 import { CalendarEventsQuery } from "@/graphql/new/customTypes";
 
+import useRoleCheck from "@/hooks/useRoleCheck";
+import {
+  GET_ACTIVE_STUDENT_FOR_EVENTS,
+  GET_ACTIVE_TEACHER_FOR_EVENTS,
+} from "@/routes/classes/queries/getOneUser";
 import { NEW_CALENDAR_EVENTS_QUERY as CALENDAR_EVENTS_QUERY } from "./getEvents";
 import styles from "./index.module.css";
 
@@ -38,6 +43,8 @@ export const Calendar: React.FC<CalendarProps> = ({
   const calendarRef = useRef<FullCalendar>(null);
   const [title, setTitle] = useState(calendarRef.current?.getApi().view.title);
   const { md } = Grid.useBreakpoint();
+  const { isStudent, isTeacher } = useRoleCheck();
+  const userId = sessionStorage.getItem("userId");
 
   useEffect(() => {
     calendarRef.current?.getApi().changeView(calendarView);
@@ -51,22 +58,65 @@ export const Calendar: React.FC<CalendarProps> = ({
     }
   }, [md]);
 
+  const filters: CrudFilter[] = [
+    {
+      field: "category.id",
+      operator: "in",
+      value: categoryId?.length ? categoryId : undefined,
+    },
+  ];
+
+  const { data: lessonsQueryStudent } = useOne<User>({
+    resource: "user",
+    liveMode: "auto",
+    meta: {
+      gqlQuery: GET_ACTIVE_STUDENT_FOR_EVENTS,
+    },
+    id: parseInt(userId ?? ""),
+  });
+
+  const { data: lessonsQueryTeacher } = useOne<User>({
+    resource: "user",
+    liveMode: "auto",
+    meta: {
+      gqlQuery: GET_ACTIVE_TEACHER_FOR_EVENTS,
+    },
+    id: parseInt(userId ?? ""),
+  });
+
+  const studentLessonIds =
+    lessonsQueryStudent?.data?.classes?.nodes
+      .flatMap((classNode) => classNode.lessons.nodes)
+      .map((lessonNode) => lessonNode.id) ?? [];
+
+  const teacherLessonIds =
+    lessonsQueryTeacher?.data?.classesByTeacherId?.nodes
+      .flatMap((classNode) => classNode.lessons.nodes)
+      .map((lessonNode) => lessonNode.id) ?? [];
+
+  if (isStudent) {
+    filters.push({
+      field: "id",
+      operator: "in",
+      value: studentLessonIds,
+    });
+  } else if (isTeacher) {
+    filters.push({
+      field: "id",
+      operator: "in",
+      value: teacherLessonIds,
+    });
+  }
+
   const { data } = useList<GetFieldsFromList<CalendarEventsQuery>>({
     resource: "events",
     pagination: {
       mode: "off",
     },
-    filters: [
-      {
-        field: "category.id",
-        operator: "in",
-        value: categoryId?.length ? categoryId : undefined,
-      },
-    ],
+    filters: filters,
     meta: {
       gqlQuery: CALENDAR_EVENTS_QUERY,
     },
-    dataProviderName: "local",
   });
 
   const events = (data?.data ?? []).map(

@@ -1,6 +1,5 @@
-import { DeleteButton, EditButton } from "@refinedev/antd";
+import { DeleteButton, ShowButton } from "@refinedev/antd";
 
-import { EyeOutlined } from "@ant-design/icons";
 import { Space, Table, TableProps } from "antd";
 
 import { CustomAvatar, PaginationTotal, Text } from "@/components";
@@ -85,22 +84,22 @@ export const TeachersTableView: React.FC<Props> = ({
         fixed="right"
         dataIndex="id"
         title="Actions"
-        render={(value) => (
+        render={(_, record) => (
           <Space>
-            <EditButton
-              icon={<EyeOutlined />}
+            <ShowButton
               hideText
               size="small"
-              recordItemId={value}
-              accessControl={{
-                hideIfUnauthorized: true,
-              }}
+              resource="teachers"
+              recordItemId={record.id}
+            // accessControl={{
+            //   hideIfUnauthorized: true,
+            // }}
             />
             <DeleteButton
               hideText
               size="small"
               dataProviderName="local"
-              recordItemId={value}
+              recordItemId={record.id}
               accessControl={{
                 hideIfUnauthorized: true,
               }}

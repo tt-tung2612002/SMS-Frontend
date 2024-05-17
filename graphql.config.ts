@@ -2,7 +2,8 @@ import type { IGraphQLConfig } from "graphql-config";
 
 const config: IGraphQLConfig = {
   // schema: "https://api.crm.refine.dev/graphql",
-  schema: "http://localhost:5000/graphql",
+
+  schema: "https://graphql.sms.thanhtung.tech/graphql",
   extensions: {
     codegen: {
       hooks: {
@@ -19,7 +20,7 @@ const config: IGraphQLConfig = {
         "src/graphql/new/temp.ts": {
           preset: "import-types",
 
-          documents: ["src/**/getLessons.{ts,tsx}"],
+          documents: ["src/**/createLesson.{ts,tsx}"],
 
           plugins: ["typescript-operations"],
           config: {

@@ -388,14 +388,14 @@ export type AttendancesOrderBy =
 export type BigIntFilter = {
   /** Not equal to the specified value, treating null like an ordinary value. */
   distinctFrom?: InputMaybe<Scalars["BigInt"]["input"]>;
-  /** Included in the specified list. */
-  eq?: InputMaybe<Array<Scalars["BigInt"]["input"]>>;
   /** Equal to the specified value. */
-  equalTo?: InputMaybe<Scalars["BigInt"]["input"]>;
+  eq?: InputMaybe<Scalars["BigInt"]["input"]>;
   /** Greater than the specified value. */
   greaterThan?: InputMaybe<Scalars["BigInt"]["input"]>;
   /** Greater than or equal to the specified value. */
   gte?: InputMaybe<Scalars["BigInt"]["input"]>;
+  /** Included in the specified list. */
+  in?: InputMaybe<Array<Scalars["BigInt"]["input"]>>;
   /** Is null (if `true` is specified) or is not null (if `false` is specified). */
   isNull?: InputMaybe<Scalars["Boolean"]["input"]>;
   /** Less than the specified value. */
@@ -2302,14 +2302,14 @@ export type CreateUserRolePayloadUserRoleEdgeArgs = {
 export type DatetimeFilter = {
   /** Not equal to the specified value, treating null like an ordinary value. */
   distinctFrom?: InputMaybe<Scalars["Datetime"]["input"]>;
-  /** Included in the specified list. */
-  eq?: InputMaybe<Array<Scalars["Datetime"]["input"]>>;
   /** Equal to the specified value. */
-  equalTo?: InputMaybe<Scalars["Datetime"]["input"]>;
+  eq?: InputMaybe<Scalars["Datetime"]["input"]>;
   /** Greater than the specified value. */
   greaterThan?: InputMaybe<Scalars["Datetime"]["input"]>;
   /** Greater than or equal to the specified value. */
   gte?: InputMaybe<Scalars["Datetime"]["input"]>;
+  /** Included in the specified list. */
+  in?: InputMaybe<Array<Scalars["Datetime"]["input"]>>;
   /** Is null (if `true` is specified) or is not null (if `false` is specified). */
   isNull?: InputMaybe<Scalars["Boolean"]["input"]>;
   /** Less than the specified value. */
@@ -3633,14 +3633,14 @@ export type EventsOrderBy =
 export type IntFilter = {
   /** Not equal to the specified value, treating null like an ordinary value. */
   distinctFrom?: InputMaybe<Scalars["Int"]["input"]>;
-  /** Included in the specified list. */
-  eq?: InputMaybe<Array<Scalars["Int"]["input"]>>;
   /** Equal to the specified value. */
-  equalTo?: InputMaybe<Scalars["Int"]["input"]>;
+  eq?: InputMaybe<Scalars["Int"]["input"]>;
   /** Greater than the specified value. */
   greaterThan?: InputMaybe<Scalars["Int"]["input"]>;
   /** Greater than or equal to the specified value. */
   gte?: InputMaybe<Scalars["Int"]["input"]>;
+  /** Included in the specified list. */
+  in?: InputMaybe<Array<Scalars["Int"]["input"]>>;
   /** Is null (if `true` is specified) or is not null (if `false` is specified). */
   isNull?: InputMaybe<Scalars["Boolean"]["input"]>;
   /** Less than the specified value. */
@@ -3664,6 +3664,7 @@ export type Lesson = Node & {
   class?: Maybe<Class>;
   classId: Scalars["Int"]["output"];
   description?: Maybe<Scalars["String"]["output"]>;
+  endDate?: Maybe<Scalars["Datetime"]["output"]>;
   /** Reads a single `Event` that is related to this `Lesson`. */
   eventById?: Maybe<Event>;
   /**
@@ -3676,6 +3677,7 @@ export type Lesson = Node & {
   lessonAssignments: LessonAssignmentsConnection;
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
   nodeId: Scalars["ID"]["output"];
+  startDate?: Maybe<Scalars["Datetime"]["output"]>;
   title: Scalars["String"]["output"];
   /** Reads and enables pagination through a set of `UserInfo`. */
   userInfos: LessonUserInfosManyToManyConnection;
@@ -3820,8 +3822,12 @@ export type LessonCondition = {
   classId?: InputMaybe<Scalars["Int"]["input"]>;
   /** Checks for equality with the object’s `description` field. */
   description?: InputMaybe<Scalars["String"]["input"]>;
+  /** Checks for equality with the object’s `endDate` field. */
+  endDate?: InputMaybe<Scalars["Datetime"]["input"]>;
   /** Checks for equality with the object’s `id` field. */
   id?: InputMaybe<Scalars["Int"]["input"]>;
+  /** Checks for equality with the object’s `startDate` field. */
+  startDate?: InputMaybe<Scalars["Datetime"]["input"]>;
   /** Checks for equality with the object’s `title` field. */
   title?: InputMaybe<Scalars["String"]["input"]>;
 };
@@ -3834,12 +3840,16 @@ export type LessonFilter = {
   classId?: InputMaybe<IntFilter>;
   /** Filter by the object’s `description` field. */
   description?: InputMaybe<StringFilter>;
+  /** Filter by the object’s `endDate` field. */
+  endDate?: InputMaybe<DatetimeFilter>;
   /** Filter by the object’s `id` field. */
   id?: InputMaybe<IntFilter>;
   /** Negates the expression. */
   not?: InputMaybe<LessonFilter>;
   /** Checks for any expressions in this list. */
   or?: InputMaybe<Array<LessonFilter>>;
+  /** Filter by the object’s `startDate` field. */
+  startDate?: InputMaybe<DatetimeFilter>;
   /** Filter by the object’s `title` field. */
   title?: InputMaybe<StringFilter>;
 };
@@ -3848,7 +3858,9 @@ export type LessonFilter = {
 export type LessonInput = {
   classId: Scalars["Int"]["input"];
   description?: InputMaybe<Scalars["String"]["input"]>;
-  id: Scalars["Int"]["input"];
+  endDate?: InputMaybe<Scalars["Datetime"]["input"]>;
+  id?: InputMaybe<Scalars["Int"]["input"]>;
+  startDate?: InputMaybe<Scalars["Datetime"]["input"]>;
   title: Scalars["String"]["input"];
 };
 
@@ -3856,7 +3868,9 @@ export type LessonInput = {
 export type LessonPatch = {
   classId?: InputMaybe<Scalars["Int"]["input"]>;
   description?: InputMaybe<Scalars["String"]["input"]>;
+  endDate?: InputMaybe<Scalars["Datetime"]["input"]>;
   id?: InputMaybe<Scalars["Int"]["input"]>;
+  startDate?: InputMaybe<Scalars["Datetime"]["input"]>;
   title?: InputMaybe<Scalars["String"]["input"]>;
 };
 
@@ -3920,11 +3934,15 @@ export type LessonsOrderBy =
   | "CLASS_ID_DESC"
   | "DESCRIPTION_ASC"
   | "DESCRIPTION_DESC"
+  | "END_DATE_ASC"
+  | "END_DATE_DESC"
   | "ID_ASC"
   | "ID_DESC"
   | "NATURAL"
   | "PRIMARY_KEY_ASC"
   | "PRIMARY_KEY_DESC"
+  | "START_DATE_ASC"
+  | "START_DATE_DESC"
   | "TITLE_ASC"
   | "TITLE_DESC";
 
@@ -5602,10 +5620,8 @@ export type StringFilter = {
   endsWith?: InputMaybe<Scalars["String"]["input"]>;
   /** Ends with the specified string (case-insensitive). */
   endsWithInsensitive?: InputMaybe<Scalars["String"]["input"]>;
-  /** Included in the specified list. */
-  eq?: InputMaybe<Array<Scalars["String"]["input"]>>;
   /** Equal to the specified value. */
-  equalTo?: InputMaybe<Scalars["String"]["input"]>;
+  eq?: InputMaybe<Scalars["String"]["input"]>;
   /** Equal to the specified value (case-insensitive). */
   equalToInsensitive?: InputMaybe<Scalars["String"]["input"]>;
   /** Greater than the specified value. */
@@ -5618,6 +5634,8 @@ export type StringFilter = {
   gte?: InputMaybe<Scalars["String"]["input"]>;
   /** Contains the specified string (case-sensitive). */
   iLike?: InputMaybe<Scalars["String"]["input"]>;
+  /** Included in the specified list. */
+  in?: InputMaybe<Array<Scalars["String"]["input"]>>;
   /** Included in the specified list (case-insensitive). */
   inInsensitive?: InputMaybe<Array<Scalars["String"]["input"]>>;
   /** Contains the specified string (case-insensitive). */

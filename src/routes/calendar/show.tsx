@@ -176,24 +176,22 @@ export const CalendarShowPage: React.FC = () => {
               key={teacher?.id}
               style={{
                 fontSize: 14,
-                padding: 1,
                 borderRadius: 24,
+                backgroundColor: "#131313bb",
                 lineHeight: "unset",
                 marginRight: "unset",
               }}
             >
-              <Space size={10} wrap style={{ marginLeft: "10px" }}>
+              <Space size={1} wrap>
                 <CustomAvatar
                   src={teacher?.userInfoById?.avatarUrl}
                   name={teacher?.userInfoById?.firstName}
                   style={{
                     display: "inline-flex",
                     cursor: "pointer",
-                    marginLeft: 10,
-                    marginRight: 50,
                   }}
                 />
-                <Text size="md" style={{ cursor: "pointer", marginRight: 5 }}>
+                <Text size="md" style={{ cursor: "pointer", marginRight: 0 }}>
                   {teacher?.userInfoById?.firstName}
                 </Text>
               </Space>

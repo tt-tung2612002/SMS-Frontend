@@ -18,14 +18,14 @@ import {
 } from "./utils/camel";
 
 // const CORS_URL = "http://localhost:10000/"
-// export const GRAPHQL_URL = CORS_URL + "https://graphql.sms.thanhtung.tech/graphql"
 // export const GRAPHQL_URL = CORS_URL + "http://localhost:8082/forwardGraphql"
 // export const SECURITY_URL = CORS_URL + "http://localhost:8082"
 // export const UPLOAD_URL = CORS_URL + "http://localhost:8080"
 
-export const GRAPHQL_URL = "https://auth.sms.thanhtung.tech/forwardGraphql"
-export const SECURITY_URL = "https://auth.sms.thanhtung.tech";
-export const UPLOAD_URL = "https://upload.sms.thanhtung.tech";
+export const GRAPHQL_URL = CORS_URL + "https://graphql.sms.thanhtung.tech/graphql"
+// export const GRAPHQL_URL = CORS_URL + "https://auth.sms.thanhtung.tech/forwardGraphql"
+export const SECURITY_URL = CORS_URL + "https://auth.sms.thanhtung.tech";
+export const UPLOAD_URL = CORS_URL + "https://upload.sms.thanhtung.tech";
 
 
 const securityGraphQLClient = new GraphQLClient(SECURITY_URL + "/graphql", {
@@ -482,6 +482,50 @@ export const securityGraphqlProvider = (() => {
     const response = await localClient.request<BaseRecord>(
       query,
       queryVariables
+    );
+
+    return {
+      data: response[operation],
+    };
+  };
+
+  provider.create = async ({ resource, variables, meta }) => {
+    const operation = `createOne${camelcase(singular(resource), {
+      pascalCase: true,
+    })}`;
+
+    const gqlOperation = meta?.gqlMutation ?? meta?.gqlQuery;
+
+    if (gqlOperation) {
+      const response = await localClient.request<BaseRecord>(
+        gqlOperation,
+        { input: { [camelcase(singular(resource))]: variables } },
+      );
+
+      return {
+        data: response[operation],
+      };
+    }
+
+    const { query, variables: queryVariables } = gql.mutation({
+      operation,
+      fields: meta?.fields || ["id"],
+      variables: {
+        input: {
+          type: `CreateOne${camelcase(singular(resource), {
+            pascalCase: true,
+          })}Input`,
+          required: true,
+          value: {
+            [camelcase(singular(resource))]: variables,
+          },
+        },
+      },
+    });
+
+    const response = await localClient.request<BaseRecord>(
+      query,
+      queryVariables,
     );
 
     return {

@@ -23,7 +23,7 @@ export const adapter = new StringAdapter(`
 p, admin, dashboard, (list)|(create)
 
 p, admin, classes, (list)|(create)
-p, admin, classes/*, (edit)|(delete)
+p, admin, classes/*, (show)|(edit)|(delete)
 p, admin, classes/*, field
 p, admin, lessons, (list)|(create)
 p, admin, lessons/*, (edit)
@@ -37,7 +37,7 @@ p, admin, students/*, (edit)|(delete)|(show)
 p, admin, students/*, field
 
 p, admin, teachers, (list)|(create)
-p, admin, teachers/*, (edit)|(delete)
+p, admin, teachers/*, (show)|(delete)
 p, admin, teachers/*, field
 
 p, admin, administration, (list)
@@ -54,6 +54,7 @@ p, teacher, students/*, (edit)|(delete)|(show)
 p, teacher, students/*, field
 
 p, teacher, classes, (list)
+p, teacher, classesTeacherLimited, (list)
 p, teacher, classes/*, (edit)
 p, teacher, classes/*, field
 
@@ -69,9 +70,9 @@ p, student, events, (list)
 p, student, events/*, (show)
 
 p, student, classes, (list)
+p, student, classesStudentLimited, (list)
+p, student, classes/*, (show)
 p, student, classes/*, field
-p, student, events, (list)
-p, student, events/*, (show)
 
 `);
 

@@ -84,13 +84,6 @@ export const LessonAssignmentsModal: FC<Props> = ({ lessonId, onClose }) => {
       width={1024}
       styles={{}}
     >
-      {/* <div className={styles.header}>
-        <Button
-          type="text"
-          icon={<CloseOutlined />}
-          onClick={() => closeModal()}
-        />
-      </div> */}
       <div className={styles.container}>
         <div className={styles.name}>
           <Typography.Title
@@ -158,8 +151,8 @@ export const LessonAssignmentsModal: FC<Props> = ({ lessonId, onClose }) => {
                           );
                         }}
                       >
-                        <LinkOutlined style={{ color: "#8fbbff" }} />
-                        <Button style={{ color: "#8fbbff" }} type="link">
+                        <LinkOutlined style={{ color: "#97cef7" }} />
+                        <Button style={{ color: "#97cef7" }} type="link">
                           {attachment.fileName}
                         </Button>
                       </List.Item>
