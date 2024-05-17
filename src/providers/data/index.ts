@@ -17,35 +17,17 @@ import {
   isMutation
 } from "./utils/camel";
 
-
-const CORS_URL = process.env.NODE_ENV === "development" ? "http://localhost:10000/" : ""
-
+// const CORS_URL = "http://localhost:10000/"
 // export const GRAPHQL_URL = CORS_URL + "https://graphql.sms.thanhtung.tech/graphql"
-export const GRAPHQL_URL = CORS_URL + "https://auth.sms.thanhtung.tech/forwardGraphql"
-export const SECURITY_URL = CORS_URL + "https://auth.sms.thanhtung.tech";
-export const UPLOAD_URL = CORS_URL + process.env.NODE_ENV === "development" ? "http://localhost:8080" : "https://upload.sms.thanhtung.tech";
+// export const GRAPHQL_URL = CORS_URL + "http://localhost:8082/forwardGraphql"
+// export const SECURITY_URL = CORS_URL + "http://localhost:8082"
+// export const UPLOAD_URL = CORS_URL + "http://localhost:8080"
 
-// export const client = new GraphQLClient(API_URL, {
-//   fetch: async (url: string, options: any) => {
-//     try {
-//       const response = await axiosInstance.request({
-//         data: options.body,
-//         url,
-//         ...options,
-//       });
+export const GRAPHQL_URL = "https://auth.sms.thanhtung.tech/forwardGraphql"
+export const SECURITY_URL = "https://auth.sms.thanhtung.tech";
+export const UPLOAD_URL = "https://upload.sms.thanhtung.tech";
 
-//       return { ...response, data: response.data };
-//     } catch (error: any) {
-//       const messages = error?.map((error: any) => error?.message)?.join("");
-//       const code = error?.[0]?.extensions?.code;
 
-//       return Promise.reject({
-//         message: messages || JSON.stringify(error),
-//         statusCode: code || 500,
-//       });
-//     }
-//   },
-// });
 const securityGraphQLClient = new GraphQLClient(SECURITY_URL + "/graphql", {
   fetch: async (url: string, options: any) => {
     try {

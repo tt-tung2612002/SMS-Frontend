@@ -142,6 +142,7 @@ export const authProvider: AuthProvider = {
       redirectTo: "/update-password",
     };
   },
+
   updatePassword: async () => {
     return {
       success: true,

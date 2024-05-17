@@ -51,7 +51,7 @@ import { TeacherShowPage } from "./routes/contacts/teachers/show";
 
 const App: React.FC = () => {
   // const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
-
+  console.log("PROCESS.ENV.NODE_ENV: ", process.env.NODE_ENV);
   return (
     // <AlgoliaSearchWrapper>
     <ThemeProvider theme={MaterialUIDarkTheme}>
