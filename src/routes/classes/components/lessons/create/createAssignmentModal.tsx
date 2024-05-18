@@ -88,7 +88,7 @@ export const AssignmentForm: React.FC<Props> = ({
       </Button>
       {assignments.map((assignment, index) => (
         <Card
-          key={index}
+          key={assignment.UUID}
           title={`New Assignment ${index + 1}`}
           style={{ marginTop: 16 }}
           extra={
