@@ -1,11 +1,11 @@
 import { Markdown } from "@/components/markdown";
 import { CreateLessonMutation } from "@/graphql/new/customTypes";
-import { UPLOAD_URL, uploadProvider } from "@/providers/data";
-import { DeleteOutlined, LeftOutlined, PlusOutlined } from "@ant-design/icons";
+import { UPLOAD_URL, localDataProvider, uploadProvider } from "@/providers";
+import { LeftOutlined } from "@ant-design/icons";
 import { useModalForm } from "@refinedev/antd";
-import { HttpError, useApiUrl, useCreate } from "@refinedev/core";
+import { HttpError, useApiUrl } from "@refinedev/core";
 import { GetFields } from "@refinedev/nestjs-query";
-import { Button, Card, DatePicker, Form, Input, Modal, Upload } from "antd";
+import { DatePicker, Form, Input, Modal, Typography } from "antd";
 import message from "antd/lib/message";
 import React, { useState } from "react";
 import { LESSON_CREATE_MUTATION } from "./createLesson";
@@ -28,11 +28,10 @@ export const LessonCreateModal: React.FC<Props> = ({
   onClose,
   classId,
 }) => {
-  const [value, setValue] = React.useState("Hello");
-  const { mutate: createAssignment } = useCreate<Assignment>();
+  const [value, setValue] = useState("");
   const [assignments, setAssignments] = useState<Assignment[]>([]);
   const apiUrl = useApiUrl("upload");
-
+  const [lessonId, setLessonId] = useState<number | null>(null);
   const { mutationResult, formProps, modalProps, close } = useModalForm<
     GetFields<CreateLessonMutation>,
     HttpError
@@ -42,10 +41,10 @@ export const LessonCreateModal: React.FC<Props> = ({
     resource: "lessons",
     redirect: false,
     warnWhenUnsavedChanges: true,
-    mutationMode: "pessimistic",
-    meta: {
-      gqlMutation: LESSON_CREATE_MUTATION,
+    onMutationSuccess(data, variables, context, isAutoSave) {
+      console.log("onMutationSuccess", data, variables, context, isAutoSave);
     },
+    mutationMode: "pessimistic",
   });
 
   const addAssignment = () => {
@@ -89,57 +88,35 @@ export const LessonCreateModal: React.FC<Props> = ({
   };
 
   const handleFinish = async (values: any) => {
-    // const file = values.image?.[0];
-    // let base64String = "";
-    // if (file && file.originFileObj) {
-    //   base64String = await file2Base64(file.originFileObj);
-    // }
-
-    await formProps.onFinish?.({
-      ...values,
-      classId: classId,
+    const data = await localDataProvider.create({
+      resource: "lessons",
+      meta: {
+        gqlMutation: LESSON_CREATE_MUTATION,
+      },
+      variables: {
+        ...values,
+        classId: classId,
+      },
     });
 
-    const lessonId = mutationResult?.data?.data?.lesson?.id;
-
-    if (lessonId) {
-      assignments.forEach(async (assignment) => {
-        const assignmentData: any = await createAssignment({
-          resource: "assignments",
-          values: {
-            ...assignment,
-            lessonId,
-          },
-        });
-
-        const assignmentId = assignmentData?.data?.createAssignment?.id;
-
-        if (assignmentId && assignment.attachments.length > 0) {
-          assignment.attachments.forEach(async (file) => {
-            await uploadProvider.custom({
-              url: `${UPLOAD_URL}/upload`,
-              method: "post",
-              headers: {
-                Authorization: `Bearer ${sessionStorage.getItem(
-                  "access_token"
-                )}`,
-              },
-              payload: {
-                file,
-                assignmentId,
-              },
-            });
-          });
-        }
-      });
+    if (!data) {
+      // wait for 10 seconds and try again
+      setTimeout(() => {
+        handleFinish(values);
+      }, 10000);
     }
+    const lessonId = data?.data?.data?.lesson?.id;
+    console.log("data is", data);
+    setLessonId(lessonId);
+
+    message.success("Lesson created successfully!");
   };
 
   return (
     <Modal
       {...modalProps}
       open={isVisible}
-      title="Add new lesson"
+      title={"Add new lesson"}
       width={1024}
       closeIcon={<LeftOutlined />}
       onCancel={() => {
@@ -148,117 +125,42 @@ export const LessonCreateModal: React.FC<Props> = ({
       }}
     >
       <Form {...formProps} layout="vertical" onFinish={handleFinish}>
-        <Form.Item
-          label="Lesson title"
-          name="title"
-          rules={[{ required: true }]}
-        >
-          <Input placeholder="Please enter lesson title" />
-        </Form.Item>
-        <Form.Item
-          label="Description"
-          name="description"
-          rules={[{ required: false }]}
-        >
-          <Markdown value={value} setValue={setValue} />
-        </Form.Item>
-        <Form.Item
-          label="Start Date"
-          name="startDate"
-          rules={[{ required: true }]}
-          style={{ display: "inline-block", width: "calc(50% - 8px)" }}
-        >
-          <DatePicker showTime />
-        </Form.Item>
-        <Form.Item
-          label="End Date"
-          name="endDate"
-          rules={[{ required: true }]}
-          style={{
-            display: "inline-block",
-            width: "calc(50% - 8px)",
-            marginLeft: "16px",
-          }}
-        >
-          <DatePicker showTime />
-        </Form.Item>
-        <div>
-          <Button
-            type="dashed"
-            onClick={addAssignment}
-            block
-            icon={<PlusOutlined />}
+        <>
+          <Form.Item
+            label="Lesson title"
+            name="title"
+            rules={[{ required: true }]}
           >
-            Add Assignment
-          </Button>
-          {assignments.map((assignment, index) => (
-            <Card
-              key={index}
-              title={`Assignment ${index + 1}`}
-              style={{ marginTop: 16 }}
-              extra={
-                <Button
-                  type="link"
-                  danger
-                  icon={<DeleteOutlined />}
-                  onClick={() => handleRemoveAssignment(index)}
-                >
-                  Delete
-                </Button>
-              }
-            >
-              <Form.Item label="Assignment title" required>
-                <Input
-                  value={assignment.title}
-                  onChange={(e) =>
-                    handleAssignmentChange(index, "title", e.target.value)
-                  }
-                  placeholder="Please enter assignment title"
-                />
-              </Form.Item>
-              <Form.Item label="Description" required>
-                <Markdown
-                  value={assignment.description}
-                  setValue={(val: any) =>
-                    handleAssignmentChange(index, "description", val)
-                  }
-                />
-              </Form.Item>
-              <Form.Item label="Due Date" required>
-                <DatePicker
-                  showTime
-                  value={assignment.dueDate}
-                  onChange={(date) =>
-                    handleAssignmentChange(index, "dueDate", date)
-                  }
-                />
-              </Form.Item>
-              <Form.Item label="Attachments">
-                <Upload.Dragger
-                  name="file"
-                  action={`${apiUrl}/upload`}
-                  listType="picture"
-                  headers={{
-                    Authorization: `Bearer ${sessionStorage.getItem(
-                      "access_token"
-                    )}`,
-                  }}
-                  multiple
-                  data={{ assignmentId: index + 1 }}
-                  onChange={(info) =>
-                    handleAssignmentChange(index, "attachments", info.fileList)
-                  }
-                  onRemove={handleRemoveFile}
-                >
-                  <p className="ant-upload-text">
-                    Drag & drop a file in this area
-                  </p>
-                </Upload.Dragger>
-              </Form.Item>
-            </Card>
-          ))}
-        </div>
+            <Input placeholder="Please enter lesson title" />
+          </Form.Item>
+          <Form.Item label="Description" name="description">
+            <Markdown value={value} setValue={setValue} />
+          </Form.Item>
+          <Form.Item
+            label="Start Date"
+            name="startDate"
+            rules={[{ required: true }]}
+            style={{ display: "inline-block", width: "calc(50% - 8px)" }}
+          >
+            <DatePicker showTime />
+          </Form.Item>
+          <Form.Item
+            label="End Date"
+            name="endDate"
+            rules={[{ required: true }]}
+            style={{
+              display: "inline-block",
+              width: "calc(50% - 8px)",
+              marginLeft: "16px",
+            }}
+          >
+            <DatePicker showTime />
+          </Form.Item>
+        </>
       </Form>
+      {!mutationResult.isLoading && (
+        <Typography.Title level={4}>{"ID is " + lessonId}</Typography.Title>
+      )}
     </Modal>
   );
 };

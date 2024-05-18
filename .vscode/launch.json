@@ -9,7 +9,7 @@
       "request": "attach",
       "name": "Attach MSEdge Debug Session",
       "port": 9222,
-      "url": "http://localhost:5173",
+      "url": "http://localhost:5173/classes/show/1?pageSize=10&current=1",
       "webRoot": "${workspaceFolder}"
     }
   ]

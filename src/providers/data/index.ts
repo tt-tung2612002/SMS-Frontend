@@ -17,14 +17,13 @@ import {
   isMutation
 } from "./utils/camel";
 
-// const CORS_URL = "http://localhost:10000/"
-// export const GRAPHQL_URL = CORS_URL + "http://localhost:8082/forwardGraphql"
-// export const SECURITY_URL = CORS_URL + "http://localhost:8082"
+const CORS_URL = "http://localhost:10000/"
+export const GRAPHQL_URL = CORS_URL + "http://localhost:5000/graphql"
+export const SECURITY_URL = CORS_URL + "http://localhost:8082"
 // export const UPLOAD_URL = CORS_URL + "http://localhost:8080"
 
-export const GRAPHQL_URL = "https://graphql.sms.thanhtung.tech/graphql"
-// export const GRAPHQL_URL = CORS_URL + "https://auth.sms.thanhtung.tech/forwardGraphql"
-export const SECURITY_URL = "https://auth.sms.thanhtung.tech";
+// export const GRAPHQL_URL = "https://graphql.sms.thanhtung.tech/graphql"
+// export const SECURITY_URL = "https://auth.sms.thanhtung.tech";
 export const UPLOAD_URL = "https://upload.sms.thanhtung.tech";
 
 
