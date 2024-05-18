@@ -1,20 +1,23 @@
 import { Markdown } from "@/components/markdown";
 import { CreateLessonMutation } from "@/graphql/new/customTypes";
-import { UPLOAD_URL, localDataProvider, uploadProvider } from "@/providers";
+import { UPLOAD_URL, uploadProvider } from "@/providers";
 import { LeftOutlined } from "@ant-design/icons";
 import { useModalForm } from "@refinedev/antd";
-import { HttpError, useApiUrl } from "@refinedev/core";
+import { HttpError, useCreate } from "@refinedev/core";
 import { GetFields } from "@refinedev/nestjs-query";
-import { DatePicker, Form, Input, Modal, Typography } from "antd";
-import message from "antd/lib/message";
+import { DatePicker, Form, Input, Modal, message } from "antd";
+import dayjs from "dayjs";
 import React, { useState } from "react";
+import { ASSIGNMENT_CREATE_MUTATION } from "./createAssignment";
+import { AssignmentForm } from "./createAssignmentModal";
 import { LESSON_CREATE_MUTATION } from "./createLesson";
 
 type Assignment = {
+  id?: number;
   title: string;
   description: string;
   dueDate: any;
-  attachments: any[];
+  attachments?: any;
 };
 
 type Props = {
@@ -30,86 +33,75 @@ export const LessonCreateModal: React.FC<Props> = ({
 }) => {
   const [value, setValue] = useState("");
   const [assignments, setAssignments] = useState<Assignment[]>([]);
-  const apiUrl = useApiUrl("upload");
+  const { mutate: createAssignment } = useCreate<Assignment>();
   const [lessonId, setLessonId] = useState<number | null>(null);
-  const { mutationResult, formProps, modalProps, close } = useModalForm<
+  const handleAssignmentFinish = async (lessonId: number | null) => {
+    if (lessonId !== null) {
+      for (const assignment of assignments) {
+        assignment.attachments = null;
+        const assignmentData: any = await createAssignment({
+          resource: "assignments",
+          meta: {
+            gqlQuery: ASSIGNMENT_CREATE_MUTATION,
+          },
+          values: {
+            title: assignment.title,
+            description: assignment.description,
+            dueDate: assignment.dueDate,
+            lessonId,
+          },
+        });
+
+        const assignmentId = assignmentData?.data?.id;
+        assignment.id = assignmentId;
+
+        if (assignmentId && assignment?.attachments?.length) {
+          for (const file of assignment?.attachments || []) {
+            await uploadProvider.custom({
+              url: `${UPLOAD_URL}/upload`,
+              method: "post",
+              headers: {
+                Authorization: `Bearer ${sessionStorage.getItem(
+                  "access_token"
+                )}`,
+              },
+              payload: {
+                file,
+                assignmentId,
+              },
+            });
+          }
+        }
+      }
+      message.success("Assignments created successfully!");
+    }
+  };
+
+  const { formProps, modalProps, close } = useModalForm<
     GetFields<CreateLessonMutation>,
     HttpError
   >({
     action: "create",
     defaultVisible: true,
+    dataProviderName: "local",
     resource: "lessons",
     redirect: false,
     warnWhenUnsavedChanges: true,
-    onMutationSuccess(data, variables, context, isAutoSave) {
-      console.log("onMutationSuccess", data, variables, context, isAutoSave);
+    meta: {
+      gqlQuery: LESSON_CREATE_MUTATION,
     },
-    mutationMode: "pessimistic",
+    onMutationSuccess(data) {
+      setLessonId(data.data.lesson.id);
+      handleAssignmentFinish(lessonId);
+    },
+    mutationMode: "optimistic",
   });
 
-  const addAssignment = () => {
-    setAssignments([
-      ...assignments,
-      { title: "", description: "", dueDate: null, attachments: [] },
-    ]);
-  };
-
-  const handleAssignmentChange = (index: number, field: string, value: any) => {
-    const newAssignments = [...assignments];
-    newAssignments[index] = { ...newAssignments[index], [field]: value };
-    setAssignments(newAssignments);
-  };
-
-  const handleRemoveAssignment = (index: number) => {
-    const newAssignments = assignments.filter((_, i) => i !== index);
-    setAssignments(newAssignments);
-  };
-
-  const handleRemoveFile = async (file: { name: string }) => {
-    try {
-      await uploadProvider.custom({
-        url: `${UPLOAD_URL}/upload`,
-        method: "post",
-        headers: {
-          "Content-Type": "application/json",
-          "Access-Control-Allow-Origin": "*",
-        },
-        payload: {
-          fileName: file.name,
-        },
-      });
-
-      message.success("File removed successfully");
-      return true;
-    } catch (error) {
-      message.error("Failed to remove the file");
-      return false;
-    }
-  };
-
   const handleFinish = async (values: any) => {
-    const data = await localDataProvider.create({
-      resource: "lessons",
-      meta: {
-        gqlMutation: LESSON_CREATE_MUTATION,
-      },
-      variables: {
-        ...values,
-        classId: classId,
-      },
+    return formProps.onFinish?.({
+      ...values,
+      classId,
     });
-
-    if (!data) {
-      // wait for 10 seconds and try again
-      setTimeout(() => {
-        handleFinish(values);
-      }, 10000);
-    }
-    const lessonId = data?.data?.data?.lesson?.id;
-    console.log("data is", data);
-    setLessonId(lessonId);
-
-    message.success("Lesson created successfully!");
   };
 
   return (
@@ -129,16 +121,22 @@ export const LessonCreateModal: React.FC<Props> = ({
           <Form.Item
             label="Lesson title"
             name="title"
+            initialValue={"Test"}
             rules={[{ required: true }]}
           >
             <Input placeholder="Please enter lesson title" />
           </Form.Item>
-          <Form.Item label="Description" name="description">
-            <Markdown value={value} setValue={setValue} />
+          <Form.Item
+            label="Description"
+            name="description"
+            rules={[{ required: false }]}
+          >
+            <Markdown value={"What"} setValue={setValue} />
           </Form.Item>
           <Form.Item
             label="Start Date"
             name="startDate"
+            initialValue={dayjs()}
             rules={[{ required: true }]}
             style={{ display: "inline-block", width: "calc(50% - 8px)" }}
           >
@@ -147,6 +145,7 @@ export const LessonCreateModal: React.FC<Props> = ({
           <Form.Item
             label="End Date"
             name="endDate"
+            initialValue={dayjs()}
             rules={[{ required: true }]}
             style={{
               display: "inline-block",
@@ -158,9 +157,13 @@ export const LessonCreateModal: React.FC<Props> = ({
           </Form.Item>
         </>
       </Form>
-      {!mutationResult.isLoading && (
-        <Typography.Title level={4}>{"ID is " + lessonId}</Typography.Title>
-      )}
+      {
+        <AssignmentForm
+          lessonId={lessonId}
+          assignments={assignments}
+          setAssignments={setAssignments}
+        />
+      }
     </Modal>
   );
 };
