@@ -22,10 +22,10 @@ import {
 // export const SECURITY_URL = CORS_URL + "http://localhost:8082"
 // export const UPLOAD_URL = CORS_URL + "http://localhost:8080"
 
-export const GRAPHQL_URL = CORS_URL + "https://graphql.sms.thanhtung.tech/graphql"
+export const GRAPHQL_URL = "https://graphql.sms.thanhtung.tech/graphql"
 // export const GRAPHQL_URL = CORS_URL + "https://auth.sms.thanhtung.tech/forwardGraphql"
-export const SECURITY_URL = CORS_URL + "https://auth.sms.thanhtung.tech";
-export const UPLOAD_URL = CORS_URL + "https://upload.sms.thanhtung.tech";
+export const SECURITY_URL = "https://auth.sms.thanhtung.tech";
+export const UPLOAD_URL = "https://upload.sms.thanhtung.tech";
 
 
 const securityGraphQLClient = new GraphQLClient(SECURITY_URL + "/graphql", {
