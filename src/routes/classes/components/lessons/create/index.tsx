@@ -1,4 +1,4 @@
-import { Markdown } from "@/components/markdown";
+import { CustomMarkdown } from "@/components/markdown";
 import { CreateLessonMutation } from "@/graphql/new/customTypes";
 import { UPLOAD_URL, uploadProvider } from "@/providers";
 import { LeftOutlined } from "@ant-design/icons";
@@ -14,6 +14,7 @@ import { LESSON_CREATE_MUTATION } from "./createLesson";
 
 type Assignment = {
   id?: number;
+  UUID: string;
   title: string;
   description: string;
   dueDate: any;
@@ -31,7 +32,6 @@ export const LessonCreateModal: React.FC<Props> = ({
   onClose,
   classId,
 }) => {
-  const [value, setValue] = useState("");
   const [assignments, setAssignments] = useState<Assignment[]>([]);
   const { mutate: createAssignment } = useCreate<Assignment>();
   const [lessonId, setLessonId] = useState<number | null>(null);
@@ -39,7 +39,7 @@ export const LessonCreateModal: React.FC<Props> = ({
     if (lessonId !== null) {
       for (const assignment of assignments) {
         assignment.attachments = null;
-        const assignmentData: any = await createAssignment({
+        const assignmentData: any = createAssignment({
           resource: "assignments",
           meta: {
             gqlQuery: ASSIGNMENT_CREATE_MUTATION,
@@ -77,7 +77,7 @@ export const LessonCreateModal: React.FC<Props> = ({
     }
   };
 
-  const { formProps, modalProps, close } = useModalForm<
+  const { form, formProps, modalProps, close } = useModalForm<
     GetFields<CreateLessonMutation>,
     HttpError
   >({
@@ -131,7 +131,10 @@ export const LessonCreateModal: React.FC<Props> = ({
             name="description"
             rules={[{ required: false }]}
           >
-            <Markdown value={"What"} setValue={setValue} />
+            <CustomMarkdown
+              value={formProps.initialValues?.description || ""}
+              setValue={(val: string) => form.setFieldValue("description", val)}
+            />
           </Form.Item>
           <Form.Item
             label="Start Date"
@@ -140,7 +143,7 @@ export const LessonCreateModal: React.FC<Props> = ({
             rules={[{ required: true }]}
             style={{ display: "inline-block", width: "calc(50% - 8px)" }}
           >
-            <DatePicker showTime />
+            <DatePicker showTime needConfirm={false} />
           </Form.Item>
           <Form.Item
             label="End Date"
@@ -153,7 +156,7 @@ export const LessonCreateModal: React.FC<Props> = ({
               marginLeft: "16px",
             }}
           >
-            <DatePicker showTime />
+            <DatePicker showTime needConfirm={false} />
           </Form.Item>
         </>
       </Form>

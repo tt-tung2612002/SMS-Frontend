@@ -290,3 +290,9 @@ body .w-md-editor-text-input {
 .ant-card {
   font-size: 16px !important;
 }
+
+/* Date Picker */
+
+.ant-picker-panel {
+  background-color: rgb(30, 30, 30) !important;
+}

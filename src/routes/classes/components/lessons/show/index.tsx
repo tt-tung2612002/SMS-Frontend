@@ -1,9 +1,14 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 
 import { useDelete, useShow, useUpdate } from "@refinedev/core";
 import { GetFields } from "@refinedev/nestjs-query";
 
-import { DeleteOutlined, InfoOutlined, LinkOutlined } from "@ant-design/icons";
+import {
+  DeleteOutlined,
+  InfoOutlined,
+  LinkOutlined,
+  SaveOutlined,
+} from "@ant-design/icons";
 import {
   Button,
   Card,
@@ -11,9 +16,11 @@ import {
   List,
   Modal,
   Popconfirm,
+  Space,
   Spin,
   Typography,
 } from "antd";
+
 import dayjs from "dayjs";
 import { now } from "lodash";
 
@@ -23,18 +30,45 @@ import { Lesson } from "@/graphql/new/schema.types";
 import { LESSON_SHOW_QUERY } from "../queries/getOneLesson";
 import styles from "./index.module.css";
 
+import { CustomMarkdown } from "@/components/markdown";
 import { GetLessonQuery } from "@/graphql/new/customTypes";
+import useRoleCheck from "@/hooks/useRoleCheck";
 import Markdown from "marked-react";
 
 type Props = {
   lessonId: number;
-  openModal?: any;
   onClose: any;
 };
 
 export const LessonAssignmentsModal: FC<Props> = ({ lessonId, onClose }) => {
   const { mutate } = useUpdate<Lesson>();
   const { mutate: deleteMutation } = useDelete<Lesson>();
+  const [isEditing, setIsEditing] = useState(false);
+  const [editedContent, setEditedContent] = useState<string>("");
+  const [isEditingAssignment, setIsEditingAssignment] = useState<
+    Record<string, boolean>
+  >({});
+  const [editedAssignmentContent, setEditedAssignmentContent] = useState<
+    Record<string, string>
+  >({});
+
+  const { isTeacher } = useRoleCheck();
+
+  const handleLessonEditClick = (content: string) => {
+    setIsEditing(true);
+    setEditedContent(content);
+  };
+
+  const handleAssignmentEditClick = (assignmentId: number, content: string) => {
+    setIsEditingAssignment((prevState) => ({
+      ...prevState,
+      [assignmentId]: true,
+    }));
+    setEditedAssignmentContent((prevState) => ({
+      ...prevState,
+      [assignmentId]: content,
+    }));
+  };
 
   const { queryResult } = useShow<GetFields<GetLessonQuery>>({
     resource: "lesson",
@@ -47,6 +81,7 @@ export const LessonAssignmentsModal: FC<Props> = ({ lessonId, onClose }) => {
   });
 
   const { data, isLoading, isError } = queryResult;
+  const [lessonData, setLessonData] = useState(data?.data);
 
   if (isError) {
     return <div>Error</div>;
@@ -68,11 +103,60 @@ export const LessonAssignmentsModal: FC<Props> = ({ lessonId, onClose }) => {
     );
   }
 
-  const lesson = data?.data;
-
+  const lesson = lessonData ?? data?.data;
   const { description, assignments: assignmentList, title } = lesson;
-
   const assignments = assignmentList?.nodes ?? [];
+
+  const handleSaveClick = () => {
+    if (editedContent !== null) {
+      mutate({
+        resource: "lesson",
+        id: parseInt(lessonId.toString() ?? "", 10),
+        values: {
+          description: editedContent,
+        },
+        successNotification: false,
+        errorNotification() {
+          return {
+            key: "error",
+            message: "Error",
+            type: "error",
+            description: "There was an error updating the lesson",
+          };
+        },
+        invalidates: ["detail"],
+      });
+      setLessonData((prevLesson: any) => ({
+        ...prevLesson,
+        description: editedContent,
+      }));
+      setIsEditing(false);
+    }
+  };
+
+  const handleAssignmentSaveClick = (assignmentId: number) => {
+    if (editedAssignmentContent[assignmentId] !== undefined) {
+      mutate({
+        resource: "assignment",
+        id: assignmentId,
+        values: {
+          description: editedAssignmentContent[assignmentId],
+        },
+        successNotification: false,
+        invalidates: ["detail"],
+      });
+
+      setIsEditingAssignment((prevState) => ({
+        ...prevState,
+        [assignmentId]: false,
+      }));
+
+      setEditedAssignmentContent((prevState) => ({
+        ...prevState,
+        [assignmentId]: editedAssignmentContent[assignmentId],
+      }));
+    }
+  };
 
   return (
     <Modal
@@ -82,7 +166,6 @@ export const LessonAssignmentsModal: FC<Props> = ({ lessonId, onClose }) => {
       destroyOnClose={true}
       maskClosable={true}
       width={1024}
-      styles={{}}
     >
       <div className={styles.container}>
         <div className={styles.name}>
@@ -100,10 +183,12 @@ export const LessonAssignmentsModal: FC<Props> = ({ lessonId, onClose }) => {
                   },
                   successNotification: false,
                 });
-                // refresh
+                setLessonData((prevLesson: any) => ({
+                  ...prevLesson,
+                  title: value,
+                }));
               },
               triggerType: ["text"],
-              // icon: <EditOutlined className={styles.titleEditIcon} />,
             }}
           >
             {title}
@@ -112,57 +197,133 @@ export const LessonAssignmentsModal: FC<Props> = ({ lessonId, onClose }) => {
 
         <div className={styles.form}>
           <SingleElementForm
-            icon={<InfoOutlined size={24} />}
+            icon={
+              <InfoOutlined
+                size={24}
+                onPointerEnterCapture={undefined}
+                onPointerLeaveCapture={undefined}
+              />
+            }
             itemProps={{
               name: "description",
               label: "Description",
             }}
-            view={<Text>{description}</Text>}
-            // onClick={() => setActiveForm("email")}
-            // onUpdate={() => setActiveForm(undefined)}
-            // onCancel={() => setActiveForm(undefined)}
+            view={
+              isEditing ? (
+                <>
+                  <CustomMarkdown
+                    value={editedContent}
+                    setValue={(val: string) => setEditedContent(val)}
+                  />
+                  <Button
+                    type="primary"
+                    icon={
+                      <SaveOutlined
+                        onPointerEnterCapture={undefined}
+                        onPointerLeaveCapture={undefined}
+                      />
+                    }
+                    onClick={handleSaveClick}
+                    style={{ marginTop: "10px" }}
+                  >
+                    Save
+                  </Button>
+                </>
+              ) : isTeacher ? (
+                <Space onClick={() => handleLessonEditClick(description ?? "")}>
+                  <Text>{description}</Text>
+                </Space>
+              ) : (
+                <Text>{description}</Text>
+              )
+            }
           >
             <Input defaultValue={description ?? ""} />
           </SingleElementForm>
         </div>
 
-        {
-          <List
-            grid={{ gutter: 16, column: 1 }}
-            dataSource={assignments}
-            renderItem={(assignment, index) => (
-              <List.Item key={index}>
-                <Card title={assignment.title} size="small">
+        <List
+          grid={{ gutter: 16, column: 1 }}
+          dataSource={assignments}
+          renderItem={(assignment, index) => (
+            <List.Item key={index}>
+              <Card title={assignment.title} size="small">
+                {isEditingAssignment[assignment.id] ? (
+                  <>
+                    <CustomMarkdown
+                      value={editedAssignmentContent[assignment.id]}
+                      setValue={(val: string) =>
+                        setEditedAssignmentContent((prevState) => ({
+                          ...prevState,
+                          [assignment.id]: val,
+                        }))
+                      }
+                    />
+                    <Button
+                      type="primary"
+                      icon={
+                        <SaveOutlined
+                          onPointerEnterCapture={undefined}
+                          onPointerLeaveCapture={undefined}
+                        />
+                      }
+                      onClick={() => handleAssignmentSaveClick(assignment.id)}
+                      style={{ marginTop: "10px" }}
+                    >
+                      Save
+                    </Button>
+                  </>
+                ) : isTeacher ? (
+                  <Space
+                    onClick={() =>
+                      handleAssignmentEditClick(
+                        assignment.id,
+                        assignment.description ?? ""
+                      )
+                    }
+                  >
+                    <Markdown>{assignment.description ?? ""}</Markdown>
+                  </Space>
+                ) : (
                   <Markdown>{assignment.description ?? ""}</Markdown>
-                  <List
-                    itemLayout="horizontal"
-                    size="small"
-                    dataSource={assignment.attachments.nodes}
-                    style={{
-                      display: "flex", // Make the List.Item a flex container
-                    }}
-                    renderItem={(attachment) => (
-                      <List.Item
-                        key={attachment.id}
-                        onClick={() => {
-                          window.open(
-                            attachment.fileDownloadUrl ?? "",
-                            "_blank"
-                          );
+                )}
+                <List
+                  itemLayout="vertical"
+                  size="small"
+                  dataSource={assignment.attachments.nodes}
+                  style={{
+                    display: "flex",
+                    textAlign: "left",
+                  }}
+                  renderItem={(attachment) => (
+                    <List.Item
+                      key={attachment.id}
+                      onClick={() => {
+                        window.open(attachment.fileDownloadUrl ?? "", "_blank");
+                      }}
+                    >
+                      <LinkOutlined
+                        style={{ color: "#97cef7" }}
+                        onPointerEnterCapture={undefined}
+                        onPointerLeaveCapture={undefined}
+                      />
+                      <Button
+                        style={{
+                          color: "#97cef7",
+                          fontWeight: 550,
+                          letterSpacing: "0.5px",
                         }}
+                        type="link"
                       >
-                        <LinkOutlined style={{ color: "#97cef7" }} />
-                        <Button style={{ color: "#97cef7" }} type="link">
-                          {attachment.fileName}
-                        </Button>
-                      </List.Item>
-                    )}
-                  />
-                </Card>
-              </List.Item>
-            )}
-          />
-        }
+                        {attachment.fileName}
+                      </Button>
+                    </List.Item>
+                  )}
+                />
+              </Card>
+            </List.Item>
+          )}
+        />
 
         <div className={styles.actions}>
           <Text className="ant-text tertiary">
@@ -186,7 +347,16 @@ export const LessonAssignmentsModal: FC<Props> = ({ lessonId, onClose }) => {
             okText="Yes"
             cancelText="No"
           >
-            <Button type="link" danger icon={<DeleteOutlined />}>
+            <Button
+              type="link"
+              danger
+              icon={
+                <DeleteOutlined
+                  onPointerEnterCapture={undefined}
+                  onPointerLeaveCapture={undefined}
+                />
+              }
+            >
               Delete Lesson
             </Button>
           </Popconfirm>

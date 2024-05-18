@@ -52,7 +52,7 @@ import { TeacherShowPage } from "./routes/contacts/teachers/show";
 import useScript from "./script";
 
 const App: React.FC = () => {
-  useScript("https://upload-widget.cloudinary.com/global/all.js");
+  useScript("https://unpkg.com/default-passive-events");
   return (
     // <AlgoliaSearchWrapper>
     <ThemeProvider theme={MaterialUIDarkTheme}>

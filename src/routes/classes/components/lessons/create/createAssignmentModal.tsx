@@ -1,12 +1,13 @@
-import { Markdown } from "@/components/markdown";
+import { CustomMarkdown } from "@/components/markdown";
 import { UPLOAD_URL, uploadProvider } from "@/providers/data";
 import { DeleteOutlined, PlusOutlined } from "@ant-design/icons";
-import { useApiUrl } from "@refinedev/core";
 import { Button, Card, DatePicker, Form, Input, Upload, message } from "antd";
 import React from "react";
+import { v4 as uuidv4 } from "uuid";
 
 type Assignment = {
   id?: number;
+  UUID: string;
   title: string;
   description: string;
   dueDate: any;
@@ -29,12 +30,16 @@ export const AssignmentForm: React.FC<Props> = ({
   assignments,
   setAssignments,
 }) => {
-  const apiUrl = useApiUrl("upload");
-
   const addAssignment = () => {
     setAssignments([
       ...assignments,
-      { title: "", description: "", dueDate: null, attachments: [] },
+      {
+        UUID: uuidv4(),
+        title: "",
+        description: "",
+        dueDate: null,
+        attachments: [],
+      },
     ]);
   };
 
@@ -108,7 +113,7 @@ export const AssignmentForm: React.FC<Props> = ({
               />
             </Form.Item>
             <Form.Item label="Description">
-              <Markdown
+              <CustomMarkdown
                 value={assignment.description}
                 setValue={(value: string) =>
                   handleAssignmentChange(index, "description", value)

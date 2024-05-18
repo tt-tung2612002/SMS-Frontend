@@ -20,11 +20,11 @@ import {
 const CORS_URL = "http://100.107.247.85:10000/";
 export const GRAPHQL_URL = CORS_URL + "http://localhost:5000/graphql";
 export const SECURITY_URL = CORS_URL + "http://localhost:8082";
-export const UPLOAD_URL = CORS_URL + "http://localhost:8080";
+// export const UPLOAD_URL = CORS_URL + "http://localhost:8080";
 
 // export const GRAPHQL_URL = "https://graphql.sms.thanhtung.tech/graphql";
 // export const SECURITY_URL = "https://auth.sms.thanhtung.tech";
-// export const UPLOAD_URL = "https://upload.sms.thanhtung.tech";
+export const UPLOAD_URL = "https://upload.sms.thanhtung.tech";
 
 const securityGraphQLClient = new GraphQLClient(SECURITY_URL + "/graphql", {
   fetch: async (url: string, options: any) => {
@@ -62,10 +62,9 @@ export const localClient = new GraphQLClient(GRAPHQL_URL, {
       const messages = error?.map((error: any) => error?.message)?.join("");
       const code = error?.[0]?.extensions?.code;
 
-      return Promise.reject({
-        message: messages || JSON.stringify(error),
-        statusCode: code || 500,
-      });
+      return Promise.reject(
+        new Error(messages || JSON.stringify(error)) as any
+      );
     }
   },
 });
@@ -194,8 +193,8 @@ export const localDataProvider = (() => {
 
         query = gqlTag`
                         query Get${camelcase(singular(resource), {
-                          pascalCase: true,
-                        })}($id: Int!) {
+          pascalCase: true,
+        })}($id: Int!) {
                             ${operation}(id: $id) {
                             ${stringFields}
                             }
@@ -447,8 +446,8 @@ export const securityGraphqlProvider = (() => {
 
         query = gqlTag`
                         query Get${camelcase(singular(resource), {
-                          pascalCase: true,
-                        })}($id: Int!) {
+          pascalCase: true,
+        })}($id: Int!) {
                             ${operation}(id: $id) {
                             ${stringFields}
                             }

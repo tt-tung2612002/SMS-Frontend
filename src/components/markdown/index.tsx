@@ -6,7 +6,7 @@ type Props = {
   setValue: any;
 };
 
-export const Markdown: FC<Props> = ({ value, setValue }) => {
+export const CustomMarkdown: FC<Props> = ({ value, setValue }) => {
   return (
     <MDEditor
       data-color-mode="dark"

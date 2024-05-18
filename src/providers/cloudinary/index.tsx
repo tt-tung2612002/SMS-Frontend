@@ -1,13 +1,18 @@
 import React, { createContext, useEffect, useState } from "react";
 
-const CloudinaryScriptContext = createContext<{ loaded: boolean }>({ loaded: false });
+const CloudinaryScriptContext = createContext<{ loaded: boolean }>({
+  loaded: false,
+});
 
 interface CloudinaryUploadWidgetProps {
   uwConfig: any; // Adjust the type based on the actual type of uwConfig
   setPublicId: React.Dispatch<React.SetStateAction<string | undefined>>;
 }
 
-function CloudinaryUploadWidget({ uwConfig, setPublicId }: CloudinaryUploadWidgetProps) {
+function CloudinaryUploadWidget({
+  uwConfig,
+  setPublicId,
+}: CloudinaryUploadWidgetProps) {
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
@@ -35,7 +40,6 @@ function CloudinaryUploadWidget({ uwConfig, setPublicId }: CloudinaryUploadWidge
         uwConfig,
         (error: any, result: any) => {
           if (!error && result && result.event === "success") {
-            console.log("Done! Here is the image info: ", result.info);
             setPublicId(result.info.public_id);
           }
         }

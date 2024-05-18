@@ -6,7 +6,6 @@ import { GetFieldsFromList } from "@refinedev/nestjs-query";
 
 export const useLessonsSelect = (filters?: CrudFilters) => {
   const serverFilter = filters || [];
-  console.log("serverFilter", serverFilter);
   return useSelect<GetFieldsFromList<ClassGetLessonsQuery>>({
     resource: "lessons",
     optionLabel: "title",

@@ -6,7 +6,7 @@ import { useUpdate } from "@refinedev/core";
 import { Button, Popover, Tag, TagProps } from "antd";
 import dayjs from "dayjs";
 
-export const AttendanceStatusTag: React.FC<{ status: String; id: number }> = ({
+export const AttendanceStatusTag: React.FC<{ status: string; id: number }> = ({
   status,
   id,
 }) => {
@@ -35,7 +35,7 @@ export const AttendanceStatusTag: React.FC<{ status: String; id: number }> = ({
     default:
       break;
   }
-  const handleStatusChange = (newStatus: String) => {
+  const handleStatusChange = (newStatus: string) => {
     mutate({
       resource: "attendance",
       id: id,
@@ -46,8 +46,6 @@ export const AttendanceStatusTag: React.FC<{ status: String; id: number }> = ({
       invalidates: ["all", "resourceAll"],
     });
   };
-
-  console.log(dayjs().utc().utcOffset(7).format("YYYY-MM-DD HH:mm:ss"));
 
   const content = (
     <div>

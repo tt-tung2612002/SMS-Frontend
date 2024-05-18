@@ -24,7 +24,7 @@ import { SelectOptionWithAvatar } from "@/components";
 import { CreateClassMutation } from "@/graphql/new/types";
 import { useUsersSelect } from "@/hooks/useUsersSelect";
 
-import { Markdown } from "@/components/markdown";
+import { CustomMarkdown } from "@/components/markdown";
 import { UPLOAD_URL, uploadProvider } from "@/providers/data";
 import { CLASS_CREATE_MUTATION } from "./queries/createClass";
 
@@ -133,7 +133,7 @@ export const ClassCreatePage = ({ isOverModal }: Props) => {
           name="description"
           rules={[{ required: false }]}
         >
-          <Markdown value={value} setValue={setValue} />
+          <CustomMarkdown value={value} setValue={setValue} />
         </Form.Item>
         <Form.Item
           label="Teacher"

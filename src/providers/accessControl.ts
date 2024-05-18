@@ -81,12 +81,6 @@ export const accessControlProvider: AccessControlProvider = {
     const enforcer = await newEnforcer(model, adapter);
     const highestRole = sessionStorage.getItem("highestRole") ?? "student";
     if (action === "delete" || action === "edit" || action === "show") {
-      console.log(
-        "Checking for",
-        `${resource}/${params?.id}`,
-        "with role: ",
-        highestRole
-      );
 
       return Promise.resolve({
         can: await enforcer.enforce(

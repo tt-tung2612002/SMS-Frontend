@@ -15,8 +15,6 @@ export const CurrentUser: React.FC = () => {
   const { data: user } = useGetIdentity<User>();
   const { mutate: logout } = useLogout();
 
-  console.log("user", user);
-
   const content = (
     <div
       style={{
