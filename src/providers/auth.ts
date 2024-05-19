@@ -1,9 +1,15 @@
 import { AuthProvider } from "@refinedev/core";
-import { securityGraphqlProvider } from "./data/index";
+import { SECURITY_URL, securityGraphqlProvider } from "./data/index";
 
 import { User } from "@/graphql/new/customSchema";
-import { SECURITY_URL, loginProvider } from "./data";
+import { loginProvider } from "./data";
 import { ME_QUERY } from "./getActiveUser";
+
+const enum Roles {
+  "admin" = 1,
+  "teacher" = 2,
+  "student" = 3,
+}
 
 export const authProvider: AuthProvider = {
   login: async ({ email, password, accessToken, refreshToken, idToken }) => {
@@ -36,19 +42,33 @@ export const authProvider: AuthProvider = {
       sessionStorage.setItem("refresh_token", data.refreshToken);
       sessionStorage.setItem("id_token", data.idToken);
 
-      const role = data.roles[0];
+      const role = parseInt(data.roles[0] ?? "");
+      console.log(role)
 
-      const enum Roles {
-        "admin" = 1,
-        "teacher" = 2,
-        "student" = 3,
+      let highestRole = "";
+
+      switch (role) {
+        case Roles.admin:
+          highestRole = "admin"
+          break;
+        case Roles.teacher:
+          highestRole = "teacher"
+          break;
+        case Roles.student:
+          highestRole = "student"
+          break;
+        default:
+          break;
       }
 
-      let highestRole = "student";
-      if (role == Roles.admin) {
-        highestRole = "admin";
-      } else if (role == Roles.teacher) {
-        highestRole = "teacher";
+      if (highestRole === "") {
+        return {
+          success: false,
+          error: {
+            message: "User is invalid",
+            name: "Invalid user"
+          },
+        };
       }
 
       sessionStorage.setItem("highestRole", highestRole);
@@ -109,7 +129,7 @@ export const authProvider: AuthProvider = {
     const accessToken = sessionStorage.getItem("access_token");
     if (accessToken) {
       try {
-        const { data } = await loginProvider.custom({
+        await loginProvider.custom({
           url: SECURITY_URL + "/api/auth/validate",
           method: "get",
           headers: {

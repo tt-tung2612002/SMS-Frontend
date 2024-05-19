@@ -31,15 +31,20 @@ const LessonsManager = () => {
 
   return (
     <>
-      <Button
-        title="Add new lesson"
-        onClick={handleAddLessonClick}
-        icon={<PlusCircleOutlined />}
-      />
       <ClassLessonsTable
         style={{ marginTop: 32 }}
         onLessonClick={handleLessonClick}
         classId={parseInt(params.id ?? "0")}
+      />
+      <Button
+        title="Add new lesson"
+        onClick={handleAddLessonClick}
+        icon={
+          <PlusCircleOutlined
+            onPointerEnterCapture={undefined}
+            onPointerLeaveCapture={undefined}
+          />
+        }
       />
       {isModalVisible && (
         <LessonAssignmentsModal

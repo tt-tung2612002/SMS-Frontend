@@ -138,7 +138,7 @@ export const CompanyListPage: FC<PropsWithChildren> = ({ children }) => {
                 <Form.Item name="name" noStyle>
                   <Input
                     size="large"
-                    prefix={<SearchOutlined className="anticon tertiary" />}
+                    prefix={<SearchOutlined className="anticon tertiary" onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined} />}
                     suffix={
                       <Spin
                         size="small"
@@ -159,10 +159,10 @@ export const CompanyListPage: FC<PropsWithChildren> = ({ children }) => {
                     onChange={(e) => onViewChange(e.target.value)}
                   >
                     <Radio.Button value="table">
-                      <UnorderedListOutlined />
+                      <UnorderedListOutlined onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined} />
                     </Radio.Button>
                     <Radio.Button value="card">
-                      <AppstoreOutlined />
+                      <AppstoreOutlined onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined} />
                     </Radio.Button>
                   </Radio.Group>
                 ) : null}

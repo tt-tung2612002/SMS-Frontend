@@ -52,7 +52,7 @@ export const LessonAssignmentsModal: FC<Props> = ({ lessonId, onClose }) => {
     Record<string, string>
   >({});
 
-  const { isTeacher } = useRoleCheck();
+  const { isTeacher, isAdmin } = useRoleCheck();
 
   const handleLessonEditClick = (content: string) => {
     setIsEditing(true);
@@ -229,7 +229,7 @@ export const LessonAssignmentsModal: FC<Props> = ({ lessonId, onClose }) => {
                     Save
                   </Button>
                 </>
-              ) : isTeacher ? (
+              ) : isTeacher || isAdmin ? (
                 <Space onClick={() => handleLessonEditClick(description ?? "")}>
                   <Text>{description}</Text>
                 </Space>
@@ -273,7 +273,7 @@ export const LessonAssignmentsModal: FC<Props> = ({ lessonId, onClose }) => {
                       Save
                     </Button>
                   </>
-                ) : isTeacher ? (
+                ) : isTeacher || isAdmin ? (
                   <Space
                     onClick={() =>
                       handleAssignmentEditClick(

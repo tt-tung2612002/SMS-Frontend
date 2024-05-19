@@ -1,15 +1,15 @@
 import { FC } from "react";
 
+import { DeleteButton, EditButton, FilterDropdown } from "@refinedev/antd";
 import {
-  DeleteButton,
-  EditButton,
-  FilterDropdown,
-  ShowButton,
-} from "@refinedev/antd";
-import { CrudFilters, CrudSorting, getDefaultFilter } from "@refinedev/core";
+  CrudFilters,
+  CrudSorting,
+  getDefaultFilter,
+  useNavigation,
+} from "@refinedev/core";
 import { GetFieldsFromList } from "@refinedev/nestjs-query";
 
-import { EyeOutlined } from "@ant-design/icons";
+import { EditOutlined } from "@ant-design/icons";
 import { Select, Space, Table, TableProps } from "antd";
 import dayjs from "dayjs";
 
@@ -20,12 +20,21 @@ import { ClassesTableQuery } from "@/graphql/new/customTypes";
 import { AvatarGroup } from "./avatar-group";
 
 type Props = {
-  tableProps: TableProps<GetFieldsFromList<ClassesTableQuery>>;
+  tableProps: TableProps<any>; // Update the type of tableProps to use Class as the generic type parameter
   filters: CrudFilters;
   sorters: CrudSorting;
 };
 
 export const ClassesTableView: FC<Props> = ({ tableProps, filters }) => {
+  const { show } = useNavigation();
+  const onCellClick = (record: Class) => {
+    return {
+      onClick: () => {
+        show("classes", record.id);
+      },
+    };
+  };
+
   return (
     <Table
       {...tableProps}
@@ -33,7 +42,6 @@ export const ClassesTableView: FC<Props> = ({ tableProps, filters }) => {
         defaultPageSize: 10,
         showSizeChanger: true,
         // pageSizeOptions: ["10", "20", "30"],
-
         ...tableProps.pagination,
         pageSizeOptions: ["6", "12", "48", "96"],
         showTotal: (total) => (
@@ -47,6 +55,7 @@ export const ClassesTableView: FC<Props> = ({ tableProps, filters }) => {
         dataIndex="name"
         title="Class Name"
         sorter={(a, b) => a.name.localeCompare(b.name)}
+        onCell={onCellClick}
         render={(_, record) => {
           return (
             <Space>
@@ -69,6 +78,7 @@ export const ClassesTableView: FC<Props> = ({ tableProps, filters }) => {
       <Table.Column<Class>
         dataIndex="startDate"
         title="Start Date"
+        onCell={onCellClick}
         render={(_, record) => {
           return (
             <Space>
@@ -86,6 +96,7 @@ export const ClassesTableView: FC<Props> = ({ tableProps, filters }) => {
       <Table.Column<Class>
         dataIndex="endDate"
         title="End Date"
+        onCell={onCellClick}
         render={(_, record) => {
           return (
             <Space>
@@ -103,6 +114,7 @@ export const ClassesTableView: FC<Props> = ({ tableProps, filters }) => {
       <Table.Column<Class>
         dataIndex={["teacherId"]}
         defaultFilteredValue={getDefaultFilter("teacherId", filters, "eq")}
+        onCell={onCellClick}
         title="Teacher"
         sorter={(a, b) => a.name.localeCompare(b.name)}
         render={(_, record) => {
@@ -149,7 +161,7 @@ export const ClassesTableView: FC<Props> = ({ tableProps, filters }) => {
             const avatars = value?.nodes?.map((student) => {
               return {
                 name: student?.userInfoById?.firstName,
-                src: student?.userInfoById?.avatarUrl as string | undefined,
+                src: student?.userInfoById?.avatarrl as string | undefined,
               };
             });
 
@@ -163,17 +175,8 @@ export const ClassesTableView: FC<Props> = ({ tableProps, filters }) => {
         title="Actions"
         render={(value) => (
           <Space>
-            <ShowButton
-              icon={<EyeOutlined />}
-              hideText
-              size="small"
-              recordItemId={value}
-              accessControl={{
-                hideIfUnauthorized: true,
-              }}
-            />
             <EditButton
-              icon={<EyeOutlined />}
+              icon={<EditOutlined />}
               hideText
               size="small"
               recordItemId={value}

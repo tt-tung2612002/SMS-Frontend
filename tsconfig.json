@@ -37,6 +37,14 @@
     "src",
     "vite.config.mtss"
   ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "build",
+    "coverage",
+    "public",
+    "vite.config.mtss"
+  ],
   "references": [
     {
       "path": "./tsconfig.node.json"

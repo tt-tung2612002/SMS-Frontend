@@ -35,6 +35,7 @@ export const LessonCreateModal: React.FC<Props> = ({
   const [assignments, setAssignments] = useState<Assignment[]>([]);
   const { mutate: createAssignment } = useCreate<Assignment>();
   const [lessonId, setLessonId] = useState<number | null>(null);
+
   const handleAssignmentFinish = async (lessonId: number | null) => {
     if (lessonId !== null) {
       for (const assignment of assignments) {
@@ -110,7 +111,12 @@ export const LessonCreateModal: React.FC<Props> = ({
       open={isVisible}
       title={"Add new lesson"}
       width={1024}
-      closeIcon={<LeftOutlined />}
+      closeIcon={
+        <LeftOutlined
+          onPointerEnterCapture={undefined}
+          onPointerLeaveCapture={undefined}
+        />
+      }
       onCancel={() => {
         close();
         onClose();

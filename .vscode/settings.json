@@ -1,11 +1,11 @@
 {
-  "npm.exclude": "",
   "editor.formatOnPaste": true,
   "editor.formatOnSave": true,
   "editor.formatOnSaveMode": "file",
   "eslint.format.enable": true,
   "search.mode": "reuseEditor",
   "typescript.workspaceSymbols.scope": "currentProject",
+  "typescript.validate.enable": true,
   "search.useParentIgnoreFiles": true,
   "workbench.editor.labelFormat": "default",
   "eslint.options": {
@@ -13,5 +13,4 @@
       "@typescript-eslint/no-explicit-any": "off"
     }
   },
-  "typescript.tsdk": "node_modules\\typescript\\lib"
 }

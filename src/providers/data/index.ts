@@ -9,6 +9,7 @@ import gqlTag from "graphql-tag";
 import { singular } from "pluralize";
 
 import { axiosInstance } from "./axios";
+
 import {
   generateFilters,
   generatePaging,
@@ -17,14 +18,23 @@ import {
   isMutation,
 } from "./utils/camel";
 
-const CORS_URL = "http://100.107.247.85:10000/";
-export const GRAPHQL_URL = CORS_URL + "http://localhost:5000/graphql";
-export const SECURITY_URL = CORS_URL + "http://localhost:8082";
-// export const UPLOAD_URL = CORS_URL + "http://localhost:8080";
 
-// export const GRAPHQL_URL = "https://graphql.sms.thanhtung.tech/graphql";
-// export const SECURITY_URL = "https://auth.sms.thanhtung.tech";
+const env = process.env.NODE_ENV;
+let GRAPHQL_URL = "", CORS_URL = "", SECURITY_URL = ""
+
+if (env === "development") {
+  CORS_URL = "http://localhost:10000/";
+  SECURITY_URL = CORS_URL + "http://localhost:8082";
+  GRAPHQL_URL = CORS_URL + "http://localhost:5000/graphql";
+}
+else {
+  SECURITY_URL = "https://auth.sms.thanhtung.tech";
+  GRAPHQL_URL = "https://graphql.sms.thanhtung.tech/graphql";
+}
+
 export const UPLOAD_URL = "https://upload.sms.thanhtung.tech";
+
+export { GRAPHQL_URL, SECURITY_URL };
 
 const securityGraphQLClient = new GraphQLClient(SECURITY_URL + "/graphql", {
   fetch: async (url: string, options: any) => {

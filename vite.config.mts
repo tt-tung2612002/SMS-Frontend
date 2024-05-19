@@ -4,7 +4,6 @@ import react from "@vitejs/plugin-react";
 import rollupNodePolyFill from "rollup-plugin-polyfill-node";
 import { defineConfig } from "vite";
 import tsconfigPaths from "vite-tsconfig-paths";
-// https://vitejs.dev/config/
 export default defineConfig({
   plugins: [tsconfigPaths(), react()],
   optimizeDeps: {
@@ -25,6 +24,10 @@ export default defineConfig({
   build: {
     rollupOptions: {
       plugins: [rollupNodePolyFill()],
+      // treeshake: false,
+      // watch: {
+      //   skipWrite: true,
+      // },
       output: {
         manualChunks: {
           antd: ["antd"],

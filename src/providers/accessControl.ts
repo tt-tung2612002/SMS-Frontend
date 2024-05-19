@@ -40,6 +40,9 @@ p, admin, teachers, (list)|(create)
 p, admin, teachers/*, (show)|(delete)
 p, admin, teachers/*, field
 
+p, admin, lessons, (list)|(create)
+p, admin, lessons/*, (show)
+
 p, admin, administration, (list)
 p, admin, settings, (list)
 p, admin, audits, (list)

@@ -67,7 +67,7 @@ export const ClassStudentsTable: FC = () => {
       }}
       title={
         <Space size="middle">
-          <TeamOutlined />
+          <TeamOutlined onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined} />
           <Text>Students</Text>
 
           {/* {showResetFilters?.length > 0 && (
