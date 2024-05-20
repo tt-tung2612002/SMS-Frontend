@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "build": "refine build",
+    "build": "cross-env NODE_ENV=production && refine build",
     "codegen": "graphql-codegen",
     "dev": "cross-env NODE_ENV=development && vite dev",
     "format": "prettier src --write",
