@@ -161,7 +161,7 @@ export const ClassesTableView: FC<Props> = ({ tableProps, filters }) => {
             const avatars = value?.nodes?.map((student) => {
               return {
                 name: student?.userInfoById?.firstName,
-                src: student?.userInfoById?.avatarrl as string | undefined,
+                src: student?.userInfoById?.avatarUrl as string | undefined,
               };
             });
 

@@ -217,12 +217,7 @@ export const LessonAssignmentsModal: FC<Props> = ({ lessonId, onClose }) => {
                   />
                   <Button
                     type="primary"
-                    icon={
-                      <SaveOutlined
-                        onPointerEnterCapture={undefined}
-                        onPointerLeaveCapture={undefined}
-                      />
-                    }
+                    icon={<SaveOutlined />}
                     onClick={handleSaveClick}
                     style={{ marginTop: "10px" }}
                   >
@@ -261,12 +256,7 @@ export const LessonAssignmentsModal: FC<Props> = ({ lessonId, onClose }) => {
                     />
                     <Button
                       type="primary"
-                      icon={
-                        <SaveOutlined
-                          onPointerEnterCapture={undefined}
-                          onPointerLeaveCapture={undefined}
-                        />
-                      }
+                      icon={<SaveOutlined />}
                       onClick={() => handleAssignmentSaveClick(assignment.id)}
                       style={{ marginTop: "10px" }}
                     >

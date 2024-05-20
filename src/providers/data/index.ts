@@ -20,17 +20,17 @@ import {
 
 
 const env = process.env.NODE_ENV;
-let GRAPHQL_URL = "", CORS_URL = "", SECURITY_URL = ""
+let GRAPHQL_URL = "", SECURITY_URL = ""
 
-if (env === "development") {
-  CORS_URL = "http://localhost:10000/";
-  SECURITY_URL = CORS_URL + "http://localhost:8082";
-  GRAPHQL_URL = CORS_URL + "http://localhost:5000/graphql";
-}
-else {
-  SECURITY_URL = "https://auth.sms.thanhtung.tech";
-  GRAPHQL_URL = "https://graphql.sms.thanhtung.tech/graphql";
-}
+// if (env === "development") {
+//   CORS_URL = "http://localhost:10000/";
+//   SECURITY_URL = CORS_URL + "http://localhost:8082";
+//   GRAPHQL_URL = CORS_URL + "http://localhost:5000/graphql";
+// }
+// else {
+SECURITY_URL = "https://auth.sms.thanhtung.tech";
+GRAPHQL_URL = "https://graphql.sms.thanhtung.tech/graphql";
+// }
 
 export const UPLOAD_URL = "https://upload.sms.thanhtung.tech";
 
@@ -70,7 +70,6 @@ export const localClient = new GraphQLClient(GRAPHQL_URL, {
       return { ...response, data: response.data };
     } catch (error: any) {
       const messages = error?.map((error: any) => error?.message)?.join("");
-      const code = error?.[0]?.extensions?.code;
 
       return Promise.reject(
         new Error(messages || JSON.stringify(error)) as any
