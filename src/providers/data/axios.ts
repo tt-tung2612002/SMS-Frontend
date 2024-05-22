@@ -7,7 +7,6 @@ export const axiosInstance = axios.create({
     "Content-Type": "application/json, text/plain, */*",
     "Apollo-Require-Preflight": "true",
     "X-Requested-With": "XMLHttpRequest",
-    "Access-Control-Allow-Origin": "http://localhost:5173",
   },
   // withCredentials: true,
 });

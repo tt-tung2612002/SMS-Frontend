@@ -118,7 +118,6 @@ export const ClassCreatePage = ({ isOverModal }: Props) => {
           if (file.originFileObj) {
             base64String = await file2Base64(file);
           }
-
           return formProps.onFinish?.({
             ...values,
             logoUrl: base64String,

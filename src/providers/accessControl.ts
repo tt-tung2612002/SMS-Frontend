@@ -49,7 +49,6 @@ p, admin, audits, (list)
 
 
 p, teacher, dashboard, (list)
-p, teacher, dashboard/teacherUpcomingEvents, (show)
 
 p, teacher, people, (list)
 p, teacher, students, (list)|(create)
@@ -68,7 +67,6 @@ p, teacher, events, (list)|(create)
 p, teacher, events/*, (edit)|(delete)|(show)
 
 p, student, dashboard, (list)
-p, student, dashboard/studentUpcomingEvents, (show)
 p, student, events, (list)
 p, student, events/*, (show)
 

@@ -7,7 +7,6 @@ import {
   getDefaultFilter,
   useNavigation,
 } from "@refinedev/core";
-import { GetFieldsFromList } from "@refinedev/nestjs-query";
 
 import { EditOutlined } from "@ant-design/icons";
 import { Select, Space, Table, TableProps } from "antd";
@@ -15,7 +14,6 @@ import dayjs from "dayjs";
 
 import { CustomAvatar, PaginationTotal, Text } from "@/components";
 import { Class } from "@/graphql/new/customSchema";
-import { ClassesTableQuery } from "@/graphql/new/customTypes";
 
 import { AvatarGroup } from "./avatar-group";
 

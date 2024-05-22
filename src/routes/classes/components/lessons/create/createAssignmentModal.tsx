@@ -82,7 +82,7 @@ export const AssignmentForm: React.FC<Props> = ({
         type="dashed"
         onClick={addAssignment}
         block
-        icon={<PlusOutlined onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined} />}
+        icon={<PlusOutlined />}
       >
         Add an assignment
       </Button>
@@ -95,7 +95,7 @@ export const AssignmentForm: React.FC<Props> = ({
             <Button
               type="link"
               danger
-              icon={<DeleteOutlined onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined} />}
+              icon={<DeleteOutlined />}
               onClick={() => handleRemoveAssignment(index)}
             >
               Delete

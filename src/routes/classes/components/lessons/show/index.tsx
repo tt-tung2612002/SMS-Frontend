@@ -197,13 +197,7 @@ export const LessonAssignmentsModal: FC<Props> = ({ lessonId, onClose }) => {
 
         <div className={styles.form}>
           <SingleElementForm
-            icon={
-              <InfoOutlined
-                size={24}
-                onPointerEnterCapture={undefined}
-                onPointerLeaveCapture={undefined}
-              />
-            }
+            icon={<InfoOutlined size={24} />}
             itemProps={{
               name: "description",
               label: "Description",
@@ -292,11 +286,7 @@ export const LessonAssignmentsModal: FC<Props> = ({ lessonId, onClose }) => {
                         window.open(attachment.fileDownloadUrl ?? "", "_blank");
                       }}
                     >
-                      <LinkOutlined
-                        style={{ color: "#97cef7" }}
-                        onPointerEnterCapture={undefined}
-                        onPointerLeaveCapture={undefined}
-                      />
+                      <LinkOutlined style={{ color: "#97cef7" }} />
                       <Button
                         style={{
                           color: "#97cef7",
@@ -337,16 +327,7 @@ export const LessonAssignmentsModal: FC<Props> = ({ lessonId, onClose }) => {
             okText="Yes"
             cancelText="No"
           >
-            <Button
-              type="link"
-              danger
-              icon={
-                <DeleteOutlined
-                  onPointerEnterCapture={undefined}
-                  onPointerLeaveCapture={undefined}
-                />
-              }
-            >
+            <Button type="link" danger icon={<DeleteOutlined />}>
               Delete Lesson
             </Button>
           </Popconfirm>

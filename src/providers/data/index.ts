@@ -31,8 +31,8 @@ let GRAPHQL_URL = "", SECURITY_URL = ""
 SECURITY_URL = "https://auth.sms.thanhtung.tech";
 GRAPHQL_URL = "https://graphql.sms.thanhtung.tech/graphql";
 // }
-
-export const UPLOAD_URL = "https://upload.sms.thanhtung.tech";
+// export const UPLOAD_URL = "https://upload.sms.thanhtung.tech";
+export const UPLOAD_URL = "https://cors.share.zrok.io/http://localhost:8080";
 
 export { GRAPHQL_URL, SECURITY_URL };
 

@@ -1,5 +1,6 @@
+import { Text } from "@/components";
 import { PlusCircleOutlined } from "@ant-design/icons";
-import { Button } from "antd";
+import { Button, Grid } from "antd";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { LessonCreateModal } from "./create";
@@ -29,22 +30,34 @@ const LessonsManager = () => {
     setIsCreateModalVisible(false);
   };
 
+  const screens = Grid.useBreakpoint();
+
   return (
     <>
+      <Button
+        type="primary"
+        icon={<PlusCircleOutlined />}
+        onClick={handleAddLessonClick}
+        size={screens.xs ? "middle" : "large"}
+        style={{
+          marginTop: screens.xs ? "1.6rem" : "0.3rem",
+          fontSize: "14px",
+        }}
+      >
+        <Text
+          style={{
+            color: "#fff",
+            fontSize: "14px",
+            fontWeight: 400,
+          }}
+        >
+          {!screens.xs ? "Add new Lesson" : null}
+        </Text>
+      </Button>
       <ClassLessonsTable
         style={{ marginTop: 32 }}
         onLessonClick={handleLessonClick}
         classId={parseInt(params.id ?? "0")}
-      />
-      <Button
-        title="Add new lesson"
-        onClick={handleAddLessonClick}
-        icon={
-          <PlusCircleOutlined
-            onPointerEnterCapture={undefined}
-            onPointerLeaveCapture={undefined}
-          />
-        }
       />
       {isModalVisible && (
         <LessonAssignmentsModal

@@ -43,7 +43,6 @@ export const authProvider: AuthProvider = {
       sessionStorage.setItem("id_token", data.idToken);
 
       const role = parseInt(data.roles[0] ?? "");
-      console.log(role)
 
       let highestRole = "";
 

@@ -58,7 +58,7 @@ export const LessonCreateModal: React.FC<Props> = ({
 
         if (assignmentId && assignment?.attachments?.length) {
           for (const file of assignment?.attachments || []) {
-            await uploadProvider.custom({
+            const data = await uploadProvider.custom({
               url: `${UPLOAD_URL}/upload`,
               method: "post",
               headers: {
@@ -71,6 +71,8 @@ export const LessonCreateModal: React.FC<Props> = ({
                 assignmentId,
               },
             });
+
+            console.log("Upload data", data);
           }
         }
       }
@@ -111,12 +113,7 @@ export const LessonCreateModal: React.FC<Props> = ({
       open={isVisible}
       title={"Add new lesson"}
       width={1024}
-      closeIcon={
-        <LeftOutlined
-          onPointerEnterCapture={undefined}
-          onPointerLeaveCapture={undefined}
-        />
-      }
+      closeIcon={<LeftOutlined />}
       onCancel={() => {
         close();
         onClose();

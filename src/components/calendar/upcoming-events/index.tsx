@@ -93,7 +93,7 @@ export const CalendarUpcomingEvents: React.FC<CalendarUpcomingEventsProps> = ({
     meta: {
       gqlQuery: GET_ACTIVE_STUDENT_FOR_EVENTS,
     },
-    id: parseInt(userId ?? ""),
+    id: parseInt(userId ?? "0"),
   });
 
   const { data: lessonsQueryTeacher } = useOne<User>({
@@ -102,7 +102,7 @@ export const CalendarUpcomingEvents: React.FC<CalendarUpcomingEventsProps> = ({
     meta: {
       gqlQuery: GET_ACTIVE_TEACHER_FOR_EVENTS,
     },
-    id: parseInt(userId ?? ""),
+    id: parseInt(userId ?? "0"),
   });
 
   const studentLessonIds =
