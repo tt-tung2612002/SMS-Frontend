@@ -1,5 +1,4 @@
 import { FC } from "react";
-import { useParams } from "react-router-dom";
 
 import { Text } from "@/components";
 import { useTable } from "@refinedev/antd";
@@ -21,9 +20,6 @@ export const ClassLessonsTable: FC<Props> = ({
   classId,
   style,
 }: any) => {
-  // const { listUrl } = useNavigation();
-  const params = useParams();
-
   const { tableQueryResult, tableProps } = useTable<Lesson>({
     resource: "lessons",
     filters: {

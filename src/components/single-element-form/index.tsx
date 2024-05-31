@@ -10,6 +10,10 @@ import { Button, Form, Skeleton } from "antd";
 import { Text } from "../text";
 import styles from "./index.module.css";
 
+type Props = {
+  children?: React.ReactNode;
+};
+
 type SingleElementFormProps = {
   icon?: React.ReactNode;
   itemProps?: FormItemProps;
@@ -23,7 +27,7 @@ type SingleElementFormProps = {
   style?: React.CSSProperties;
   useFormProps?: UseFormProps;
   formProps?: FormProps;
-} & React.PropsWithChildren;
+} & Props;
 
 export const SingleElementForm: React.FC<SingleElementFormProps> = ({
   state = "view",

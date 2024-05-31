@@ -14,6 +14,7 @@ import {
   useGetToPath,
   useGo,
 } from "@refinedev/core";
+
 import { GetFields } from "@refinedev/nestjs-query";
 
 import { LeftOutlined } from "@ant-design/icons";
@@ -26,6 +27,7 @@ import { useUsersSelect } from "@/hooks/useUsersSelect";
 
 import { CustomMarkdown } from "@/components/markdown";
 import { UPLOAD_URL, uploadProvider } from "@/providers/data";
+import dayjs from "dayjs";
 import { CLASS_CREATE_MUTATION } from "./queries/createClass";
 
 type Props = {
@@ -34,10 +36,12 @@ type Props = {
 
 export const ClassCreatePage = ({ isOverModal }: Props) => {
   const getToPath = useGetToPath();
+
   const [searchParams] = useSearchParams();
+
   const go = useGo();
-  const [value, setValue] = React.useState("");
-  const { formProps, modalProps, close } = useModalForm<
+
+  const { form, formProps, modalProps, close } = useModalForm<
     GetFields<CreateClassMutation>,
     HttpError
   >({
@@ -54,7 +58,15 @@ export const ClassCreatePage = ({ isOverModal }: Props) => {
   });
 
   const { selectProps, queryResult } = useUsersSelect();
+  // const { data: teachers } = useOne<User, HttpError>({
+  //   resource: "role",
+  //   meta: {
+  //     gqlQuery: TEACHER_NEW_LIST_QUERY,
+  //   },
+  // });
   const users = queryResult?.data?.data ?? [];
+  const [value, setValue] = React.useState("");
+
   const { onChange } = useFileUploadState();
   const apiUrl = useApiUrl("upload");
   const handleRemove = async (file: { name: string }) => {
@@ -121,6 +133,7 @@ export const ClassCreatePage = ({ isOverModal }: Props) => {
           return formProps.onFinish?.({
             ...values,
             logoUrl: base64String,
+            endDate: dayjs(),
           });
         }}
       >
@@ -132,7 +145,10 @@ export const ClassCreatePage = ({ isOverModal }: Props) => {
           name="description"
           rules={[{ required: false }]}
         >
-          <CustomMarkdown value={value} setValue={setValue} />
+          <CustomMarkdown
+            value={""}
+            setValue={(val: string) => form.setFieldValue("description", val)}
+          />
         </Form.Item>
         <Form.Item
           label="Teacher"
@@ -175,34 +191,6 @@ export const ClassCreatePage = ({ isOverModal }: Props) => {
               <p className="ant-upload-text">
                 Choose your avatar & drop in this area
               </p>
-            </Upload.Dragger>
-          </Form.Item>
-        </Form.Item>
-        <Form.Item label="Attachments">
-          <Form.Item
-            name="image"
-            valuePropName="fileList"
-            getValueFromEvent={getValueFromEvent}
-            noStyle
-          >
-            <Upload.Dragger
-              name="file"
-              action={`${apiUrl}/upload`}
-              listType="picture"
-              headers={{
-                Authorization: `Bearer ${sessionStorage.getItem(
-                  "access_token"
-                )}`,
-              }}
-              maxCount={5}
-              multiple
-              // data={{
-              //   assignmentId: 1,
-              // }}
-              onChange={onChange}
-              onRemove={handleRemove}
-            >
-              <p className="ant-upload-text">Drag & drop a file in this area</p>
             </Upload.Dragger>
           </Form.Item>
         </Form.Item>

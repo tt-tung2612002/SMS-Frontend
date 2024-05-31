@@ -6,7 +6,7 @@ import { GetFieldsFromList } from "@refinedev/nestjs-query";
 
 export const useLessonsSelect = (filters?: CrudFilters) => {
   const serverFilter = filters || [];
-  return useSelect<GetFieldsFromList<ClassGetLessonsQuery>>({
+  const { queryResult } = useSelect<GetFieldsFromList<ClassGetLessonsQuery>>({
     resource: "lessons",
     optionLabel: "title",
     filters: serverFilter,
@@ -14,4 +14,11 @@ export const useLessonsSelect = (filters?: CrudFilters) => {
       gqlQuery: CLASS_LESSONS_TABLE_QUERY,
     },
   });
+
+  const options = queryResult.data?.data.map((item) => ({
+    label: item.title,
+    value: item.id,
+  }));
+
+  return options;
 };

@@ -1,4 +1,5 @@
 import { Text } from "@/components";
+import useRoleCheck from "@/hooks/useRoleCheck";
 import { PlusCircleOutlined } from "@ant-design/icons";
 import { Button, Grid } from "antd";
 import { useState } from "react";
@@ -12,6 +13,7 @@ const LessonsManager = () => {
   const [lessonId, setLessonId] = useState<number | null>(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isCreateModalVisible, setIsCreateModalVisible] = useState(false);
+  const { isTeacher, isAdmin } = useRoleCheck();
 
   const handleLessonClick = (id: number) => {
     setLessonId(id);
@@ -34,26 +36,28 @@ const LessonsManager = () => {
 
   return (
     <>
-      <Button
-        type="primary"
-        icon={<PlusCircleOutlined />}
-        onClick={handleAddLessonClick}
-        size={screens.xs ? "middle" : "large"}
-        style={{
-          marginTop: screens.xs ? "1.6rem" : "0.3rem",
-          fontSize: "14px",
-        }}
-      >
-        <Text
+      {(isAdmin || isTeacher) && (
+        <Button
+          type="primary"
+          icon={<PlusCircleOutlined />}
+          onClick={handleAddLessonClick}
+          size={screens.xs ? "middle" : "large"}
           style={{
-            color: "#fff",
+            marginTop: screens.xs ? "1.6rem" : "0.3rem",
             fontSize: "14px",
-            fontWeight: 400,
           }}
         >
-          {!screens.xs ? "Add new Lesson" : null}
-        </Text>
-      </Button>
+          <Text
+            style={{
+              color: "#fff",
+              fontSize: "14px",
+              fontWeight: 400,
+            }}
+          >
+            {!screens.xs ? "Add new Lesson" : null}
+          </Text>
+        </Button>
+      )}
       <ClassLessonsTable
         style={{ marginTop: 32 }}
         onLessonClick={handleLessonClick}
@@ -62,6 +66,7 @@ const LessonsManager = () => {
       {isModalVisible && (
         <LessonAssignmentsModal
           lessonId={lessonId as any as number}
+          isVisible={isModalVisible}
           onClose={handleCloseModal}
         />
       )}

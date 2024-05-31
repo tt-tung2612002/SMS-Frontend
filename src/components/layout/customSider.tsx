@@ -1,16 +1,5 @@
 import React, { useState } from "react";
 
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import Collapse from "@mui/material/Collapse";
-import Drawer from "@mui/material/Drawer";
-import IconButton from "@mui/material/IconButton";
-import List from "@mui/material/List";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
-import Tooltip from "@mui/material/Tooltip";
-
 import ChevronLeft from "@mui/icons-material/ChevronLeft";
 import ChevronRight from "@mui/icons-material/ChevronRight";
 import Dashboard from "@mui/icons-material/Dashboard";
@@ -36,6 +25,19 @@ import {
   useTranslate,
   useWarnAboutChange,
 } from "@refinedev/core";
+
+import {
+  Box,
+  Button,
+  Collapse,
+  Drawer,
+  IconButton,
+  List,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  Tooltip,
+} from "@mui/material";
 
 import { Title as DefaultTitle, RefineLayoutSiderProps } from "@refinedev/mui";
 

@@ -18,7 +18,7 @@ import { Class } from "@/graphql/new/customSchema";
 import { AvatarGroup } from "./avatar-group";
 
 type Props = {
-  tableProps: TableProps<any>; // Update the type of tableProps to use Class as the generic type parameter
+  tableProps: TableProps<any>;
   filters: CrudFilters;
   sorters: CrudSorting;
 };
@@ -50,7 +50,7 @@ export const ClassesTableView: FC<Props> = ({ tableProps, filters }) => {
       dataSource={tableProps.dataSource}
     >
       <Table.Column<Class>
-        dataIndex="name"
+        // dataIndex="name"
         title="Class Name"
         sorter={(a, b) => a.name.localeCompare(b.name)}
         onCell={onCellClick}
@@ -74,7 +74,7 @@ export const ClassesTableView: FC<Props> = ({ tableProps, filters }) => {
         }}
       />
       <Table.Column<Class>
-        dataIndex="startDate"
+        // dataIndex="startDate"
         title="Start Date"
         onCell={onCellClick}
         render={(_, record) => {
@@ -92,7 +92,7 @@ export const ClassesTableView: FC<Props> = ({ tableProps, filters }) => {
         }}
       />
       <Table.Column<Class>
-        dataIndex="endDate"
+        // dataIndex="endDate"
         title="End Date"
         onCell={onCellClick}
         render={(_, record) => {
@@ -110,7 +110,7 @@ export const ClassesTableView: FC<Props> = ({ tableProps, filters }) => {
         }}
       />
       <Table.Column<Class>
-        dataIndex={["teacherId"]}
+        // dataIndex="teacherId"
         defaultFilteredValue={getDefaultFilter("teacherId", filters, "eq")}
         onCell={onCellClick}
         title="Teacher"
@@ -136,7 +136,7 @@ export const ClassesTableView: FC<Props> = ({ tableProps, filters }) => {
       />
       {
         <Table.Column<Class>
-          dataIndex={["students", "id"]}
+          // dataIndex={["students", "id"]}
           title="Students"
           defaultFilteredValue={getDefaultFilter("students.id", filters, "in")}
           filterDropdown={(props) => (
@@ -159,7 +159,7 @@ export const ClassesTableView: FC<Props> = ({ tableProps, filters }) => {
             const avatars = value?.nodes?.map((student) => {
               return {
                 name: student?.userInfoById?.firstName,
-                src: student?.userInfoById?.avatarUrl as string | undefined,
+                src: student?.userInfoById?.avatarUrl,
               };
             });
 
@@ -169,15 +169,14 @@ export const ClassesTableView: FC<Props> = ({ tableProps, filters }) => {
       }
       <Table.Column<Class>
         fixed="right"
-        dataIndex="id"
         title="Actions"
-        render={(value) => (
+        render={(_, record) => (
           <Space>
             <EditButton
               icon={<EditOutlined />}
               hideText
               size="small"
-              recordItemId={value}
+              recordItemId={record.id}
               accessControl={{
                 hideIfUnauthorized: true,
               }}
@@ -186,7 +185,7 @@ export const ClassesTableView: FC<Props> = ({ tableProps, filters }) => {
               hideText
               size="small"
               dataProviderName="local"
-              recordItemId={value}
+              recordItemId={record.id}
               accessControl={{
                 hideIfUnauthorized: true,
               }}

@@ -11,11 +11,8 @@ import { Card, Space, Table } from "antd";
 import { ContactStatusTag, CustomAvatar, Text } from "@/components";
 import { GetStudentsInClass2Query } from "@/graphql/new/customTypes";
 import { ClassManagement } from "@/graphql/new/schema.types";
-import { CompanyContactsTableQuery } from "@/graphql/types";
 
 import { CLASS_STUDENTS_QUERY } from "../queries/getOneClass";
-
-type Contact = GetFieldsFromList<CompanyContactsTableQuery>;
 
 export const ClassStudentsTable: FC = () => {
   const { id } = useParams();
@@ -97,8 +94,8 @@ export const ClassStudentsTable: FC = () => {
       {hasData && (
         <Table
           {...tableProps}
-          // showHeader={false}
-          rowKey="user.id"
+          showHeader={false}
+          rowKey="userId"
           // dataSource={students?.nodes}
           pagination={{
             pageSize: 8,

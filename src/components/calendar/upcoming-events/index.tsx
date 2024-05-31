@@ -180,9 +180,7 @@ export const CalendarUpcomingEvents: React.FC<CalendarUpcomingEventsProps> = ({
       {...cardProps}
     >
       {isLoading &&
-        Array.from({ length: limit }).map((_, index) => (
-          <Skeleton key={index} />
-        ))}
+        Array.from({ length: limit }).map((_, index) => <Skeleton key={0} />)}
       {!isLoading &&
         data?.data.map((item) => (
           <CalendarUpcomingEvent key={item.id} item={item} />

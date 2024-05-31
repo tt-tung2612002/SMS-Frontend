@@ -6,8 +6,11 @@ import { Layout as AntdLayout, Grid } from "antd";
 
 import { Header } from "./header";
 import { Sider } from "./sider";
+type Props = {
+  children?: React.ReactNode;
+};
 
-export const Layout: React.FC<React.PropsWithChildren> = ({ children }) => {
+export const Layout: React.FC<Props> = ({ children }) => {
   const breakpoint = Grid.useBreakpoint();
   const isSmall = typeof breakpoint.sm === "undefined" ? true : breakpoint.sm;
 

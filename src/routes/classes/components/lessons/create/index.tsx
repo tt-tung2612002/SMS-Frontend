@@ -55,6 +55,7 @@ export const LessonCreateModal: React.FC<Props> = ({
 
         const assignmentId = assignmentData?.data?.id;
         assignment.id = assignmentId;
+        console.log("Assignment data", assignmentData);
 
         if (assignmentId && assignment?.attachments?.length) {
           for (const file of assignment?.attachments || []) {
@@ -86,7 +87,6 @@ export const LessonCreateModal: React.FC<Props> = ({
   >({
     action: "create",
     defaultVisible: true,
-    dataProviderName: "local",
     resource: "lessons",
     redirect: false,
     warnWhenUnsavedChanges: true,
@@ -114,15 +114,17 @@ export const LessonCreateModal: React.FC<Props> = ({
       title={"Add new lesson"}
       width={1024}
       closeIcon={<LeftOutlined />}
+      destroyOnClose
+      maskClosable
       onCancel={() => {
-        close();
         onClose();
+        close();
       }}
     >
       <Form {...formProps} layout="vertical" onFinish={handleFinish}>
         <>
           <Form.Item
-            label="Lesson title"
+            label="Lesson Title"
             name="title"
             initialValue={"Test"}
             rules={[{ required: true }]}

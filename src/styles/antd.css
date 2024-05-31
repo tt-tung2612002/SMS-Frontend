@@ -205,9 +205,10 @@ body .w-md-editor-text-input {
   font-size: 20px !important;
 }
 
-.ant-layout {
+/* .ant-layout {
   background-color: rgb(35, 35, 35);
-}
+} */
+
 .auth-page {
   background-color: #151515af !important;
 
@@ -295,4 +296,8 @@ body .w-md-editor-text-input {
 
 .ant-picker-panel {
   background-color: rgb(30, 30, 30) !important;
+}
+
+.ant-layout-sider-children {
+  background-color: #1f1f1f !important;
 }

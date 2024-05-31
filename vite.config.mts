@@ -25,10 +25,10 @@ export default defineConfig({
   build: {
     rollupOptions: {
       plugins: [rollupNodePolyFill()],
-      // treeshake: false,
-      // watch: {
-      //   skipWrite: true,
-      // },
+      treeshake: false,
+      watch: {
+        skipWrite: true,
+      },
       output: {
         manualChunks: {
           antd: ["antd"],

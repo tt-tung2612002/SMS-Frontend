@@ -1,11 +1,12 @@
-import { PropsWithChildren } from "react";
 import { InstantSearch } from "react-instantsearch";
 
 import { indexName, searchClient } from "@/providers";
 
-export const AlgoliaSearchWrapper: React.FC<PropsWithChildren> = ({
-  children,
-}) => {
+type Props = {
+  children?: React.ReactNode;
+};
+
+export const AlgoliaSearchWrapper: React.FC<Props> = ({ children }) => {
   if (!searchClient) {
     return <>{children}</>;
   }

@@ -1,19 +1,13 @@
 import React, { useEffect, useState } from "react";
 
 import { useForm } from "@refinedev/antd";
-import {
-  useGetToPath,
-  useGo,
-  useNavigation,
-  useResource,
-} from "@refinedev/core";
+import { useNavigation, useResource } from "@refinedev/core";
 
 import { Modal } from "antd";
 import dayjs from "dayjs";
 
 import { Event } from "@/graphql/new/customSchema";
 
-import { useSearchParams } from "react-router-dom";
 import { CalendarForm } from "./components";
 import {
   CALENDAR_GET_EVENT_QUERY,
@@ -23,10 +17,7 @@ import {
 export const CalendarEditPage: React.FC = () => {
   const [isAllDayEvent, setIsAllDayEvent] = useState(false);
   const { id } = useResource();
-  const { show, list } = useNavigation();
-  const go = useGo();
-  const getToPath = useGetToPath();
-  const [searchParams] = useSearchParams();
+  const { list } = useNavigation();
 
   const { formProps, saveButtonProps, form, onFinish, queryResult } =
     useForm<Event>({

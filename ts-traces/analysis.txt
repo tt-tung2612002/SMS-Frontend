@@ -1,0 +1,21 @@
+Trace ended unexpectedly
+> checkSourceFile: {"path":"f:/studycorner/programming/projects/sms/frontend/src/routes/classes/components/table-view.tsx"}
+
+Hot Spots
+├─ Check file [35mf:\studycorner\programming\projects\sms\frontend\src\routes\classes\components\lessons\[36mlessons-table.tsx[39m[35m[39m (6960ms)
+│  └─ Check deferred node from (line 78, char 11) to (line 88, char 13) (6929ms)
+│     └─ Check expression from (line 79, char 13) to (line 87, char 15) (6892ms)
+└─ Check file [35mf:\studycorner\programming\projects\sms\frontend\src\routes\classes\components\[36mstudents-table.tsx[39m[35m[39m (4091ms)
+   └─ Check deferred node from (line 107, char 11) to (line 129, char 13) (4041ms)
+      └─ Check expression from (line 108, char 13) to (line 128, char 15) (3785ms)
+
+Duplicate packages
+├─ preact
+│  ├─ Version 10.12.1 from F:/Studycorner/Programming/Projects/sms/frontend/node_modules/.pnpm/preact@10.12.1/node_modules/preact
+│  └─ Version 10.22.0 from F:/Studycorner/Programming/Projects/sms/frontend/node_modules/.pnpm/preact@10.22.0/node_modules/preact
+├─ unified
+│  ├─ Version 10.1.2 from F:/Studycorner/Programming/Projects/sms/frontend/node_modules/.pnpm/unified@10.1.2/node_modules/unified
+│  └─ Version 9.2.2 from F:/Studycorner/Programming/Projects/sms/frontend/node_modules/.pnpm/unified@9.2.2/node_modules/unified
+└─ vfile
+   ├─ Version 4.2.1 from F:/Studycorner/Programming/Projects/sms/frontend/node_modules/.pnpm/vfile@4.2.1/node_modules/vfile
+   └─ Version 5.3.7 from F:/Studycorner/Programming/Projects/sms/frontend/node_modules/.pnpm/vfile@5.3.7/node_modules/vfile

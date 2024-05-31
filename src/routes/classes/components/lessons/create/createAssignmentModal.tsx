@@ -133,17 +133,11 @@ export const AssignmentForm: React.FC<Props> = ({
               <Upload.Dragger
                 name="file"
                 listType="picture"
-                headers={{
-                  Authorization: `Bearer ${sessionStorage.getItem(
-                    "access_token"
-                  )}`,
-                }}
-                multiple
-                data={{ assignmentId: 1 }}
-                onChange={(info) =>
-                  handleAssignmentChange(index, "attachments", info.fileList)
-                }
-                onRemove={handleRemoveFile}
+                beforeUpload={() => false}
+                // onChange={(info) =>
+                //   handleAssignmentChange(index, "attachments", info.fileList)
+                // }
+                // onRemove={handleRemoveFile}
               >
                 <p className="ant-upload-text">
                   Drag & drop a file in this area

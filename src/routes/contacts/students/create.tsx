@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useLocation, useSearchParams } from "react-router-dom";
 
 import { useForm } from "@refinedev/antd";
@@ -11,9 +11,11 @@ import { SelectOptionWithAvatar } from "@/components";
 import { User } from "@/graphql/schema.types";
 import { useCompaniesSelect } from "@/hooks/useCompaniesSelect";
 
-export const ContactCreatePage: React.FC<PropsWithChildren> = ({
-  children,
-}) => {
+type Props = {
+  children?: React.ReactNode;
+};
+
+export const ContactCreatePage: React.FC<Props> = ({ children }) => {
   const { list, replace } = useNavigation();
   const { pathname } = useLocation();
   const { data: user } = useGetIdentity<User>();

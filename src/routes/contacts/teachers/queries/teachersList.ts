@@ -20,3 +20,17 @@ export const TEACHER_LIST_QUERY = gql`
     }
   }
 `;
+
+export const TEACHER_NEW_LIST_QUERY = gql`
+  query TeachersList{
+    role(id: 3) {
+      teachers: userInfos {
+        nodes {
+          firstName
+          lastName
+          avatarUrl
+        } 
+      }
+    }
+  }
+`;

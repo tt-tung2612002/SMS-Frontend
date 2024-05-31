@@ -14,6 +14,7 @@ export const CLASS_STUDENTS_QUERY = gql`
             avatarUrl
           }
         }
+        userId
       }
       totalCount
     }

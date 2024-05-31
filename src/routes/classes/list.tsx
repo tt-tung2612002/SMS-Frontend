@@ -1,4 +1,4 @@
-import { FC, PropsWithChildren, useState } from "react";
+import { FC, useState } from "react";
 
 import { List, useTable } from "@refinedev/antd";
 import { CanAccess, HttpError, useOne } from "@refinedev/core";
@@ -23,7 +23,10 @@ import { GET_ACTIVE_STUDENT_FOR_CLASSES } from "./queries/getOneUser";
 
 type View = "card" | "table";
 
-export const CompanyListPage: FC<PropsWithChildren> = ({ children }) => {
+type Props = {
+  children?: React.ReactNode;
+};
+export const CompanyListPage: FC<Props> = ({ children }) => {
   const [view, setView] = useState<View>("table");
   const screens = Grid.useBreakpoint();
 

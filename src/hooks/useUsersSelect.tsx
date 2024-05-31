@@ -27,6 +27,13 @@ const USERS_SELECT_QUERY = gql`
 export const useUsersSelect = () => {
   return useSelect<GetFieldsFromList<GetUsersQuery>>({
     resource: "users",
+    filters: [
+      {
+        field: "id",
+        operator: "in",
+        value: [1, 15, 17, 18, 19],
+      },
+    ],
     // optionLabel: (info) => `${info.firstName} ${info.lastName}`,
     // optionLabel: "info.name",
     optionValue: "id",

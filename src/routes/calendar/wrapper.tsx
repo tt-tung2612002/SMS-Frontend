@@ -8,10 +8,11 @@ import { Col, Row } from "antd";
 import { CalendarUpcomingEvents } from "@/components";
 
 import { Calendar, CalendarCategories } from "./components";
+type Props = {
+  children?: React.ReactNode;
+};
 
-export const CalendarPageWrapper: React.FC<React.PropsWithChildren> = ({
-  children,
-}) => {
+export const CalendarPageWrapper: React.FC<Props> = ({ children }) => {
   const { show } = useNavigation();
   const [selectedEventCategory, setSelectedEventCategory] = useState<string[]>(
     []

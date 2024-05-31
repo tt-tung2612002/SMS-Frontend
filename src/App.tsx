@@ -1,7 +1,17 @@
 import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
 
-import { useNotificationProvider } from "@refinedev/antd";
-import { Authenticated, CanAccess, Refine } from "@refinedev/core";
+import {
+  Header,
+  ThemedLayoutV2,
+  ThemedTitleV2,
+  useNotificationProvider,
+} from "@refinedev/antd";
+import {
+  Authenticated,
+  CanAccess,
+  ErrorComponent,
+  Refine,
+} from "@refinedev/core";
 import routerProvider, {
   CatchAllNavigate,
   DocumentTitleHandler,
@@ -20,8 +30,10 @@ import {
 } from "@/providers";
 import { ClassCreatePage } from "@/routes/classes/create";
 
-import { ThemeProvider } from "@mui/material/styles";
-import { ErrorComponent, ThemedLayoutV2, ThemedTitleV2 } from "@refinedev/mui";
+import { ThemeProvider } from "@emotion/react";
+import "@refinedev/antd/dist/reset.css";
+import { Logo } from "./components";
+import { MUISider } from "./components/layout/customSider";
 import { accessControlProvider } from "./providers/accessControl";
 import {
   CalendarCreatePage,
@@ -31,30 +43,20 @@ import {
   CalendarShowPage,
 } from "./routes/calendar";
 import { ClassEditPage, CompanyListPage } from "./routes/classes";
+import { ClassShowPage } from "./routes/classes/show";
 import { StudentShowPage, StudentsListPage } from "./routes/contacts/students";
 import { TeachersListPage } from "./routes/contacts/teachers/list";
+import { TeacherShowPage } from "./routes/contacts/teachers/show";
 import { DashboardPage } from "./routes/dashboard";
 import { ForgotPasswordPage } from "./routes/forgot-password";
 import { LoginPage } from "./routes/login";
 import { RegisterPage } from "./routes/register";
 import { UpdatePasswordPage } from "./routes/update-password";
-import { CustomConfig, MaterialUIDarkTheme } from "./styles/dark";
-
-import "@refinedev/antd/dist/reset.css";
 import "./styles";
+import { CustomConfig, MaterialUIDarkTheme } from "./styles/dark";
 import "./utilities/init-dayjs";
-
-import { Logo } from "./components";
-import { MUISider } from "./components/layout/customSider";
-import { Header } from "./components/layout/header";
-import { ClassShowPage } from "./routes/classes/show";
-import { TeacherShowPage } from "./routes/contacts/teachers/show";
-import useScript from "./script";
-
 const App: React.FC = () => {
-  useScript("https://unpkg.com/default-passive-events");
   return (
-    // <AlgoliaSearchWrapper>
     <ThemeProvider theme={MaterialUIDarkTheme}>
       <BrowserRouter>
         <ConfigProvider theme={CustomConfig}>
@@ -93,6 +95,7 @@ const App: React.FC = () => {
                         Header={Header}
                         Title={({ collapsed }) => (
                           <ThemedTitleV2
+                            wrapperStyles={{ fontSize: "15px" }}
                             collapsed={collapsed}
                             icon={<Logo />}
                             text="Study Corner"

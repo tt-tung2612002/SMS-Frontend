@@ -1,5 +1,6 @@
 import dayjs from "dayjs";
 
+import { describe, expect } from '@jest/globals';
 import { getDateColor } from "./get-date-colors";
 
 describe("getDateColors function", () => {

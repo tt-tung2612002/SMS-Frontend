@@ -1,4 +1,4 @@
-import React, { FC, PropsWithChildren, Suspense } from "react";
+import React, { FC, Suspense } from "react";
 
 import { AuditOutlined, ShopOutlined, TeamOutlined } from "@ant-design/icons";
 import { AreaConfig } from "@ant-design/plots";
@@ -11,6 +11,11 @@ import styles from "./index.module.css";
 const Area = React.lazy(() => import("@ant-design/plots/es/components/area"));
 
 type Type = "classes" | "students" | "teachers";
+
+type Props = {
+  children?: React.ReactNode;
+  color?: string;
+};
 
 export const DashboardTotalCountCard: React.FC<{
   resource: Type;
@@ -119,10 +124,7 @@ export const DashboardTotalCountCard: React.FC<{
   );
 };
 
-const IconWrapper: FC<PropsWithChildren<{ color: string }>> = ({
-  color,
-  children,
-}) => {
+const IconWrapper: FC<Props> = ({ color, children }) => {
   return (
     <Space
       style={{

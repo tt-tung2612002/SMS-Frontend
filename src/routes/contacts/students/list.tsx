@@ -1,4 +1,4 @@
-import { FC, PropsWithChildren, useState } from "react";
+import { FC, useState } from "react";
 
 import { List, useTable } from "@refinedev/antd";
 import { HttpError } from "@refinedev/core";
@@ -19,8 +19,11 @@ import { StudentsTableView } from "./components";
 import { STUDENTS_LIST_QUERY } from "./queries/studentsList";
 
 type View = "card" | "table";
+type Props = {
+  children?: React.ReactNode;
+};
 
-export const StudentsListPage: FC<PropsWithChildren> = ({ children }) => {
+export const StudentsListPage: FC<Props> = ({ children }) => {
   const [view, setView] = useState<View>("table");
   const screens = Grid.useBreakpoint();
 

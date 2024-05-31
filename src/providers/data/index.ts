@@ -23,13 +23,15 @@ const env = process.env.NODE_ENV;
 let GRAPHQL_URL = "", SECURITY_URL = ""
 
 // if (env === "development") {
-//   CORS_URL = "http://localhost:10000/";
+const CORS_URL = "http://localhost:10000/";
 //   SECURITY_URL = CORS_URL + "http://localhost:8082";
 //   GRAPHQL_URL = CORS_URL + "http://localhost:5000/graphql";
 // }
 // else {
 SECURITY_URL = "https://auth.sms.thanhtung.tech";
+// SECURITY_URL = CORS_URL + "http://localhost:8082";
 GRAPHQL_URL = "https://graphql.sms.thanhtung.tech/graphql";
+// GRAPHQL_URL = CORS_URL + "http://localhost:5000/graphql";
 // }
 // export const UPLOAD_URL = "https://upload.sms.thanhtung.tech";
 export const UPLOAD_URL = "https://cors.share.zrok.io/http://localhost:8080";

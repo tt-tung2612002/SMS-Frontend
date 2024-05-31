@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 
 import { useDelete, useShow, useUpdate } from "@refinedev/core";
 import { GetFields } from "@refinedev/nestjs-query";
@@ -37,10 +37,15 @@ import Markdown from "marked-react";
 
 type Props = {
   lessonId: number;
+  isVisible: boolean;
   onClose: any;
 };
 
-export const LessonAssignmentsModal: FC<Props> = ({ lessonId, onClose }) => {
+export const LessonAssignmentsModal: FC<Props> = ({
+  lessonId,
+  onClose,
+  isVisible,
+}) => {
   const { mutate } = useUpdate<Lesson>();
   const { mutate: deleteMutation } = useDelete<Lesson>();
   const [isEditing, setIsEditing] = useState(false);
@@ -82,6 +87,10 @@ export const LessonAssignmentsModal: FC<Props> = ({ lessonId, onClose }) => {
 
   const { data, isLoading, isError } = queryResult;
   const [lessonData, setLessonData] = useState(data?.data);
+
+  useEffect(() => {
+    setLessonData(data?.data);
+  }, [data]);
 
   if (isError) {
     return <div>Error</div>;
@@ -160,12 +169,13 @@ export const LessonAssignmentsModal: FC<Props> = ({ lessonId, onClose }) => {
 
   return (
     <Modal
-      open
+      open={isVisible}
       onCancel={onClose}
       onOk={onClose}
       destroyOnClose={true}
       maskClosable={true}
       width={1024}
+      centered
     >
       <div className={styles.container}>
         <div className={styles.name}>

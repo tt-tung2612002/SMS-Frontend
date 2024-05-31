@@ -55,7 +55,7 @@ p, teacher, students, (list)|(create)
 p, teacher, students/*, (edit)|(delete)|(show)
 p, teacher, students/*, field
 
-p, teacher, classes, (list)
+p, teacher, classes, (list)|(show)
 p, teacher, classesTeacherLimited, (list)
 p, teacher, classes/*, (edit)
 p, teacher, classes/*, field

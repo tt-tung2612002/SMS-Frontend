@@ -32,7 +32,7 @@ export const AttendanceTableView: FC<Props> = ({ tableProps, filters }) => {
     },
   ];
 
-  const { selectProps: selectLessonsProps } = useLessonsSelect(lessonFilters);
+  const options = useLessonsSelect(lessonFilters);
 
   return (
     <Table
@@ -47,7 +47,7 @@ export const AttendanceTableView: FC<Props> = ({ tableProps, filters }) => {
       dataSource={tableProps.dataSource}
     >
       <Table.Column<Attendance>
-        dataIndex="lessonId"
+        // dataIndex="lessonId"
         width={250}
         title="Lesson"
         filterDropdown={(props) => (
@@ -55,7 +55,7 @@ export const AttendanceTableView: FC<Props> = ({ tableProps, filters }) => {
             <Select
               mode="multiple"
               style={{ minWidth: 150 }}
-              {...selectLessonsProps}
+              options={options}
             />
           </FilterDropdown>
         )}
@@ -74,7 +74,7 @@ export const AttendanceTableView: FC<Props> = ({ tableProps, filters }) => {
         }}
       />
       <Table.Column<Attendance>
-        dataIndex="studentId"
+        // dataIndex="studentId"
         title="Student Name"
         sorter={(a, b) =>
           a.student?.name?.localeCompare(b.student?.name ?? "") ?? 0
@@ -100,7 +100,7 @@ export const AttendanceTableView: FC<Props> = ({ tableProps, filters }) => {
         }}
       />
       <Table.Column<Attendance>
-        dataIndex="createdAt"
+        // dataIndex="createdAt"
         title="Created At"
         render={(_, record) => {
           return (
@@ -117,7 +117,7 @@ export const AttendanceTableView: FC<Props> = ({ tableProps, filters }) => {
         }}
       />
       <Table.Column<Attendance>
-        dataIndex="updatedAt"
+        // dataIndex="updatedAt"
         title="Updated At"
         render={(_, record) => {
           return (
